@@ -5,10 +5,15 @@
  */
 package co.edu.uniandes.csw.sitiosweb.persistence;
 
+import javax.ejb.Stateless;
+
 /**
  *
- * @author Estudiante
+ * @author Nicolás Abondano nf.abondano 201812467
  */
+@Stateless
 public class CataloguePersistence {
-    
+    public CataloguePersistence create ( CataloguePersistence catalogue ){
+        throw new java.lang.UnsupportedOperationException("Not supported yet");
+    }
 }
