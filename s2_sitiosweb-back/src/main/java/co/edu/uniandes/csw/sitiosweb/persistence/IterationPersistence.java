@@ -5,7 +5,10 @@
  */
 package co.edu.uniandes.csw.sitiosweb.persistence;
 
+import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -13,7 +16,12 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class IterationPersistence {
-    public IterationPersistence create (IterationPersistence iteration){
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    @PersistenceContext(unitName = "sitioswebPU")
+    protected EntityManager em;
+    
+    public IterationEntity create (IterationEntity iteration){
+        em.persist(iteration);
+        
+        return iteration;
     }
 }

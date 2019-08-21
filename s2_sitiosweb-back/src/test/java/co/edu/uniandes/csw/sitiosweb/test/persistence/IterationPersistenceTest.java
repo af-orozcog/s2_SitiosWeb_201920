@@ -16,6 +16,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -35,14 +37,20 @@ public class IterationPersistenceTest {
                 .addAsManifestResource("META-INF/beans.xml","beans.xml");
     }
     @Inject
-    IterationPersistence ep;
+    IterationPersistence it;
     
+    @PersistenceContext
+    EntityManager em;
     
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
         IterationEntity iteration = factory.manufacturePojo(IterationEntity.class);
-        IterationEntity result = ep.create(iteration);
+        IterationEntity result = it.create(iteration);
         Assert.assertNotNull(result);
+        
+        IterationEntity entity = em.find(IterationEntity.class,result.getId());
+        Assert.assertEquals(iteration.getObjetive(),entity.getObjetive());
     }
+    
 }
