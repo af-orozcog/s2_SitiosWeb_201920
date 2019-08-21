@@ -5,7 +5,10 @@
  */
 package co.edu.uniandes.csw.sitiosweb.persistence;
 
+import co.edu.uniandes.csw.sitiosweb.entities.CatalogueEntity;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -13,7 +16,13 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class CataloguePersistence {
-    public CataloguePersistence create ( CataloguePersistence catalogue ){
-        throw new java.lang.UnsupportedOperationException("Not supported yet");
+    
+    @PersistenceContext(unitName = "SitiosWeb")
+    protected EntityManager em;
+    
+    public CatalogueEntity create ( CatalogueEntity catalogue ){
+        em.persist(catalogue);
+        
+        return catalogue;
     }
 }
