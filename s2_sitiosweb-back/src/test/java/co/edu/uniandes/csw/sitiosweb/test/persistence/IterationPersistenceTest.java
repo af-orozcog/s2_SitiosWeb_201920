@@ -33,7 +33,7 @@ public class IterationPersistenceTest {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClass(IterationEntity.class)
                 .addClass(IterationPersistence.class)
-                .addAsManifestResource("META-INF/persistance.xml","persistence.xml")
+                .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml","beans.xml");
     }
     @Inject
@@ -51,6 +51,7 @@ public class IterationPersistenceTest {
         
         IterationEntity entity = em.find(IterationEntity.class,result.getId());
         Assert.assertEquals(iteration.getObjetive(),entity.getObjetive());
+        
     }
     
 }
