@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.sitiosweb.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -15,7 +17,13 @@ import javax.ejb.Stateless;
 @Stateless
 public class HardwarePersistence {
     
+    @PersistenceContext(unitName = "sitioswebPU")
+    protected EntityManager em;
+
     public HardwareEntity create(HardwareEntity hardware){
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+        em.persist(hardware);
+        
+        return hardware;
+
     }
 }
