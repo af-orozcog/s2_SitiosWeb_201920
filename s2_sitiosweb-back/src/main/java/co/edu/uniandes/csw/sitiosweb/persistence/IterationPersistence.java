@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class IterationPersistence {
-    @PersistenceContext(unitName = "sitiosweb")
+    @PersistenceContext(unitName = "sitioswebPU")
     protected EntityManager em;
     
     public IterationEntity create (IterationEntity iteration){
