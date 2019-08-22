@@ -5,8 +5,13 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
+import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
+import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -14,30 +19,26 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
  *
- * @author Estudiante
+ * @author s.santosb
  */
 @RunWith(Arquillian.class)
-public class IterationPersistenceTest {
-   
+public class HardwarePersistenceTest {
+    
     @Deployment
     public static JavaArchive createDeploymet(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(IterationEntity.class)
-                .addClass(IterationPersistence.class)
+                .addClass(HardwareEntity.class)
+                .addClass(HardwarePersistence.class)
                 .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml","beans.xml");
     }
     @Inject
-    IterationPersistence it;
+    HardwarePersistence hw;
     
     @PersistenceContext
     EntityManager em;
@@ -45,12 +46,12 @@ public class IterationPersistenceTest {
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
-        IterationEntity iteration = factory.manufacturePojo(IterationEntity.class);
-        IterationEntity result = it.create(iteration);
+        HardwareEntity hardware = factory.manufacturePojo(HardwareEntity.class);
+        HardwareEntity result = hw.create(hardware);
         Assert.assertNotNull(result);
         
-        IterationEntity entity = em.find(IterationEntity.class,result.getId());
-        Assert.assertEquals(iteration.getObjetive(),entity.getObjetive());
+        HardwareEntity entity = em.find(HardwareEntity.class,result.getId());
+        Assert.assertEquals(hardware.getCores(),entity.getCores());
         
     }
     
