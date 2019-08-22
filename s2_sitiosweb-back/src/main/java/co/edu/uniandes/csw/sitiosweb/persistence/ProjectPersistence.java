@@ -17,7 +17,11 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ProjectPersistence {
     
+<<<<<<< HEAD
     @PersistenceContext(unitName = "sitioswebPU")
+=======
+    @PersistenceContext(unitName = "sitiosweb")
+>>>>>>> 338e312f09327372cc37dd53a555593573b5e2a8
     protected EntityManager em;
 
     
