@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ProjectPersistence {
     
-    @PersistenceContext(unitName = "SitiosWebEM")
+    @PersistenceContext(unitName = "sitioswebPU")
     protected EntityManager em;
 
     
