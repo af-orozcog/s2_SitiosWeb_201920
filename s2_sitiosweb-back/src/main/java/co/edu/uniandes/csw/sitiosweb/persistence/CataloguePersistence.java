@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class CataloguePersistence {
     
-    @PersistenceContext(unitName = "SitioswebPU")
+    @PersistenceContext(unitName = "Sitiosweb")
     protected EntityManager em;
     
     public CatalogueEntity create ( CatalogueEntity catalogue ){
