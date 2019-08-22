@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ProviderPersistence {
     
-    @PersistenceContext(unitName = "sitiosweb")
+    @PersistenceContext(unitName = "sitioswebPU")
     protected EntityManager em;
 
     
