@@ -51,7 +51,11 @@ public class HardwarePersistenceTest {
         Assert.assertNotNull(result);
         
         HardwareEntity entity = em.find(HardwareEntity.class,result.getId());
+        Assert.assertEquals(hardware.getIp(),entity.getIp());
         Assert.assertEquals(hardware.getCores(),entity.getCores());
+        Assert.assertEquals(hardware.getRam(),entity.getRam());
+        Assert.assertEquals(hardware.getCpu(),entity.getCpu());
+        Assert.assertEquals(hardware.getPlataforma(),entity.getPlataforma());
         
     }
     
