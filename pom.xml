@@ -10,10 +10,7 @@
     <packaging>pom</packaging>
     <name>s2_sitiosweb</name>
  
-    <modules>
-        <module>s2_sitiosweb-back</module>
-        <module>s2_sitiosweb-api</module>
-    </modules>
+    <modules></modules>
     
     <repositories>
         <repository>

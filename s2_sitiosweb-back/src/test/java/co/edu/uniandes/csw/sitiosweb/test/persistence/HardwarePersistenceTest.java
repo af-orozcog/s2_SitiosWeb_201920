@@ -9,14 +9,18 @@ import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -43,6 +47,50 @@ public class HardwarePersistenceTest {
     @PersistenceContext
     EntityManager em;
     
+    @Inject
+    UserTransaction utx;
+
+    private List<HardwareEntity> data = new ArrayList<HardwareEntity>();
+
+
+    /**
+     * Configuración inicial de la prueba.
+     */
+    @Before
+    public void configTest() {
+        try {
+            utx.begin();
+            em.joinTransaction();
+            clearData();
+            insertData();
+            utx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                utx.rollback();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Limpia las tablas que están implicadas en la prueba.
+     */
+    private void clearData() {
+        em.createQuery("delete from HardwareEntity").executeUpdate();
+    }
+    private void insertData() {
+        PodamFactory factory = new PodamFactoryImpl();
+        for (int i = 0; i < 3; i++) {
+
+            HardwareEntity entity = factory.manufacturePojo(HardwareEntity.class);
+
+            em.persist(entity);
+
+            data.add(entity);
+        }
+    }
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
@@ -57,6 +105,54 @@ public class HardwarePersistenceTest {
         Assert.assertEquals(hardware.getCpu(),entity.getCpu());
         Assert.assertEquals(hardware.getPlataforma(),entity.getPlataforma());
         
+    }
+    
+
+    @Test
+    public void getHardwaresTest() {
+        List<HardwareEntity> list = hw.findAll();
+        Assert.assertEquals(data.size(), list.size());
+        for (HardwareEntity ent : list) {
+            boolean found = false;
+            for (HardwareEntity entity : data) {
+                if (ent.getId().equals(entity.getId())) {
+                    found = true;
+                }
+            }
+            Assert.assertTrue(found);
+        }
+    }
+
+
+    @Test
+    public void getHardwareTest() {
+        HardwareEntity entity = data.get(0);
+        HardwareEntity newEntity = hw.find(entity.getId());
+        Assert.assertNotNull(newEntity);
+        Assert.assertEquals(entity.getCores(), newEntity.getCores());
+    }
+
+
+    @Test
+    public void deleteEditorialTest() {
+        HardwareEntity entity = data.get(0);
+        hw.delete(entity.getId());
+        HardwareEntity deleted = em.find(HardwareEntity.class, entity.getId());
+        Assert.assertNull(deleted);
+    }
+
+    @Test
+    public void updateEditorialTest() {
+        HardwareEntity entity = data.get(0);
+        PodamFactory factory = new PodamFactoryImpl();
+        HardwareEntity newEntity = factory.manufacturePojo(HardwareEntity.class);
+
+        newEntity.setId(entity.getId());
+
+        hw.update(newEntity);
+
+        HardwareEntity resp = em.find(HardwareEntity.class, entity.getId());
+        Assert.assertEquals(newEntity.getCores(), resp.getCores());
     }
     
 }
