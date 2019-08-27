@@ -5,8 +5,8 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
-import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.RequestPersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
+import co.edu.uniandes.csw.sitiosweb.persistence.UnitPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -28,7 +28,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  * @author Daniel del Castillo
  */
 @RunWith(Arquillian.class)
-public class RequestPersistenceTest 
+public class UnitPersistenceTest 
 {
     /**
      * @return The Java archive for Payara to execute.
@@ -37,8 +37,8 @@ public class RequestPersistenceTest
     public static JavaArchive createDeployment()
     {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(RequestEntity.class)
-                .addClass(RequestPersistence.class)
+                .addClass(UnitEntity.class)
+                .addClass(UnitPersistence.class)
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
@@ -46,10 +46,10 @@ public class RequestPersistenceTest
     // Attributes
      
     /**
-     * The request's persistence class.
+     * The unit's persistence class.
      */
     @Inject
-    private RequestPersistence rp;
+    private UnitPersistence up;
     
     /**
      * The test's entity manager.
@@ -66,7 +66,7 @@ public class RequestPersistenceTest
     /**
      * The test's data.
      */
-    private List<RequestEntity> data = new ArrayList<RequestEntity>();
+    private List<UnitEntity> data = new ArrayList<UnitEntity>();
     
     // Methods
     
@@ -98,57 +98,50 @@ public class RequestPersistenceTest
      * Clears the test's data.
      */
     private void clearData()
-    { em.createQuery("delete from RequestEntity").executeUpdate(); }
+    { em.createQuery("delete from UnitEntity").executeUpdate(); }
     
     /**
-     * Creates randomly generated requests.
+     * Creates randomly generated units.
      */
     private void insertData()
     {
         PodamFactory factory = new PodamFactoryImpl();
         for(int i = 0; i < 3; ++i)
         {
-            RequestEntity entity = factory.manufacturePojo(RequestEntity.class);
+            UnitEntity entity = factory.manufacturePojo(UnitEntity.class);
             em.persist(entity);
             data.add(entity);
         }
     }
     
     /**
-     * Tests the request's creation.
+     * Tests the unit's creation.
      */
     @Test
     public void createTest()
     {
         // Falta crear request
         PodamFactory factory = new PodamFactoryImpl();
-        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
-        RequestEntity result = rp.create(request);
+        UnitEntity request = factory.manufacturePojo(UnitEntity.class);
+        UnitEntity result = up.create(request);
         Assert.assertNotNull(result);
         
-        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        UnitEntity entity = em.find(UnitEntity.class, result.getId());
         Assert.assertEquals(request.getName(), entity.getName());
-        Assert.assertEquals(request.getPurpose(), entity.getPurpose());
-        Assert.assertEquals(request.getDescription(), entity.getDescription());
-        Assert.assertEquals(request.getUnit(), entity.getUnit());
-        Assert.assertEquals(request.getBudget(), entity.getBudget());
-        Assert.assertEquals(request.getBeginDate(), entity.getBeginDate());
-        Assert.assertEquals(request.getDueDate(), entity.getDueDate());
-        Assert.assertEquals(request.getEndDate(), entity.getEndDate());
     }
     
     /**
-     * Tests the retrieval of multiple requests from the database.
+     * Tests the retrieval of multiple units from the database.
      */
     @Test
     public void getRequestsTest()
     {
-        List<RequestEntity> list = rp.findAll();
+        List<UnitEntity> list = up.findAll();
         Assert.assertEquals(data.size(), list.size());
-        for (RequestEntity ent : list) 
+        for (UnitEntity ent : list) 
         {
             boolean found = false;
-            for (RequestEntity entity : data) 
+            for (UnitEntity entity : data) 
             {
                 if (ent.getId().equals(entity.getId()))
                     found = true;
@@ -158,41 +151,41 @@ public class RequestPersistenceTest
     }
     
     /**
-     * Tests the retrieval of a specific request from the database.
+     * Tests the retrieval of a specific unit from the database.
      */
     @Test
     public void getRequestTest()
     {
-        RequestEntity entity = data.get(0);
-        RequestEntity newEntity = rp.find(entity.getId());
+        UnitEntity entity = data.get(0);
+        UnitEntity newEntity = up.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getName(), newEntity.getName());
     }
     
     /**
-     * Tests the update of requests in the database.
+     * Tests the update of units in the database.
      */
     @Test
     public void updateRequestTest()
     {
-        RequestEntity entity = data.get(0);
+        UnitEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
-        RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+        UnitEntity newEntity = factory.manufacturePojo(UnitEntity.class);
         newEntity.setId(entity.getId());
-        rp.update(newEntity);
-        RequestEntity response = em.find(RequestEntity.class, entity.getId());
+        up.update(newEntity);
+        UnitEntity response = em.find(UnitEntity.class, entity.getId());
         Assert.assertEquals(newEntity.getName(), response.getName());
     }
     
     /**
-     * Tests the deletion of a request from the database.
+     * Tests the deletion of a unit from the database.
      */
     @Test
     public void deleteRequestTest()
     {
-        RequestEntity entity = data.get(0);
-        rp.delete(entity.getId());
-        RequestEntity deleted = em.find(RequestEntity.class, entity.getId());
+        UnitEntity entity = data.get(0);
+        up.delete(entity.getId());
+        UnitEntity deleted = em.find(UnitEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 }

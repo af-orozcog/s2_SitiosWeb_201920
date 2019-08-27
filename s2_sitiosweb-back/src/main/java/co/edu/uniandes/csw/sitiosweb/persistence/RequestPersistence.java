@@ -15,17 +15,31 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
  * @author Daniel del Castillo
  */
 @Stateless
 public class RequestPersistence 
 {
+    // Attributes
+    
+    /**
+     * The request's logger.
+     */
     private static final Logger LOGGER = Logger.getLogger(RequestPersistence.class.getName());
     
+    /**
+     * The request's entity manager.
+     */
     @PersistenceContext(unitName = "sitioswebPU")
     protected EntityManager em;
     
+    // Methods
+    
+    /**
+     * Persists a request in the database.
+     * @param request Request to persist.
+     * @return The persisted request.
+     */
     public RequestEntity create(RequestEntity request)
     {
         LOGGER.log(Level.INFO, "Creating a new request.");
@@ -34,6 +48,10 @@ public class RequestPersistence
         return request;
     }
     
+    /**
+     * Finds all the requests in the database.
+     * @return A list with all the requests.
+     */
     public List<RequestEntity> findAll()
     {
         LOGGER.log(Level.INFO, "Consulting all requests.");
@@ -41,12 +59,22 @@ public class RequestPersistence
         return query.getResultList();
     }
     
+    /**
+     * Finds a specific request in the database.
+     * @param requestId Id of the request to find.
+     * @return The specific request. Null if it doesn't exist.
+     */
     public RequestEntity find(Long requestId)
     {
-        LOGGER.log(Level.INFO, "Consulting editorial con id = " + requestId, requestId);
+        LOGGER.log(Level.INFO, "Consulting request with id = " + requestId, requestId);
         return em.find(RequestEntity.class, requestId);
     }
     
+    /**
+     * Updates a request in the database.
+     * @param requestEntity The request to update.
+     * @return The updated request.
+     */
     public RequestEntity update(RequestEntity requestEntity)
     {
         LOGGER.log(Level.INFO, "Updating request with id = " + requestEntity.getId(), requestEntity.getId());
@@ -54,6 +82,10 @@ public class RequestPersistence
         return em.merge(requestEntity);
     } 
     
+    /**
+     * Deletes the request with the given id.
+     * @param requestId The request's id.
+     */
     public void delete(Long requestId)
     {
         LOGGER.log(Level.INFO, "Deleting request with id = " + requestId, requestId);
