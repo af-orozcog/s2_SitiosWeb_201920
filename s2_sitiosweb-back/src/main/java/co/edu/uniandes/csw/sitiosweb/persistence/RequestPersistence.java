@@ -6,15 +6,23 @@
 package co.edu.uniandes.csw.sitiosweb.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Daniel del Castillo
  */
+@Stateless
 public class RequestPersistence 
 {
+    @PersistenceContext(unitName = "sitioswebPU")
+    protected EntityManager em;
+    
     public RequestEntity create(RequestEntity request)
     {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+        em.persist(request);
+        return request;
     }
 }

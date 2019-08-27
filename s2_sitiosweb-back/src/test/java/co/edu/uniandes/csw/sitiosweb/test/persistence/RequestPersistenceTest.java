@@ -8,6 +8,8 @@ package co.edu.uniandes.csw.sitiosweb.test.persistence;
 import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.RequestPersistence;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -34,9 +36,12 @@ public class RequestPersistenceTest
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
-    
+     
     @Inject
     RequestPersistence rp;
+    
+    @PersistenceContext
+    EntityManager em;
     
     @Test
     public void createTest()
@@ -44,8 +49,17 @@ public class RequestPersistenceTest
         // Falta crear request
         PodamFactory factory = new PodamFactoryImpl();
         RequestEntity request = factory.manufacturePojo(RequestEntity.class);
-        
         RequestEntity result = rp.create(request);
         Assert.assertNotNull(result);
+        
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(request.getName(), entity.getName());
+        Assert.assertEquals(request.getPurpose(), entity.getPurpose());
+        Assert.assertEquals(request.getDescription(), entity.getDescription());
+        Assert.assertEquals(request.getUnit(), entity.getUnit());
+        Assert.assertEquals(request.getBudget(), entity.getBudget());
+        Assert.assertEquals(request.getBeginDate(), entity.getBeginDate());
+        Assert.assertEquals(request.getDueDate(), entity.getDueDate());
+        Assert.assertEquals(request.getEndDate(), entity.getEndDate());
     }
 }

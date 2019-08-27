@@ -5,15 +5,20 @@
  */
 package co.edu.uniandes.csw.sitiosweb.entities;
 
+import co.edu.uniandes.csw.sitiosweb.podam.DateStrategy;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 /**
  *
  * @author Estudiante
  */
 @Entity
-public class RequestEntity 
+public class RequestEntity extends BaseEntity implements Serializable
 {
     private String name;
     
@@ -25,10 +30,16 @@ public class RequestEntity
     
     private Integer budget;
     
+    @Temporal(TemporalType.DATE)
+    @PodamStrategyValue(DateStrategy.class)
     private Date beginDate;
     
+    @Temporal(TemporalType.DATE)
+    @PodamStrategyValue(DateStrategy.class)
     private Date dueDate;
     
+    @Temporal(TemporalType.DATE)
+    @PodamStrategyValue(DateStrategy.class)
     private Date endDate;
     
     // TODO Status y category
