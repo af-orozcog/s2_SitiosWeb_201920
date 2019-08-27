@@ -5,8 +5,8 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
-import co.edu.uniandes.csw.sitiosweb.entities.CatalogueEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.CataloguePersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
+import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -14,7 +14,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import co.edu.uniandes.csw.sitiosweb.persistence.CataloguePersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -30,19 +30,19 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @RunWith(Arquillian.class)
-public class CataloguePersistenceTest {
+public class UserPersistenceTest {
     
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(CatalogueEntity.class)
-                .addClass(CataloguePersistence.class)
+                .addClass(UserEntity.class)
+                .addClass(UserPersistence.class)
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
     
     @Inject
-    CataloguePersistence cp;
+    UserPersistence up;
 
     @PersistenceContext
     protected EntityManager em;
@@ -50,7 +50,7 @@ public class CataloguePersistenceTest {
      @Inject
     UserTransaction utx;
 
-    private List<CatalogueEntity> data = new ArrayList<CatalogueEntity>();
+    private List<UserEntity> data = new ArrayList<UserEntity>();
 
 
     /**
@@ -78,14 +78,14 @@ public class CataloguePersistenceTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
-        em.createQuery("delete from CatalogueEntity").executeUpdate();
+        em.createQuery("delete from UserEntity").executeUpdate();
     }
     
     private void insertData() {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
 
-            CatalogueEntity entity = factory.manufacturePojo(CatalogueEntity.class);
+            UserEntity entity = factory.manufacturePojo(UserEntity.class);
 
             em.persist(entity);
 
@@ -96,24 +96,24 @@ public class CataloguePersistenceTest {
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
-        CatalogueEntity catalogue = factory.manufacturePojo(CatalogueEntity.class);
-        CatalogueEntity result = cp.create(catalogue);
+        UserEntity user = factory.manufacturePojo(UserEntity.class);
+        UserEntity result = up.create(user);
         Assert.assertNotNull(result);
         
-        CatalogueEntity entity = em.find(CatalogueEntity.class, result.getId());
-        Assert.assertEquals(catalogue.getProjectNum(), entity.getProjectNum());
-        Assert.assertEquals(catalogue.getRequestNum(), entity.getRequestNum());
+        UserEntity entity = em.find(UserEntity.class, result.getId());
+        Assert.assertEquals(user.getLogin(), entity.getLogin());
+        Assert.assertEquals(user.getEmail(), entity.getEmail());
         
         
     }
     
     @Test
-    public void getCataloguesTest() {
-        List<CatalogueEntity> list = cp.findAll();
+    public void getUsersTest() {
+        List<UserEntity> list = up.findAll();
         Assert.assertEquals(data.size(), list.size());
-        for (CatalogueEntity ent : list) {
+        for (UserEntity ent : list) {
             boolean found = false;
-            for (CatalogueEntity entity : data) {
+            for (UserEntity entity : data) {
                 if (ent.getId().equals(entity.getId())) {
                     found = true;
                 }
@@ -124,33 +124,33 @@ public class CataloguePersistenceTest {
 
 
     @Test
-    public void getCatalogueTest() {
-        CatalogueEntity entity = data.get(0);
-        CatalogueEntity newEntity = cp.find(entity.getId());
+    public void getUserTest() {
+        UserEntity entity = data.get(0);
+        UserEntity newEntity = up.find(entity.getId());
         Assert.assertNotNull(newEntity);
-        Assert.assertEquals(entity.getProjectNum(), newEntity.getProjectNum());
+        Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
     }
 
 
     @Test
     public void deleteEditorialTest() {
-        CatalogueEntity entity = data.get(0);
-        cp.delete(entity.getId());
-        CatalogueEntity deleted = em.find(CatalogueEntity.class, entity.getId());
+        UserEntity entity = data.get(0);
+        up.delete(entity.getId());
+        UserEntity deleted = em.find(UserEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 
     @Test
     public void updateEditorialTest() {
-        CatalogueEntity entity = data.get(0);
+        UserEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
-        CatalogueEntity newEntity = factory.manufacturePojo(CatalogueEntity.class);
+        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
 
         newEntity.setId(entity.getId());
 
-        cp.update(newEntity);
+        up.update(newEntity);
 
-        CatalogueEntity resp = em.find(CatalogueEntity.class, entity.getId());
-        Assert.assertEquals(newEntity.getProjectNum(), resp.getProjectNum());
+        UserEntity resp = em.find(UserEntity.class, entity.getId());
+        Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
     }
 }

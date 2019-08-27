@@ -5,7 +5,7 @@
  */
 package co.edu.uniandes.csw.sitiosweb.persistence;
 
-import co.edu.uniandes.csw.sitiosweb.entities.CatalogueEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,35 +19,35 @@ import javax.persistence.TypedQuery;
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @Stateless
-public class CataloguePersistence {
+public class UserPersistence {
     
     @PersistenceContext(unitName = "sitioswebPU")
     protected EntityManager em;
 
     
-    public CatalogueEntity create (CatalogueEntity catalogue){
+    public UserEntity create (UserEntity user){
         LOGGER.log(Level.INFO, "Creando un proeevedor nuevo");
-        em.persist(catalogue);
+        em.persist(user);
         
         LOGGER.log(Level.INFO, "Proveedor creado");
-        return catalogue;
+        return user;
     }
     
     
-    public List<CatalogueEntity> findAll() {
+    public List<UserEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todos los proveedores");
         
-        TypedQuery query = em.createQuery("select u from CatalogueEntity u", CatalogueEntity.class);
+        TypedQuery query = em.createQuery("select u from UserEntity u", UserEntity.class);
         return query.getResultList();
     }
     
-        public CatalogueEntity find(Long authorsId) {
+        public UserEntity find(Long authorsId) {
         LOGGER.log(Level.INFO, "Consultando el proveedor con id={0}", authorsId);
 
-        return em.find(CatalogueEntity.class, authorsId);
+        return em.find(UserEntity.class, authorsId);
     }
         
-        public CatalogueEntity update(CatalogueEntity authorEntity) {
+        public UserEntity update(UserEntity authorEntity) {
         LOGGER.log(Level.INFO, "Actualizando el proveedor con id={0}", authorEntity.getId());
         
         return em.merge(authorEntity);
@@ -56,7 +56,7 @@ public class CataloguePersistence {
         public void delete(Long authorsId) {
         LOGGER.log(Level.INFO, "Borrando el proveedor con id={0}", authorsId);
         
-        CatalogueEntity authorEntity = em.find(CatalogueEntity.class, authorsId);
+        UserEntity authorEntity = em.find(UserEntity.class, authorsId);
         em.remove(authorEntity);
     }
 }
