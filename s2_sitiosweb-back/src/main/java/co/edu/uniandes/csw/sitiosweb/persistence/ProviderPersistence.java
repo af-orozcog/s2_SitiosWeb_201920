@@ -53,10 +53,10 @@ public class ProviderPersistence {
         return em.merge(authorEntity);
     }
         
-            public void delete(Long authorsId) {
+            public void delete(Long providersId) {
 
-        LOGGER.log(Level.INFO, "Borrando el proveedor con id={0}", authorsId);
-        ProviderEntity authorEntity = em.find(ProviderEntity.class, authorsId);
+        LOGGER.log(Level.INFO, "Borrando el proveedor con id={0}", providersId);
+        ProviderEntity authorEntity = em.find(ProviderEntity.class, providersId);
         em.remove(authorEntity);
     }
 }
