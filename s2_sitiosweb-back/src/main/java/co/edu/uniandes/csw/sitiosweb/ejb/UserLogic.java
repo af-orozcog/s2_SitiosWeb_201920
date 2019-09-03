@@ -15,7 +15,6 @@ import javax.inject.Inject;
  *
  * @author Nicolás Abondano nf.abondano 201812467
  */
-
 @Stateless
 public class UserLogic {
     
@@ -28,7 +27,9 @@ public class UserLogic {
             throw new BusinessLogicException( "El login del usuario está vacío" );
         if(user.getEmail() == null )
             throw new BusinessLogicException( "El email del usuario está vacío" );
-        
+        if(user.getPhone() == null )
+            throw new BusinessLogicException( "El teléfono del usuario está vacío" );
+
         user = persistence.create(user);
         return user;
     }
