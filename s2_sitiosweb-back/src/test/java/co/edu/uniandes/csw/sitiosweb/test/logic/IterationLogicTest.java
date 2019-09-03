@@ -7,12 +7,15 @@ package co.edu.uniandes.csw.sitiosweb.test.logic;
 
 import co.edu.uniandes.csw.sitiosweb.ejb.IterationLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
+import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -40,8 +43,10 @@ public class IterationLogicTest {
     }
     
     @Test
-    public createIteration(){
-        
+    public void createIteration() throws BusinessLogicException{
+        IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        IterationEntity result = iterationLogic.createIteration(newEntity);
+        Assert.assertNotNull(result);
     }
     
 }
