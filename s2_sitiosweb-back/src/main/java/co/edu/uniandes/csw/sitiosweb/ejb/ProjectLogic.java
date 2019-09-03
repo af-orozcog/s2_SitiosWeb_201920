@@ -24,7 +24,7 @@ public class ProjectLogic {
     public ProjectEntity createProject(ProjectEntity pe) throws BusinessLogicException{
        
         if(pe.getCompany() == null){
-            throw new BusinessLogicException("El proyecto ya existe");
+            throw new BusinessLogicException("El proyecto no tiene compañia asociada");
         }
         pe = persistence.create(pe);
         return pe;
