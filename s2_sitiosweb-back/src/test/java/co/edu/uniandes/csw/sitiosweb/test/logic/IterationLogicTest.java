@@ -10,6 +10,7 @@ import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -32,6 +33,8 @@ public class IterationLogicTest {
     @Inject
     private IterationLogic iterationLogic;
     
+    protected EntityManager em;
+    
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
@@ -47,6 +50,43 @@ public class IterationLogicTest {
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
         IterationEntity result = iterationLogic.createIteration(newEntity);
         Assert.assertNotNull(result);
+        
+        IterationEntity entity = em.find(IterationEntity.class,result.getId());
+        Assert.assertEquals(entity.getObjetive(),result.getObjetive());
     }
     
+    @Test (expected = BusinessLogicException.class)
+    public void createIterationObjetiveNull() throws BusinessLogicException{
+        IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setObjetive(null);
+        IterationEntity result = iterationLogic.createIteration(newEntity);
+    }
+    
+    @Test (expected = BusinessLogicException.class)
+    public void createIterationValidationDateNull() throws BusinessLogicException{
+        IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setValidationDate(null);
+        IterationEntity result = iterationLogic.createIteration(newEntity);
+    }
+    
+    @Test (expected = BusinessLogicException.class)
+    public void createIterationBeginDateNull() throws BusinessLogicException{
+        IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setBeginDate(null);
+        IterationEntity result = iterationLogic.createIteration(newEntity);
+    }
+    
+    @Test (expected = BusinessLogicException.class)
+    public void createIterationEndDateNull() throws BusinessLogicException{
+        IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setEndDate(null);
+        IterationEntity result = iterationLogic.createIteration(newEntity);
+    }
+    
+    @Test (expected = BusinessLogicException.class)
+    public void createIterationChangesNull() throws BusinessLogicException{
+        IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setChanges(null);
+        IterationEntity result = iterationLogic.createIteration(newEntity);
+    }
 }
