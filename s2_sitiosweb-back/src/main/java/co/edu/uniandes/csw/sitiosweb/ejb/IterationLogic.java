@@ -21,9 +21,16 @@ public class IterationLogic {
     private IterationPersistence persistence;
     
     public IterationEntity createIteration(IterationEntity iteracion) throws BusinessLogicException {
-        if(iteracion.getBeginDate() == null){
+        if(iteracion.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
-        }
+        if(iteracion.getEndDate() == null)
+            throw new BusinessLogicException("la fecha final esta vacia");
+        if(iteracion.getChanges() == null)
+            throw new BusinessLogicException("los cambios estan vacios");
+        if(iteracion.getObjetive() == null)
+            throw new BusinessLogicException("el objetivo esta vacio");
+        if(iteracion.getValidationDate() == null)
+            throw new BusinessLogicException("la fecha de validación esta vacia");
         iteracion = persistence.create(iteracion);
         return iteracion;
     }

@@ -11,6 +11,7 @@ import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -33,14 +34,15 @@ public class IterationLogicTest {
     @Inject
     private IterationLogic iterationLogic;
     
+    @PersistenceContext
     protected EntityManager em;
     
     @Deployment
-    public static JavaArchive createDeployment(){
+     public static JavaArchive createDeploymet(){
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(IterationEntity.class.getPackage())
-                .addPackage(IterationLogic.class.getPackage())
                 .addPackage(IterationPersistence.class.getPackage())
+                .addPackage(IterationLogic.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml","beans.xml");
     }
@@ -49,7 +51,7 @@ public class IterationLogicTest {
     public void createIteration() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
         IterationEntity result = iterationLogic.createIteration(newEntity);
-        Assert.assertNotNull(result);
+        //Assert.assertNotNull(result);
         
         IterationEntity entity = em.find(IterationEntity.class,result.getId());
         Assert.assertEquals(entity.getObjetive(),result.getObjetive());
