@@ -64,4 +64,11 @@ public class ProjectLogicTest {
        newEntity.setCompany(null);
        ProjectEntity result = projectLogic.createProject(newEntity);
    }
+   @Test(expected = BusinessLogicException.class)
+   public void createInternalProjectNull() throws BusinessLogicException{
+       
+       ProjectEntity newEntity = factory.manufacturePojo(ProjectEntity.class);
+       newEntity.setInternalProject(null);
+       ProjectEntity result = projectLogic.createProject(newEntity);
+   }
 }
