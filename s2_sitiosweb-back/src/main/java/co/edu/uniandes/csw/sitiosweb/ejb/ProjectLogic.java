@@ -26,6 +26,9 @@ public class ProjectLogic {
         if(pe.getCompany() == null){
             throw new BusinessLogicException("El proyecto no tiene compañia asociada");
         }
+        if(pe.getInternalProject() == null){
+            throw new BusinessLogicException("El proyecto no dice si es interno o no");
+        }
         pe = persistence.create(pe);
         return pe;
     }
