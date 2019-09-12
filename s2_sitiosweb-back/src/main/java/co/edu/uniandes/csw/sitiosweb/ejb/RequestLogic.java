@@ -47,6 +47,7 @@ public class RequestLogic
      *  - The project's budget cannot be negative.
      * @param request Request to create.
      * @return The created request.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public RequestEntity createRequest(RequestEntity request) throws BusinessLogicException
     {
@@ -104,7 +105,7 @@ public class RequestLogic
         LOGGER.log(Level.INFO, "Consulting request with id = {0}.", requestId);
         RequestEntity requestEntity = persistence.find(requestId);
         if(requestEntity == null)
-            LOGGER.log(Level.SEVERE, "The request with id = {0} doesn't exist.", requestId);
+            LOGGER.log(Level.SEVERE, "The request with id = {0} does not exist.", requestId);
         LOGGER.log(Level.INFO, "Exiting the consult of the request with id = {0}.", requestId);
         return requestEntity;
     }
@@ -126,6 +127,7 @@ public class RequestLogic
     /**
      * Deletes the request with the given id.
      * @param requestId The request's id.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public void deteleRequest(Long requestId) throws BusinessLogicException
     {

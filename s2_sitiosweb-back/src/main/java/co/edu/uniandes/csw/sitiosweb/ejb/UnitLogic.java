@@ -41,6 +41,7 @@ public class UnitLogic
      * Method that creates an unit entity through the persistence.
      * @param unit The unit to create.
      * @return  The created unit.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public UnitEntity createUnit(UnitEntity unit) throws BusinessLogicException
     {
@@ -74,7 +75,7 @@ public class UnitLogic
         LOGGER.log(Level.INFO, "Consulting unit with id = {0}.", unitId);
         UnitEntity unitEntity = persistence.find(unitId);
         if(unitEntity == null)
-            LOGGER.log(Level.SEVERE, "The unit with id = {0} doesn't exist.", unitId);
+            LOGGER.log(Level.SEVERE, "The unit with id = {0} does not exist.", unitId);
         LOGGER.log(Level.INFO, "Exiting the consult of the unit with id = {0}.", unitId);
         return unitEntity;
     }
@@ -98,6 +99,7 @@ public class UnitLogic
      * @param unitId The unit's id.
      * BUSINESS LOGIC RULE:
      *  - The name can't be null or empty.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public void deleteUnit(Long unitId) throws BusinessLogicException
     {
