@@ -21,6 +21,8 @@ import javax.inject.Inject;
 
 @Stateless
 public class ProviderLogic {
+    
+    private static final Logger LOGGER = Logger.getLogger(ProviderLogic.class.getName());
     @Inject
     private ProviderPersistence persistence;
     
