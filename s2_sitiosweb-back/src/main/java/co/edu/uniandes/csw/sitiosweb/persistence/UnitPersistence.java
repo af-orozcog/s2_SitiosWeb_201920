@@ -66,7 +66,7 @@ public class UnitPersistence
      */
     public UnitEntity find(Long unitId)
     {
-        LOGGER.log(Level.INFO, "Consulting unit with id = " + unitId, unitId);
+        LOGGER.log(Level.INFO, "Consulting unit with id ={0}." , unitId);
         return em.find(UnitEntity.class, unitId);
     }
     
@@ -77,8 +77,8 @@ public class UnitPersistence
      */
     public UnitEntity update(UnitEntity unitEntity)
     {
-        LOGGER.log(Level.INFO, "Updating unit with id = " + unitEntity.getId(), unitEntity.getId());
-        LOGGER.log(Level.INFO, "Exiting the update of the unit with id = " + unitEntity.getId(), unitEntity.getId());
+        LOGGER.log(Level.INFO, "Updating unit with id = {0}.", unitEntity.getId());
+        LOGGER.log(Level.INFO, "Exiting the update of the unit with id = {0}.", unitEntity.getId());
         return em.merge(unitEntity);
     } 
     
@@ -88,9 +88,9 @@ public class UnitPersistence
      */
     public void delete(Long unitId)
     {
-        LOGGER.log(Level.INFO, "Deleting unit with id = " + unitId, unitId);
+        LOGGER.log(Level.INFO, "Deleting unit with id = {0}.", unitId);
         UnitEntity entity = em.find(UnitEntity.class, unitId);
         em.remove(entity);
-        LOGGER.log(Level.INFO, "Exiting the deletion of the unit with id = " + unitId, unitId);
+        LOGGER.log(Level.INFO, "Exiting the deletion of the unit with id = {0}.", unitId);
     }
 }
