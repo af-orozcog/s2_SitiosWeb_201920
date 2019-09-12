@@ -72,11 +72,32 @@ public class HardwareLogic {
      * Actualizar un hardware por ID
      *
      * @param hardwareId El ID del libro a actualizar
-     * @param hardwareEntity La entidad del libro con los cambios deseados
+     * @param hardware La entidad del libro con los cambios deseados
      * @return La entidad del hardware luego de actualizarla
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public HardwareEntity updateHardware(Long hardwareId, HardwareEntity hardwareEntity) {
-        HardwareEntity newEntity = persistence.update(hardwareEntity);
+    public HardwareEntity updateHardware(Long hardwareId, HardwareEntity hardware) throws BusinessLogicException {
+        if(hardware.getIp()==null){
+            throw new BusinessLogicException("El ip del hardware esta vacio");
+        }
+        
+        if(hardware.getCores()==0){
+            throw new BusinessLogicException("Los nucleos del harware no son correctos");
+        }
+        
+        if(hardware.getRam()==0){
+            throw new BusinessLogicException("La RAM del hardware no es valida");
+        }
+        
+        if(hardware.getCpu()==null){
+            throw new BusinessLogicException("El cpu del hardware esta vacio");
+        }
+        
+        if(hardware.getPlataforma()==null){
+            throw new BusinessLogicException("La plataforma del hardware esta vacia");
+        }
+        
+        HardwareEntity newEntity = persistence.update(hardware);
         return newEntity;
     }
  

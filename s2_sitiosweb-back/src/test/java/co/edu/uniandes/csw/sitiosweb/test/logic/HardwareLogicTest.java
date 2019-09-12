@@ -169,23 +169,23 @@ public class HardwareLogicTest {
     }
 
   
-//    @Test
-//    public void updateHardwareTest() {
-//        HardwareEntity entity = data.get(0);
-//        HardwareEntity pojoEntity = factory.manufacturePojo(HardwareEntity.class);
-//
-//        pojoEntity.setId(entity.getId());
-//
-//        hardwareLogic.updateHardware(pojoEntity.getId(), pojoEntity);
-//
-//        HardwareEntity resp = em.find(HardwareEntity.class, entity.getId());
-//
-//        Assert.assertEquals(pojoEntity.getId(), resp.getId());
-//        Assert.assertEquals(entity.getId(), resp.getId());
-//        Assert.assertEquals(entity.getCpu(), resp.getCpu());
-//        Assert.assertEquals(entity.getRam(), resp.getRam());
-//        Assert.assertEquals(entity.getPlataforma(), resp.getPlataforma());
-//        Assert.assertEquals(entity.getCores(), resp.getCores());
-//    }
+    @Test
+    public void updateHardwareTest() throws BusinessLogicException {
+        HardwareEntity entity = data.get(0);
+        HardwareEntity pojoEntity = factory.manufacturePojo(HardwareEntity.class);
+
+        pojoEntity.setId(entity.getId());
+
+        hardwareLogic.updateHardware(pojoEntity.getId(), pojoEntity);
+
+        HardwareEntity resp = em.find(HardwareEntity.class, entity.getId());
+
+        Assert.assertEquals(pojoEntity.getId(), resp.getId());
+        Assert.assertEquals(pojoEntity.getId(), resp.getId());
+        Assert.assertEquals(pojoEntity.getCpu(), resp.getCpu());
+        Assert.assertEquals(pojoEntity.getRam(), resp.getRam());
+        Assert.assertEquals(pojoEntity.getPlataforma(), resp.getPlataforma());
+        Assert.assertEquals(pojoEntity.getCores(), resp.getCores());
+    }
 
 }
