@@ -8,7 +8,7 @@ package co.edu.uniandes.csw.sitiosweb.ejb;
 import co.edu.uniandes.csw.sitiosweb.entities.ProviderEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProviderPersistence;
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import java.util.logging.Logger;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
