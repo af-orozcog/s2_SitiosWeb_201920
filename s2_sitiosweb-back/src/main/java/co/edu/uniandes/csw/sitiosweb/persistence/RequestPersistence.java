@@ -56,6 +56,7 @@ public class RequestPersistence
     {
         LOGGER.log(Level.INFO, "Consulting all requests.");
         TypedQuery query = em.createQuery("select u from RequestEntity u", RequestEntity.class);
+        LOGGER.log(Level.INFO, "Exiting the consult of all requests.");
         return query.getResultList();
     }
     
@@ -66,7 +67,8 @@ public class RequestPersistence
      */
     public RequestEntity find(Long requestId)
     {
-        LOGGER.log(Level.INFO, "Consulting request with id = " + requestId, requestId);
+        LOGGER.log(Level.INFO, "Consulting request with id = {0}.", requestId);
+        LOGGER.log(Level.INFO, "Exiting the consult of the request with id = {0}.", requestId);
         return em.find(RequestEntity.class, requestId);
     }
     
@@ -77,8 +79,8 @@ public class RequestPersistence
      */
     public RequestEntity update(RequestEntity requestEntity)
     {
-        LOGGER.log(Level.INFO, "Updating request with id = " + requestEntity.getId(), requestEntity.getId());
-        LOGGER.log(Level.INFO, "Exiting the update of the request with id = " + requestEntity.getId(), requestEntity.getId());
+        LOGGER.log(Level.INFO, "Updating request with id = {0}.", requestEntity.getId());
+        LOGGER.log(Level.INFO, "Exiting the update of the request with id = {0}.", requestEntity.getId());
         return em.merge(requestEntity);
     } 
     
@@ -88,9 +90,9 @@ public class RequestPersistence
      */
     public void delete(Long requestId)
     {
-        LOGGER.log(Level.INFO, "Deleting request with id = " + requestId, requestId);
+        LOGGER.log(Level.INFO, "Deleting request with id = {0}.", requestId);
         RequestEntity entity = em.find(RequestEntity.class, requestId);
         em.remove(entity);
-        LOGGER.log(Level.INFO, "Exiting the deletion of the request with id = " + requestId, requestId);
+        LOGGER.log(Level.INFO, "Exiting the deletion of the request with id = {0}.", requestId);
     }
 }
