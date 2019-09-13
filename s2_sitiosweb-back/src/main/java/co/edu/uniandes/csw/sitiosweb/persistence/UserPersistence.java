@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -36,26 +37,25 @@ public class UserPersistence {
     
     
     public List<UserEntity> findAll() {
-        LOGGER.log(Level.INFO, "Consultando todos los proveedores");
-        
-        TypedQuery query = em.createQuery("select u from UserEntity u", UserEntity.class);
-        return query.getResultList();
+       LOGGER.log(Level.INFO, "Consultando todos los usuarios");
+        Query q = em.createQuery("select u from UserEntity u");
+        return q.getResultList();
     }
     
         public UserEntity find(Long authorsId) {
-        LOGGER.log(Level.INFO, "Consultando el proveedor con id={0}", authorsId);
+        LOGGER.log(Level.INFO, "Consultando el usuario con id={0}", authorsId);
 
         return em.find(UserEntity.class, authorsId);
     }
         
         public UserEntity update(UserEntity authorEntity) {
-        LOGGER.log(Level.INFO, "Actualizando el proveedor con id={0}", authorEntity.getId());
+        LOGGER.log(Level.INFO, "Actualizando el usuario con id={0}", authorEntity.getId());
         
         return em.merge(authorEntity);
     }
         
         public void delete(Long authorsId) {
-        LOGGER.log(Level.INFO, "Borrando el proveedor con id={0}", authorsId);
+        LOGGER.log(Level.INFO, "Borrando el usuario con id={0}", authorsId);
         
         UserEntity authorEntity = em.find(UserEntity.class, authorsId);
         em.remove(authorEntity);
