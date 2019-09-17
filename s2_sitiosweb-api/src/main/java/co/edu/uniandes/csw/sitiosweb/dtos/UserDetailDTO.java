@@ -18,5 +18,9 @@ public class UserDetailDTO extends UserDTO implements Serializable {
     public UserDetailDTO() {
         
     }
+    
+    public UserDetailDTO(UserEntity userEntity){
+        super(userEntity);
+    }
 
 }
