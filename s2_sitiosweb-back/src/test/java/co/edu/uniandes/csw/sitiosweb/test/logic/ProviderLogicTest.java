@@ -87,9 +87,6 @@ public class ProviderLogicTest {
         }
     }
 
-    /**
-     * Prueba para crear un Provider.
-     */
     @Test
     public void createProviderTest() throws BusinessLogicException  {
         ProviderEntity newEntity = factory.manufacturePojo(ProviderEntity.class);
@@ -100,9 +97,6 @@ public class ProviderLogicTest {
         Assert.assertEquals(newEntity.getName(), entity.getName());
     }
 
-    /**
-     * Prueba para consultar la lista de Providers.
-     */
     @Test
     public void getProvidersTest() {
         List<ProviderEntity> list = providerLogic.getProviders();
@@ -118,9 +112,6 @@ public class ProviderLogicTest {
         }
     }
 
-    /**
-     * Prueba para consultar un Provider.
-     */
     @Test
     public void getProviderTest() {
         ProviderEntity entity = data.get(0);
@@ -130,9 +121,6 @@ public class ProviderLogicTest {
         Assert.assertEquals(entity.getName(), resultEntity.getName());
     }
 
-    /**
-     * Prueba para actualizar un Provider.
-     */
     @Test
     public void updateProviderTest() {
         ProviderEntity entity = data.get(0);
@@ -148,11 +136,6 @@ public class ProviderLogicTest {
         Assert.assertEquals(pojoEntity.getName(), resp.getName());
     }
 
-    /**
-     * Prueba para eliminar un Provider
-     *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     */
     @Test
     public void deleteProviderTest() throws BusinessLogicException {
         ProviderEntity entity = data.get(0);
@@ -161,6 +144,14 @@ public class ProviderLogicTest {
         Assert.assertNull(deleted);
     }
     
+    
+    @Test(expected = BusinessLogicException.class)
+    public void createProviderNullNameTest() throws BusinessLogicException
+    {
+        ProviderEntity newEntity = factory.manufacturePojo(ProviderEntity.class);
+        newEntity.setName(null);
+        ProviderEntity result = providerLogic.createProvider(newEntity);
+    }
     
 }
 
