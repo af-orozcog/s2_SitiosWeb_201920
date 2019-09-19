@@ -89,8 +89,8 @@ public class IterationLogic {
     public void deleteIteration(Long iterationsId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el autor con id = {0}", iterationsId);
         IterationEntity iteration = getIteration(iterationsId);
-        if (iteration != null) {
-            throw new BusinessLogicException("No se puede borrar el autor con id = " + iterationsId + " porque tiene books asociados");
+        if (iteration == null) {
+            throw new BusinessLogicException("No se puede borrar la iteracion con id = " + iterationsId + " porque no existe");
         }
         persistence.delete(iterationsId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el autor con id = {0}", iterationsId);

@@ -144,4 +144,54 @@ public class IterationLogicTest {
         newEntity.setChanges(null);
         IterationEntity result = iterationLogic.createIteration(newEntity);
     }
+    
+    /**
+     * Prueba para consultar la lista de Iterations
+     */
+    @Test
+    public void getAuthorsTest() {
+        List<IterationEntity> list = iterationLogic.getIterations();
+        Assert.assertEquals(data.size(), list.size());
+        for (IterationEntity entity : list) {
+            boolean found = false;
+            for (IterationEntity storedEntity : data) {
+                if (entity.getId().equals(storedEntity.getId())) {
+                    found = true;
+                }
+            }
+            Assert.assertTrue(found);
+        }
+    }
+    
+   /**
+     * Prueba para actualizar un Iteration.
+     */
+    @Test
+    public void updateAuthorTest() {
+        IterationEntity entity = data.get(0);
+        IterationEntity pojoEntity = factory.manufacturePojo(IterationEntity.class);
+
+        pojoEntity.setId(entity.getId());
+
+        iterationLogic.updateIteration(pojoEntity.getId(), pojoEntity);
+
+        IterationEntity resp = em.find(IterationEntity.class, entity.getId());
+
+        Assert.assertEquals(pojoEntity.getId(), resp.getId());
+        Assert.assertEquals(pojoEntity.getObjetive(), resp.getObjetive());
+        Assert.assertEquals(pojoEntity.getChanges(), resp.getChanges());
+    } 
+    
+    /**
+     * Prueba para eliminar un Author
+     *
+     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     */
+    @Test
+    public void deleteAuthorTest() throws BusinessLogicException {
+        IterationEntity entity = data.get(0);
+        iterationLogic.deleteIteration(entity.getId());
+        IterationEntity deleted = em.find(IterationEntity.class, entity.getId());
+        Assert.assertNull(deleted);
+    }
 }
