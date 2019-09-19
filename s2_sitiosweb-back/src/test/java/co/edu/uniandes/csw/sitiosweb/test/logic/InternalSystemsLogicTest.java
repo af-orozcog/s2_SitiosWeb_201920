@@ -160,5 +160,11 @@ public class InternalSystemsLogicTest {
         Assert.assertNull(deleted);
     }
     
-    
+    @Test(expected = BusinessLogicException.class)
+    public void createInternalSystemsNullTypeTest() throws BusinessLogicException
+    {
+        InternalSystemsEntity newEntity = factory.manufacturePojo(InternalSystemsEntity.class);
+        newEntity.setType(null);
+        InternalSystemsEntity result = internalSystemsLogic.createInternalSystems(newEntity);
+    }
 }
