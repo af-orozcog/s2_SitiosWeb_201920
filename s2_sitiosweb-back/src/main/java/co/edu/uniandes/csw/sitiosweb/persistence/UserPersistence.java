@@ -42,22 +42,22 @@ public class UserPersistence {
         return q.getResultList();
     }
     
-        public UserEntity find(Long authorsId) {
-        LOGGER.log(Level.INFO, "Consultando el usuario con id={0}", authorsId);
+        public UserEntity find(Long usersId) {
+        LOGGER.log(Level.INFO, "Consultando el usuario con id={0}", usersId);
 
-        return em.find(UserEntity.class, authorsId);
+        return em.find(UserEntity.class, usersId);
     }
         
-        public UserEntity update(UserEntity authorEntity) {
-        LOGGER.log(Level.INFO, "Actualizando el usuario con id={0}", authorEntity.getId());
+        public UserEntity update(UserEntity userEntity) {
+        LOGGER.log(Level.INFO, "Actualizando el usuario con id={0}", userEntity.getId());
         
-        return em.merge(authorEntity);
+        return em.merge(userEntity);
     }
         
-        public void delete(Long authorsId) {
-        LOGGER.log(Level.INFO, "Borrando el usuario con id={0}", authorsId);
+        public void delete(Long usersId) {
+        LOGGER.log(Level.INFO, "Borrando el usuario con id={0}", usersId);
         
-        UserEntity authorEntity = em.find(UserEntity.class, authorsId);
-        em.remove(authorEntity);
+        UserEntity userEntity = em.find(UserEntity.class, usersId);
+        em.remove(userEntity);
     }
 }

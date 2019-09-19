@@ -47,17 +47,17 @@ public class UserLogic {
     }
 
     public UserEntity getUser(Long userId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar el libro con id = {0}", userId);
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el usuario con id = {0}", userId);
         UserEntity UserEntity = persistence.find(userId);
         if (UserEntity == null) {
-            LOGGER.log(Level.SEVERE, "El libro con el id = {0} no existe", userId);
+            LOGGER.log(Level.SEVERE, "El usuario con el id = {0} no existe", userId);
         }
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el libro con id = {0}", userId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el usuario con id = {0}", userId);
         return UserEntity;
     }
     
     public UserEntity updateUser(Long userId, UserEntity UserEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el libro con id = {0}", userId);
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el usuario con id = {0}", userId);
         if(UserEntity.getLogin() == null )
             throw new BusinessLogicException( "El login del usuario está vacío" );
         if(UserEntity.getEmail() == null )
@@ -66,13 +66,13 @@ public class UserLogic {
             throw new BusinessLogicException( "El teléfono del usuario está vacío" );
         
         UserEntity newEntity = persistence.update(UserEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el libro con id = {0}", UserEntity.getId());
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar el usuario con id = {0}", UserEntity.getId());
         return newEntity;
     }
 
     public void deleteUser(Long userId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el libro con id = {0}", userId);
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el usuario con id = {0}", userId);
         persistence.delete(userId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el libro con id = {0}", userId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar el usuario con id = {0}", userId);
     }
 }
