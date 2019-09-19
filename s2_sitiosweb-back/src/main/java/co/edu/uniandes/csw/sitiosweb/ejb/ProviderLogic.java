@@ -26,17 +26,16 @@ public class ProviderLogic {
     @Inject
     private ProviderPersistence persistence;
     
-    public ProviderEntity createPovider(ProviderEntity provider) throws BusinessLogicException{
+    public ProviderEntity createProvider(ProviderEntity provider) throws BusinessLogicException{
         if(provider.getName()==null){
             throw new BusinessLogicException("El nombre del proveedor esta vacio");
-        }
-        
+        }  
         provider = persistence.create(provider);
         return provider;
     }
     
     
-        public List<ProviderEntity> getProvider() {
+        public List<ProviderEntity> getProviders() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los proveedores");
         List<ProviderEntity> lista = persistence.findAll();
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los proveedores");
