@@ -69,21 +69,21 @@ public class IterationLogic {
     /**
      * Actualiza la información de una instancia de Author.
      *
-     * @param authorsId Identificador de la instancia a actualizar
-     * @param authorEntity Instancia de AuthorEntity con los nuevos datos.
+     * @param iterationsId Identificador de la instancia a actualizar
+     * @param iterationEntity Instancia de IterationEntity con los nuevos datos.
      * @return Instancia de AuthorEntity con los datos actualizados.
      */
-    public IterationEntity updateIteration(Long iterionsId, IterationEntity iterationEntity) {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el autor con id = {0}", iterionsId);
+    public IterationEntity updateIteration(Long iterationsId, IterationEntity iterationEntity) {
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el autor con id = {0}", iterationsId);
         IterationEntity newIterationEntity = persistence.update(iterationEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el autor con id = {0}", iterionsId);
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar el autor con id = {0}", iterationsId);
         return newIterationEntity;
     }
    
     /**
      * Elimina una instancia de Author de la base de datos.
      *
-     * @param authorsId Identificador de la instancia a eliminar.
+     * @param iterationsId Identificador de la instancia a eliminar.
      * @throws BusinessLogicException si el autor tiene libros asociados.
      */
     public void deleteIteration(Long iterationsId) throws BusinessLogicException {
