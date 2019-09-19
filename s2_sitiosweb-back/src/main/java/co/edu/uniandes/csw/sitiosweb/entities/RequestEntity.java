@@ -11,7 +11,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import uk.co.jemos.podam.common.PodamIntValue;
 import uk.co.jemos.podam.common.PodamStrategyValue;
+import uk.co.jemos.podam.common.PodamStringValue;
 
 /**
  *
@@ -25,26 +27,31 @@ public class RequestEntity extends BaseEntity implements Serializable
     /**
      * Name of the request.
      */
+    @PodamStringValue(length = 1)
     private String name;
     
     /**
      * Purpose of the request.
      */
+    @PodamStringValue(length = 1)
     private String purpose;
     
     /**
      * Description of the request.
      */
+    @PodamStringValue(length = 1)
     private String description;
     
     /**
      * Unit of the request.
      */
+    @PodamStringValue(length = 1)
     private String unit;
     
     /**
      * Budget of the request.
      */
+    @PodamIntValue(minValue = 0)
     private Integer budget;
     
     /**
@@ -68,7 +75,7 @@ public class RequestEntity extends BaseEntity implements Serializable
     @PodamStrategyValue(DateStrategy.class)
     private Date endDate;
     
-    // TODO Status y category
+    // TODO Status, Category, Type & Requester.
 
     // Methods
     

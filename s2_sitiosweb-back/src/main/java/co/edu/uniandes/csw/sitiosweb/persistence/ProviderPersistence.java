@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- * @author Andres Martinez Silva 
+ * @author Andres Martinez Silva .
  */
 @Stateless
 public class ProviderPersistence {
