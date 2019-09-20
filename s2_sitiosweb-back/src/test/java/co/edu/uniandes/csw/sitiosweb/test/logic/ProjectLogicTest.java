@@ -71,4 +71,5 @@ public class ProjectLogicTest {
        newEntity.setInternalProject(null);
        ProjectEntity result = projectLogic.createProject(newEntity);
    }
+   
 }
