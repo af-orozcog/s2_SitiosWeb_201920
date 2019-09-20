@@ -49,9 +49,9 @@ public class UserResource {
         LOGGER.log(Level.INFO, "UserResource createUser: input: {0}", user);
         UserEntity userEntity = user.toEntity();
         UserEntity nuevoUserEntity = userLogic.createUser(userEntity);
-        UserDTO nuevoEditorialDTO = new UserDTO(nuevoUserEntity);
-        LOGGER.log(Level.INFO, "UserResource createUser: output: {0}", nuevoEditorialDTO);
-        return nuevoEditorialDTO;    
+        UserDTO nuevoUsuerDTO = new UserDTO(nuevoUserEntity);
+        LOGGER.log(Level.INFO, "UserResource createUser: output: {0}", nuevoUsuerDTO);
+        return nuevoUsuerDTO;    
     }
 
     @GET
