@@ -36,6 +36,8 @@ public class UserLogic {
 
         if(persistence.findByLogin(user.getLogin()) != null)
             throw new BusinessLogicException( "El login ya existe" );
+        if(validatePhone(user.getPhone()))
+            throw new BusinessLogicException("El teléfono es inválido");
         
         user = persistence.create(user);
         LOGGER.log(Level.INFO, "Termina proceso de creación del usuario");
@@ -67,6 +69,9 @@ public class UserLogic {
             throw new BusinessLogicException( "El email del usuario está vacío" );
         if(UserEntity.getPhone() == null )
             throw new BusinessLogicException( "El teléfono del usuario está vacío" );
+        
+        if(validatePhone(UserEntity.getPhone()))
+            throw new BusinessLogicException("El teléfono es inválido");
         
         UserEntity newEntity = persistence.update(UserEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el usuario con id = {0}", UserEntity.getId());

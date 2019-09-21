@@ -41,7 +41,7 @@ public class UserLogicTest {
     @PersistenceContext
     protected EntityManager em;
     
-     @Inject
+    @Inject
     private UserTransaction utx;
     
     private List<UserEntity> data = new ArrayList<UserEntity>();
