@@ -61,8 +61,8 @@ public class UserPersistence {
         em.remove(userEntity);
     }
         
-         public UserEntity findByLogin(String login) {
-        LOGGER.log(Level.INFO, "Consultando desarrollador por lognin ", login);
+        public UserEntity findByLogin(String login) {
+        LOGGER.log(Level.INFO, "Consultando desarrollador por login ", login);
         TypedQuery query = em.createQuery("Select e From UserEntity e where e.login = :login", UserEntity.class);
         query = query.setParameter("login", login);
         List<UserEntity> sameLogin = query.getResultList();
