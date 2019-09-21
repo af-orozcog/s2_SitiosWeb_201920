@@ -23,6 +23,9 @@ import javax.inject.Inject;
  */
 @Stateless
 public class IterationLogic {
+    
+    private static final Logger LOGGER = Logger.getLogger(IterationLogic.class.getName());
+    
     @Inject
     private IterationPersistence persistence;
     
