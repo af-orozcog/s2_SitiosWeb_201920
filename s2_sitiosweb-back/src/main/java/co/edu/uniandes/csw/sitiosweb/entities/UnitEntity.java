@@ -7,9 +7,10 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import uk.co.jemos.podam.common.PodamStringValue;
 
 /**
- * @author Daniel del Castillo
+ * @author Daniel del Castillo A.
  */
 @Entity
 public class UnitEntity extends BaseEntity implements Serializable
@@ -19,6 +20,7 @@ public class UnitEntity extends BaseEntity implements Serializable
     /**
      * Name of the unit.
      */
+    @PodamStringValue(length = 1)
     private String name;
 
     // Methods

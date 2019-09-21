@@ -11,9 +11,9 @@
     <name>s2_sitiosweb</name>
  
      <modules>
-        <module>s2_sitiosweb-back</module>
-        <module>s2_sitiosweb-api</module>
-    </modules>  
+          <module>s2_sitiosweb-back</module>
+          <module>s2_sitiosweb-api</module>
+     </modules>  
     
     <repositories>
         <repository>
