@@ -34,15 +34,18 @@ public class UserLogic {
         if(user.getPhone() == null )
             throw new BusinessLogicException( "El teléfono del usuario está vacío" );
 
+        if(persistence.findByLogin(user.getLogin()) != null)
+            throw new BusinessLogicException( "El login ya existe" );
+        
         user = persistence.create(user);
         LOGGER.log(Level.INFO, "Termina proceso de creación del usuario");
         return user;
     }
     
     public List<UserEntity> getUsers() {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los libros");
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los usuarios");
         List<UserEntity> users = persistence.findAll();
-        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los libros");
+        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los usuarios");
         return users;
     }
 
@@ -74,5 +77,9 @@ public class UserLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el usuario con id = {0}", userId);
         persistence.delete(userId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el usuario con id = {0}", userId);
+    }
+    
+    private boolean validatePhone(Integer phone) {
+        return !(phone == null || Long.SIZE != 9);
     }
 }

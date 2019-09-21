@@ -18,7 +18,7 @@ public class UserEntity extends BaseEntity implements Serializable{
     private String login;
     private String email;
 
-    private Long phone;
+    private Integer phone;
     
     /**
      * @return the login
@@ -51,14 +51,14 @@ public class UserEntity extends BaseEntity implements Serializable{
     /**
      * @return the phone
      */
-    public Long getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
     /**
      * @param phone the phone to set
      */
-    public void setPhone(Long phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
     

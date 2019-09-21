@@ -48,7 +48,7 @@ public class DeveloperPersistenceTest {
     protected EntityManager em;
     
      @Inject
-    DeveloperTransaction utx;
+    UserTransaction utx;
 
     private List<DeveloperEntity> data = new ArrayList<DeveloperEntity>();
 
@@ -103,8 +103,8 @@ public class DeveloperPersistenceTest {
         DeveloperEntity entity = em.find(DeveloperEntity.class, result.getId());
         Assert.assertEquals(developer.getLogin(), entity.getLogin());
         Assert.assertEquals(developer.getEmail(), entity.getEmail());
-        
-        
+        Assert.assertEquals(developer.getPhone(), entity.getPhone());
+        Assert.assertEquals(developer.getType(), entity.getType());
     }
     
     @Test
@@ -129,6 +129,9 @@ public class DeveloperPersistenceTest {
         DeveloperEntity newEntity = up.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
+        Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
+        Assert.assertEquals(entity.getPhone(), newEntity.getPhone());
+
     }
 
 
@@ -152,5 +155,9 @@ public class DeveloperPersistenceTest {
 
         DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+        Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
+        Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+        Assert.assertEquals(newEntity.getType(), resp.getType());
+
     }
 }

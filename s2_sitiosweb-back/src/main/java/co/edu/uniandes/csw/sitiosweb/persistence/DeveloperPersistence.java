@@ -61,8 +61,8 @@ public class DeveloperPersistence {
         em.remove(developerEntity);
     }
         
-         public DeveloperEntity findByLogin(String login) {
-        LOGGER.log(Level.INFO, "Consultando desarrollador por nombre ", login);
+        public DeveloperEntity findByLogin(String login) {
+        LOGGER.log(Level.INFO, "Consultando desarrollador por login ", login);
         TypedQuery query = em.createQuery("Select e From DeveloperEntity e where e.login = :login", DeveloperEntity.class);
         query = query.setParameter("login", login);
         List<DeveloperEntity> sameLogin = query.getResultList();
@@ -74,7 +74,7 @@ public class DeveloperPersistence {
         } else {
             result = sameLogin.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por nombre ", login);
+        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por login ", login);
         return result;
     }
 }

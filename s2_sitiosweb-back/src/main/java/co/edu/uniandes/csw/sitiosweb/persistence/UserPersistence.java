@@ -60,4 +60,21 @@ public class UserPersistence {
         UserEntity userEntity = em.find(UserEntity.class, usersId);
         em.remove(userEntity);
     }
+        
+         public UserEntity findByLogin(String login) {
+        LOGGER.log(Level.INFO, "Consultando desarrollador por lognin ", login);
+        TypedQuery query = em.createQuery("Select e From UserEntity e where e.login = :login", UserEntity.class);
+        query = query.setParameter("login", login);
+        List<UserEntity> sameLogin = query.getResultList();
+        UserEntity result;
+        if (sameLogin == null) {
+            result = null;
+        } else if (sameLogin.isEmpty()) {
+            result = null;
+        } else {
+            result = sameLogin.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por login ", login);
+        return result;
+    }
 }

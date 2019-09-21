@@ -103,7 +103,7 @@ public class UserPersistenceTest {
         UserEntity entity = em.find(UserEntity.class, result.getId());
         Assert.assertEquals(user.getLogin(), entity.getLogin());
         Assert.assertEquals(user.getEmail(), entity.getEmail());
-        
+        Assert.assertEquals(user.getPhone(), entity.getPhone());
         
     }
     
@@ -129,6 +129,9 @@ public class UserPersistenceTest {
         UserEntity newEntity = up.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
+        Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
+        Assert.assertEquals(entity.getPhone(), newEntity.getPhone());
+
     }
 
 
@@ -152,5 +155,8 @@ public class UserPersistenceTest {
 
         UserEntity resp = em.find(UserEntity.class, entity.getId());
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+        Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
+        Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+
     }
 }
