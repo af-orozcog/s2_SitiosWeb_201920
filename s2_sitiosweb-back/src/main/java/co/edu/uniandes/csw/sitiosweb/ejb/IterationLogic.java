@@ -8,11 +8,14 @@ package co.edu.uniandes.csw.sitiosweb.ejb;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+
 
 /**
  *
