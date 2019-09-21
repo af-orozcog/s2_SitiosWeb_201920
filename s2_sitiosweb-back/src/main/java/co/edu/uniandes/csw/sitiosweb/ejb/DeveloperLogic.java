@@ -38,8 +38,8 @@ public class DeveloperLogic {
         
         if(persistence.findByLogin(developer.getLogin()) != null)
             throw new BusinessLogicException( "El login ya existe" );
-        if(validatePhone(developer.getPhone()))
-            throw new BusinessLogicException("El teléfono es inválido");
+        //if(validatePhone(user.getPhone()))
+          //  throw new BusinessLogicException("El teléfono es inválido");
         
         
         developer = persistence.create(developer);
@@ -73,8 +73,8 @@ public class DeveloperLogic {
         if(DeveloperEntity.getPhone() == null )
             throw new BusinessLogicException( "El teléfono del desarrollador está vacío" );
 
-        if(validatePhone(DeveloperEntity.getPhone()))
-            throw new BusinessLogicException("El teléfono es inválido");
+        //if(validatePhone(user.getPhone()))
+          //  throw new BusinessLogicException("El teléfono es inválido");
         
         DeveloperEntity newEntity = persistence.update(DeveloperEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el desarrollador con id = {0}", DeveloperEntity.getId());
@@ -87,7 +87,7 @@ public class DeveloperLogic {
         LOGGER.log(Level.INFO, "Termina proceso de borrar el desarrollador con id = {0}", developerId);
     }
     
-    private boolean validatePhone(Integer phone) {
-        return !(phone == null || Long.SIZE != 9);
-    }
+    //private boolean validatePhone(Integer phone) {
+      //  return !(phone == null || Long.SIZE != 9);
+    //}
 }

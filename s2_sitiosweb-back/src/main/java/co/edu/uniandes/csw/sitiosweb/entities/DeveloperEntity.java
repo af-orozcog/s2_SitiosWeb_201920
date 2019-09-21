@@ -22,7 +22,7 @@ public class DeveloperEntity extends UserEntity implements Serializable{
     }
     
     @PodamExclude
-    @ManyToMany(mappedBy = "developer")
+    @ManyToMany(mappedBy = "developers")
     private List<ProjectEntity> projects;
     
     private DeveloperType type;

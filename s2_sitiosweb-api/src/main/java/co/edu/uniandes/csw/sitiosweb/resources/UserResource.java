@@ -5,8 +5,8 @@
  */
 package co.edu.uniandes.csw.sitiosweb.resources;
 
-import co.edu.uniandes.csw.sitiosweb.dtos.UserDTO;
-import co.edu.uniandes.csw.sitiosweb.dtos.UserDetailDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.UserLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
 
@@ -45,47 +45,47 @@ public class UserResource {
     private UserLogic userLogic;
     
     @POST
-    public UserDTO createUser(UserDTO user) throws BusinessLogicException{
+    public DeveloperDTO createUser(DeveloperDTO user) throws BusinessLogicException{
         LOGGER.log(Level.INFO, "UserResource createUser: input: {0}", user);
         UserEntity userEntity = user.toEntity();
         UserEntity nuevoUserEntity = userLogic.createUser(userEntity);
-        UserDTO nuevoUsuerDTO = new UserDTO(nuevoUserEntity);
+        DeveloperDTO nuevoUsuerDTO = new DeveloperDTO(nuevoUserEntity);
         LOGGER.log(Level.INFO, "UserResource createUser: output: {0}", nuevoUsuerDTO);
         return nuevoUsuerDTO;    
     }
 
     @GET
-    public List<UserDetailDTO> getUsers() {
+    public List<DeveloperDTO> getUsers() {
         LOGGER.info("UserResource getUsers: input: void");
-        List<UserDetailDTO> listaUsuarios = listEntity2DetailDTO(userLogic.getUsers());
+        List<DeveloperDTO> listaUsuarios = listEntity2DetailDTO(userLogic.getUsers());
         LOGGER.log(Level.INFO, "UserResource getUsers: output: {0}", listaUsuarios);
         return listaUsuarios;
     }
 
     @GET
     @Path("{usersId: \\d+}")
-    public UserDetailDTO getUser(@PathParam("usersId") Long usersId) throws WebApplicationException {
+    public DeveloperDTO getUser(@PathParam("usersId") Long usersId) throws WebApplicationException {
         LOGGER.log(Level.INFO, "UserResource getUser: input: {0}", usersId);
         UserEntity userEntity = userLogic.getUser(usersId);
         if (userEntity == null) {
             throw new WebApplicationException("El recurso /users/" + usersId + " no existe.", 404);
         }
-        UserDetailDTO detailDTO = new UserDetailDTO(userEntity);
-        LOGGER.log(Level.INFO, "UserResource getUser: output: {0}", detailDTO);
-        return detailDTO;
+        DeveloperDTO userDTO = new DeveloperDTO(userEntity);
+        LOGGER.log(Level.INFO, "UserResource getUser: output: {0}", userDTO);
+        return userDTO;
     }
 
     @PUT
     @Path("{usersId: \\d+}")
-    public UserDetailDTO updateUser(@PathParam("usersId") Long usersId, UserDetailDTO user) throws WebApplicationException, BusinessLogicException {
+    public DeveloperDTO updateUser(@PathParam("usersId") Long usersId, DeveloperDTO user) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "UserResource updateUser: input: id:{0} , user: {1}", new Object[]{usersId, user});
         user.setId(usersId);
         if (userLogic.getUser(usersId) == null) {
             throw new WebApplicationException("El recurso /users/" + usersId + " no existe.", 404);
         }
-        UserDetailDTO detailDTO = new UserDetailDTO(userLogic.updateUser(usersId, user.toEntity()));
-        LOGGER.log(Level.INFO, "UserResource updateUser: output: {0}", detailDTO);
-        return detailDTO;
+        DeveloperDTO userDTO = new DeveloperDTO(userLogic.updateUser(usersId, user.toEntity()));
+        LOGGER.log(Level.INFO, "UserResource updateUser: output: {0}", userDTO);
+        return userDTO;
     }
     
     @DELETE
@@ -99,10 +99,10 @@ public class UserResource {
         LOGGER.info("UserResource deleteUser: output: void");
     }
 
-    private List<UserDetailDTO> listEntity2DetailDTO(List<UserEntity> entityList) {
-        List<UserDetailDTO> list = new ArrayList<>();
+    private List<DeveloperDTO> listEntity2DetailDTO(List<UserEntity> entityList) {
+        List<DeveloperDTO> list = new ArrayList<>();
         for (UserEntity entity : entityList) {
-            list.add(new UserDetailDTO(entity));
+            list.add(new DeveloperDTO(entity));
         }
         return list;
     }

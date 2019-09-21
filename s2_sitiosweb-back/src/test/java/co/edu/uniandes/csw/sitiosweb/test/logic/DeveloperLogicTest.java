@@ -5,10 +5,10 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.logic;
 
-import co.edu.uniandes.csw.sitiosweb.ejb.UserLogic;
-import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
+import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
-import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -31,12 +31,12 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @RunWith(Arquillian.class)
-public class UserLogicTest {
+public class DeveloperLogicTest {
     
     private PodamFactory factory = new PodamFactoryImpl();
     
     @Inject
-    private UserLogic userLogic;
+    private DeveloperLogic developerLogic;
     
     @PersistenceContext
     protected EntityManager em;
@@ -44,14 +44,14 @@ public class UserLogicTest {
     @Inject
     private UserTransaction utx;
     
-    private List<UserEntity> data = new ArrayList<UserEntity>();
+    private List<DeveloperEntity> data = new ArrayList<DeveloperEntity>();
 
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackage(UserEntity.class.getPackage())
-                .addPackage(UserLogic.class.getPackage())
-                .addPackage(UserPersistence.class.getPackage())
+                .addPackage(DeveloperEntity.class.getPackage())
+                .addPackage(DeveloperLogic.class.getPackage())
+                .addPackage(DeveloperPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
@@ -74,24 +74,24 @@ public class UserLogicTest {
     }
     
     private void clearData() {
-          em.createQuery("delete from UserEntity").executeUpdate();
+          em.createQuery("delete from DeveloperEntity").executeUpdate();
     }
 
     private void insertData() {
         for (int i = 0; i < 3; i++) {
-            UserEntity entity = factory.manufacturePojo(UserEntity.class);
+            DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
             em.persist(entity);
             data.add(entity);
         }
     }
     @Test
-    public void createUser() throws BusinessLogicException{
+    public void createDeveloper() throws BusinessLogicException{
         
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
-        UserEntity result = userLogic.createUser(newEntity);
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
+        DeveloperEntity result = developerLogic.createDeveloper(newEntity);
         Assert.assertNotNull(result);
         
-        UserEntity entity = em.find(UserEntity.class, result.getId());
+        DeveloperEntity entity = em.find(DeveloperEntity.class, result.getId());
         Assert.assertEquals(entity.getId(), result.getId());
         Assert.assertEquals(entity.getLogin(), result.getLogin());
         Assert.assertEquals(entity.getEmail(), result.getEmail());
@@ -100,40 +100,48 @@ public class UserLogicTest {
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserEmailNull() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+    public void createDeveloperEmailNull() throws BusinessLogicException{
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setEmail(null);
-        UserEntity result = userLogic.createUser(newEntity);
+        DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserLoginNull() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+    public void createDeveloperLoginNull() throws BusinessLogicException{
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setLogin(null);
-        UserEntity result = userLogic.createUser(newEntity);
+        DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserPhoneNull() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+    public void createDeveloperPhoneNull() throws BusinessLogicException{
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setPhone(null);
-        UserEntity result = userLogic.createUser(newEntity);
+        DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserLoginExistente() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
-        newEntity.setLogin(data.get(0).getLogin());
-        userLogic.createUser(newEntity);
+    public void createDeveloperTypeNull() throws BusinessLogicException{
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
+        newEntity.setPhone(null);
+        DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
+    
+    @Test (expected = BusinessLogicException.class)
+    public void createDeveloperLoginExistente() throws BusinessLogicException{
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
+        newEntity.setLogin(data.get(0).getLogin());
+        developerLogic.createDeveloper(newEntity);
+    }
+    
     
      @Test
-    public void getUsersTest() {
-        List<UserEntity> list = userLogic.getUsers();
+    public void getDevelopersTest() {
+        List<DeveloperEntity> list = developerLogic.getDevelopers();
         Assert.assertEquals(data.size(), list.size());
-        for (UserEntity entity : list) {
+        for (DeveloperEntity entity : list) {
             boolean found = false;
-            for (UserEntity storedEntity : data) {
+            for (DeveloperEntity storedEntity : data) {
                 if (entity.getId().equals(storedEntity.getId())) {
                     found = true;
                 }
@@ -146,9 +154,9 @@ public class UserLogicTest {
      * Prueba para consultar un Book.
      */
     @Test
-    public void getUserTest() {
-        UserEntity entity = data.get(0);
-        UserEntity resultEntity = userLogic.getUser(entity.getId());
+    public void getDeveloperTest() {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity resultEntity = developerLogic.getDeveloper(entity.getId());
         Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
         Assert.assertEquals(entity.getLogin(), resultEntity.getLogin());
@@ -157,12 +165,12 @@ public class UserLogicTest {
     }
 
     @Test
-    public void updateUserTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateDeveloperTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
-        UserEntity resp = em.find(UserEntity.class, entity.getId());
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
+        DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
         Assert.assertEquals(pojoEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(pojoEntity.getPhone(), resp.getPhone());
@@ -170,37 +178,37 @@ public class UserLogicTest {
     }
 
     @Test(expected = BusinessLogicException.class)
-    public void updateUserConLoginInvalidoTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateDeveloperConLoginInvalidoTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setLogin(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }
 
     @Test(expected = BusinessLogicException.class)
-    public void updateUserConEmailInvalidoTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateDeveloperConEmailInvalidoTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setEmail(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }
     
         @Test(expected = BusinessLogicException.class)
-    public void updateUserConPhoneInvalidoTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateDeveloperConPhoneInvalidoTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setPhone(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }
     
     @Test
-    public void deleteUserTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        userLogic.deleteUser(entity.getId());
-        UserEntity deleted = em.find(UserEntity.class, entity.getId());
+    public void deleteDeveloperTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        developerLogic.deleteDeveloper(entity.getId());
+        DeveloperEntity deleted = em.find(DeveloperEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 

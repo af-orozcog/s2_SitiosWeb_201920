@@ -14,7 +14,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -24,7 +24,6 @@ import javax.transaction.UserTransaction;
 import org.junit.Before;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-
 /**
  *
  * @author Nicolás Abondano nf.abondano 201812467
@@ -131,6 +130,7 @@ public class DeveloperPersistenceTest {
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
         Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
         Assert.assertEquals(entity.getPhone(), newEntity.getPhone());
+        Assert.assertEquals(entity.getType(), newEntity.getType());
 
     }
 
