@@ -5,8 +5,8 @@
  */
 package co.edu.uniandes.csw.sitiosweb.resources;
 
-import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDTO;
-import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.UserDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.UserDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.UserLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
 
@@ -45,45 +45,45 @@ public class UserResource {
     private UserLogic userLogic;
     
     @POST
-    public DeveloperDTO createUser(DeveloperDTO user) throws BusinessLogicException{
+    public UserDTO createUser(UserDTO user) throws BusinessLogicException{
         LOGGER.log(Level.INFO, "UserResource createUser: input: {0}", user);
         UserEntity userEntity = user.toEntity();
         UserEntity nuevoUserEntity = userLogic.createUser(userEntity);
-        DeveloperDTO nuevoUsuerDTO = new DeveloperDTO(nuevoUserEntity);
+        UserDTO nuevoUsuerDTO = new UserDTO(nuevoUserEntity);
         LOGGER.log(Level.INFO, "UserResource createUser: output: {0}", nuevoUsuerDTO);
         return nuevoUsuerDTO;    
     }
 
     @GET
-    public List<DeveloperDTO> getUsers() {
+    public List<UserDTO> getUsers() {
         LOGGER.info("UserResource getUsers: input: void");
-        List<DeveloperDTO> listaUsuarios = listEntity2DetailDTO(userLogic.getUsers());
+        List<UserDTO> listaUsuarios = listEntity2DetailDTO(userLogic.getUsers());
         LOGGER.log(Level.INFO, "UserResource getUsers: output: {0}", listaUsuarios);
         return listaUsuarios;
     }
 
     @GET
     @Path("{usersId: \\d+}")
-    public DeveloperDTO getUser(@PathParam("usersId") Long usersId) throws WebApplicationException {
+    public UserDTO getUser(@PathParam("usersId") Long usersId) throws WebApplicationException {
         LOGGER.log(Level.INFO, "UserResource getUser: input: {0}", usersId);
         UserEntity userEntity = userLogic.getUser(usersId);
         if (userEntity == null) {
             throw new WebApplicationException("El recurso /users/" + usersId + " no existe.", 404);
         }
-        DeveloperDTO userDTO = new DeveloperDTO(userEntity);
+        UserDTO userDTO = new UserDTO(userEntity);
         LOGGER.log(Level.INFO, "UserResource getUser: output: {0}", userDTO);
         return userDTO;
     }
 
     @PUT
     @Path("{usersId: \\d+}")
-    public DeveloperDTO updateUser(@PathParam("usersId") Long usersId, DeveloperDTO user) throws WebApplicationException, BusinessLogicException {
+    public UserDTO updateUser(@PathParam("usersId") Long usersId, UserDTO user) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "UserResource updateUser: input: id:{0} , user: {1}", new Object[]{usersId, user});
         user.setId(usersId);
         if (userLogic.getUser(usersId) == null) {
             throw new WebApplicationException("El recurso /users/" + usersId + " no existe.", 404);
         }
-        DeveloperDTO userDTO = new DeveloperDTO(userLogic.updateUser(usersId, user.toEntity()));
+        UserDTO userDTO = new UserDTO(userLogic.updateUser(usersId, user.toEntity()));
         LOGGER.log(Level.INFO, "UserResource updateUser: output: {0}", userDTO);
         return userDTO;
     }
@@ -99,10 +99,10 @@ public class UserResource {
         LOGGER.info("UserResource deleteUser: output: void");
     }
 
-    private List<DeveloperDTO> listEntity2DetailDTO(List<UserEntity> entityList) {
-        List<DeveloperDTO> list = new ArrayList<>();
+    private List<UserDTO> listEntity2DetailDTO(List<UserEntity> entityList) {
+        List<UserDTO> list = new ArrayList<>();
         for (UserEntity entity : entityList) {
-            list.add(new DeveloperDTO(entity));
+            list.add(new UserDTO(entity));
         }
         return list;
     }

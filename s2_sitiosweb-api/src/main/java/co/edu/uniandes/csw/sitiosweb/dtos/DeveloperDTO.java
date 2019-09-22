@@ -1,7 +1,8 @@
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.adapters.DateAdapter;
-import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity.DeveloperType;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -11,12 +12,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * 
  * @author Nicolás Abondano nf.abondano 201812467
  */
-public class DeveloperDTO implements Serializable {
+public class DeveloperDTO extends UserDTO implements Serializable {
 
-    private Long id;
-    private String login;
-    private String email;
-    private Integer phone;
+    private DeveloperType type;
     
     /**
      * Constructor por defecto
@@ -28,15 +26,11 @@ public class DeveloperDTO implements Serializable {
     /**
      * Constructor a partir de la entidad
      *
-     * @param userEntity La entidad del libro
+     * @param developerEntity La entidad del libro
      */
-    public DeveloperDTO(UserEntity userEntity) {
-        if (userEntity != null) {
-            this.id = userEntity.getId();
-            this.login = userEntity.getLogin();
-            this.email = userEntity.getEmail();
-            this.phone = userEntity.getPhone();
-        }
+    public DeveloperDTO(DeveloperEntity developerEntity) {
+        super(developerEntity);
+        this.type = developerEntity.getType();
     }
 
     /**
@@ -44,69 +38,29 @@ public class DeveloperDTO implements Serializable {
      *
      * @return La entidad del libro asociado.
      */
-    public UserEntity toEntity() {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(this.getId());
-        userEntity.setLogin(this.getLogin());
-        userEntity.setEmail(this.getEmail());
-        userEntity.setPhone(this.getPhone());
-        return userEntity;
+    public DeveloperEntity toEntity() {
+        DeveloperEntity developerEntity = new DeveloperEntity();
+        developerEntity.setId(this.getId());
+        developerEntity.setLogin(this.getLogin());
+        developerEntity.setEmail(this.getEmail());
+        developerEntity.setPhone(this.getPhone());
+        developerEntity.setType(this.getType());
+        return developerEntity;
+        
     }
-
-  /**
-     * @return the id
+    
+        /**
+     * @return the type
      */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
+    public DeveloperType getType() {
+        return type;
     }
 
     /**
-     * @return the login
+     * @param type the type to set
      */
-    public String getLogin() {
-        return login;
-    }
-
-    /**
-     * @param login the login to set
-     */
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return the phone
-     */
-    public Integer getPhone() {
-        return phone;
-    }
-
-    /**
-     * @param phone the phone to set
-     */
-    public void setPhone(Integer phone) {
-        this.phone = phone;
+    public void setType(DeveloperType type) {
+        this.type = type;
     }
 
     @Override
