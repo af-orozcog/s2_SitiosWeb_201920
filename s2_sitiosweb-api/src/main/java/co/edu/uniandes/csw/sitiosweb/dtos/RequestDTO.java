@@ -68,8 +68,8 @@ public class RequestDTO implements Serializable
     public RequestDTO(){}
     
     /**
-     * Creates a RequestDTO given a RequestEntity object.
-     * @param request 
+     * Creates a RequestDTO object given a RequestEntity object.
+     * @param request The RequestEntity object.
      */
     public RequestDTO(RequestEntity request)
     {
