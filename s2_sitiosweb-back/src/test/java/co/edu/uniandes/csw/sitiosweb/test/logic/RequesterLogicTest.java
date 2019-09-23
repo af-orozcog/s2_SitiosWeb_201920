@@ -5,10 +5,10 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.logic;
 
-import co.edu.uniandes.csw.sitiosweb.ejb.UserLogic;
-import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
+import co.edu.uniandes.csw.sitiosweb.ejb.RequesterLogic;
+import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
-import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.RequesterPersistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +32,12 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @RunWith(Arquillian.class)
-public class UserLogicTest {
+public class RequesterLogicTest {
     
     private PodamFactory factory = new PodamFactoryImpl();
     
     @Inject
-    private UserLogic userLogic;
+    private RequesterLogic userLogic;
     
     @PersistenceContext
     protected EntityManager em;
@@ -45,14 +45,14 @@ public class UserLogicTest {
     @Inject
     private UserTransaction utx;
     
-    private List<UserEntity> data = new ArrayList<UserEntity>();
+    private List<RequesterEntity> data = new ArrayList<RequesterEntity>();
 
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackage(UserEntity.class.getPackage())
-                .addPackage(UserLogic.class.getPackage())
-                .addPackage(UserPersistence.class.getPackage())
+                .addPackage(RequesterEntity.class.getPackage())
+                .addPackage(RequesterLogic.class.getPackage())
+                .addPackage(RequesterPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
@@ -75,24 +75,24 @@ public class UserLogicTest {
     }
     
     private void clearData() {
-          em.createQuery("delete from UserEntity").executeUpdate();
+          em.createQuery("delete from RequesterEntity").executeUpdate();
     }
 
     private void insertData() {
         for (int i = 0; i < 3; i++) {
-            UserEntity entity = factory.manufacturePojo(UserEntity.class);
+            RequesterEntity entity = factory.manufacturePojo(RequesterEntity.class);
             em.persist(entity);
             data.add(entity);
         }
     }
     @Test
-    public void createUser() throws BusinessLogicException{
+    public void createRequester() throws BusinessLogicException{
         
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
-        UserEntity result = userLogic.createUser(newEntity);
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
+        RequesterEntity result = userLogic.createRequester(newEntity);
         Assert.assertNotNull(result);
         
-        UserEntity entity = em.find(UserEntity.class, result.getId());
+        RequesterEntity entity = em.find(RequesterEntity.class, result.getId());
         Assert.assertEquals(entity.getId(), result.getId());
         Assert.assertEquals(entity.getLogin(), result.getLogin());
         Assert.assertEquals(entity.getEmail(), result.getEmail());
@@ -101,40 +101,40 @@ public class UserLogicTest {
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserEmailNull() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+    public void createRequesterEmailNull() throws BusinessLogicException{
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setEmail(null);
-        UserEntity result = userLogic.createUser(newEntity);
+        RequesterEntity result = userLogic.createRequester(newEntity);
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserLoginNull() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+    public void createRequesterLoginNull() throws BusinessLogicException{
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setLogin(null);
-        UserEntity result = userLogic.createUser(newEntity);
+        RequesterEntity result = userLogic.createRequester(newEntity);
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserPhoneNull() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+    public void createRequesterPhoneNull() throws BusinessLogicException{
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setPhone(null);
-        UserEntity result = userLogic.createUser(newEntity);
+        RequesterEntity result = userLogic.createRequester(newEntity);
     }
     
     @Test (expected = BusinessLogicException.class)
-    public void createUserLoginExistente() throws BusinessLogicException{
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+    public void createRequesterLoginExistente() throws BusinessLogicException{
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setLogin(data.get(0).getLogin());
-        userLogic.createUser(newEntity);
+        userLogic.createRequester(newEntity);
     }
     
      @Test
-    public void getUsersTest() {
-        List<UserEntity> list = userLogic.getUsers();
+    public void getRequestersTest() {
+        List<RequesterEntity> list = userLogic.getRequesters();
         Assert.assertEquals(data.size(), list.size());
-        for (UserEntity entity : list) {
+        for (RequesterEntity entity : list) {
             boolean found = false;
-            for (UserEntity storedEntity : data) {
+            for (RequesterEntity storedEntity : data) {
                 if (entity.getId().equals(storedEntity.getId())) {
                     found = true;
                 }
@@ -147,9 +147,9 @@ public class UserLogicTest {
      * Prueba para consultar un Book.
      */
     @Test
-    public void getUserTest() {
-        UserEntity entity = data.get(0);
-        UserEntity resultEntity = userLogic.getUser(entity.getId());
+    public void getRequesterTest() {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity resultEntity = userLogic.getRequester(entity.getId());
         Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
         Assert.assertEquals(entity.getLogin(), resultEntity.getLogin());
@@ -158,12 +158,12 @@ public class UserLogicTest {
     }
 
     @Test
-    public void updateUserTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateRequesterTest() throws BusinessLogicException {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
-        UserEntity resp = em.find(UserEntity.class, entity.getId());
+        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
+        RequesterEntity resp = em.find(RequesterEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
         Assert.assertEquals(pojoEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(pojoEntity.getPhone(), resp.getPhone());
@@ -171,37 +171,37 @@ public class UserLogicTest {
     }
 
     @Test(expected = BusinessLogicException.class)
-    public void updateUserConLoginInvalidoTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateRequesterConLoginInvalidoTest() throws BusinessLogicException {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setLogin(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
+        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
 
     @Test(expected = BusinessLogicException.class)
-    public void updateUserConEmailInvalidoTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateRequesterConEmailInvalidoTest() throws BusinessLogicException {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setEmail(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
+        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
     
         @Test(expected = BusinessLogicException.class)
-    public void updateUserConPhoneInvalidoTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        UserEntity pojoEntity = factory.manufacturePojo(UserEntity.class);
+    public void updateRequesterConPhoneInvalidoTest() throws BusinessLogicException {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setPhone(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateUser(pojoEntity.getId(), pojoEntity);
+        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
     
     @Test
-    public void deleteUserTest() throws BusinessLogicException {
-        UserEntity entity = data.get(0);
-        userLogic.deleteUser(entity.getId());
-        UserEntity deleted = em.find(UserEntity.class, entity.getId());
+    public void deleteRequesterTest() throws BusinessLogicException {
+        RequesterEntity entity = data.get(0);
+        userLogic.deleteRequester(entity.getId());
+        RequesterEntity deleted = em.find(RequesterEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 

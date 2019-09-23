@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -14,9 +15,11 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,11 +34,15 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @RunWith(Arquillian.class)
 public class DeveloperPersistenceTest {
     
+    private static final Logger LOGGER = Logger.getLogger(DeveloperPersistenceTest.class.getName());
+
+    
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(DeveloperEntity.class)
-                .addClass(DeveloperPersistence.class)
+                .addPackage(DeveloperEntity.class.getPackage())
+                .addPackage(ProjectEntity.class.getPackage())
+                .addPackage(DeveloperPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
@@ -152,12 +159,12 @@ public class DeveloperPersistenceTest {
         newEntity.setId(entity.getId());
 
         up.update(newEntity);
-
         DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
+                
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
-        Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+        Assert.assertEquals(newEntity.getPhone(), resp.getPhone());
         Assert.assertEquals(newEntity.getType(), resp.getType());
-
+        
     }
 }

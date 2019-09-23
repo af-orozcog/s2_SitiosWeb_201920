@@ -5,8 +5,8 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
-import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
+import co.edu.uniandes.csw.sitiosweb.persistence.RequesterPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -14,7 +14,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.RequesterPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -30,19 +30,19 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @RunWith(Arquillian.class)
-public class UserPersistenceTest {
+public class RequesterPersistenceTest {
     
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(UserEntity.class)
-                .addClass(UserPersistence.class)
+                .addPackage(RequesterEntity.class.getPackage())
+                .addPackage(RequesterPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
     
     @Inject
-    UserPersistence up;
+    RequesterPersistence up;
 
     @PersistenceContext
     protected EntityManager em;
@@ -50,7 +50,7 @@ public class UserPersistenceTest {
      @Inject
     UserTransaction utx;
 
-    private List<UserEntity> data = new ArrayList<UserEntity>();
+    private List<RequesterEntity> data = new ArrayList<RequesterEntity>();
 
 
     /**
@@ -78,14 +78,14 @@ public class UserPersistenceTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
-        em.createQuery("delete from UserEntity").executeUpdate();
+        em.createQuery("delete from RequesterEntity").executeUpdate();
     }
     
     private void insertData() {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
 
-            UserEntity entity = factory.manufacturePojo(UserEntity.class);
+            RequesterEntity entity = factory.manufacturePojo(RequesterEntity.class);
 
             em.persist(entity);
 
@@ -96,24 +96,24 @@ public class UserPersistenceTest {
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
-        UserEntity user = factory.manufacturePojo(UserEntity.class);
-        UserEntity result = up.create(user);
+        RequesterEntity requester = factory.manufacturePojo(RequesterEntity.class);
+        RequesterEntity result = up.create(requester);
         Assert.assertNotNull(result);
         
-        UserEntity entity = em.find(UserEntity.class, result.getId());
-        Assert.assertEquals(user.getLogin(), entity.getLogin());
-        Assert.assertEquals(user.getEmail(), entity.getEmail());
-        Assert.assertEquals(user.getPhone(), entity.getPhone());
+        RequesterEntity entity = em.find(RequesterEntity.class, result.getId());
+        Assert.assertEquals(requester.getLogin(), entity.getLogin());
+        Assert.assertEquals(requester.getEmail(), entity.getEmail());
+        Assert.assertEquals(requester.getPhone(), entity.getPhone());
         
     }
     
     @Test
-    public void getUsersTest() {
-        List<UserEntity> list = up.findAll();
+    public void getRequestersTest() {
+        List<RequesterEntity> list = up.findAll();
         Assert.assertEquals(data.size(), list.size());
-        for (UserEntity ent : list) {
+        for (RequesterEntity ent : list) {
             boolean found = false;
-            for (UserEntity entity : data) {
+            for (RequesterEntity entity : data) {
                 if (ent.getId().equals(entity.getId())) {
                     found = true;
                 }
@@ -124,9 +124,9 @@ public class UserPersistenceTest {
 
 
     @Test
-    public void getUserTest() {
-        UserEntity entity = data.get(0);
-        UserEntity newEntity = up.find(entity.getId());
+    public void getRequesterTest() {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity newEntity = up.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
         Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
@@ -136,24 +136,24 @@ public class UserPersistenceTest {
 
 
     @Test
-    public void deleteUserTest() {
-        UserEntity entity = data.get(0);
+    public void deleteRequesterTest() {
+        RequesterEntity entity = data.get(0);
         up.delete(entity.getId());
-        UserEntity deleted = em.find(UserEntity.class, entity.getId());
+        RequesterEntity deleted = em.find(RequesterEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 
     @Test
-    public void updateUserTest() {
-        UserEntity entity = data.get(0);
+    public void updateRequesterTest() {
+        RequesterEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
 
         newEntity.setId(entity.getId());
 
         up.update(newEntity);
 
-        UserEntity resp = em.find(UserEntity.class, entity.getId());
+        RequesterEntity resp = em.find(RequesterEntity.class, entity.getId());
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
