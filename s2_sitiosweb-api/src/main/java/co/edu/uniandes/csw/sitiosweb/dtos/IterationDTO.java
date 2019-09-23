@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Andres orozco 201730058
  */
-class IterationDTO implements Serializable {
+public class IterationDTO implements Serializable {
        private Long id;
        private String name;
 
