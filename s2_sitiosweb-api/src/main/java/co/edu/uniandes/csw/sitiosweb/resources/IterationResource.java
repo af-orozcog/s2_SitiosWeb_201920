@@ -11,12 +11,19 @@ package co.edu.uniandes.csw.sitiosweb.resources;
  */
 
 
+import java.io.Serializable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
 import javax.enterprise.context.RequestScoped;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 
-public class IterationResource {
+public class IterationResource implements Serializable {
     
+    @Override
+    public String toString(){
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
 }

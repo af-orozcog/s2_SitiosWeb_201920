@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class IterationDetailDTO extends IterationDTO implements Serializable{
     
-    private List<IterationDTO> iteraciones;
     
     public IterationDetailDTO(){
         
