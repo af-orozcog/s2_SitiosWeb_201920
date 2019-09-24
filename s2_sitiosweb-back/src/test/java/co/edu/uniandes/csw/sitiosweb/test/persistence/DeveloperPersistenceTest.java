@@ -5,8 +5,9 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
-import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
+import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -14,9 +15,11 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import co.edu.uniandes.csw.sitiosweb.persistence.UserPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,25 +27,28 @@ import javax.transaction.UserTransaction;
 import org.junit.Before;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-
 /**
  *
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @RunWith(Arquillian.class)
-public class UserPersistenceTest {
+public class DeveloperPersistenceTest {
+    
+    private static final Logger LOGGER = Logger.getLogger(DeveloperPersistenceTest.class.getName());
+
     
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(UserEntity.class)
-                .addClass(UserPersistence.class)
+                .addPackage(DeveloperEntity.class.getPackage())
+                .addPackage(ProjectEntity.class.getPackage())
+                .addPackage(DeveloperPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
     
     @Inject
-    UserPersistence up;
+    DeveloperPersistence up;
 
     @PersistenceContext
     protected EntityManager em;
@@ -50,7 +56,7 @@ public class UserPersistenceTest {
      @Inject
     UserTransaction utx;
 
-    private List<UserEntity> data = new ArrayList<UserEntity>();
+    private List<DeveloperEntity> data = new ArrayList<DeveloperEntity>();
 
 
     /**
@@ -78,14 +84,14 @@ public class UserPersistenceTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
-        em.createQuery("delete from UserEntity").executeUpdate();
+        em.createQuery("delete from DeveloperEntity").executeUpdate();
     }
     
     private void insertData() {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
 
-            UserEntity entity = factory.manufacturePojo(UserEntity.class);
+            DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
 
             em.persist(entity);
 
@@ -96,24 +102,24 @@ public class UserPersistenceTest {
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
-        UserEntity user = factory.manufacturePojo(UserEntity.class);
-        UserEntity result = up.create(user);
+        DeveloperEntity developer = factory.manufacturePojo(DeveloperEntity.class);
+        DeveloperEntity result = up.create(developer);
         Assert.assertNotNull(result);
         
-        UserEntity entity = em.find(UserEntity.class, result.getId());
-        Assert.assertEquals(user.getLogin(), entity.getLogin());
-        Assert.assertEquals(user.getEmail(), entity.getEmail());
-        
-        
+        DeveloperEntity entity = em.find(DeveloperEntity.class, result.getId());
+        Assert.assertEquals(developer.getLogin(), entity.getLogin());
+        Assert.assertEquals(developer.getEmail(), entity.getEmail());
+        Assert.assertEquals(developer.getPhone(), entity.getPhone());
+        Assert.assertEquals(developer.getType(), entity.getType());
     }
     
     @Test
-    public void getUsersTest() {
-        List<UserEntity> list = up.findAll();
+    public void getDevelopersTest() {
+        List<DeveloperEntity> list = up.findAll();
         Assert.assertEquals(data.size(), list.size());
-        for (UserEntity ent : list) {
+        for (DeveloperEntity ent : list) {
             boolean found = false;
-            for (UserEntity entity : data) {
+            for (DeveloperEntity entity : data) {
                 if (ent.getId().equals(entity.getId())) {
                     found = true;
                 }
@@ -124,33 +130,41 @@ public class UserPersistenceTest {
 
 
     @Test
-    public void getUserTest() {
-        UserEntity entity = data.get(0);
-        UserEntity newEntity = up.find(entity.getId());
+    public void getDeveloperTest() {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity newEntity = up.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
+        Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
+        Assert.assertEquals(entity.getPhone(), newEntity.getPhone());
+        Assert.assertEquals(entity.getType(), newEntity.getType());
+
     }
 
 
     @Test
-    public void deleteEditorialTest() {
-        UserEntity entity = data.get(0);
+    public void deleteDeveloperTest() {
+        DeveloperEntity entity = data.get(0);
         up.delete(entity.getId());
-        UserEntity deleted = em.find(UserEntity.class, entity.getId());
+        DeveloperEntity deleted = em.find(DeveloperEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 
     @Test
-    public void updateEditorialTest() {
-        UserEntity entity = data.get(0);
+    public void updateDeveloperTest() {
+        DeveloperEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
-        UserEntity newEntity = factory.manufacturePojo(UserEntity.class);
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
 
         newEntity.setId(entity.getId());
 
         up.update(newEntity);
-
-        UserEntity resp = em.find(UserEntity.class, entity.getId());
+        DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
+                
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+        Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
+        Assert.assertEquals(newEntity.getPhone(), resp.getPhone());
+        Assert.assertEquals(newEntity.getType(), resp.getType());
+        
     }
 }

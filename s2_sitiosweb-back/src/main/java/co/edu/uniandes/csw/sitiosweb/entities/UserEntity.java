@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package co.edu.uniandes.csw.sitiosweb.entities;
+
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,13 +14,13 @@ import javax.persistence.Id;
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @Entity
-public class UserEntity extends BaseEntity implements Serializable{
+public class UserEntity extends BaseEntity implements Serializable {
 
     private String login;
     private String email;
 
-    private Long phone;
-    
+    private Integer phone;
+
     /**
      * @return the login
      */
@@ -51,16 +52,15 @@ public class UserEntity extends BaseEntity implements Serializable{
     /**
      * @return the phone
      */
-    public Long getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
     /**
      * @param phone the phone to set
      */
-    public void setPhone(Long phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
-    
 
 }
