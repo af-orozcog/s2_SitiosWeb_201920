@@ -13,6 +13,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class RequesterDTO extends UserDTO implements Serializable {
     
+    private UnitDTO unit;
+    
     /**
      * Constructor por defecto
      */
@@ -27,6 +29,8 @@ public class RequesterDTO extends UserDTO implements Serializable {
      */
     public RequesterDTO(RequesterEntity requesterEntity) {
         super(requesterEntity);
+        unit = new UnitDTO(requesterEntity.getUnit());
+        
     }
 
     /**
@@ -42,6 +46,20 @@ public class RequesterDTO extends UserDTO implements Serializable {
         requesterEntity.setPhone(this.getPhone());
         return requesterEntity;
         
+    }
+    
+        /**
+     * @return the unit
+     */
+    public UnitDTO getUnit() {
+        return unit;
+    }
+
+    /**
+     * @param unit the unit to set
+     */
+    public void setUnit(UnitDTO unit) {
+        this.unit = unit;
     }
 
     @Override
