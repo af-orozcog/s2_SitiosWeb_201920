@@ -16,8 +16,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class RequesterDetailDTO extends RequesterDTO implements Serializable {
 
-    private UnitDTO unit;
-
     private List<RequestDTO> requests;
     
     public RequesterDetailDTO() {
