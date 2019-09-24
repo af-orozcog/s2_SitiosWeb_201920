@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -19,6 +20,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class DeveloperEntity extends UserEntity implements Serializable {
 
+
     public enum DeveloperType {
         Leader, Developer
     }
@@ -27,6 +29,10 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     @ManyToMany(mappedBy = "developers")
     private List<ProjectEntity> projects;
 
+    @PodamExclude
+    @OneToMany(mappedBy = "leader")
+    private List<ProjectEntity> leadingProjects;
+    
     private DeveloperType type;
 
     /**
@@ -55,6 +61,19 @@ public class DeveloperEntity extends UserEntity implements Serializable {
      */
     public void setType(DeveloperType type) {
         this.type = type;
+    }
+    /**
+     * @return the leadingProjects
+     */
+    public List<ProjectEntity> getLeadingProjects() {
+        return leadingProjects;
+    }
+
+    /**
+     * @param leadingProjects the leadingProjects to set
+     */
+    public void setLeadingProjects(List<ProjectEntity> leadingProjects) {
+        this.leadingProjects = leadingProjects;
     }
 
 }
