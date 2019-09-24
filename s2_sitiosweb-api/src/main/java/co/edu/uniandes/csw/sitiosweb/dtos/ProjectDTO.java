@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import java.io.Serializable;
 
 /**
@@ -15,10 +16,24 @@ public class ProjectDTO implements Serializable{
     
     private Boolean internalProject;
     private String company;
-
+    private Long id;
     
     public ProjectDTO (){
         
+    }
+    
+    public ProjectDTO(ProjectEntity entity){
+        setId(entity.getId());
+        setInternalProject(entity.getInternalProject());
+        setCompany(entity.getCompany());
+    }
+    
+    public ProjectEntity toEntity(){
+        ProjectEntity entidad = new ProjectEntity();
+        entidad.setId(this.getId());
+        entidad.setInternalProject(this.internalProject);
+        entidad.setCompany(this.company);
+        return entidad;
     }
     /**
      * @return the internalProject
@@ -46,6 +61,20 @@ public class ProjectDTO implements Serializable{
      */
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }
