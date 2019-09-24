@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -25,6 +26,9 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     @ManyToMany
     private List<DeveloperEntity> developers;
     
+    @PodamExclude
+    @OneToOne
+    private DeveloperEntity leader;
     /**
      * @return the internalProject
      */
