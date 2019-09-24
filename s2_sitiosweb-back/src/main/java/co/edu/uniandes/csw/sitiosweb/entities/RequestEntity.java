@@ -181,4 +181,19 @@ public class RequestEntity extends BaseEntity implements Serializable
      */
     public void setEndDate(Date endDate) 
     { this.endDate = endDate; }
+    
+    
+    /**
+     * @return the requester
+     */
+    public RequesterEntity getRequester() {
+        return requester;
+    }
+
+    /**
+     * @param requester the requester to set
+     */
+    public void setRequester(RequesterEntity requester) {
+        this.requester = requester;
+    }
 }
