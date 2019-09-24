@@ -46,7 +46,6 @@ public class UserDTO implements Serializable {
      */
     public UserEntity toEntity() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(this.getId());
         userEntity.setLogin(this.getLogin());
         userEntity.setEmail(this.getEmail());
         userEntity.setPhone(this.getPhone());

@@ -33,7 +33,7 @@ public class DeveloperDetailDTO extends DeveloperDTO implements Serializable {
         if (developerEntity.getProjects() != null) {
             projects = new ArrayList<>();
             for (ProjectEntity entityProject : developerEntity.getProjects()) {
-                //projects.add(new ProjectDTO(entityProject));
+                projects.add(new ProjectDTO(entityProject));
             }
         }
     }
@@ -49,7 +49,7 @@ public class DeveloperDetailDTO extends DeveloperDTO implements Serializable {
         if (getProjects() != null) {
             List<ProjectEntity> projectsEntity = new ArrayList<>();
             for (ProjectDTO dtoProject : getProjects()) {
-                //projectsEntity.add(dtoProject.toEntity());
+                projectsEntity.add(dtoProject.toEntity());
             }
             developerEntity.setProjects(projectsEntity);
         }

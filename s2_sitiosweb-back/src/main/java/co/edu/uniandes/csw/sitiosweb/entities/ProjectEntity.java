@@ -6,7 +6,10 @@
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -18,6 +21,10 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     private Boolean internalProject;
     private String company;
 
+    @PodamExclude
+    @ManyToMany
+    private List<DeveloperEntity> developers;
+    
     /**
      * @return the internalProject
      */
