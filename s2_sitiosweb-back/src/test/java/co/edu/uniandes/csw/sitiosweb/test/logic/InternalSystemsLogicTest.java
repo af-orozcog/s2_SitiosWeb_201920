@@ -86,9 +86,6 @@ public class InternalSystemsLogicTest {
         }
     }
 
-    /**
-     * Prueba para crear un InternalSystems.
-     */
     @Test
     public void createInternalSystemsTest() throws BusinessLogicException  {
         InternalSystemsEntity newEntity = factory.manufacturePojo(InternalSystemsEntity.class);
@@ -99,9 +96,7 @@ public class InternalSystemsLogicTest {
         Assert.assertEquals(newEntity.getType(), entity.getType());
     }
 
-    /**
-     * Prueba para consultar la lista de InternalSystemss.
-     */
+
     @Test
     public void getInternalSystemssTest() {
         List<InternalSystemsEntity> list = internalSystemsLogic.getInternalSystems();
@@ -117,9 +112,7 @@ public class InternalSystemsLogicTest {
         }
     }
 
-    /**
-     * Prueba para consultar un InternalSystems.
-     */
+
     @Test
     public void getInternalSystemsTest() {
         InternalSystemsEntity entity = data.get(0);
@@ -129,9 +122,6 @@ public class InternalSystemsLogicTest {
         Assert.assertEquals(entity.getType(), resultEntity.getType());
     }
 
-    /**
-     * Prueba para actualizar un InternalSystems.
-     */
     @Test
     public void updateInternalSystemsTest() {
         InternalSystemsEntity entity = data.get(0);
@@ -147,11 +137,7 @@ public class InternalSystemsLogicTest {
         Assert.assertEquals(pojoEntity.getType(), resp.getType());
     }
 
-    /**
-     * Prueba para eliminar un InternalSystems
-     *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     */
+
     @Test
     public void deleteInternalSystemsTest() throws BusinessLogicException {
         InternalSystemsEntity entity = data.get(0);
