@@ -86,7 +86,7 @@ public class ProjectLogic {
      * @param projectId The project's id.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public void deteleRequest(Long projectId) throws BusinessLogicException
+    public void deleteProject(Long projectId) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Deleting project with id = {0}.", projectId);
         // TODO relationships with Requester and Project.
