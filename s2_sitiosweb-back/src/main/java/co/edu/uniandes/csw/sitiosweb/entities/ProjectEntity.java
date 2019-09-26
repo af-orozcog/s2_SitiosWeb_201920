@@ -18,21 +18,6 @@ import uk.co.jemos.podam.common.PodamExclude;
  */
 @Entity
 public class ProjectEntity  extends BaseEntity implements Serializable {
-
-    /**
-     * @return the developers
-     */
-    public List<DeveloperEntity> getDevelopers() {
-        return developers;
-    }
-
-    /**
-     * @param developers the developers to set
-     */
-    public void setDevelopers(List<DeveloperEntity> developers) {
-        this.developers = developers;
-    }
-
  
     private Boolean internalProject;
     private String company;
@@ -85,4 +70,18 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
         this.leader = leader;
     }
     
+        /**
+     * @return the developers
+     */
+    public List<DeveloperEntity> getDevelopers() {
+        return developers;
+    }
+
+    /**
+     * @param developers the developers to set
+     */
+    public void setDevelopers(List<DeveloperEntity> developers) {
+        this.developers = developers;
+    }
+
 }
