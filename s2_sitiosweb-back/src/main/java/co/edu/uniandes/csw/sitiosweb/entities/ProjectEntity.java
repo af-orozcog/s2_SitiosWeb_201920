@@ -7,8 +7,11 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
@@ -29,6 +32,15 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     @PodamExclude
     @OneToOne
     private DeveloperEntity leader;
+    
+    @PodamExclude
+    @OneToOne(mappedBy = "project", fetch=FetchType.LAZY)
+    private HardwareEntity hardware;
+    
+    @PodamExclude
+    @OneToMany (mappedBy = "project",fetch=FetchType.LAZY)
+    private List<IterationEntity> iterations;
+
     /**
      * @return the internalProject
      */
@@ -83,5 +95,34 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     public void setDevelopers(List<DeveloperEntity> developers) {
         this.developers = developers;
     }
+
+    /**
+     * @return the hardware
+     */
+    public HardwareEntity getHardware() {
+        return hardware;
+    }
+
+    /**
+     * @param hardware the hardware to set
+     */
+    public void setHardware(HardwareEntity hardware) {
+        this.hardware = hardware;
+    }
+
+    /**
+     * @return the iterations
+     */
+    public List<IterationEntity> getIterations() {
+        return iterations;
+    }
+
+    /**
+     * @param iterations the iterations to set
+     */
+    public void setIterations(List<IterationEntity> iterations) {
+        this.iterations = iterations;
+    }
+    
 
 }

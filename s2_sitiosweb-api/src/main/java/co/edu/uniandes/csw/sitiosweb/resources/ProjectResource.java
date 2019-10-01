@@ -70,8 +70,8 @@ public class ProjectResource {
      * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @GET
-    @Path("{projectId: \\d+}")
-    public ProjectDetailDTO getEditorial(@PathParam("projectId") Long projectId) throws WebApplicationException {
+    @Path("{projectsId: \\d+}")
+    public ProjectDetailDTO getProject(@PathParam("projectsId") Long projectId) throws WebApplicationException {
         LOGGER.log(Level.INFO, "ProjectResource getProject: input: {0}", projectId);
         ProjectEntity projectEntity = logica.getProject(projectId);
         if (projectEntity == null) {
@@ -96,8 +96,8 @@ public class ProjectResource {
      * actualizar.
      */
     @PUT
-    @Path("{projectId: \\d+}")
-    public ProjectDetailDTO updateProject(@PathParam("projectId") Long projectId, ProjectDetailDTO project) throws WebApplicationException {
+    @Path("{projectsId: \\d+}")
+    public ProjectDetailDTO updateProject(@PathParam("projectsId") Long projectId, ProjectDetailDTO project) throws WebApplicationException {
         LOGGER.log(Level.INFO, "ProjectResource updateProject: input: id:{0} , project: {1}", new Object[]{projectId, project});
         project.setId(projectId);
         if (logica.getProject(projectId) == null) {
@@ -120,8 +120,8 @@ public class ProjectResource {
      * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @DELETE
-    @Path("{projectId: \\d+}")
-    public void deleteProject(@PathParam("projectId") Long projectId) throws BusinessLogicException {
+    @Path("{projectsId: \\d+}")
+    public void deleteProject(@PathParam("projectsId") Long projectId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProjectResource deleteProject: input: {0}", projectId);
         if (logica.getProject(projectId) == null) {
             throw new WebApplicationException("El recurso /projects/" + projectId + " no existe.", 404);
@@ -130,27 +130,6 @@ public class ProjectResource {
         LOGGER.info("ProjectResource deleteProject: output: void");
     }
 
-    /**
-     * Conexión con el servicio de libros para una editorial.
-     * {@link EditorialBooksResource}
-     *
-     * Este método conecta la ruta de /editorials con las rutas de /books que
-     * dependen de la editorial, es una redirección al servicio que maneja el
-     * segmento de la URL que se encarga de los libros de una editorial.
-     *
-     * @param editorialsId El ID de la editorial con respecto a la cual se
-     * accede al servicio.
-     * @return El servicio de libros para esta editorial en paricular.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra la editorial.
-     */
-    @Path("{editorialsId: \\d+}/books")
-    public Class<EditorialBooksResource> getEditorialBooksResource(@PathParam("editorialsId") Long editorialsId) {
-        if (editorialLogic.getEditorial(editorialsId) == null) {
-            throw new WebApplicationException("El recurso /editorials/" + editorialsId + " no existe.", 404);
-        }
-        return EditorialBooksResource.class;
-    }
 
     /**
      * Convierte una lista de entidades a DTO.

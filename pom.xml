@@ -13,6 +13,8 @@
      <modules>
           <module>s2_sitiosweb-back</module>
           <module>s2_sitiosweb-api</module>
+          <module>s2_sitiosweb-api</module>
+          <module>s2_sitiosweb-back</module>
      </modules>  
     
     <repositories>

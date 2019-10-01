@@ -29,164 +29,123 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author s.santosb
  */
-@Path("hardwares")
 @Produces("application/json")
 @Consumes("application/json")
-@RequestScoped
 public class HardwareResource {
     
-    private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.getName());
+private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.getName());
 
     @Inject
-    private HardwareLogic hardwareLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
+    private HardwareLogic hardwareLogic;
 
     /**
-     * Crea un nuevo hardware con la informacion que se recibe en el cuerpo de
-     * la petición y se regresa un objeto identico con un id auto-generado por
-     * la base de datos.
+     * Crea un nuevo hardware con la informacion que recibe de la
+     * petición y se regresa un objeto identico con un id auto-generado por la
+     * base de datos.
      *
-     * @param hardware {@link HardwareDTO} - El hardware que se desea
-     * guardar.
-     * @return JSON {@link HardwareDTO} - El hardware guardado con el atributo
-     * id autogenerado.
+     * @param projectsId El ID del pryecto al cual se le agrega el hardware
+     * @param hardware {@link HardwareDTO} - El hardware que se desea guardar.
+     * @return JSON {@link HardwareDTO} - El hardware guardado con el atributo id
+     * autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando ya existe el hardware.
      */
     @POST
-    public HardwareDTO createEditorial(HardwareDTO hardware) throws BusinessLogicException {
+    public HardwareDTO createHardware(@PathParam("projectsId") Long projectsId, HardwareDTO hardware) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "HardwareResource createHardware: input: {0}", hardware);
-        // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
-        HardwareEntity hardwareEntity = hardware.toEntity();
-        // Invoca la lógica para crear la editorial nueva
-        HardwareEntity nuevoHardwareEntity = hardwareLogic.createHardware(hardwareEntity);
-        // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
-        HardwareDTO nuevoHardwareDTO = new HardwareDTO(nuevoHardwareEntity);
+        HardwareDTO nuevoHardwareDTO = new HardwareDTO(hardwareLogic.createHardware(projectsId, hardware.toEntity()));
         LOGGER.log(Level.INFO, "HardwareResource createHardware: output: {0}", nuevoHardwareDTO);
         return nuevoHardwareDTO;
     }
 
-//    /**
-//     * Busca y devuelve todas las editoriales que existen en la aplicacion.
-//     *
-//     * @return JSONArray {@link EditorialDetailDTO} - Las editoriales
-//     * encontradas en la aplicación. Si no hay ninguna retorna una lista vacía.
-//     */
-//    @GET
-//    public List<EditorialDetailDTO> getEditorials() {
-//        LOGGER.info("EditorialResource getEditorials: input: void");
-//        List<EditorialDetailDTO> listaEditoriales = listEntity2DetailDTO(hardwareLogic.getEditorials());
-//        LOGGER.log(Level.INFO, "EditorialResource getEditorials: output: {0}", listaEditoriales);
-//        return listaEditoriales;
-//    }
-//
-//    /**
-//     * Busca la editorial con el id asociado recibido en la URL y la devuelve.
-//     *
-//     * @param editorialsId Identificador de la editorial que se esta buscando.
-//     * Este debe ser una cadena de dígitos.
-//     * @return JSON {@link EditorialDetailDTO} - La editorial buscada
-//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-//     * Error de lógica que se genera cuando no se encuentra la editorial.
-//     */
-//    @GET
-//    @Path("{editorialsId: \\d+}")
-//    public EditorialDetailDTO getEditorial(@PathParam("editorialsId") Long editorialsId) throws WebApplicationException {
-//        LOGGER.log(Level.INFO, "EditorialResource getEditorial: input: {0}", editorialsId);
-//        EditorialEntity editorialEntity = hardwareLogic.getEditorial(editorialsId);
-//        if (editorialEntity == null) {
-//            throw new WebApplicationException("El recurso /editorials/" + editorialsId + " no existe.", 404);
-//        }
-//        EditorialDetailDTO detailDTO = new EditorialDetailDTO(editorialEntity);
-//        LOGGER.log(Level.INFO, "EditorialResource getEditorial: output: {0}", detailDTO);
-//        return detailDTO;
-//    }
-//
-//    /**
-//     * Actualiza la editorial con el id recibido en la URL con la informacion
-//     * que se recibe en el cuerpo de la petición.
-//     *
-//     * @param editorialsId Identificador de la editorial que se desea
-//     * actualizar. Este debe ser una cadena de dígitos.
-//     * @param editorial {@link EditorialDetailDTO} La editorial que se desea
-//     * guardar.
-//     * @return JSON {@link EditorialDetailDTO} - La editorial guardada.
-//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-//     * Error de lógica que se genera cuando no se encuentra la editorial a
-//     * actualizar.
-//     */
-//    @PUT
-//    @Path("{editorialsId: \\d+}")
-//    public EditorialDetailDTO updateEditorial(@PathParam("editorialsId") Long editorialsId, EditorialDetailDTO editorial) throws WebApplicationException {
-//        LOGGER.log(Level.INFO, "EditorialResource updateEditorial: input: id:{0} , editorial: {1}", new Object[]{editorialsId, editorial});
-//        editorial.setId(editorialsId);
-//        if (hardwareLogic.getEditorial(editorialsId) == null) {
-//            throw new WebApplicationException("El recurso /editorials/" + editorialsId + " no existe.", 404);
-//        }
-//        EditorialDetailDTO detailDTO = new EditorialDetailDTO(hardwareLogic.updateEditorial(editorialsId, editorial.toEntity()));
-//        LOGGER.log(Level.INFO, "EditorialResource updateEditorial: output: {0}", detailDTO);
-//        return detailDTO;
-//
-//    }
-//
-//    /**
-//     * Borra la editorial con el id asociado recibido en la URL.
-//     *
-//     * @param editorialsId Identificador de la editorial que se desea borrar.
-//     * Este debe ser una cadena de dígitos.
-//     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
-//     * Error de lógica que se genera cuando no se puede eliminar la editorial.
-//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-//     * Error de lógica que se genera cuando no se encuentra la editorial.
-//     */
-//    @DELETE
-//    @Path("{editorialsId: \\d+}")
-//    public void deleteEditorial(@PathParam("editorialsId") Long editorialsId) throws BusinessLogicException {
-//        LOGGER.log(Level.INFO, "EditorialResource deleteEditorial: input: {0}", editorialsId);
-//        if (hardwareLogic.getEditorial(editorialsId) == null) {
-//            throw new WebApplicationException("El recurso /editorials/" + editorialsId + " no existe.", 404);
-//        }
-//        hardwareLogic.deleteEditorial(editorialsId);
-//        LOGGER.info("EditorialResource deleteEditorial: output: void");
-//    }
-//
-//    /**
-//     * Conexión con el servicio de libros para una editorial.
-//     * {@link EditorialBooksResource}
-//     *
-//     * Este método conecta la ruta de /editorials con las rutas de /books que
-//     * dependen de la editorial, es una redirección al servicio que maneja el
-//     * segmento de la URL que se encarga de los libros de una editorial.
-//     *
-//     * @param editorialsId El ID de la editorial con respecto a la cual se
-//     * accede al servicio.
-//     * @return El servicio de libros para esta editorial en paricular.
-//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-//     * Error de lógica que se genera cuando no se encuentra la editorial.
-//     */
-//    @Path("{editorialsId: \\d+}/books")
-//    public Class<EditorialBooksResource> getEditorialBooksResource(@PathParam("editorialsId") Long editorialsId) {
-//        if (hardwareLogic.getEditorial(editorialsId) == null) {
-//            throw new WebApplicationException("El recurso /editorials/" + editorialsId + " no existe.", 404);
-//        }
-//        return EditorialBooksResource.class;
-//    }
-//
-//    /**
-//     * Convierte una lista de entidades a DTO.
-//     *
-//     * Este método convierte una lista de objetos EditorialEntity a una lista de
-//     * objetos EditorialDetailDTO (json)
-//     *
-//     * @param entityList corresponde a la lista de editoriales de tipo Entity
-//     * que vamos a convertir a DTO.
-//     * @return la lista de editoriales en forma DTO (json)
-//     */
-//    private List<EditorialDetailDTO> listEntity2DetailDTO(List<EditorialEntity> entityList) {
-//        List<EditorialDetailDTO> list = new ArrayList<>();
-//        for (EditorialEntity entity : entityList) {
-//            list.add(new EditorialDetailDTO(entity));
-//        }
-//        return list;
-//    }
+    /**
+     * Busca y devuelve todas las reseñas que existen en un libro.
+     * @param projectsId El ID del libro del cual se buscan las reseñas
+     * @return {@link HardwareDTO} - El hardware encontrado en el
+     * proyecto. Si no hay ninguna retorna una lista vacía.
+     */
+    @GET
+    public HardwareDTO getHardwares(@PathParam("projectsId") Long projectsId) {
+        LOGGER.log(Level.INFO, "HardwareResource getHardwares: input: {0}", projectsId);
+        HardwareDTO dto = new HardwareDTO(hardwareLogic.getHardwares(projectsId));
+        LOGGER.log(Level.INFO, "HardwareResource getHardwares: output: {0}", dto);
+        return dto;
+    }
+
+    /**
+     * Busca y devuelve el hardware con el ID recibido en la URL, relativa a un
+     * proyecto.
+     *
+     * @param projectsId El ID del proyecto del cual se buscan el hardware
+     * @param hardwaresId El ID del hardware que se busca
+     * @return {@link HardwareDTO} - El hardware encontrado en el proyecto.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el proyecto.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el hardware.
+     */
+    @GET
+    @Path("{hardwaresId: \\d+}")
+    public HardwareDTO getHardware(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwaresId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "HardwareResoursce getHardware: input: {0}", hardwaresId);
+        HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwaresId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/hardwares/" + hardwaresId + " no existe.", 404);
+        }
+        HardwareDTO hardwareDTO = new HardwareDTO(entity);
+        LOGGER.log(Level.INFO, "HardwareResoursce getHardware: output: {0}", hardwaresId);
+        return hardwareDTO;
+    }
+
+    /**
+     * Actualiza una reseña con la informacion que se recibe en el cuerpo de la
+     * petición y se regresa el objeto actualizado.
+     *
+     * @param booksId El ID del libro del cual se guarda la reseña
+     * @param reviewsId El ID de la reseña que se va a actualizar
+     * @param review {@link ReviewDTO} - La reseña que se desea guardar.
+     * @return JSON {@link ReviewDTO} - La reseña actualizada.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica que se genera cuando ya existe la reseña.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra la reseña.
+     */
+    @PUT
+    @Path("{hardwaresId: \\d+}")
+    public HardwareDTO updateReview(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwaresId, HardwareDTO hardware) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "HardwareResource updateHardware: input: projectsId: {0} , hardwaresId: {1} , hardware:{2}", new Object[]{projectsId, hardwaresId, hardware});
+        if (hardwaresId.equals(hardware.getId())) {
+            throw new BusinessLogicException("Los ids del Hardware no coinciden.");
+        }
+        HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwaresId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews/" + hardwaresId + " no existe.", 404);
+
+        }
+        HardwareDTO hardwareDTO = new HardwareDTO(hardwareLogic.updateHardware(projectsId, hardware.toEntity()));
+        LOGGER.log(Level.INFO, "HardwareResource updateHardware: output:{0}", hardwareDTO);
+        return hardwareDTO;
+
+    }
+
+    /**
+     * Borra la reseña con el id asociado recibido en la URL.
+     *
+     * @param projectsId
+     * @param hardwareId
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica que se genera cuando no se puede eliminar la reseña.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra la reseña.
+     */
+    @DELETE
+    @Path("{hardwaresId: \\d+}")
+    public void deleteHardware(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwareId) throws BusinessLogicException {
+        HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwareId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/hardwares/" + hardwareId + " no existe.", 404);
+        }
+        hardwareLogic.deleteHardware(projectsId, hardwareId);
+    }
 
 }
