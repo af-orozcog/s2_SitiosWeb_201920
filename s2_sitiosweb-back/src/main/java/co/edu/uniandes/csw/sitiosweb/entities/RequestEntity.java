@@ -27,9 +27,19 @@ public class RequestEntity extends BaseEntity implements Serializable
 {
     // Attributes
     
+    /**
+     * Relationship where a request has one requester.
+     */
     @PodamExclude
     @ManyToOne
     private RequesterEntity requester;
+    
+    /**
+     * Relationship where a request has one project.
+     */
+    @PodamExclude
+    @ManyToOne
+    private ProjectEntity project;
     
     /**
      * Name of the request.

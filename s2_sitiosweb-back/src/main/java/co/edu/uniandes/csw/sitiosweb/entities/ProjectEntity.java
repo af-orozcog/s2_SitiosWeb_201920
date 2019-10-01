@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,10 +25,17 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
  
     private Boolean internalProject;
     private String company;
+    
+    /**
+     * Relationship where a project has one (the first) or more requests.
+     */
+    @PodamExclude
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private List<RequestEntity> requests = new ArrayList<>();
 
     @PodamExclude
     @ManyToMany
-    private List<DeveloperEntity> developers;
+    private List<DeveloperEntity> developers = new ArrayList<>();
     
     @PodamExclude
     @OneToOne
@@ -39,7 +47,7 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     
     @PodamExclude
     @OneToMany (mappedBy = "project",fetch=FetchType.LAZY)
-    private List<IterationEntity> iterations;
+    private List<IterationEntity> iterations = new ArrayList<>();
 
     /**
      * @return the internalProject
