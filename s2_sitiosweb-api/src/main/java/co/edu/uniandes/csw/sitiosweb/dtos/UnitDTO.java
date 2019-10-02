@@ -10,6 +10,19 @@ import java.io.Serializable;
 
 /**
  * @author Daniel del Castillo A.
+ * The JSON serialization implements the following model: <br>
+ * <pre>
+ * {
+ *      "id" : number,
+ *      "name" : string
+ * }
+ * </pre> As an example: <br>
+ * <pre>
+ * {
+ *      "id" : 1,
+ *      "name" : "Departamento de Ingeniería de Sistemas"
+ * }
+ * </pre>
  */
 public class UnitDTO implements Serializable
 {

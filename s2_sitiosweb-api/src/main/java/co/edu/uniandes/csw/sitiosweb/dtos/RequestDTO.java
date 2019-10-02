@@ -19,6 +19,11 @@ public class RequestDTO implements Serializable
     // Attributes
     
     /**
+     * Id of the request.
+     */
+    private Long id;
+    
+    /**
      * Name of the request.
      */
     private String name;
@@ -61,6 +66,16 @@ public class RequestDTO implements Serializable
     @XmlJavaTypeAdapter(DateAdapter.class)
     private Date endDate;
     
+    /**
+     * Relationship to one requester.
+     */
+    private RequesterDTO requester;
+    
+    /**
+     * Relationship to one project.
+     */
+    private ProjectDTO project;
+    
     // Constructor
     /**
      * Empty constructor.
@@ -73,25 +88,41 @@ public class RequestDTO implements Serializable
      */
     public RequestDTO(RequestEntity request)
     {
-        this.description = request.getDescription();
-        this.beginDate = request.getBeginDate();
-        this.dueDate = request.getDueDate();
-        this.endDate = request.getEndDate();
-        this.purpose = request.getPurpose();
-        this.budget = request.getBudget();
-        this.name = request.getName();
-        this.unit = request.getUnit();
+        if(request != null)
+        {
+            if(request.getRequester() != null)
+                this.requester = new RequesterDTO(request.getRequester());
+            else
+                this.requester = null;
+            if(request.getProject() != null)
+                this.project = new ProjectDTO(request.getProject());
+            else
+                this.project = null;
+            this.description = request.getDescription();
+            this.beginDate = request.getBeginDate();
+            this.dueDate = request.getDueDate();
+            this.endDate = request.getEndDate();
+            this.purpose = request.getPurpose();
+            this.budget = request.getBudget();
+            this.name = request.getName();
+            this.unit = request.getUnit();
+            this.id = request.getId();
+        }
     }
     
     // Methods
     
     /**
      * Converts the RequestDTO to a RequestEntity object.
-     * @return 
+     * @return The RequestEntity object with the information in this object.
      */
     public RequestEntity toEntity()
     {
         RequestEntity entity = new RequestEntity();
+        if(this.requester != null)
+            entity.setRequester(this.requester.toEntity());
+        if(this.project != null)
+            entity.setProject(this.project.toEntity());
         entity.setDescription(this.getDescription());
         entity.setBeginDate(this.getBeginDate());
         entity.setDueDate(this.getDueDate());
@@ -100,29 +131,30 @@ public class RequestDTO implements Serializable
         entity.setBudget(this.getBudget());
         entity.setName(this.getName());
         entity.setUnit(this.getUnit());
+        entity.setId(this.getId());
         return entity;
     }
 
     /**
-     * @return the name
+     * @return the name.
      */
     public String getName() 
     { return name; }
 
     /**
-     * @param name the name to set
+     * @param name the name to set.
      */
     public void setName(String name) 
     { this.name = name; }
 
     /**
-     * @return the purpose
+     * @return the purpose.
      */
     public String getPurpose() 
     { return purpose; }
 
     /**
-     * @param purpose the purpose to set
+     * @param purpose the purpose to set.
      */
     public void setPurpose(String purpose) 
     { this.purpose = purpose; }
@@ -134,76 +166,80 @@ public class RequestDTO implements Serializable
     { return description; }
 
     /**
-     * @param description the description to set
+     * @param description the description to set.
      */
     public void setDescription(String description) 
     { this.description = description; }
 
     /**
-     * @return the unit
+     * @return the unit.
      */
     public String getUnit() 
     { return unit; }
 
     /**
-     * @param unit the unit to set
+     * @param unit the unit to set.
      */
     public void setUnit(String unit) 
     { this.unit = unit; }
 
     /**
-     * @return the budget
+     * @return the budget.
      */
     public Integer getBudget() 
     { return budget; }
 
     /**
-     * @param budget the budget to set
+     * @param budget the budget to set.
      */
     public void setBudget(Integer budget) 
-    {
-        this.budget = budget;
-    }
+    { this.budget = budget; }
 
     /**
-     * @return the beginDate
+     * @return the beginDate.
      */
-    public Date getBeginDate() {
-        return beginDate;
-    }
+    public Date getBeginDate() 
+    { return beginDate; }
 
     /**
-     * @param beginDate the beginDate to set
+     * @param beginDate the beginDate to set.
      */
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
-    }
+    public void setBeginDate(Date beginDate) 
+    { this.beginDate = beginDate; }
 
     /**
-     * @return the dueDate
+     * @return the dueDate.
      */
-    public Date getDueDate() {
-        return dueDate;
-    }
+    public Date getDueDate() 
+    { return dueDate; }
 
     /**
-     * @param dueDate the dueDate to set
+     * @param dueDate the dueDate to set.
      */
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
+    public void setDueDate(Date dueDate) 
+    { this.dueDate = dueDate; }
 
     /**
-     * @return the endDate
+     * @return the endDate.
      */
-    public Date getEndDate() {
-        return endDate;
-    }
+    public Date getEndDate() 
+    { return endDate; }
 
     /**
-     * @param endDate the endDate to set
+     * @param endDate the endDate to set.
      */
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+    public void setEndDate(Date endDate) 
+    { this.endDate = endDate; }
+
+    /**
+     * @return the id.
+     */
+    public Long getId() 
+    { return id; }
+
+    /**
+     * @param id the id to set.
+     */
+    public void setId(Long id) 
+    { this.id = id; }
 }

@@ -120,7 +120,6 @@ public class RequestPersistenceTest
     @Test
     public void createTest()
     {
-        // Falta crear request
         PodamFactory factory = new PodamFactoryImpl();
         RequestEntity request = factory.manufacturePojo(RequestEntity.class);
         RequestEntity result = rp.create(request);
@@ -135,6 +134,9 @@ public class RequestPersistenceTest
         Assert.assertEquals(request.getBeginDate(), entity.getBeginDate());
         Assert.assertEquals(request.getDueDate(), entity.getDueDate());
         Assert.assertEquals(request.getEndDate(), entity.getEndDate());
+        Assert.assertEquals(request.getStatus(), entity.getStatus());
+        Assert.assertEquals(request.getRequestType(), entity.getRequestType());
+        Assert.assertEquals(request.getWebCategory(), entity.getWebCategory());
     }
     
     /**
