@@ -5,7 +5,9 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.RequestPersistence;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +39,10 @@ public class RequestPersistenceTest
     public static JavaArchive createDeployment()
     {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(RequestEntity.class)
-                .addClass(RequestPersistence.class)
+                .addPackage(RequestEntity.class.getPackage())
+                .addPackage(ProjectEntity.class.getPackage())
+                .addPackage(RequesterEntity.class.getPackage())
+                .addPackage(RequestPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
@@ -120,7 +124,6 @@ public class RequestPersistenceTest
     @Test
     public void createTest()
     {
-        // Falta crear request
         PodamFactory factory = new PodamFactoryImpl();
         RequestEntity request = factory.manufacturePojo(RequestEntity.class);
         RequestEntity result = rp.create(request);
@@ -135,6 +138,9 @@ public class RequestPersistenceTest
         Assert.assertEquals(request.getBeginDate(), entity.getBeginDate());
         Assert.assertEquals(request.getDueDate(), entity.getDueDate());
         Assert.assertEquals(request.getEndDate(), entity.getEndDate());
+        Assert.assertEquals(request.getStatus(), entity.getStatus());
+        Assert.assertEquals(request.getRequestType(), entity.getRequestType());
+        Assert.assertEquals(request.getWebCategory(), entity.getWebCategory());
     }
     
     /**

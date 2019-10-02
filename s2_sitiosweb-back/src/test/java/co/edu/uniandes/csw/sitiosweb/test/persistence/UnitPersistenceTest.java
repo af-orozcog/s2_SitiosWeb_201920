@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
+import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.UnitPersistence;
 import java.util.ArrayList;
@@ -37,8 +38,9 @@ public class UnitPersistenceTest
     public static JavaArchive createDeployment()
     {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(UnitEntity.class)
-                .addClass(UnitPersistence.class)
+                .addPackage(UnitEntity.class.getPackage())
+                .addPackage(RequesterEntity.class.getPackage())
+                .addPackage(UnitPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }

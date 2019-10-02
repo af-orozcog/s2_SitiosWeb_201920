@@ -12,6 +12,22 @@ import java.util.List;
 
 /**
  * @author Daniel del Castillo A.
+ * Class that extends from {@Link UnitDTO}.
+ * The JSON serialization implements the following model: <br>
+ * <pre>
+ * {
+ *      "id" : number,
+ *      "name" : string,
+ *      "requesters" : [{@Link RequestDTO}]
+ * }
+ * </pre> As an example: <br>
+ * <pre>
+ * {
+ *      "id" : 1,
+ *      "name" : "Departamento de Ingeniería de Sistemas",
+ *      "requesters" : [...]
+ * }
+ * </pre>
  */
 public class UnitDetailDTO extends UnitDTO implements Serializable
 {
@@ -22,6 +38,9 @@ public class UnitDetailDTO extends UnitDTO implements Serializable
     
     // Constructors
     
+    /**
+     * Empty constructor.
+     */
     public UnitDetailDTO()
     { super(); }
     
