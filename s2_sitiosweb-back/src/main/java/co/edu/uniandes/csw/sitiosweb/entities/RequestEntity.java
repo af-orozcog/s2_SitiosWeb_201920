@@ -35,7 +35,9 @@ public class RequestEntity extends BaseEntity implements Serializable
     {
         Elimination,
         Creation,
-        Change
+        Change,
+        Development,
+        Production
     }
     
     /**
