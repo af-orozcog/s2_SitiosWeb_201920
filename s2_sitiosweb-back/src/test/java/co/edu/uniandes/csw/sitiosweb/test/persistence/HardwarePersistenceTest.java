@@ -6,9 +6,8 @@
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
-import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
-import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -36,7 +35,8 @@ public class HardwarePersistenceTest {
     @Deployment
     public static JavaArchive createDeploymet(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(HardwareEntity.class)
+                .addPackage(HardwareEntity.class.getPackage())
+                .addPackage(ProjectEntity.class.getPackage())
                 .addClass(HardwarePersistence.class)
                 .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml","beans.xml");

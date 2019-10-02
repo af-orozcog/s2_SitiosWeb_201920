@@ -65,21 +65,18 @@ public class RequestEntity extends BaseEntity implements Serializable
     /**
      * The request's status.
      */
-    @PodamExclude
     @Enumerated(EnumType.STRING)
     private Status status;
     
     /**
      * The request's web category.
      */
-    @PodamExclude
     @Enumerated(EnumType.STRING)
     private WebCategory webCategory;
     
     /**
      * The request's type.
      */
-    @PodamExclude
     @Enumerated(EnumType.STRING)
     private RequestType requestType;
     

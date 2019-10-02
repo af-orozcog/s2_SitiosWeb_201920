@@ -6,7 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -40,7 +40,8 @@ public class IterationPersistenceTest {
     @Deployment
     public static JavaArchive createDeploymet(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(IterationEntity.class)
+                .addPackage(IterationEntity.class.getPackage())
+                .addPackage(ProjectEntity.class.getPackage())
                 .addClass(IterationPersistence.class)
                 .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml","beans.xml");
