@@ -6,9 +6,9 @@
 package co.edu.uniandes.csw.sitiosweb.tests.postman;
 
 import co.edu.uniandes.csw.postman.tests.PostmanTestBuilder;
-import co.edu.uniandes.csw.sitiosweb.dtos.HardwareDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.InternalSystemsDTO;
 import co.edu.uniandes.csw.sitiosweb.mappers.BusinessLogicExceptionMapper;
-import co.edu.uniandes.csw.sitiosweb.resources.HardwareResource;
+import co.edu.uniandes.csw.sitiosweb.resources.InternalSystemsResource;
 import java.io.File;
 import java.io.IOException;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -26,9 +26,8 @@ import org.junit.runner.RunWith;
  * @author s.santosb
  */
 @RunWith(Arquillian.class)
-public class HardwareIT {
-    
-    private static final String COLLECTION = "Hardware-Tests-Paso5.postman_collection";
+public class InternalSystemsIT {
+        private static final String COLLECTION = "InternalSystems-Tests-Paso5.postman_collection";
 
     @Deployment(testable = true)
     public static WebArchive createDeployment() {
@@ -38,8 +37,8 @@ public class HardwareIT {
                         .importRuntimeDependencies().resolve()
                         .withTransitivity().asFile())
                 // Se agregan los compilados de los paquetes de servicios
-                .addPackage(HardwareResource.class.getPackage()) //No importa cual recurso usar, lo importante es agregar el paquet
-                .addPackage(HardwareDTO.class.getPackage()) //No importa cual dto usar, lo importante es agregar el paquete.
+                .addPackage(InternalSystemsResource.class.getPackage()) //No importa cual recurso usar, lo importante es agregar el paquet
+                .addPackage(InternalSystemsDTO.class.getPackage()) //No importa cual dto usar, lo importante es agregar el paquete.
                 .addPackage(BusinessLogicExceptionMapper.class.getPackage())
                 // El archivo que contiene la configuracion a la base de datos.
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
@@ -65,5 +64,4 @@ public class HardwareIT {
         Assert.assertEquals("Error en Assertions de: " + COLLECTION, desiredResult, tp.getAssertions_failed());
     }
 
-    
 }
