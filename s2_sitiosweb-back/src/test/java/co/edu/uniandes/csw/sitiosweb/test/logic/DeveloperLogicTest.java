@@ -86,6 +86,7 @@ public class DeveloperLogicTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
+        em.createQuery("delete from ProjectEntity").executeUpdate();
         em.createQuery("delete from DeveloperEntity").executeUpdate();
     }
 
@@ -97,8 +98,10 @@ public class DeveloperLogicTest {
         for (int i = 0; i < 3; i++) {
             DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
             em.persist(entity);
+            entity.setLeadingProjects(new ArrayList<>());
             data.add(entity);
         }
+
         DeveloperEntity leader = data.get(2);
         ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
         entity.setLeader(leader);
@@ -108,6 +111,8 @@ public class DeveloperLogicTest {
 
     /**
      * Prueba para crear un Developer.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     @Test
     public void createDeveloper() throws BusinessLogicException {
@@ -218,6 +223,8 @@ public class DeveloperLogicTest {
 
     /**
      * Prueba para actualizar un Developer.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     @Test
     public void updateDeveloperTest() throws BusinessLogicException {

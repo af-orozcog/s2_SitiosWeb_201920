@@ -138,7 +138,7 @@ public class DeveloperLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el desarrollador con id = {0}", developerId);
         List<ProjectEntity> projects = getDeveloper(developerId).getProjects();
         List<ProjectEntity> leadingProjects = getDeveloper(developerId).getLeadingProjects();
-        
+
         if (projects != null && !projects.isEmpty()) {
             throw new BusinessLogicException("No se puede borrar el desarrollador con id = " + developerId + " porque tiene proyectos asociados");
         }

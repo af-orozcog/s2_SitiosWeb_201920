@@ -33,22 +33,27 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  */
 @RunWith(Arquillian.class)
 public class RequesterLogicTest {
-    
+
     private PodamFactory factory = new PodamFactoryImpl();
-    
+
     @Inject
-    private RequesterLogic userLogic;
-    
+    private RequesterLogic requesterLogic;
+
     @PersistenceContext
     protected EntityManager em;
-    
+
     @Inject
     private UserTransaction utx;
-    
+
     private List<RequesterEntity> data = new ArrayList<RequesterEntity>();
 
+    /**
+     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
+     * El jar contiene las clases, el descriptor de la base de datos y el
+     * archivo beans.xml para resolver la inyección de dependencias.
+     */
     @Deployment
-    public static JavaArchive createDeployment(){
+    public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(RequesterEntity.class.getPackage())
                 .addPackage(RequesterLogic.class.getPackage())
@@ -56,7 +61,10 @@ public class RequesterLogicTest {
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
-    
+
+    /**
+     * Configuración inicial de la prueba.
+     */
     @Before
     public void configTest() {
         try {
@@ -73,11 +81,18 @@ public class RequesterLogicTest {
             }
         }
     }
-    
+
+    /**
+     * Limpia las tablas que están implicadas en la prueba.
+     */
     private void clearData() {
-          em.createQuery("delete from RequesterEntity").executeUpdate();
+        em.createQuery("delete from RequesterEntity").executeUpdate();
     }
 
+    /**
+     * Inserta los datos iniciales para el correcto funcionamiento de las
+     * pruebas.
+     */
     private void insertData() {
         for (int i = 0; i < 3; i++) {
             RequesterEntity entity = factory.manufacturePojo(RequesterEntity.class);
@@ -85,52 +100,81 @@ public class RequesterLogicTest {
             data.add(entity);
         }
     }
+
+    /**
+     * Prueba para crear un Requester.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test
-    public void createRequester() throws BusinessLogicException{
-        
+    public void createRequester() throws BusinessLogicException {
+
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
-        RequesterEntity result = userLogic.createRequester(newEntity);
+        RequesterEntity result = requesterLogic.createRequester(newEntity);
         Assert.assertNotNull(result);
-        
+
         RequesterEntity entity = em.find(RequesterEntity.class, result.getId());
         Assert.assertEquals(entity.getId(), result.getId());
         Assert.assertEquals(entity.getLogin(), result.getLogin());
         Assert.assertEquals(entity.getEmail(), result.getEmail());
         Assert.assertEquals(entity.getPhone(), result.getPhone());
-        
+
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createRequesterEmailNull() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Requester con email null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequesterEmailNull() throws BusinessLogicException {
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setEmail(null);
-        RequesterEntity result = userLogic.createRequester(newEntity);
+        RequesterEntity result = requesterLogic.createRequester(newEntity);
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createRequesterLoginNull() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Requester con login null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequesterLoginNull() throws BusinessLogicException {
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setLogin(null);
-        RequesterEntity result = userLogic.createRequester(newEntity);
+        RequesterEntity result = requesterLogic.createRequester(newEntity);
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createRequesterPhoneNull() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Requester con phone null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequesterPhoneNull() throws BusinessLogicException {
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setPhone(null);
-        RequesterEntity result = userLogic.createRequester(newEntity);
+        RequesterEntity result = requesterLogic.createRequester(newEntity);
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createRequesterLoginExistente() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Requester con un login ya existente.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequesterLoginExistente() throws BusinessLogicException {
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setLogin(data.get(0).getLogin());
-        userLogic.createRequester(newEntity);
+        requesterLogic.createRequester(newEntity);
     }
-    
-     @Test
+
+    /**
+     * Prueba para consultar la lista de Requesters.
+     */
+    @Test
     public void getRequestersTest() {
-        List<RequesterEntity> list = userLogic.getRequesters();
+        List<RequesterEntity> list = requesterLogic.getRequesters();
         Assert.assertEquals(data.size(), list.size());
         for (RequesterEntity entity : list) {
             boolean found = false;
@@ -144,12 +188,12 @@ public class RequesterLogicTest {
     }
 
     /**
-     * Prueba para consultar un Book.
+     * Prueba para consultar un Requester.
      */
     @Test
     public void getRequesterTest() {
         RequesterEntity entity = data.get(0);
-        RequesterEntity resultEntity = userLogic.getRequester(entity.getId());
+        RequesterEntity resultEntity = requesterLogic.getRequester(entity.getId());
         Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
         Assert.assertEquals(entity.getLogin(), resultEntity.getLogin());
@@ -157,12 +201,17 @@ public class RequesterLogicTest {
         Assert.assertEquals(entity.getEmail(), resultEntity.getEmail());
     }
 
+    /**
+     * Prueba para actualizar un Requester.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test
     public void updateRequesterTest() throws BusinessLogicException {
         RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setId(entity.getId());
-        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
+        requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
         RequesterEntity resp = em.find(RequesterEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
         Assert.assertEquals(pojoEntity.getLogin(), resp.getLogin());
@@ -170,37 +219,71 @@ public class RequesterLogicTest {
         Assert.assertEquals(pojoEntity.getEmail(), resp.getEmail());
     }
 
+    /**
+     * Prueba para actualizar un Requester con login null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test(expected = BusinessLogicException.class)
-    public void updateRequesterConLoginInvalidoTest() throws BusinessLogicException {
+    public void updateRequesterConLoginNullTest() throws BusinessLogicException {
         RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setLogin(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
+        requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
 
+    /**
+     * Prueba para actualizar un Requester con un login existente.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test(expected = BusinessLogicException.class)
-    public void updateRequesterConEmailInvalidoTest() throws BusinessLogicException {
+    public void updateRequesterConLoginExistenteTest() throws BusinessLogicException {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
+        pojoEntity.setLogin(data.get(1).getLogin());
+        pojoEntity.setId(entity.getId());
+        requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
+    }
+
+    /**
+     * Prueba para actualizar un Requester con un email null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateRequesterConEmailNullTest() throws BusinessLogicException {
         RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setEmail(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
+        requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
-    
-        @Test(expected = BusinessLogicException.class)
-    public void updateRequesterConPhoneInvalidoTest() throws BusinessLogicException {
+
+    /**
+     * Prueba para actualizar un Requester con phone null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateRequesterConPhoneNullTest() throws BusinessLogicException {
         RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setPhone(null);
         pojoEntity.setId(entity.getId());
-        userLogic.updateRequester(pojoEntity.getId(), pojoEntity);
+        requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
-    
+
+    /**
+     * Prueba para eliminar un Requester
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test
     public void deleteRequesterTest() throws BusinessLogicException {
         RequesterEntity entity = data.get(0);
-        userLogic.deleteRequester(entity.getId());
+        requesterLogic.deleteRequester(entity.getId());
         RequesterEntity deleted = em.find(RequesterEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }

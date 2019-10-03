@@ -91,7 +91,7 @@ public class DeveloperPersistenceTest {
         em.createQuery("delete from DeveloperEntity").executeUpdate();
     }
 
-     /**
+    /**
      * Inserta los datos iniciales para el correcto funcionamiento de las
      * pruebas.
      */
@@ -124,7 +124,7 @@ public class DeveloperPersistenceTest {
         Assert.assertEquals(developer.getType(), entity.getType());
     }
 
-     /**
+    /**
      * Prueba para consultar la lista de Developers.
      */
     @Test
@@ -156,7 +156,7 @@ public class DeveloperPersistenceTest {
         Assert.assertEquals(entity.getType(), newEntity.getType());
 
     }
-    
+
     /**
      * Prueba para actualizar un Developer.
      */
