@@ -13,13 +13,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 /**
- *
  * @author Daniel Galindo Ruiz
  */
 @Stateless
 public class ProjectPersistence {
     
-
     @PersistenceContext(unitName = "sitioswebPU")
     protected EntityManager em;
 

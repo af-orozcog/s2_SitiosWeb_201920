@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
@@ -28,6 +29,13 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
     * Esta lista de tipo DeveloperDTO contiene los developers que estan asociados a un proyecto.
      */
     private List<DeveloperDTO> developers;
+    
+         /*
+    * Esta lista de tipo DeveloperDTO contiene los developers que estan asociados a un proyecto.
+     */
+    private List<InternalSystemsDTO> internalSystems;
+
+    
     
      /*
     * Esta lista de tipo RequestDTO contiene los requests que estan asociados a un proyecto.
@@ -61,6 +69,13 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
                 iterations.add(new IterationDTO(entityIteration));
             }
         }
+        
+        if (projectEntity.getInternalSystems() != null) {
+            internalSystems = new ArrayList<>();
+            for (InternalSystemsEntity entityInternal : projectEntity.getInternalSystems()) {
+                internalSystems.add(new InternalSystemsDTO(entityInternal));
+            }
+        }
         if(projectEntity.getRequests() != null){
             requests = new ArrayList<>();
             for(RequestEntity entityRequest : projectEntity.getRequests()){
@@ -92,6 +107,14 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
                 iterationsEntity.add(DTOIteration.toEntity());
             }
             projectEntity.setIterations(iterationsEntity);
+        }
+        
+        if (getInternalSystems() != null) {
+            List<InternalSystemsEntity> internalSystemsEntity = new ArrayList<>();
+            for (InternalSystemsDTO DTOInternal : getInternalSystems()) {
+                internalSystemsEntity.add(DTOInternal.toEntity());
+            }
+            projectEntity.setInternalSystems(internalSystemsEntity);
         }
         
         if(getRequests() != null){
@@ -132,6 +155,20 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
      */
     public void setDevelopers(List<DeveloperDTO> developers) {
         this.developers = developers;
+    }
+
+    /**
+     * @return the internalSystems
+     */
+    public List<InternalSystemsDTO> getInternalSystems() {
+        return internalSystems;
+    }
+
+    /**
+     * @param internalSystems the internalSystems to set
+     */
+    public void setInternalSystems(List<InternalSystemsDTO> internalSystems) {
+        this.internalSystems = internalSystems;
     }
 
     /**

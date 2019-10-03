@@ -1,6 +1,5 @@
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
-import co.edu.uniandes.csw.sitiosweb.adapters.DateAdapter;
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity.DeveloperType;
 import java.io.Serializable;
@@ -38,6 +37,7 @@ public class DeveloperDTO extends UserDTO implements Serializable {
      *
      * @return La entidad del libro asociado.
      */
+    @Override
     public DeveloperEntity toEntity() {
         DeveloperEntity developerEntity = new DeveloperEntity();
         developerEntity.setId(this.getId());

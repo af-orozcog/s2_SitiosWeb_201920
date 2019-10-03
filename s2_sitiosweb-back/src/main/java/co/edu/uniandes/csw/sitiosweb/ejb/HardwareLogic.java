@@ -10,8 +10,6 @@ import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
-import java.util.List;
-import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -47,7 +45,7 @@ public class HardwareLogic {
             throw new BusinessLogicException("La plataforma del hardware esta vacia");
         }
         
-        if(noExisteProject(projectsId)==true){
+        if(noExisteProject(projectsId)){
             throw new BusinessLogicException("El proyecto al que esta asociado no existe");
         }
         

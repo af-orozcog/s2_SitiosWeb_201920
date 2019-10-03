@@ -29,8 +29,10 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author s.santosb
  */
+@Path("hardwares")
 @Produces("application/json")
 @Consumes("application/json")
+@RequestScoped
 public class HardwareResource {
     
 private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.getName());

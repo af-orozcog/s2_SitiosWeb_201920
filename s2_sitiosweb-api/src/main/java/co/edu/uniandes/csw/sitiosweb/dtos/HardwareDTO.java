@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
 import java.io.Serializable;
-import java.util.Date;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -20,8 +14,8 @@ public class HardwareDTO implements Serializable{
     
     private Long id;
     private Long ip;
-    private int cores;
-    private int ram;
+    private Integer cores;
+    private Integer ram;
     private String cpu;
     private String plataforma;
    
