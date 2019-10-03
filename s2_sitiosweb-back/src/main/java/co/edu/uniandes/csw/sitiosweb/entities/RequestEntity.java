@@ -35,7 +35,9 @@ public class RequestEntity extends BaseEntity implements Serializable
     {
         Elimination,
         Creation,
-        Change
+        Change,
+        Development,
+        Production
     }
     
     /**
@@ -44,7 +46,7 @@ public class RequestEntity extends BaseEntity implements Serializable
     public enum WebCategory
     {
         Descriptive,
-        Aplication,
+        Application,
         Event
     }
     
