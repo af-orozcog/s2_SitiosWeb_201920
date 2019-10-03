@@ -173,9 +173,7 @@ public class InternalSystemsLogicTest {
         Assert.assertNotNull(internal1);
         Assert.assertNotNull(internal2);
 
-        Assert.assertEquals(internal1.getId(), data.get(1).getId());
         Assert.assertEquals(internal1.getType(), data.get(1).getType());
-        Assert.assertEquals(internal2.getId(), data.get(0).getId());
         Assert.assertEquals(internal2.getType(), data.get(0).getType());
 
     }
