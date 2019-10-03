@@ -5,13 +5,9 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
-import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
-import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
-import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.RequesterPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;

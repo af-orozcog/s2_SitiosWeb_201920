@@ -4,30 +4,60 @@
  * and open the template in the editor.
  */
 package co.edu.uniandes.csw.sitiosweb.entities;
+import co.edu.uniandes.csw.sitiosweb.podam.DateStrategy;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import uk.co.jemos.podam.common.PodamExclude;
+import uk.co.jemos.podam.common.PodamStrategyValue;
+import uk.co.jemos.podam.common.PodamStringValue;
 
 /**
  *
- * @author Andres Felipe Orozco Gonzalez 201730058
+ * @author Andres Felipe Orozco Gonzalez af.orozcog 201730058
  */
 @Entity
 public class IterationEntity extends BaseEntity implements Serializable {
+   
+    /**
+     * Atributo que representa el objetivo de la iteración
+     */
+    @PodamStringValue(length = 1)
     private String objetive;
-    @Temporal(javax.persistence.TemporalType.DATE)
+   
+    /**
+     * Atributo que representa la fecha de validación
+     */
+    @Temporal(TemporalType.DATE)
+    @PodamStrategyValue(DateStrategy.class)
     private Date validationDate;
+    
+    /**
+     * atributo que representa los cambios que se hicieron durante la iteración
+     */
+    @PodamStringValue(length = 1)
     private String changes;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    
+    /**
+     * atributo que representa la fecha de inicio de la iteración
+     */
+    @Temporal(TemporalType.DATE)
+    @PodamStrategyValue(DateStrategy.class)
     private Date beginDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    
+    /**
+     * atributo que representa la fecha final de la iteración
+     */
+    @Temporal(TemporalType.DATE)
+    @PodamStrategyValue(DateStrategy.class)
     private Date endDate;
     
+    /**
+     * asociación con la clase project
+     */
     @PodamExclude
     @ManyToOne
     private ProjectEntity project;

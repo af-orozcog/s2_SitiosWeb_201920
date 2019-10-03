@@ -6,8 +6,10 @@
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,7 +21,7 @@ import javax.inject.Inject;
 
 /**
  *
- * @author Estudiante Andres Felipe Orozco Gonzalez
+ * @author Estudiante Andres Felipe Orozco Gonzalez af.orozcog 201730058
  */
 @Stateless
 public class IterationLogic {
@@ -29,13 +31,14 @@ public class IterationLogic {
     @Inject
     private IterationPersistence persistence;
     
+    @Inject
+    private ProjectPersistence projectPersistence;
+    
     public IterationEntity createIteration(IterationEntity iteracion) throws BusinessLogicException {
         if(iteracion.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(iteracion.getEndDate() == null)
             throw new BusinessLogicException("la fecha final esta vacia");
-        if(iteracion.getChanges() == null)
-            throw new BusinessLogicException("los cambios estan vacios");
         if(iteracion.getObjetive() == null)
             throw new BusinessLogicException("el objetivo esta vacio");
         if(iteracion.getValidationDate() == null)
@@ -75,14 +78,25 @@ public class IterationLogic {
     /**
      * Actualiza la información de una instancia de Author.
      *
-     * @param iterationsId Identificador de la instancia a actualizar
+     * @param projectId id del proyecto al que pertenece
      * @param iterationEntity Instancia de IterationEntity con los nuevos datos.
      * @return Instancia de AuthorEntity con los datos actualizados.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public IterationEntity updateIteration(Long iterationsId, IterationEntity iterationEntity) {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el autor con id = {0}", iterationsId);
+    public IterationEntity updateIteration(Long projectId, IterationEntity iterationEntity) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el autor con id = {0}", iterationEntity.getId());
+         if(iterationEntity.getBeginDate() == null)
+           throw new BusinessLogicException("la fecha de inicio esta vacia"); 
+        if(iterationEntity.getEndDate() == null)
+            throw new BusinessLogicException("la fecha final esta vacia");
+        if(iterationEntity.getObjetive() == null)
+            throw new BusinessLogicException("el objetivo esta vacio");
+        if(iterationEntity.getValidationDate() == null)
+            throw new BusinessLogicException("la fecha de validación esta vacia");
+        ProjectEntity projectEntity = projectPersistence.find(projectId);
+        iterationEntity.setProject(projectEntity);
         IterationEntity newIterationEntity = persistence.update(iterationEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el autor con id = {0}", iterationsId);
+        LOGGER.log(Level.INFO, "Termina proceso de actual nizar el autor con id = {0}", iterationEntity.getId());
         return newIterationEntity;
     }
    

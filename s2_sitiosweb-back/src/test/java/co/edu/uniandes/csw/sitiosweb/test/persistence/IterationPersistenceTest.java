@@ -6,7 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -27,29 +27,50 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
  *
- * @author Estudiante
+ * @author Andres Felipe Orozco Gonzalez af.orozcog 201730058
  */
 @RunWith(Arquillian.class)
 public class IterationPersistenceTest {
    
+    /**
+     * atributo necesario para tener transaccionalidad durante las pruebas
+     */
     @Inject
     UserTransaction utx;
 
+    /**
+     * arreglo donde se guardan algunas iteraciones preestablecidas para
+     * probar los métodos
+     */
     private List<IterationEntity> data = new ArrayList<>();
     
+    
+    /**
+     * Método necesario para generar un contexto en el cual se 
+     * va a llevar a cabo el despliegue
+     * @return el contexto
+     */
     @Deployment
     public static JavaArchive createDeploymet(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(IterationEntity.class)
-                .addClass(IterationPersistence.class)
-                .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
-                .addAsManifestResource("META-INF/beans.xml","beans.xml");
+                .addPackage(IterationEntity.class.getPackage())
+                .addPackage(IterationPersistence.class.getPackage())
+                .addPackage(ProjectEntity.class.getPackage())
+                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
+    
+    /**
+     * atributo con el cual se llama a la persistencia
+     */
     @Inject
     IterationPersistence iterationPersistence;
     
+    /**
+     * manejador del contexto de persistencia
+     */
     @PersistenceContext
-    EntityManager em;
+    protected EntityManager em;
     
     /**
      * Configuración inicial de la prueba.
@@ -89,10 +110,15 @@ public class IterationPersistenceTest {
             IterationEntity entity = factory.manufacturePojo(IterationEntity.class);
 
             em.persist(entity);
+            
             data.add(entity);
         }
     }
     
+    
+    /**
+     * Método para la creación de la iteracion
+     */
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
@@ -141,6 +167,7 @@ public class IterationPersistenceTest {
     
     /**
      * Prueba para consultar una Iteracion.
+     * prueba que los valores devueltos sean correctos
      */
     @Test
     public void getIterationTest() {
@@ -148,6 +175,7 @@ public class IterationPersistenceTest {
         IterationEntity newEntity = iterationPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getObjetive(), newEntity.getObjetive());
+        
         Assert.assertEquals(entity.getValidationDate(), newEntity.getValidationDate());
     }
     
