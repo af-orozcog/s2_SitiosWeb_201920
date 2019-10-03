@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package co.edu.uniandes.csw.sitiosweb.tests.postman;
 
 import co.edu.uniandes.csw.postman.tests.PostmanTestBuilder;
@@ -27,7 +23,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Arquillian.class)
 public class InternalSystemsIT {
-        private static final String COLLECTION = "InternalSystems-Tests-Paso5.postman_collection";
+    private static final String COLLECTION = "InternalSystems-Tests-Paso5.postman_collection";
 
     @Deployment(testable = true)
     public static WebArchive createDeployment() {
