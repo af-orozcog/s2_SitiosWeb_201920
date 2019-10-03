@@ -6,8 +6,10 @@
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
 import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
@@ -21,8 +23,10 @@ import javax.inject.Inject;
 public class HardwareLogic {
     @Inject
     private HardwarePersistence persistence;
-    
-    public HardwareEntity createHardware(HardwareEntity hardware) throws BusinessLogicException{
+    @Inject
+    private ProjectPersistence projectPersistence;
+
+    public HardwareEntity createHardware(Long projectsId, HardwareEntity hardware) throws BusinessLogicException{
         if(hardware.getIp()==null){
             throw new BusinessLogicException("El ip del hardware esta vacio");
         }
@@ -43,18 +47,28 @@ public class HardwareLogic {
             throw new BusinessLogicException("La plataforma del hardware esta vacia");
         }
         
+        if(noExisteProject(projectsId)==true){
+            throw new BusinessLogicException("El proyecto al que esta asociado no existe");
+        }
+        
         hardware = persistence.create(hardware);
         return hardware;
+    }
+    
+    private boolean noExisteProject(Long id){
+        ProjectEntity entity = projectPersistence.find(id);
+        return entity==null;
     }
     
     /**
      * Devuelve todos los hardwares que hay en la base de datos.
      *
+     * @param projectsId
      * @return Lista de entidades de tipo hardware.
      */
-    public List<HardwareEntity> getHardwares() {
-        List<HardwareEntity> hardwares = persistence.findAll();
-        return hardwares;
+    public HardwareEntity getHardwares(Long projectsId) {
+        ProjectEntity entity = projectPersistence.find(projectsId);
+        return entity.getHardware();
     }
 
     /**
@@ -63,20 +77,20 @@ public class HardwareLogic {
      * @param hardwareId El id del hardware a buscar
      * @return El hardware encontrado, null si no lo encuentra.
      */
-    public HardwareEntity getHardware(Long hardwareId) {
-        HardwareEntity hardwareEntity = persistence.find(hardwareId);
-        return hardwareEntity;
+    public HardwareEntity getHardware(Long projectId, Long hardwareId) {
+        return persistence.find(hardwareId);
     }
 
     /**
      * Actualizar un hardware por ID
      *
+     * @param projectId
      * @param hardwareId El ID del libro a actualizar
      * @param hardware La entidad del libro con los cambios deseados
      * @return La entidad del hardware luego de actualizarla
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public HardwareEntity updateHardware(Long hardwareId, HardwareEntity hardware) throws BusinessLogicException {
+    public HardwareEntity updateHardware(Long projectId, HardwareEntity hardware) throws BusinessLogicException {
         if(hardware.getIp()==null){
             throw new BusinessLogicException("El ip del hardware esta vacio");
         }
@@ -97,8 +111,26 @@ public class HardwareLogic {
             throw new BusinessLogicException("La plataforma del hardware esta vacia");
         }
         
+        ProjectEntity projectEntity = projectPersistence.find(projectId);
+        hardware.setProject(projectEntity);
+
         HardwareEntity newEntity = persistence.update(hardware);
         return newEntity;
     }
+    
+    /**
+     *
+     * @param projectsId
+     * @param hardwareId
+     * @throws BusinessLogicException
+     */
+    public void deleteHardware(Long projectsId, Long hardwareId) throws BusinessLogicException {
+        HardwareEntity old = getHardware(projectsId, hardwareId);
+        if (old == null) {
+            throw new BusinessLogicException("El hardware con id = " + hardwareId + " no esta asociado a el project con id = " + projectsId);
+        }
+        persistence.delete(old.getId());
+    }
+
  
 }

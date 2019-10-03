@@ -9,8 +9,11 @@ import co.edu.uniandes.csw.sitiosweb.podam.DateStrategy;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import uk.co.jemos.podam.common.PodamExclude;
 import uk.co.jemos.podam.common.PodamIntValue;
 import uk.co.jemos.podam.common.PodamStrategyValue;
 import uk.co.jemos.podam.common.PodamStringValue;
@@ -23,6 +26,20 @@ import uk.co.jemos.podam.common.PodamStringValue;
 public class RequestEntity extends BaseEntity implements Serializable
 {
     // Attributes
+    
+    /**
+     * Relationship where a request has one requester.
+     */
+    @PodamExclude
+    @ManyToOne
+    private RequesterEntity requester;
+    
+    /**
+     * Relationship where a request has one project.
+     */
+    @PodamExclude
+    @ManyToOne
+    private ProjectEntity project;
     
     /**
      * Name of the request.
@@ -174,4 +191,19 @@ public class RequestEntity extends BaseEntity implements Serializable
      */
     public void setEndDate(Date endDate) 
     { this.endDate = endDate; }
+    
+    
+    /**
+     * @return the requester
+     */
+    public RequesterEntity getRequester() {
+        return requester;
+    }
+
+    /**
+     * @param requester the requester to set
+     */
+    public void setRequester(RequesterEntity requester) {
+        this.requester = requester;
+    }
 }

@@ -6,7 +6,12 @@
 package co.edu.uniandes.csw.sitiosweb.entities;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -15,10 +20,18 @@ import javax.persistence.Entity;
 @Entity
 public class IterationEntity extends BaseEntity implements Serializable {
     private String objetive;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date validationDate;
     private String changes;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date beginDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
+    
+    @PodamExclude
+    @ManyToOne
+    private ProjectEntity project;
+
 
     /**
      * @return the objetive
@@ -88,6 +101,20 @@ public class IterationEntity extends BaseEntity implements Serializable {
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    /**
+     * @return the project
+     */
+    public ProjectEntity getProject() {
+        return project;
+    }
+
+    /**
+     * @param project the project to set
+     */
+    public void setProject(ProjectEntity project) {
+        this.project = project;
     }
     
 }

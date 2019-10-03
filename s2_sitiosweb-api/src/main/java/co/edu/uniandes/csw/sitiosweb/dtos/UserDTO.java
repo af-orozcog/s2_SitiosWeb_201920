@@ -16,7 +16,7 @@ public class UserDTO implements Serializable {
     private Long id;
     private String login;
     private String email;
-    private Integer phone;
+    private String phone;
     
     /**
      * Constructor por defecto
@@ -97,14 +97,14 @@ public class UserDTO implements Serializable {
     /**
      * @return the phone
      */
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
     /**
      * @param phone the phone to set
      */
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
