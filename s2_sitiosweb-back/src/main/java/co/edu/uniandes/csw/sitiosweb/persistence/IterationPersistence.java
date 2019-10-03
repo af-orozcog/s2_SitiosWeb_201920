@@ -16,16 +16,22 @@ import javax.persistence.TypedQuery;
 
 /**
  *
- * @author Andrés Felipe Orozco Gonzalez
+ * @author Andrés Felipe Orozco Gonzalez af.orozcog 201730058
  */
 @Stateless
 public class IterationPersistence {
+    
     private static final Logger LOGGER = Logger.getLogger(IterationPersistence.class.getName());
     @PersistenceContext(unitName = "sitioswebPU")
     
     
     protected EntityManager em;
     
+    /**
+     * Método que persiste la iteración pasada por parametro en la base de datos
+     * @param iteration la iteración que se quiere hacer persistir
+     * @return la iteración que se persistio
+     */
     public IterationEntity create (IterationEntity iteration){
         LOGGER.log(Level.INFO, "Creando una iteración nueva");
         
