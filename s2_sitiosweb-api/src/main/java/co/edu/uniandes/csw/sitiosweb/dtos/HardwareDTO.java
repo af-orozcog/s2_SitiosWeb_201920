@@ -20,8 +20,8 @@ public class HardwareDTO implements Serializable{
     
     private Long id;
     private Long ip;
-    private int cores;
-    private int ram;
+    private Integer cores;
+    private Integer ram;
     private String cpu;
     private String plataforma;
    
