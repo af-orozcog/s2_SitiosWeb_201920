@@ -6,8 +6,10 @@
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
 import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.logging.Logger;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +28,10 @@ public class InternalSystemsLogic {
     
     @Inject
     private InternalSystemsPersistence persistence;
+    
+    @Inject
+    private ProjectPersistence projectP;
+
     
     public InternalSystemsEntity createInternalSystems(InternalSystemsEntity internalSystems) throws BusinessLogicException{
         if(internalSystems.getType()==null){
@@ -51,6 +57,16 @@ public class InternalSystemsLogic {
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el sistema con id = {0}", internalSystemsId);
         return internalSystemsEntity;
+    }
+    
+    /**
+     * Retorna todos los internalSystems que posee un project
+     * @param projectId. Id del proyecto del que se desea buscar todos sus internalSystems
+     * @return Lista de InternalSystemsEntity de un mismo proyecto
+     */
+    public List<InternalSystemsEntity> getInternalSystemsByProject(Long projectId) {
+        ProjectEntity project = projectP.find(projectId);
+        return project.getInternalSystems();
     }
     
     public InternalSystemsEntity updateInternalSystems(Long internalSystemsId, InternalSystemsEntity internalSystemsEntity) {

@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.test.logic;
 
 import co.edu.uniandes.csw.sitiosweb.ejb.InternalSystemsLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class InternalSystemsLogicTest {
     private UserTransaction utx;
 
     private List<InternalSystemsEntity> data = new ArrayList<>();
+    
+    private List<ProjectEntity> dataP = new ArrayList<>();
+
 
 
     @Deployment
@@ -79,11 +83,43 @@ public class InternalSystemsLogicTest {
     }
 
     private void insertData() {
-        for (int i = 0; i < 3; i++) {
-            InternalSystemsEntity entity = factory.manufacturePojo(InternalSystemsEntity.class);
-            em.persist(entity);
-            data.add(entity);
-        }
+        
+        ProjectEntity project1 = factory.manufacturePojo(ProjectEntity.class);
+        ProjectEntity project2 = factory.manufacturePojo(ProjectEntity.class);
+
+        InternalSystemsEntity internal1 = factory.manufacturePojo(InternalSystemsEntity.class);
+        InternalSystemsEntity internal2 = factory.manufacturePojo(InternalSystemsEntity.class);
+        InternalSystemsEntity internal3 = factory.manufacturePojo(InternalSystemsEntity.class);
+
+        List<InternalSystemsEntity> lista1 = new ArrayList<>();
+        List<InternalSystemsEntity> lista2 = new ArrayList<>();
+        
+        internal1.setProject(project1);
+        internal2.setProject(project1);
+        internal3.setProject(project2);
+        
+        em.persist(internal1);
+        em.persist(internal2);
+        em.persist(internal3);
+
+        data.add(internal1);
+        data.add(internal2);
+        data.add(internal3);
+
+        lista1.add(internal1);
+        lista1.add(internal2);
+        lista2.add(internal3);
+
+        project1.setInternalSystems(lista1);
+        project2.setInternalSystems(lista2);
+
+        em.persist(project1);
+        em.persist(project2);
+        
+        dataP.add(project1);
+        dataP.add(project2);
+
+
     }
 
     @Test
@@ -121,6 +157,18 @@ public class InternalSystemsLogicTest {
         Assert.assertEquals(entity.getId(), resultEntity.getId());
         Assert.assertEquals(entity.getType(), resultEntity.getType());
     }
+    
+//    @Test
+//    public void getInternalSystemsByProjectTest() {
+//        ProjectEntity entity = dataP.get(0);
+//        List<InternalSystemsEntity> lista = internalSystemsLogic.getInternalSystemsByProject(entity.getId());
+//        
+//        for(int i = 0; i<2; i++){
+//            Assert.assertNotNull(lista.get(i));
+//            Assert.assertEquals(lista.get(i).getType(), data.get(i).getType());
+//
+//        }
+//    }
 
     @Test
     public void updateInternalSystemsTest() {

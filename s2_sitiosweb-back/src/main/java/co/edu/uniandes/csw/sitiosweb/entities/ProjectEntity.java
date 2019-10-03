@@ -48,6 +48,11 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     @PodamExclude
     @OneToMany (mappedBy = "project",fetch=FetchType.LAZY)
     private List<IterationEntity> iterations = new ArrayList<>();
+    
+    @PodamExclude
+    @OneToMany (mappedBy = "project",fetch=FetchType.LAZY)
+    private List<InternalSystemsEntity> internalSystems = new ArrayList<>();
+
 
     /**
      * @return the internalProject
@@ -130,6 +135,20 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
      */
     public void setIterations(List<IterationEntity> iterations) {
         this.iterations = iterations;
+    }
+
+    /**
+     * @return the internalSystems
+     */
+    public List<InternalSystemsEntity> getInternalSystems() {
+        return internalSystems;
+    }
+
+    /**
+     * @param internalSystems the internalSystems to set
+     */
+    public void setInternalSystems(List<InternalSystemsEntity> internalSystems) {
+        this.internalSystems = internalSystems;
     }
     
 

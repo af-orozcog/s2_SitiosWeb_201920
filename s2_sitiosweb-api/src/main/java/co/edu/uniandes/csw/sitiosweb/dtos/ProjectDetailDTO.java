@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import java.io.Serializable;
@@ -28,6 +29,13 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
      */
     private List<DeveloperDTO> developers;
     
+         /*
+    * Esta lista de tipo DeveloperDTO contiene los developers que estan asociados a un proyecto.
+     */
+    private List<InternalSystemsDTO> internalSystems;
+
+    
+    
     public ProjectDetailDTO() {
         super();
     }
@@ -49,6 +57,13 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
             iterations = new ArrayList<>();
             for (IterationEntity entityAuthor : projectEntity.getIterations()) {
                 iterations.add(new IterationDTO(entityAuthor));
+            }
+        }
+        
+        if (projectEntity.getInternalSystems() != null) {
+            internalSystems = new ArrayList<>();
+            for (InternalSystemsEntity entityInternal : projectEntity.getInternalSystems()) {
+                internalSystems.add(new InternalSystemsDTO(entityInternal));
             }
         }
     }
@@ -75,6 +90,14 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
                 iterationsEntity.add(DTOIteration.toEntity());
             }
             projectEntity.setIterations(iterationsEntity);
+        }
+        
+        if (getInternalSystems() != null) {
+            List<InternalSystemsEntity> internalSystemsEntity = new ArrayList<>();
+            for (InternalSystemsDTO DTOInternal : getInternalSystems()) {
+                internalSystemsEntity.add(DTOInternal.toEntity());
+            }
+            projectEntity.setInternalSystems(internalSystemsEntity);
         }
        
         return projectEntity;
@@ -107,5 +130,19 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
      */
     public void setDevelopers(List<DeveloperDTO> developers) {
         this.developers = developers;
+    }
+
+    /**
+     * @return the internalSystems
+     */
+    public List<InternalSystemsDTO> getInternalSystems() {
+        return internalSystems;
+    }
+
+    /**
+     * @param internalSystems the internalSystems to set
+     */
+    public void setInternalSystems(List<InternalSystemsDTO> internalSystems) {
+        this.internalSystems = internalSystems;
     }
 }
