@@ -60,6 +60,7 @@ public class RequestResource
     {
         LOGGER.log(Level.INFO, "RequestResource: input: {0}.", request);
         RequestDTO requestDTO = new RequestDTO(requestLogic.createRequest(request.toEntity()));
+        LOGGER.log(Level.INFO, "RequestResource: output: {0}.", requestDTO);
         return requestDTO;
     }
     
@@ -70,7 +71,7 @@ public class RequestResource
     @GET
     public List<RequestDTO> getRequests()
     {
-        LOGGER.log(Level.INFO, "RequestResource getRequests: input: void");
+        LOGGER.log(Level.INFO, "RequestResource getRequests: input: void.");
         List<RequestDTO> listRequests = listEntityToDTO(requestLogic.getRequests());
         LOGGER.log(Level.INFO, "RequestResource getRequests: output: {0}.");
         return listRequests;
@@ -98,7 +99,7 @@ public class RequestResource
     
     /**
      * Finds and updates the request with the given id for the given request.
-     * @param requestId The request to update.
+     * @param requestId The id of the request to update.
      * @param request The request with the new information.
      * @return JSON {@Link RequestDTO} The updated request, if it exists.
      * @throws WebApplicationException {@Link WebApplicationExceptionMapper}
@@ -138,7 +139,7 @@ public class RequestResource
     // Auxiliar methods
     
     /**
-     * Transforms a list of request entities objects into a list od request DTOs objects.
+     * Transforms a list of request entity objects into a list of request DTO objects.
      * @param entityList The list of request entities. 
      * @return The list of request DTOs.
      */
