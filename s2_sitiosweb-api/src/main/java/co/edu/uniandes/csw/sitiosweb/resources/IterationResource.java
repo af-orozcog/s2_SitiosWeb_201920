@@ -36,7 +36,7 @@ import javax.ws.rs.WebApplicationException;
 
 
 /**
- * 
+ * @author Andres Felipe Orozco Gonzalez 201730058 af.orozcog
  */
 @Path("iterations")
 @Produces("application/json")
@@ -46,9 +46,18 @@ public class IterationResource implements Serializable {
     
     private static final Logger LOGGER = Logger.getLogger(IterationResource.class.getName());
     
+    /**
+     * Atributo para relacionarse con la logica
+     */
     @Inject
     private IterationLogic iterationLogic;
     
+    /**
+     * Método para permitir crear iteracion
+     * @param iteration la iteración a ser creada
+     * @return el DTO creado
+     * @throws BusinessLogicException si la creación de la iteración no sigue las reglas de negocio
+     */
     @POST
     public IterationDTO createIteration(IterationDTO iteration) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "IterationResource createIteration: input: {0}", iteration);
@@ -62,6 +71,10 @@ public class IterationResource implements Serializable {
         return nuevoIterationDTO;
     }
     
+    /**
+     * Método para obetener todas las iteraciones
+     * @return una lista con las iteraciones en formato DTO
+     */
     @GET
     public List<IterationDTO> getIterations() {
         LOGGER.info("IterationResource getIterations: input: void");
@@ -70,6 +83,12 @@ public class IterationResource implements Serializable {
         return listaUsuarios;
     }
    
+    /**
+     * Método que devuelve la iteración con el identificador pasado por parametro
+     * @param iterationId el id de la iteración
+     * @return la iteración que se solicito en formato DTO
+     * @throws WebApplicationException 
+     */
     @GET
     @Path("{iterationsId: \\d+}")
     public IterationDTO getIteration(@PathParam("iterationsId") Long iterationId) throws WebApplicationException {
@@ -83,6 +102,14 @@ public class IterationResource implements Serializable {
         return detailDTO;
     }
 
+    /**
+     * Método que permite actualizar la iteración con identificador pasado por parametro
+     * @param iterationsId el identificador de la iteracion
+     * @param iteration el nuevo DTO de dicha iteracion
+     * @return el nuevo DTO de dicha iteracion
+     * @throws WebApplicationException
+     * @throws BusinessLogicException si no se han cumplido las reglas de negocio para la modificación de la iteracion
+     */
     @PUT
     @Path("{iterationsId: \\d+}")
     public IterationDTO updateIteration(@PathParam("iterationsId") Long iterationsId, IterationDTO iteration) throws WebApplicationException, BusinessLogicException {
@@ -96,7 +123,11 @@ public class IterationResource implements Serializable {
         return detailDTO;
     }
     
-    
+    /**
+     * Método que convierte iterationEntities a IterationDTO
+     * @param entityList lista de obejtos IterationEntity
+     * @return una lista con objetos IterationDTO
+     */
     private List<IterationDTO> listEntity2DTO(List<IterationEntity> entityList) {
         List<IterationDTO> list = new ArrayList<>();
         for (IterationEntity entity : entityList) {
@@ -105,6 +136,11 @@ public class IterationResource implements Serializable {
         return list;
     }
     
+    /**
+     * Método para borrar la iteración con id pasado por parametro
+     * @param iterationsId el id de la iteración que se quiere borrar
+     * @throws BusinessLogicException si se incumplen reglas de negocio para borrar la iteracion
+     */
     @DELETE
     @Path("{iterationsId: \\d+}")
     public void deleteIteration(@PathParam("iterationsId") Long iterationsId) throws BusinessLogicException {

@@ -33,17 +33,30 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @RunWith(Arquillian.class)
 public class IterationLogicTest {
     
+    /**
+     * atributo necesario para crear los datos de las pruebas
+     */
     private PodamFactory factory = new PodamFactoryImpl();
     
+    /**
+     * atributo para conectarse con la capa de logica
+     */
     @Inject
     private IterationLogic iterationLogic;
     
     @PersistenceContext
     protected EntityManager em;
     
+    /**
+     * manejador de transaccionalidad
+     */
     @Inject
     private UserTransaction utx;
     
+    /**
+     * Método donde se van a preestableces algunos datos para probar los 
+     * métodos de la logica
+     */
     private List<IterationEntity> data = new ArrayList<IterationEntity>();
     
     
@@ -100,6 +113,10 @@ public class IterationLogicTest {
         }
     }
     
+    /**
+     * Método para probar que la creación de una iteración se haga correctamente
+     * @throws BusinessLogicException si se violo alguna regla de negocio para crear la iteración
+     */
     @Test
     public void createIteration() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
@@ -110,6 +127,10 @@ public class IterationLogicTest {
         Assert.assertEquals(entity.getObjetive(),result.getObjetive());
     }
     
+    /**
+     * Método para probar que no se creen iteraciones con objetivo nulo
+     * @throws BusinessLogicException dado que se crea una iteracion con objetivo nulo
+     */
     @Test (expected = BusinessLogicException.class)
     public void createIterationObjetiveNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
@@ -117,6 +138,10 @@ public class IterationLogicTest {
         IterationEntity result = iterationLogic.createIteration(newEntity);
     }
     
+    /**
+     * Método para probar que no se creen iteraciones con fecha de validación nula
+     * @throws BusinessLogicException dado que se crea una iteración con fecha de validación nula
+     */
     @Test (expected = BusinessLogicException.class)
     public void createIterationValidationDateNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
@@ -124,6 +149,10 @@ public class IterationLogicTest {
         IterationEntity result = iterationLogic.createIteration(newEntity);
     }
     
+    /**
+     * Método para probar que no se creen iteraciones con fecha de inicio nula
+     * @throws BusinessLogicException dado que se crea una iteracion con fecha de validadción nula
+     */
     @Test (expected = BusinessLogicException.class)
     public void createIterationBeginDateNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
@@ -131,6 +160,10 @@ public class IterationLogicTest {
         IterationEntity result = iterationLogic.createIteration(newEntity);
     }
     
+    /**
+     * Método para probar que no se creen iteraciones con fecha final nula
+     * @throws BusinessLogicException dado que se crea una iteracion con fecha final nula
+     */
     @Test (expected = BusinessLogicException.class)
     public void createIterationEndDateNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
@@ -138,18 +171,12 @@ public class IterationLogicTest {
         IterationEntity result = iterationLogic.createIteration(newEntity);
     }
     
-    @Test (expected = BusinessLogicException.class)
-    public void createIterationChangesNull() throws BusinessLogicException{
-        IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
-        newEntity.setChanges(null);
-        IterationEntity result = iterationLogic.createIteration(newEntity);
-    }
     
     /**
      * Prueba para consultar la lista de Iterations
      */
     @Test
-    public void getAuthorsTest() {
+    public void getIterationsTest() {
         List<IterationEntity> list = iterationLogic.getIterations();
         Assert.assertEquals(data.size(), list.size());
         for (IterationEntity entity : list) {
@@ -164,10 +191,10 @@ public class IterationLogicTest {
     }
     
    /**
-     * Prueba para actualizar un Iteration.
+     * Prueba para actualizar un Iteracion.
      */
     @Test
-    public void updateAuthorTest() {
+    public void updateIterationTest() {
         IterationEntity entity = data.get(0);
         IterationEntity pojoEntity = factory.manufacturePojo(IterationEntity.class);
 
@@ -183,12 +210,12 @@ public class IterationLogicTest {
     } 
     
     /**
-     * Prueba para eliminar un Author
+     * Prueba para eliminar una iteración
      *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     * @throws BusinessLogicException
      */
     @Test
-    public void deleteAuthorTest() throws BusinessLogicException {
+    public void deleteIterationTest() throws BusinessLogicException {
         IterationEntity entity = data.get(0);
         iterationLogic.deleteIteration(entity.getId());
         IterationEntity deleted = em.find(IterationEntity.class, entity.getId());
