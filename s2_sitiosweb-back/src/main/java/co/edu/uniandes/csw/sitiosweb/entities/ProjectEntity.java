@@ -42,6 +42,10 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     private DeveloperEntity leader;
     
     @PodamExclude
+    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
+    private ProviderEntity provider;
+    
+    @PodamExclude
     @OneToOne(mappedBy = "project", fetch=FetchType.LAZY)
     private HardwareEntity hardware;
     
@@ -149,6 +153,34 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
      */
     public void setInternalSystems(List<InternalSystemsEntity> internalSystems) {
         this.internalSystems = internalSystems;
+    }
+
+    /**
+     * @return the requests
+     */
+    public List<RequestEntity> getRequests() {
+        return requests;
+    }
+
+    /**
+     * @param requests the requests to set
+     */
+    public void setRequests(List<RequestEntity> requests) {
+        this.requests = requests;
+    }
+
+    /**
+     * @return the provider
+     */
+    public ProviderEntity getProvider() {
+        return provider;
+    }
+
+    /**
+     * @param provider the provider to set
+     */
+    public void setProvider(ProviderEntity provider) {
+        this.provider = provider;
     }
     
 

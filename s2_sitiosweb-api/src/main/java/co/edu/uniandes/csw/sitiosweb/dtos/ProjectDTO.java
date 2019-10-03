@@ -17,19 +17,64 @@ public class ProjectDTO implements Serializable{
     private Boolean internalProject;
     private String company;
     private Long id;
-    
+    private HardwareDTO hw;
+    private DeveloperDTO leader;
+    private ProviderDTO provider;
+    /**
+     * Empty constructor
+     */
     public ProjectDTO (){
         
     }
     
+    /**
+     * Creates a ProjectDTO object given arojectEntity object.
+     * @param entity The ProjectEntity object.
+     */
     public ProjectDTO(ProjectEntity entity){
-        setId(entity.getId());
-        setInternalProject(entity.getInternalProject());
-        setCompany(entity.getCompany());
+        if(entity != null){
+            if(entity.getHardware() != null){
+                this.hw = new HardwareDTO(entity.getHardware());
+            }
+            else{
+                this.hw = null;
+            }
+            if(entity.getLeader() != null){
+                this.leader = new DeveloperDTO(entity.getLeader());
+            }
+            else{
+                this.leader = null;
+            }
+            if(entity.getProvider() != null){
+                this.provider = new ProviderDTO(entity.getProvider());
+            }
+            else{
+                this.provider = null;
+            }
+            this.id = entity.getId();
+            this.internalProject = entity.getInternalProject();
+            this.company = entity.getCompany();
+            
+        }
     }
     
+    // Methods
+    
+    /**
+     * Converts the ProjectDTO to a ProjetEntity object.
+     * @return The ProjectEntity object with the information in this object.
+     */
     public ProjectEntity toEntity(){
         ProjectEntity entidad = new ProjectEntity();
+        if(this.getHw() != null){
+            entidad.setHardware(this.getHw().toEntity());
+        }
+        if(this.getLeader() != null){
+            entidad.setLeader(this.getLeader().toEntity());
+        }
+        if(this.getProvider() != null){
+            entidad.setProvider(this.getProvider().toEntity());
+        }
         entidad.setId(this.getId());
         entidad.setInternalProject(this.internalProject);
         entidad.setCompany(this.company);
@@ -75,6 +120,48 @@ public class ProjectDTO implements Serializable{
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the hw
+     */
+    public HardwareDTO getHw() {
+        return hw;
+    }
+
+    /**
+     * @param hw the hw to set
+     */
+    public void setHw(HardwareDTO hw) {
+        this.hw = hw;
+    }
+
+    /**
+     * @return the leader
+     */
+    public DeveloperDTO getLeader() {
+        return leader;
+    }
+
+    /**
+     * @param leader the leader to set
+     */
+    public void setLeader(DeveloperDTO leader) {
+        this.leader = leader;
+    }
+
+    /**
+     * @return the provider
+     */
+    public ProviderDTO getProvider() {
+        return provider;
+    }
+
+    /**
+     * @param provider the provider to set
+     */
+    public void setProvider(ProviderDTO provider) {
+        this.provider = provider;
     }
     
 }

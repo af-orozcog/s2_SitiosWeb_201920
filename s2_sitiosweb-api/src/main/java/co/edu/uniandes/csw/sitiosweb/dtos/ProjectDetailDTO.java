@@ -9,6 +9,7 @@ import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,15 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
 
     
     
+     /*
+    * Esta lista de tipo RequestDTO contiene los requests que estan asociados a un proyecto.
+     */
+    private List<RequestDTO> requests;
+    
+    
+    /**
+     * Empty constructor of ProjectDetailDTO
+     */
     public ProjectDetailDTO() {
         super();
     }
@@ -55,8 +65,8 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
         }
         if (projectEntity.getIterations() != null) {
             iterations = new ArrayList<>();
-            for (IterationEntity entityAuthor : projectEntity.getIterations()) {
-                iterations.add(new IterationDTO(entityAuthor));
+            for (IterationEntity entityIteration : projectEntity.getIterations()) {
+                iterations.add(new IterationDTO(entityIteration));
             }
         }
         
@@ -66,12 +76,19 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
                 internalSystems.add(new InternalSystemsDTO(entityInternal));
             }
         }
+        if(projectEntity.getRequests() != null){
+            requests = new ArrayList<>();
+            for(RequestEntity entityRequest : projectEntity.getRequests()){
+                requests.add(new RequestDTO(entityRequest));
+            }       
+        }
+        
     }
 
     /**
      * Transformar el DTO a una entidad
      *
-     * @return La entidad que representa el libro.
+     * @return La entidad que representa el proyecto.
      */
     @Override
     public ProjectEntity toEntity() {
@@ -98,6 +115,14 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
                 internalSystemsEntity.add(DTOInternal.toEntity());
             }
             projectEntity.setInternalSystems(internalSystemsEntity);
+        }
+        
+        if(getRequests() != null){
+            List<RequestEntity> requestsEntity = new ArrayList<>();
+            for(RequestDTO DTORequest : getRequests()){
+                requestsEntity.add(DTORequest.toEntity());
+            }
+            projectEntity.setRequests(requestsEntity);
         }
        
         return projectEntity;
@@ -144,5 +169,19 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
      */
     public void setInternalSystems(List<InternalSystemsDTO> internalSystems) {
         this.internalSystems = internalSystems;
+    }
+
+    /**
+     * @return the requests
+     */
+    public List<RequestDTO> getRequests() {
+        return requests;
+    }
+
+    /**
+     * @param requests the requests to set
+     */
+    public void setRequests(List<RequestDTO> requests) {
+        this.requests = requests;
     }
 }
