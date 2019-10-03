@@ -38,8 +38,6 @@ public class DeveloperLogic {
         
         if(persistence.findByLogin(developer.getLogin()) != null)
             throw new BusinessLogicException( "El login ya existe" );
-        //if(validatePhone(user.getPhone()))
-          //  throw new BusinessLogicException("El teléfono es inválido");
         
         
         developer = persistence.create(developer);
@@ -56,28 +54,25 @@ public class DeveloperLogic {
 
     public DeveloperEntity getDeveloper(Long developerId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el desarrollador con id = {0}", developerId);
-        DeveloperEntity DeveloperEntity = persistence.find(developerId);
-        if (DeveloperEntity == null) {
+        DeveloperEntity developerEntity = persistence.find(developerId);
+        if (developerEntity == null) {
             LOGGER.log(Level.SEVERE, "El desarrollador con el id = {0} no existe", developerId);
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el desarrollador con id = {0}", developerId);
-        return DeveloperEntity;
+        return developerEntity;
     }
     
-    public DeveloperEntity updateDeveloper(Long developerId, DeveloperEntity DeveloperEntity) throws BusinessLogicException {
+    public DeveloperEntity updateDeveloper(Long developerId, DeveloperEntity developerEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el desarrollador con id = {0}", developerId);
-        if(DeveloperEntity.getLogin() == null )
+        if(developerEntity.getLogin() == null )
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
-        if(DeveloperEntity.getEmail() == null )
+        if(developerEntity.getEmail() == null )
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
-        if(DeveloperEntity.getPhone() == null )
+        if(developerEntity.getPhone() == null )
             throw new BusinessLogicException( "El teléfono del desarrollador está vacío" );
-
-        //if(validatePhone(user.getPhone()))
-          //  throw new BusinessLogicException("El teléfono es inválido");
         
-        DeveloperEntity newEntity = persistence.update(DeveloperEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el desarrollador con id = {0}", DeveloperEntity.getId());
+        DeveloperEntity newEntity = persistence.update(developerEntity);
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar el desarrollador con id = {0}", developerEntity.getId());
         return newEntity;
     }
 
@@ -86,8 +81,4 @@ public class DeveloperLogic {
         persistence.delete(developerId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el desarrollador con id = {0}", developerId);
     }
-    
-    //private boolean validatePhone(Integer phone) {
-      //  return !(phone == null || Long.SIZE != 9);
-    //}
 }

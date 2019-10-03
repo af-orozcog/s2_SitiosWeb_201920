@@ -38,6 +38,7 @@ public class RequesterDTO extends UserDTO implements Serializable {
      *
      * @return La entidad del libro asociado.
      */
+    @Override
     public RequesterEntity toEntity() {
         RequesterEntity requesterEntity = new RequesterEntity();
         requesterEntity.setId(this.getId());
