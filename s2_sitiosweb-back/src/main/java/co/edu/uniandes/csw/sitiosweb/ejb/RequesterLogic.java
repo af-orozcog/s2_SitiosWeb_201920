@@ -25,6 +25,13 @@ public class RequesterLogic {
     @Inject
     private RequesterPersistence persistence;
     
+    /**
+     * Se encarga de crear un RequesterEntity en la base de datos.
+     *
+     * @param requester Objeto de RequesterEntity con los datos nuevos
+     * @return Objeto de RequesterEntity con los datos nuevos y su ID.
+     * @throws BusinessLogicException si el requester tiene datos inválidos.
+     */
     public RequesterEntity createRequester( RequesterEntity requester) throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de creación del solicitante");
         if(requester.getLogin() == null )
@@ -44,6 +51,11 @@ public class RequesterLogic {
         return requester;
     }
     
+    /**
+     * Obtiene la lista de los registros de Requester.
+     *
+     * @return Colección de objetos de RequesterEntity.
+     */
     public List<RequesterEntity> getRequesters() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los solicitantes");
         List<RequesterEntity> requesters = persistence.findAll();
@@ -51,6 +63,12 @@ public class RequesterLogic {
         return requesters;
     }
 
+    /**
+     * Obtiene los datos de una instancia de Requester a partir de su ID.
+     *
+     * @param requesterId Identificador de la instancia a consultar
+     * @return Instancia de RequesterEntity con los datos del Requester consultado.
+     */
     public RequesterEntity getRequester(Long requesterId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el solicitante con id = {0}", requesterId);
         RequesterEntity RequesterEntity = persistence.find(requesterId);
@@ -61,24 +79,37 @@ public class RequesterLogic {
         return RequesterEntity;
     }
     
-    public RequesterEntity updateRequester(Long requesterId, RequesterEntity RequesterEntity) throws BusinessLogicException {
+    /**
+     * Actualiza la información de una instancia de Requester.
+     *
+     * @param requesterId Identificador de la instancia a actualizar
+     * @param requesterEntity Instancia de RequesterEntity con los nuevos datos.
+     * @return Instancia de RequesterEntity con los datos actualizados.
+     * @throws BusinessLogicException si el la instancia con los nuevos datos tiene datos inválidos.
+     */
+    public RequesterEntity updateRequester(Long requesterId, RequesterEntity requesterEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el solicitante con id = {0}", requesterId);
-        if(RequesterEntity.getLogin() == null )
+        if(requesterEntity.getLogin() == null )
             throw new BusinessLogicException( "El login del solicitante está vacío" );
-        if(RequesterEntity.getEmail() == null )
+        if(requesterEntity.getEmail() == null )
             throw new BusinessLogicException( "El email del solicitante está vacío" );
-        if(RequesterEntity.getPhone() == null )
+        if(requesterEntity.getPhone() == null )
             throw new BusinessLogicException( "El teléfono del solicitante está vacío" );
         
         //if(validatePhone(RequesterEntity.getPhone()))
           //  throw new BusinessLogicException("El teléfono es inválido");
         
-        RequesterEntity newEntity = persistence.update(RequesterEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el solicitante con id = {0}", RequesterEntity.getId());
+        RequesterEntity newEntity = persistence.update(requesterEntity);
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar el solicitante con id = {0}", requesterEntity.getId());
         return newEntity;
     }
 
-    public void deleteRequester(Long requesterId) throws BusinessLogicException {
+    /**
+     * Elimina una instancia de Requester de la base de datos.
+     *
+     * @param requesterId Identificador de la instancia a eliminar.
+     */
+    public void deleteRequester(Long requesterId) {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el solicitante con id = {0}", requesterId);
         persistence.delete(requesterId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el solicitante con id = {0}", requesterId);

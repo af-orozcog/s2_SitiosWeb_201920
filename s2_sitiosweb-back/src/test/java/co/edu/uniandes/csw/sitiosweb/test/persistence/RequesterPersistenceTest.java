@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
@@ -41,6 +42,7 @@ public class RequesterPersistenceTest {
          return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(UserEntity.class.getPackage())
                 .addPackage(RequesterEntity.class.getPackage())
+                .addPackage(RequestEntity.class.getPackage()) 
                 .addPackage(UnitEntity.class.getPackage())
                 .addPackage(RequesterPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
