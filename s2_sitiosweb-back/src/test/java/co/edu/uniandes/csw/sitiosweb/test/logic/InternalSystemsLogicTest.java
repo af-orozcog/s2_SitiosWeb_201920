@@ -10,8 +10,11 @@ import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.RequestPersistence;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,6 +37,8 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @RunWith(Arquillian.class)
 public class InternalSystemsLogicTest {
        private PodamFactory factory = new PodamFactoryImpl();
+
+    private static final Logger LOGGER = Logger.getLogger(InternalSystemsLogicTest.class.getName());
 
     @Inject
     private InternalSystemsLogic internalSystemsLogic;
@@ -118,8 +123,7 @@ public class InternalSystemsLogicTest {
         
         dataP.add(project1);
         dataP.add(project2);
-
-
+        
     }
 
     @Test
@@ -158,17 +162,23 @@ public class InternalSystemsLogicTest {
         Assert.assertEquals(entity.getType(), resultEntity.getType());
     }
     
-//    @Test
-//    public void getInternalSystemsByProjectTest() {
-//        ProjectEntity entity = dataP.get(0);
-//        List<InternalSystemsEntity> lista = internalSystemsLogic.getInternalSystemsByProject(entity.getId());
-//        
-//        for(int i = 0; i<2; i++){
-//            Assert.assertNotNull(lista.get(i));
-//            Assert.assertEquals(lista.get(i).getType(), data.get(i).getType());
-//
-//        }
-//    }
+    @Test
+    public void getInternalSystemsByProjectTest() {
+        ProjectEntity entity = dataP.get(0);
+        List<InternalSystemsEntity> lista = internalSystemsLogic.getInternalSystemsByProject(entity.getId());
+        
+        InternalSystemsEntity internal1 = lista.get(0);
+        InternalSystemsEntity internal2 = lista.get(1);
+
+        Assert.assertNotNull(internal1);
+        Assert.assertNotNull(internal2);
+
+        Assert.assertEquals(internal1.getId(), data.get(1).getId());
+        Assert.assertEquals(internal1.getType(), data.get(1).getType());
+        Assert.assertEquals(internal2.getId(), data.get(0).getId());
+        Assert.assertEquals(internal2.getType(), data.get(0).getType());
+
+    }
 
     @Test
     public void updateInternalSystemsTest() {
