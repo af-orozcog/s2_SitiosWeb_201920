@@ -135,7 +135,7 @@ public class RequestLogic
      * @param requestId The request's id.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public void deteleRequest(Long requestId) throws BusinessLogicException
+    public void deleteRequest(Long requestId) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Deleting request with id = {0}.", requestId);
         // TODO relationships with Requester and Project.

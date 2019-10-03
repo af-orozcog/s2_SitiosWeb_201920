@@ -18,8 +18,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * @author Daniel del Castillo A.
  * The JSON serialization implements the following model: <br>
  * <pre>
- * {
- *      "id" : number,
+ * {"id" : number,
  *      "name" : string,
  *      "purpose" : string,
  *      "requestType" : string,
@@ -33,6 +32,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *      "description" : string,
  *      "requester" : [...],
  *      "project" : [...]
+ *      
  * }
  * </pre>
  */

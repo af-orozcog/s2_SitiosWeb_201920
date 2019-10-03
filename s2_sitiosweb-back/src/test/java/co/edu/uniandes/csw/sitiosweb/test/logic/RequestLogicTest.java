@@ -439,7 +439,7 @@ public class RequestLogicTest
     public void deteleRequestTest() throws BusinessLogicException
     {
         RequestEntity entity = data.get(0);
-        requestLogic.deteleRequest(entity.getId());
+        requestLogic.deleteRequest(entity.getId());
         RequestEntity deleted = em.find(RequestEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }

@@ -46,7 +46,7 @@ public class RequestEntity extends BaseEntity implements Serializable
     public enum WebCategory
     {
         Descriptive,
-        Aplication,
+        Application,
         Event
     }
     
