@@ -8,8 +8,8 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 import uk.co.jemos.podam.common.PodamStringValue;
 
@@ -21,8 +21,11 @@ public class UnitEntity extends BaseEntity implements Serializable
 {
     // Attributes
  
+    /**
+     * Relationship where one unit has many requesters.
+     */
     @PodamExclude
-    @OneToMany(mappedBy = "unit")
+    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY)
     private List<RequesterEntity> requesters;
     
     /**
@@ -44,4 +47,16 @@ public class UnitEntity extends BaseEntity implements Serializable
      */
     public void setName(String name) 
     { this.name = name; }
+
+    /**
+     * @return the requesters
+     */
+    public List<RequesterEntity> getRequesters() 
+    { return requesters; }
+
+    /**
+     * @param requesters the requesters to set
+     */
+    public void setRequesters(List<RequesterEntity> requesters) 
+    { this.requesters = requesters; }
 }

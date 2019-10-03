@@ -7,7 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -36,10 +35,10 @@ public class DeveloperPersistenceTest {
     
     private static final Logger LOGGER = Logger.getLogger(DeveloperPersistenceTest.class.getName());
 
-    
     @Deployment
     public static JavaArchive createDeployment(){
         return ShrinkWrap.create(JavaArchive.class)
+                .addPackage(UserEntity.class.getPackage())
                 .addPackage(DeveloperEntity.class.getPackage())
                 .addPackage(ProjectEntity.class.getPackage())
                 .addPackage(DeveloperPersistence.class.getPackage())

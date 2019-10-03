@@ -15,18 +15,48 @@ import java.util.Date;
  */
 public class IterationDTO implements Serializable {
     
-    
+    /**
+     * Atributo que representa el objetivo de la iteración
+     */
     private String objetive;
+    
+    /**
+     * Atributo que representa la fecha de validación
+     */
     private Date validationDate;
+    
+    /**
+     * atributo que representa los cambios que se hicieron durante la iteración
+     */
     private String changes;
+    
+    /**
+     * atributo que representa la fecha de inicio de la iteración
+     */
     private Date beginDate;
+    
+    /**
+     * atributo que representa la fecha final de la iteración
+     */
     private Date endDate;
+    
+    /**
+     * Identificación del objeto
+     */
     private Long id;
        
+    /**
+     * Método constructor vacio
+     */
     public IterationDTO(){
     
     }
     
+    /**
+     * constructor del método iterationDTO, este método se crea apartir del
+     * IterationEntity pasado por parametro
+     * @param iterationEntity 
+     */
     public IterationDTO(IterationEntity iterationEntity) {
         if (iterationEntity != null) {
             this.id = iterationEntity.getId();
@@ -37,7 +67,11 @@ public class IterationDTO implements Serializable {
             this.endDate = iterationEntity.getEndDate();
         }
     }
-
+    
+    /**
+     * Método necesario para convertir el IterationDTO a una entidad
+     * @return un IterationEntity del IterationDTO
+     */
     public IterationEntity toEntity() {
         IterationEntity iterationEntity = new IterationEntity();
         iterationEntity.setId(this.getId());

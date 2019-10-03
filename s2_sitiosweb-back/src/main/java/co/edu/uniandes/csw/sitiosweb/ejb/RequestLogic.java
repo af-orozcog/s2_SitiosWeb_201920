@@ -77,6 +77,12 @@ public class RequestLogic
             throw new BusinessLogicException("El presupuesto del proyecto no puede ser negativo.");
         else if(request.getDescription() == null || request.getDescription().isEmpty())
             throw new BusinessLogicException("La descripción del proyecto solicitado está vacía.");
+        else if(request.getStatus() == null)
+            throw new BusinessLogicException("No se eligió estado para la solicitud.");
+        else if(request.getWebCategory() == null)
+            throw new BusinessLogicException("No se eligió categoría web para el proyecto.");
+        else if(request.getRequestType() == null)
+            throw new BusinessLogicException("No se eligió el tipo de la solicitud.");
         LOGGER.log(Level.INFO, "Creating a new logic request.");
         request = persistence.create(request);
         LOGGER.log(Level.INFO, "Exiting the creaton of the logic request.");
@@ -129,7 +135,7 @@ public class RequestLogic
      * @param requestId The request's id.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public void deteleRequest(Long requestId) throws BusinessLogicException
+    public void deleteRequest(Long requestId) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Deleting request with id = {0}.", requestId);
         // TODO relationships with Requester and Project.

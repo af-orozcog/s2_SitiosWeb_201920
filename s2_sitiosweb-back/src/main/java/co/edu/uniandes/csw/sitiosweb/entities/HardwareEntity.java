@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -20,6 +22,11 @@ public class HardwareEntity extends BaseEntity implements Serializable{
     private int ram;
     private String cpu;
     private String plataforma;
+    
+    @PodamExclude
+    @OneToOne
+    private ProjectEntity project;
+
 
     /**
      * @return the ip
@@ -89,6 +96,20 @@ public class HardwareEntity extends BaseEntity implements Serializable{
      */
     public void setPlataforma(String plataforma) {
         this.plataforma = plataforma;
+    }
+
+    /**
+     * @return the project
+     */
+    public ProjectEntity getProject() {
+        return project;
+    }
+
+    /**
+     * @param project the project to set
+     */
+    public void setProject(ProjectEntity project) {
+        this.project = project;
     }
     
     

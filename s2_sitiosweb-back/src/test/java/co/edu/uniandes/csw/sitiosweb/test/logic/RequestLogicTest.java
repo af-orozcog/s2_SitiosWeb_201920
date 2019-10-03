@@ -100,7 +100,7 @@ public class RequestLogicTest
     public void configTest()
     {
         beforeDate = new GregorianCalendar(1099, Calendar.DECEMBER, 15).getTime();
-        date = new GregorianCalendar(2099, Calendar.DECEMBER, 15).getTime();
+        date = new GregorianCalendar(9999, Calendar.DECEMBER, 15).getTime();
         try
         {
             utx.begin();
@@ -278,6 +278,45 @@ public class RequestLogicTest
     }
     
     /**
+     * Tests the request's status null creation.
+     * @throws BusinessLogicException Logic exception associated with business rules.
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequestNullStatusTest() throws BusinessLogicException
+    {
+        RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+        setValidData(newEntity);
+        newEntity.setStatus(null);
+        RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's web category null creation.
+     * @throws BusinessLogicException Logic exception associated with business rules.
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequestNullWebCategoryTest() throws BusinessLogicException
+    {
+        RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+        setValidData(newEntity);
+        newEntity.setWebCategory(null);
+        RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's web request type null creation.
+     * @throws BusinessLogicException Logic exception associated with business rules.
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequestNullRequestTypeTest() throws BusinessLogicException
+    {
+        RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+        setValidData(newEntity);
+        newEntity.setRequestType(null);
+        RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
      * Tests the request's invalid budget creation.
      * @throws BusinessLogicException Logic exception associated with business rules.
      */
@@ -400,7 +439,7 @@ public class RequestLogicTest
     public void deteleRequestTest() throws BusinessLogicException
     {
         RequestEntity entity = data.get(0);
-        requestLogic.deteleRequest(entity.getId());
+        requestLogic.deleteRequest(entity.getId());
         RequestEntity deleted = em.find(RequestEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }

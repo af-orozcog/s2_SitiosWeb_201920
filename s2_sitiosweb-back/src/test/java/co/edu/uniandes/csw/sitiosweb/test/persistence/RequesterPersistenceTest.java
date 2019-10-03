@@ -6,7 +6,8 @@
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
-import co.edu.uniandes.csw.sitiosweb.persistence.RequesterPersistence;
+import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -34,8 +35,10 @@ public class RequesterPersistenceTest {
     
     @Deployment
     public static JavaArchive createDeployment(){
-        return ShrinkWrap.create(JavaArchive.class)
+         return ShrinkWrap.create(JavaArchive.class)
+                .addPackage(UserEntity.class.getPackage())
                 .addPackage(RequesterEntity.class.getPackage())
+                .addPackage(UnitEntity.class.getPackage())
                 .addPackage(RequesterPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");

@@ -5,7 +5,11 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,11 @@ public class ProjectPersistenceTest {
    @Deployment
    public static JavaArchive createDeployment(){
        return ShrinkWrap.create(JavaArchive.class)
-               .addClass(ProjectEntity.class)
+               .addPackage(ProjectEntity.class.getPackage())
+               .addPackage(RequestEntity.class.getPackage())
+               .addPackage(DeveloperEntity.class.getPackage())
+               .addPackage(HardwareEntity.class.getPackage())
+               .addPackage(IterationEntity.class.getPackage())
                .addClass(ProjectPersistence.class)
                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
@@ -49,7 +57,7 @@ public class ProjectPersistenceTest {
    @Inject
    UserTransaction utx;
    
-   private List<ProjectEntity> data = new ArrayList<ProjectEntity>();
+   private List<ProjectEntity> data = new ArrayList<>();
    
    /**
     * Configuracion de la prueba

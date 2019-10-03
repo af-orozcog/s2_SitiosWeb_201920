@@ -35,8 +35,8 @@ public class InternalSystemsPersistenceTest {
     @Deployment
     public static JavaArchive createDeploymet(){
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(InternalSystemsEntity.class)
-                .addClass(InternalSystemsPersistence.class)
+                .addPackage(InternalSystemsEntity.class.getPackage())
+                .addPackage(InternalSystemsPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml","beans.xml");
     }
