@@ -163,22 +163,6 @@ public class InternalSystemsLogicTest {
     }
     
     @Test
-    public void getInternalSystemsByProjectTest() {
-        ProjectEntity entity = dataP.get(0);
-        List<InternalSystemsEntity> lista = internalSystemsLogic.getInternalSystemsByProject(entity.getId());
-        
-        InternalSystemsEntity internal1 = lista.get(0);
-        InternalSystemsEntity internal2 = lista.get(1);
-
-        Assert.assertNotNull(internal1);
-        Assert.assertNotNull(internal2);
-
-        Assert.assertEquals(internal1.getType(), data.get(1).getType());
-        Assert.assertEquals(internal2.getType(), data.get(0).getType());
-
-    }
-
-    @Test
     public void updateInternalSystemsTest() {
         InternalSystemsEntity entity = data.get(0);
         InternalSystemsEntity pojoEntity = factory.manufacturePojo(InternalSystemsEntity.class);
