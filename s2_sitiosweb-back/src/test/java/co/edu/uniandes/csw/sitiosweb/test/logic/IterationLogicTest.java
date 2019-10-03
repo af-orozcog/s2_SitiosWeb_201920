@@ -6,7 +6,9 @@
 package co.edu.uniandes.csw.sitiosweb.test.logic;
 
 import co.edu.uniandes.csw.sitiosweb.ejb.IterationLogic;
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
 import java.util.ArrayList;
@@ -54,10 +56,16 @@ public class IterationLogicTest {
     private UserTransaction utx;
     
     /**
-     * Método donde se van a preestableces algunos datos para probar los 
+     * donde se van a preestablecer algunos datos para probar los
      * métodos de la logica
      */
     private List<IterationEntity> data = new ArrayList<IterationEntity>();
+    
+    /**
+     * donde se van a preestablecer algunos datos para probar los 
+     * métodos de la logica
+     */
+    private List<ProjectEntity> dataProject = new ArrayList<ProjectEntity>();
     
     
     @Deployment
@@ -97,6 +105,7 @@ public class IterationLogicTest {
      */
     private void clearData() {
         em.createQuery("delete from IterationEntity").executeUpdate();
+        em.createQuery("delete from ProjectEntity").executeUpdate();
     }
     
     
@@ -110,6 +119,14 @@ public class IterationLogicTest {
             IterationEntity entity = factory.manufacturePojo(IterationEntity.class);
             em.persist(entity);
             data.add(entity);
+        }
+        for (int i = 0; i < 3; i++) {
+            ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+            IterationEntity en = data.get(i);
+            en.setProject(entity);
+            em.persist(en);
+            em.persist(entity);
+            dataProject.add(entity);
         }
     }
     
@@ -194,13 +211,13 @@ public class IterationLogicTest {
      * Prueba para actualizar un Iteracion.
      */
     @Test
-    public void updateIterationTest() {
+    public void updateIterationTest() throws BusinessLogicException {
         IterationEntity entity = data.get(0);
         IterationEntity pojoEntity = factory.manufacturePojo(IterationEntity.class);
 
         pojoEntity.setId(entity.getId());
 
-        iterationLogic.updateIteration(pojoEntity.getId(), pojoEntity);
+        iterationLogic.updateIteration(dataProject.get(0).getId(), pojoEntity);
 
         IterationEntity resp = em.find(IterationEntity.class, entity.getId());
 
