@@ -34,7 +34,7 @@ public class IterationLogic {
     @Inject
     private ProjectPersistence projectPersistence;
     
-    public IterationEntity createIteration(IterationEntity iteracion) throws BusinessLogicException {
+    public IterationEntity createIteration(Long projectsId,IterationEntity iteracion) throws BusinessLogicException {
         if(iteracion.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(iteracion.getEndDate() == null)
@@ -43,8 +43,21 @@ public class IterationLogic {
             throw new BusinessLogicException("el objetivo esta vacio");
         if(iteracion.getValidationDate() == null)
             throw new BusinessLogicException("la fecha de validación esta vacia");
+        if(noExisteProject(projectsId))
+            throw new BusinessLogicException("el proyecto al que esta asociado no existe");
         iteracion = persistence.create(iteracion);
+        
         return iteracion;
+    }
+    
+    /**
+     * Método que notifica si hay un proyecto relacionado con el id pasado por parametro
+     * @param id el id del proyecto que se quiere consultar
+     * @return falso o verdadero si existe el proyecto
+     */
+    private boolean noExisteProject(Long id){
+        ProjectEntity entity = projectPersistence.find(id);
+        return entity==null;
     }
     
     /**
@@ -79,12 +92,13 @@ public class IterationLogic {
      * Actualiza la información de una instancia de Author.
      *
      * @param projectId id del proyecto al que pertenece
+     * @param iterationId id de la iteración
      * @param iterationEntity Instancia de IterationEntity con los nuevos datos.
      * @return Instancia de AuthorEntity con los datos actualizados.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public IterationEntity updateIteration(Long projectId, IterationEntity iterationEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el autor con id = {0}", iterationEntity.getId());
+    public IterationEntity updateIteration(Long projectId, Long iterationId, IterationEntity iterationEntity) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el autor con id = {0}", iterationId);
          if(iterationEntity.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(iterationEntity.getEndDate() == null)
@@ -93,6 +107,8 @@ public class IterationLogic {
             throw new BusinessLogicException("el objetivo esta vacio");
         if(iterationEntity.getValidationDate() == null)
             throw new BusinessLogicException("la fecha de validación esta vacia");
+        if(noExisteProject(projectId))
+            throw new BusinessLogicException("el proyecto no existe");
         ProjectEntity projectEntity = projectPersistence.find(projectId);
         iterationEntity.setProject(projectEntity);
         IterationEntity newIterationEntity = persistence.update(iterationEntity);
@@ -101,7 +117,7 @@ public class IterationLogic {
     }
    
     /**
-     * Elimina una instancia de Author de la base de datos.
+     * Elimina una instancia de iteración de la base de datos.
      *
      * @param iterationsId Identificador de la instancia a eliminar.
      * @throws BusinessLogicException si el autor tiene libros asociados.
