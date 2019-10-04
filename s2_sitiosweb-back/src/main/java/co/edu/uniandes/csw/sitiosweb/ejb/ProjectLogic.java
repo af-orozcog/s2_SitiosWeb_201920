@@ -21,6 +21,9 @@ import javax.inject.Inject;
 @Stateless
 public class ProjectLogic {
     
+    /**
+     * Peristence class for the logic to use
+     */
     @Inject
     private ProjectPersistence persistence;
     
@@ -29,6 +32,12 @@ public class ProjectLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectLogic.class.getName());
     
+    /**
+     * Contructor of ProjectEntity that evaluates rules before a ProjectEntity's creation
+     * @param pe ProjectEntity to be created
+     * @return a new ProjectEntity 
+     * @throws BusinessLogicException if any rules are broken
+     */
     public ProjectEntity createProject(ProjectEntity pe) throws BusinessLogicException{
        
         if(pe.getCompany() == null){
@@ -36,6 +45,9 @@ public class ProjectLogic {
         }
         if(pe.getInternalProject() == null){
             throw new BusinessLogicException("El proyecto no dice si es interno o no");
+        }
+        if(persistence.find(pe.getId()) != null){
+            throw new BusinessLogicException("El proyecto ya existe");
         }
         LOGGER.log(Level.INFO, "Creating a new logic project.");
         pe = persistence.create(pe);
