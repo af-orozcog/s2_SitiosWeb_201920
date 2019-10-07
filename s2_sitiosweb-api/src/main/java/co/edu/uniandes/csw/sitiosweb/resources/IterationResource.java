@@ -54,17 +54,18 @@ public class IterationResource implements Serializable {
     
     /**
      * Método para permitir crear iteracion
+     * @param projectsId id del projecto al que se esta relacionado
      * @param iteration la iteración a ser creada
      * @return el DTO creado
      * @throws BusinessLogicException si la creación de la iteración no sigue las reglas de negocio
      */
     @POST
-    public IterationDTO createIteration(IterationDTO iteration) throws BusinessLogicException {
+    public IterationDTO createIteration(@PathParam("projectsId") Long projectsId,IterationDTO iteration) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "IterationResource createIteration: input: {0}", iteration);
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
         IterationEntity iterationEntity = iteration.toEntity();
         // Invoca la lógica para crear la editorial nueva
-        IterationEntity nuevoIterationEntity = iterationLogic.createIteration(iterationEntity);
+        IterationEntity nuevoIterationEntity = iterationLogic.createIteration(projectsId, iterationEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
         IterationDTO nuevoIterationDTO = new IterationDTO(nuevoIterationEntity);
         LOGGER.log(Level.INFO, "IterationResource createIteration: output: {0}", nuevoIterationDTO);
@@ -104,6 +105,7 @@ public class IterationResource implements Serializable {
 
     /**
      * Método que permite actualizar la iteración con identificador pasado por parametro
+     * @param projectsId
      * @param iterationsId el identificador de la iteracion
      * @param iteration el nuevo DTO de dicha iteracion
      * @return el nuevo DTO de dicha iteracion
@@ -112,13 +114,13 @@ public class IterationResource implements Serializable {
      */
     @PUT
     @Path("{iterationsId: \\d+}")
-    public IterationDTO updateIteration(@PathParam("iterationsId") Long iterationsId, IterationDTO iteration) throws WebApplicationException, BusinessLogicException {
+    public IterationDTO updateIteration(@PathParam("projectsId") Long projectsId, @PathParam("iterationsId") Long iterationsId, IterationDTO iteration) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "IterationResource updateIteration: input: id:{0} , iteration: {1}", new Object[]{iterationsId, iteration});
         iteration.setId(iterationsId);
         if (iterationLogic.getIteration(iterationsId) == null) {
             throw new WebApplicationException("El recurso /iterations/" + iterationsId + " no existe.", 404);
         }
-        IterationDTO detailDTO = new IterationDTO(iterationLogic.updateIteration(iterationsId, iteration.toEntity()));
+        IterationDTO detailDTO = new IterationDTO(iterationLogic.updateIteration(projectsId, iterationsId, iteration.toEntity()));
         LOGGER.log(Level.INFO, "IterationResource updateIteration: output: {0}", detailDTO);
         return detailDTO;
     }

@@ -1,9 +1,11 @@
 
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
+import co.edu.uniandes.csw.sitiosweb.adapters.DateAdapter;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import java.io.Serializable;
 import java.util.Date;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -19,21 +21,25 @@ public class IterationDTO implements Serializable {
     /**
      * Atributo que representa la fecha de validación
      */
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date validationDate;
     
     /**
      * atributo que representa los cambios que se hicieron durante la iteración
      */
+    
     private String changes;
     
     /**
      * atributo que representa la fecha de inicio de la iteración
      */
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date beginDate;
     
     /**
      * atributo que representa la fecha final de la iteración
      */
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date endDate;
     
     /**
