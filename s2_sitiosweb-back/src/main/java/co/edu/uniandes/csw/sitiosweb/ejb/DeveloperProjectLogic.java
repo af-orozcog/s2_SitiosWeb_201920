@@ -74,15 +74,35 @@ public class DeveloperProjectLogic {
      * Obtiene una colección de instancias de DeveloperEntity asociadas a una
      * instancia de Project
      *
-     * @param projectId Identificador de la instancia de Book
-     * @return Colección de instancias de AuthorEntity asociadas a la instancia
-     * de Book
+     * @param projectId Identificador de la instancia de Project
+     * @return Colección de instancias de DeveloperEntity asociadas a la instancia
+     * de Project
      */
     public List<DeveloperEntity> getDevelopers(Long projectId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los desarrolladores del proyecto con id = {0}", projectId);
         return projectPersistence.find(projectId).getDevelopers();
     }
 
+    /**
+     * Obtiene una instancia de ProjectEntity asociada a una instancia de Developer
+     *
+     * @param developerId Identificador de la instancia de Developer
+     * @param projectId Identificador de la instancia de Project
+     * @return La entidadd de proyecto del desarrollador
+     * @throws BusinessLogicException Si el proyecto no está asociado al desarrollador
+     */
+    public ProjectEntity getProject(Long developerId, Long projectId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developerId, projectId);
+        List<ProjectEntity> projects = developerPersistence.find(developerId).getProjects();
+        ProjectEntity projectEntity=  projectPersistence.find(projectId);
+        int index = projects.indexOf(projectEntity);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developerId, projectId);
+        if (index >= 0) {
+            return projects.get(index);
+        }
+        throw new BusinessLogicException("El proyecto no está asociado al desarrollador");
+    }
+    
     /**
      * Remplazar el lider de un project.
      *
