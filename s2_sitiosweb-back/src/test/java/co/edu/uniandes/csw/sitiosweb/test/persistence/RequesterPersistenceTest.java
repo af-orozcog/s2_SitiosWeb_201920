@@ -156,7 +156,7 @@ public class RequesterPersistenceTest {
     }
 
     /**
-     * Prueba para actualizar un Requester.
+     * Prueba para eliminar un Requester.
      */
     @Test
     public void deleteRequesterTest() {
@@ -167,7 +167,7 @@ public class RequesterPersistenceTest {
     }
 
     /**
-     * Prueba para eliminar un Requester.
+     * Prueba para actualizar un Requester.
      */
     @Test
     public void updateRequesterTest() {
