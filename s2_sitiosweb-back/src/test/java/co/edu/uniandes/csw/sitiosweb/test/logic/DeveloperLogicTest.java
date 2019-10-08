@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.test.logic;
 
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import java.util.ArrayList;
@@ -32,22 +33,27 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  */
 @RunWith(Arquillian.class)
 public class DeveloperLogicTest {
-    
+
     private PodamFactory factory = new PodamFactoryImpl();
-    
+
     @Inject
     private DeveloperLogic developerLogic;
-    
+
     @PersistenceContext
     protected EntityManager em;
-    
+
     @Inject
     private UserTransaction utx;
-    
+
     private List<DeveloperEntity> data = new ArrayList<DeveloperEntity>();
 
+    /**
+     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
+     * El jar contiene las clases, el descriptor de la base de datos y el
+     * archivo beans.xml para resolver la inyección de dependencias.
+     */
     @Deployment
-    public static JavaArchive createDeployment(){
+    public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(DeveloperEntity.class.getPackage())
                 .addPackage(DeveloperLogic.class.getPackage())
@@ -55,7 +61,10 @@ public class DeveloperLogicTest {
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
-    
+
+    /**
+     * Configuración inicial de la prueba.
+     */
     @Before
     public void configTest() {
         try {
@@ -72,70 +81,118 @@ public class DeveloperLogicTest {
             }
         }
     }
-    
+
+    /**
+     * Limpia las tablas que están implicadas en la prueba.
+     */
     private void clearData() {
-          em.createQuery("delete from DeveloperEntity").executeUpdate();
+        em.createQuery("delete from ProjectEntity").executeUpdate();
+        em.createQuery("delete from DeveloperEntity").executeUpdate();
     }
 
+    /**
+     * Inserta los datos iniciales para el correcto funcionamiento de las
+     * pruebas.
+     */
     private void insertData() {
         for (int i = 0; i < 3; i++) {
             DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
             em.persist(entity);
+            entity.setLeadingProjects(new ArrayList<>());
             data.add(entity);
         }
+
+        DeveloperEntity leader = data.get(2);
+        ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+        entity.setLeader(leader);
+        em.persist(entity);
+        leader.getLeadingProjects().add(entity);
     }
+
+    /**
+     * Prueba para crear un Developer.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test
-    public void createDeveloper() throws BusinessLogicException{
-        
+    public void createDeveloper() throws BusinessLogicException {
+
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
         Assert.assertNotNull(result);
-        
+
         DeveloperEntity entity = em.find(DeveloperEntity.class, result.getId());
         Assert.assertEquals(entity.getId(), result.getId());
         Assert.assertEquals(entity.getLogin(), result.getLogin());
         Assert.assertEquals(entity.getEmail(), result.getEmail());
         Assert.assertEquals(entity.getPhone(), result.getPhone());
-        
+
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createDeveloperEmailNull() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Developer con email null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createDeveloperEmailNull() throws BusinessLogicException {
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setEmail(null);
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createDeveloperLoginNull() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Developer con login null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createDeveloperLoginNull() throws BusinessLogicException {
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setLogin(null);
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createDeveloperPhoneNull() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Developer con phone null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createDeveloperPhoneNull() throws BusinessLogicException {
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setPhone(null);
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createDeveloperTypeNull() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Developer con type null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createDeveloperTypeNull() throws BusinessLogicException {
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setPhone(null);
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
-    
-    @Test (expected = BusinessLogicException.class)
-    public void createDeveloperLoginExistente() throws BusinessLogicException{
+
+    /**
+     * Prueba para crear un Developer con un login ya existente.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createDeveloperLoginExistente() throws BusinessLogicException {
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
         newEntity.setLogin(data.get(0).getLogin());
         developerLogic.createDeveloper(newEntity);
     }
-    
-    
-     @Test
+
+    /**
+     * Prueba para consultar la lista de Developers.
+     */
+    @Test
     public void getDevelopersTest() {
         List<DeveloperEntity> list = developerLogic.getDevelopers();
         Assert.assertEquals(data.size(), list.size());
@@ -151,7 +208,7 @@ public class DeveloperLogicTest {
     }
 
     /**
-     * Prueba para consultar un Book.
+     * Prueba para consultar un Developer.
      */
     @Test
     public void getDeveloperTest() {
@@ -164,6 +221,11 @@ public class DeveloperLogicTest {
         Assert.assertEquals(entity.getEmail(), resultEntity.getEmail());
     }
 
+    /**
+     * Prueba para actualizar un Developer.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test
     public void updateDeveloperTest() throws BusinessLogicException {
         DeveloperEntity entity = data.get(0);
@@ -177,8 +239,13 @@ public class DeveloperLogicTest {
         Assert.assertEquals(pojoEntity.getEmail(), resp.getEmail());
     }
 
+    /**
+     * Prueba para actualizar un Developer con login null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test(expected = BusinessLogicException.class)
-    public void updateDeveloperConLoginInvalidoTest() throws BusinessLogicException {
+    public void updateDeveloperConLoginNullTest() throws BusinessLogicException {
         DeveloperEntity entity = data.get(0);
         DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setLogin(null);
@@ -186,24 +253,68 @@ public class DeveloperLogicTest {
         developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }
 
+    /**
+     * Prueba para actualizar un Developer con un login existente.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test(expected = BusinessLogicException.class)
-    public void updateDeveloperConEmailInvalidoTest() throws BusinessLogicException {
+    public void updateDeveloperConLoginExistenteTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
+        pojoEntity.setLogin(data.get(1).getLogin());
+        pojoEntity.setId(entity.getId());
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
+    }
+
+    /**
+     * Prueba para actualizar un Developer con email null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateDeveloperConEmailNullest() throws BusinessLogicException {
         DeveloperEntity entity = data.get(0);
         DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setEmail(null);
         pojoEntity.setId(entity.getId());
         developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }
-    
-        @Test(expected = BusinessLogicException.class)
-    public void updateDeveloperConPhoneInvalidoTest() throws BusinessLogicException {
+
+    /**
+     * Prueba para actualizar un Developer con phone null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateDeveloperConPhoneNullTest() throws BusinessLogicException {
         DeveloperEntity entity = data.get(0);
         DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setPhone(null);
         pojoEntity.setId(entity.getId());
         developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }
-    
+
+    /**
+     * Prueba para actualizar un Developer con type developer y es lider de
+     * proyectos.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateDeveloperConTypeDeveloperTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(2);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
+        pojoEntity.setType(DeveloperEntity.DeveloperType.Developer);
+        pojoEntity.setId(entity.getId());
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
+    }
+
+    /**
+     * Prueba para eliminar un Developer
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
     @Test
     public void deleteDeveloperTest() throws BusinessLogicException {
         DeveloperEntity entity = data.get(0);
@@ -212,4 +323,13 @@ public class DeveloperLogicTest {
         Assert.assertNull(deleted);
     }
 
+    /**
+     * Prueba para eliminar un Developer asociado como lider a un proyecto
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void deleteDeveloperLeadingTest() throws BusinessLogicException {
+        developerLogic.deleteDeveloper(data.get(2).getId());
+    }
 }

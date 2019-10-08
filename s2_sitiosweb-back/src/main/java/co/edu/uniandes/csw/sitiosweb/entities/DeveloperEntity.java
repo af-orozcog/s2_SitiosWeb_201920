@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -21,11 +22,10 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class DeveloperEntity extends UserEntity implements Serializable {
 
-
     public enum DeveloperType {
         Leader, Developer
     }
-
+    
     @PodamExclude
     @ManyToMany(mappedBy = "developers")
     private List<ProjectEntity> projects;
@@ -34,6 +34,7 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     @OneToMany(mappedBy = "leader")
     private List<ProjectEntity> leadingProjects;
     
+    @Enumerated(EnumType.ORDINAL)
     private DeveloperType type;
 
     /**

@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
+import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.UserEntity;
@@ -32,29 +33,34 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  */
 @RunWith(Arquillian.class)
 public class RequesterPersistenceTest {
-    
-    @Deployment
-    public static JavaArchive createDeployment(){
-         return ShrinkWrap.create(JavaArchive.class)
-                .addPackage(UserEntity.class.getPackage())
-                .addPackage(RequesterEntity.class.getPackage())
-                .addPackage(UnitEntity.class.getPackage())
-                .addPackage(RequesterPersistence.class.getPackage())
-                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
-                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
-    }
-    
+
     @Inject
     RequesterPersistence up;
 
     @PersistenceContext
     protected EntityManager em;
-    
-     @Inject
+
+    @Inject
     UserTransaction utx;
 
     private List<RequesterEntity> data = new ArrayList<RequesterEntity>();
 
+    /**
+     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
+     * El jar contiene las clases, el descriptor de la base de datos y el
+     * archivo beans.xml para resolver la inyección de dependencias.
+     */
+    @Deployment
+    public static JavaArchive createDeployment() {
+        return ShrinkWrap.create(JavaArchive.class)
+                .addPackage(UserEntity.class.getPackage())
+                .addPackage(RequesterEntity.class.getPackage())
+                .addPackage(RequestEntity.class.getPackage())
+                .addPackage(UnitEntity.class.getPackage())
+                .addPackage(RequesterPersistence.class.getPackage())
+                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
+    }
 
     /**
      * Configuración inicial de la prueba.
@@ -83,7 +89,11 @@ public class RequesterPersistenceTest {
     private void clearData() {
         em.createQuery("delete from RequesterEntity").executeUpdate();
     }
-    
+
+    /**
+     * Inserta los datos iniciales para el correcto funcionamiento de las
+     * pruebas.
+     */
     private void insertData() {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
@@ -95,21 +105,27 @@ public class RequesterPersistenceTest {
             data.add(entity);
         }
     }
-    
+
+    /**
+     * Prueba para crear un Requester.
+     */
     @Test
-    public void createTest(){
+    public void createTest() {
         PodamFactory factory = new PodamFactoryImpl();
         RequesterEntity requester = factory.manufacturePojo(RequesterEntity.class);
         RequesterEntity result = up.create(requester);
         Assert.assertNotNull(result);
-        
+
         RequesterEntity entity = em.find(RequesterEntity.class, result.getId());
         Assert.assertEquals(requester.getLogin(), entity.getLogin());
         Assert.assertEquals(requester.getEmail(), entity.getEmail());
         Assert.assertEquals(requester.getPhone(), entity.getPhone());
-        
+
     }
-    
+
+    /**
+     * Prueba para consultar la lista de Requesters.
+     */
     @Test
     public void getRequestersTest() {
         List<RequesterEntity> list = up.findAll();
@@ -125,7 +141,9 @@ public class RequesterPersistenceTest {
         }
     }
 
-
+    /**
+     * Prueba para consultar un Requester.
+     */
     @Test
     public void getRequesterTest() {
         RequesterEntity entity = data.get(0);
@@ -137,7 +155,9 @@ public class RequesterPersistenceTest {
 
     }
 
-
+    /**
+     * Prueba para eliminar un Requester.
+     */
     @Test
     public void deleteRequesterTest() {
         RequesterEntity entity = data.get(0);
@@ -146,6 +166,9 @@ public class RequesterPersistenceTest {
         Assert.assertNull(deleted);
     }
 
+    /**
+     * Prueba para actualizar un Requester.
+     */
     @Test
     public void updateRequesterTest() {
         RequesterEntity entity = data.get(0);
