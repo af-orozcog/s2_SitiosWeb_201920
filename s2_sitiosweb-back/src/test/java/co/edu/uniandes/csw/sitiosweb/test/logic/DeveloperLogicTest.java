@@ -56,6 +56,7 @@ public class DeveloperLogicTest {
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(DeveloperEntity.class.getPackage())
+                .addPackage(ProjectEntity.class.getPackage())
                 .addPackage(DeveloperLogic.class.getPackage())
                 .addPackage(DeveloperPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
