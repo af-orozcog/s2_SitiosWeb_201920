@@ -13,11 +13,34 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class HardwareDTO implements Serializable{
     
     private Long id;
+    
     private Long ip;
+    
+    /**
+     * la cantidad de cores
+     */
     private Integer cores;
+    
+    /**
+     * la cantidad de memoria Ram
+     */
     private Integer ram;
+    
+    /**
+     * la cpu del Hardware
+     */
     private String cpu;
+    
+    
+    /**
+     * la plataforma del Hardware
+     */
     private String plataforma;
+    
+    /**
+     * Atributo que representa la asociación con el projecto
+     */
+    private ProjectDTO projecto;
    
 
     /**
@@ -41,7 +64,8 @@ public class HardwareDTO implements Serializable{
             this.ram = hardwareEntity.getRam();
             this.cpu = hardwareEntity.getCpu();
             this.plataforma = hardwareEntity.getPlataforma();
-    
+            ProjectDTO toAdd = new ProjectDTO(hardwareEntity.getProject());
+            this.projecto = toAdd;
         }
     }
 

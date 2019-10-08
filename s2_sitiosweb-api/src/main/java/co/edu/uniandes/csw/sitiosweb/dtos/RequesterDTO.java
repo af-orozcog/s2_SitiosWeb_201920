@@ -45,6 +45,7 @@ public class RequesterDTO extends UserDTO implements Serializable {
         requesterEntity.setLogin(this.getLogin());
         requesterEntity.setEmail(this.getEmail());
         requesterEntity.setPhone(this.getPhone());
+        requesterEntity.setUnit(this.getUnit().toEntity());
         return requesterEntity;
         
     }

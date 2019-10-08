@@ -1,0 +1,58 @@
+{
+	"info": {
+		"_postman_id": "bfe26ee3-623d-49d9-ab70-f7969fc87c05",
+		"name": "Requester Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un solicitante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe340c59-ae35-451a-b2b1-6f5f7748b9f1",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_e\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3203745567\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters"
+					]
+				},
+				"description": "Añade un usuario tipo solicitante a la base de datos"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

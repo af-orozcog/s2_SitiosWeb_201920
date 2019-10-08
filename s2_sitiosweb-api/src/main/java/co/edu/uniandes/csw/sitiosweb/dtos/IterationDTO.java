@@ -48,6 +48,12 @@ public class IterationDTO implements Serializable {
     private Long id;
        
     /**
+    * Atributo que representa la asociación con el projecto
+    */
+    private ProjectDTO projecto;
+    
+    
+    /**
      * Método constructor vacio
      */
     public IterationDTO(){
@@ -67,6 +73,8 @@ public class IterationDTO implements Serializable {
             this.changes = iterationEntity.getChanges();
             this.beginDate = iterationEntity.getBeginDate();
             this.endDate = iterationEntity.getEndDate();
+            ProjectDTO toAdd = new ProjectDTO(iterationEntity.getProject());
+            this.projecto = toAdd;
         }
     }
     

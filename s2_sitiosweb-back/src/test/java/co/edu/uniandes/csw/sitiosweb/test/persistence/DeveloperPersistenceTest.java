@@ -26,17 +26,34 @@ import javax.transaction.UserTransaction;
 import org.junit.Before;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+
 /**
  *
  * @author Nicolás Abondano nf.abondano 201812467
  */
 @RunWith(Arquillian.class)
 public class DeveloperPersistenceTest {
-    
+
     private static final Logger LOGGER = Logger.getLogger(DeveloperPersistenceTest.class.getName());
 
+    @Inject
+    DeveloperPersistence developerPersistence;
+
+    @PersistenceContext
+    protected EntityManager em;
+
+    @Inject
+    UserTransaction utx;
+
+    private List<DeveloperEntity> data = new ArrayList<DeveloperEntity>();
+
+    /**
+     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
+     * El jar contiene las clases, el descriptor de la base de datos y el
+     * archivo beans.xml para resolver la inyección de dependencias.
+     */
     @Deployment
-    public static JavaArchive createDeployment(){
+    public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(UserEntity.class.getPackage())
                 .addPackage(DeveloperEntity.class.getPackage())
@@ -45,18 +62,6 @@ public class DeveloperPersistenceTest {
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
-    
-    @Inject
-    DeveloperPersistence up;
-
-    @PersistenceContext
-    protected EntityManager em;
-    
-     @Inject
-    UserTransaction utx;
-
-    private List<DeveloperEntity> data = new ArrayList<DeveloperEntity>();
-
 
     /**
      * Configuración inicial de la prueba.
@@ -85,7 +90,11 @@ public class DeveloperPersistenceTest {
     private void clearData() {
         em.createQuery("delete from DeveloperEntity").executeUpdate();
     }
-    
+
+    /**
+     * Inserta los datos iniciales para el correcto funcionamiento de las
+     * pruebas.
+     */
     private void insertData() {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
@@ -97,24 +106,30 @@ public class DeveloperPersistenceTest {
             data.add(entity);
         }
     }
-    
+
+    /**
+     * Prueba para crear un Developer.
+     */
     @Test
-    public void createTest(){
+    public void createTest() {
         PodamFactory factory = new PodamFactoryImpl();
         DeveloperEntity developer = factory.manufacturePojo(DeveloperEntity.class);
-        DeveloperEntity result = up.create(developer);
+        DeveloperEntity result = developerPersistence.create(developer);
         Assert.assertNotNull(result);
-        
+
         DeveloperEntity entity = em.find(DeveloperEntity.class, result.getId());
         Assert.assertEquals(developer.getLogin(), entity.getLogin());
         Assert.assertEquals(developer.getEmail(), entity.getEmail());
         Assert.assertEquals(developer.getPhone(), entity.getPhone());
         Assert.assertEquals(developer.getType(), entity.getType());
     }
-    
+
+    /**
+     * Prueba para consultar la lista de Developers.
+     */
     @Test
     public void getDevelopersTest() {
-        List<DeveloperEntity> list = up.findAll();
+        List<DeveloperEntity> list = developerPersistence.findAll();
         Assert.assertEquals(data.size(), list.size());
         for (DeveloperEntity ent : list) {
             boolean found = false;
@@ -127,11 +142,13 @@ public class DeveloperPersistenceTest {
         }
     }
 
-
+    /**
+     * Prueba para consultar un Developer.
+     */
     @Test
     public void getDeveloperTest() {
         DeveloperEntity entity = data.get(0);
-        DeveloperEntity newEntity = up.find(entity.getId());
+        DeveloperEntity newEntity = developerPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
         Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
@@ -140,15 +157,9 @@ public class DeveloperPersistenceTest {
 
     }
 
-
-    @Test
-    public void deleteDeveloperTest() {
-        DeveloperEntity entity = data.get(0);
-        up.delete(entity.getId());
-        DeveloperEntity deleted = em.find(DeveloperEntity.class, entity.getId());
-        Assert.assertNull(deleted);
-    }
-
+    /**
+     * Prueba para actualizar un Developer.
+     */
     @Test
     public void updateDeveloperTest() {
         DeveloperEntity entity = data.get(0);
@@ -157,13 +168,25 @@ public class DeveloperPersistenceTest {
 
         newEntity.setId(entity.getId());
 
-        up.update(newEntity);
+        developerPersistence.update(newEntity);
         DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
-                
+
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
         Assert.assertEquals(newEntity.getPhone(), resp.getPhone());
         Assert.assertEquals(newEntity.getType(), resp.getType());
-        
+
     }
+
+    /**
+     * Prueba para eliminar un Developer.
+     */
+    @Test
+    public void deleteDeveloperTest() {
+        DeveloperEntity entity = data.get(0);
+        developerPersistence.delete(entity.getId());
+        DeveloperEntity deleted = em.find(DeveloperEntity.class, entity.getId());
+        Assert.assertNull(deleted);
+    }
+
 }

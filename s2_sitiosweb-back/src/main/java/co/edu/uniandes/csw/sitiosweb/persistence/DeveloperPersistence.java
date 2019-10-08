@@ -27,32 +27,65 @@ public class DeveloperPersistence {
     @PersistenceContext(unitName = "sitioswebPU")
     protected EntityManager em;
 
-    public DeveloperEntity create(DeveloperEntity developer) {
+    /**
+     * Método para persisitir la entidad en la base de datos.
+     *
+     * @param developerEntity objeto desarrollador que se creará en la base de datos
+     * @return devuelve la entidad creada con un id dado por la base de datos.
+     */
+    public DeveloperEntity create(DeveloperEntity developerEntity) {
         LOGGER.log(Level.INFO, "Creando un desarrollador nuevo");
-        em.persist(developer);
+        em.persist(developerEntity);
 
         LOGGER.log(Level.INFO, "Desarrollador creado");
-        return developer;
+        return developerEntity;
     }
 
+    /**
+     * Devuelve todos los desarrolladores de la base de datos.
+     *
+     * @return una lista con todos los desarrolladores que encuentre en la base de datos,
+     * "select u from DeveloperEntity u" es como un "select * from DeveloperEntity;" -
+     * "SELECT * FROM table_name" en SQL.
+     */
     public List<DeveloperEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todos los desarrolladores");
         Query q = em.createQuery("select u from DeveloperEntity u");
         return q.getResultList();
     }
 
+    /**
+     * Busca si hay algun desarrollador con el id que se envía de argumento
+     *
+     * @param developersId: id correspondiente al desarrollador buscado.
+     * @return un desarrollador.
+     */
     public DeveloperEntity find(Long developersId) {
         LOGGER.log(Level.INFO, "Consultando el desarrollador con id={0}", developersId);
 
         return em.find(DeveloperEntity.class, developersId);
     }
 
+    /**
+     * Actualiza un desarrollador.
+     *
+     * @param developerEntity: el desarrollador que viene con los nuevos cambios. Por ejemplo
+     * el nombre pudo cambiar. En ese caso, se haria uso del método update.
+     * @return un desarrollador con los cambios aplicados.
+     */
     public DeveloperEntity update(DeveloperEntity developerEntity) {
         LOGGER.log(Level.INFO, "Actualizando el desarrollador con id={0}", developerEntity.getId());
 
         return em.merge(developerEntity);
     }
 
+     /**
+     *
+     * Borra un desarrollador de la base de datos recibiendo como argumento el id del
+     * desarrollador
+     *
+     * @param developersId: id correspondiente al desarrollador a borrar.
+     */
     public void delete(Long developersId) {
         LOGGER.log(Level.INFO, "Borrando el desarrollador con id={0}", developersId);
 
@@ -60,6 +93,13 @@ public class DeveloperPersistence {
         em.remove(developerEntity);
     }
 
+     /**
+     * Busca si hay algun desarrollador con el Login que se envía de argumento
+     *
+     * @param login: Login del desarrollador que se está buscando
+     * @return null si no existe ningun desarrollador con el login del argumento. Si
+     * existe alguno devuelve el primero.
+     */
     public DeveloperEntity findByLogin(String login) {
         LOGGER.log(Level.INFO, "Consultando desarrollador por login ", login);
         TypedQuery query = em.createQuery("Select e From DeveloperEntity e where e.login = :login", DeveloperEntity.class);
