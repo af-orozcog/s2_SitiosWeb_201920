@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package co.edu.uniandes.csw.sitiosweb.test.logic;
+
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
@@ -29,12 +30,12 @@ import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @developer Nicolàs Abondano 201812467
  */
 public class DeveloperProjectLogicTest {
+
     private PodamFactory factory = new PodamFactoryImpl();
 
     @Inject
@@ -42,7 +43,7 @@ public class DeveloperProjectLogicTest {
 
     @Inject
     private ProjectLogic projectLogic;
-    
+
     @Inject
     private DeveloperLogic developerLogic;
 
@@ -65,11 +66,12 @@ public class DeveloperProjectLogicTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
+                .addPackage(DeveloperProjectLogic.class.getPackage())
                 .addPackage(DeveloperEntity.class.getPackage())
                 .addPackage(ProjectEntity.class.getPackage())
-                .addPackage(DeveloperProjectLogic.class.getPackage())
                 .addPackage(DeveloperLogic.class.getPackage())
                 .addPackage(ProjectLogic.class.getPackage())
+                .addPackage(DeveloperPersistence.class.getPackage())
                 .addPackage(DeveloperPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
@@ -108,18 +110,18 @@ public class DeveloperProjectLogicTest {
      * pruebas.
      */
     private void insertData() {
-        
+
         developer = factory.manufacturePojo(DeveloperEntity.class);
         developer.setId(1L);
         developer.setProjects(new ArrayList<>());
         em.persist(developer);
-        
+
         leader = factory.manufacturePojo(DeveloperEntity.class);
         leader.setId(2L);
         leader.setLeadingProjects(new ArrayList<>());
         leader.setType(DeveloperEntity.DeveloperType.Leader);
         em.persist(leader);
-        
+
         for (int i = 0; i < 3; i++) {
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
             entity.setDevelopers(new ArrayList<>());
@@ -136,14 +138,16 @@ public class DeveloperProjectLogicTest {
      * Prueba para asociar un desarrollador a un proyecto.
      *
      *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     @Test
     public void addDeveloperTest() throws BusinessLogicException {
         ProjectEntity project = factory.manufacturePojo(ProjectEntity.class);
+        System.out.println(project);
+        System.out.println(projectLogic);
         projectLogic.createProject(project);
-        DeveloperEntity developer = factory.manufacturePojo(DeveloperEntity.class);
         developerLogic.createDeveloper(developer);
-        
+
         DeveloperEntity developerEntity = developerProjectLogic.addDeveloper(developer.getId(), project.getId());
         Assert.assertNotNull(developerEntity);
 
@@ -156,11 +160,12 @@ public class DeveloperProjectLogicTest {
         ProjectEntity lastProject = developerProjectLogic.getProject(developer.getId(), project.getId());
 
         Assert.assertEquals(lastProject.getId(), lastProject.getId());
-        Assert.assertEquals(lastProject.getName(), lastProject.getName());
-        Assert.assertEquals(lastProject.getDescription(), lastProject.getDescription());
-        Assert.assertEquals(lastProject.getIsbn(), lastProject.getIsbn());
-        Assert.assertEquals(lastProject.getImage(), lastProject.getImage());
+        Assert.assertEquals(lastProject.getInternalProject(), lastProject.getInternalProject());
+        Assert.assertEquals(lastProject.getCompany(), lastProject.getCompany());
+        Assert.assertEquals(lastProject.getLeader(), lastProject.getLeader());
+        Assert.assertEquals(lastProject.getHardware(), lastProject.getHardware());
+        Assert.assertEquals(lastProject.getProvider(), lastProject.getProvider());
+
     }
 
-  
 }
