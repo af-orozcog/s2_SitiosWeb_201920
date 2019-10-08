@@ -36,10 +36,23 @@ import javax.ws.rs.WebApplicationException;
 @RequestScoped
 public class ProjectResource {
     
+    /**
+     * Atributo para tener conexion con logica.
+     */
     @Inject 
     private ProjectLogic logica;
+    
+    /**
+     * Logger de la clase
+     */
     private static final Logger LOGGER = Logger.getLogger(ProjectResource.class.getName());
     
+    /**
+     * Metodo para crear un objeto ProjectEntity
+     * @param project Objeto de ProjectDTO a crear
+     * @return ProjectDTO nuevo en la app
+     * @throws BusinessLogicException si se incumple algua regla de negocio
+     */
     @POST
     public ProjectDTO createProject(ProjectDTO project) throws BusinessLogicException{
         ProjectEntity projectEntity = project.toEntity();
