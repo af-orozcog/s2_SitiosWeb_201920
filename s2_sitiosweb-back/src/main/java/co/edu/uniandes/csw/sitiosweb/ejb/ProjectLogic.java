@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
+import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
@@ -102,4 +103,5 @@ public class ProjectLogic {
         persistence.delete(projectId);
         LOGGER.log(Level.INFO, "Exiting the deletion of the project with id = {0}.", projectId);
     }
+    
 }
