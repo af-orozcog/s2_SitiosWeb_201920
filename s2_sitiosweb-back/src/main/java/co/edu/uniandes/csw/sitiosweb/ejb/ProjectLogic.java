@@ -46,9 +46,6 @@ public class ProjectLogic {
         if(pe.getInternalProject() == null){
             throw new BusinessLogicException("El proyecto no dice si es interno o no");
         }
-        if(persistence.find(pe.getId()) != null){
-            throw new BusinessLogicException("El proyecto ya existe");
-        }
         LOGGER.log(Level.INFO, "Creating a new logic project.");
         pe = persistence.create(pe);
         LOGGER.log(Level.INFO, "Exiting the creaton of the project.");
