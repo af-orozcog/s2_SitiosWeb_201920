@@ -41,7 +41,7 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developer.getEmail() == null )
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
-        if(validatePhone(developer.getPhone()))
+        if(!validatePhone(developer.getPhone()))
             throw new BusinessLogicException("El teléfono es inválido");
         if(developer.getType() == null )
             throw new BusinessLogicException( "El tipo del desarrollador está vacío" );
@@ -89,10 +89,10 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developerEntity.getEmail() == null )
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
-        if(validatePhone(developerEntity.getPhone()))
+        if(!validatePhone(developerEntity.getPhone()))
             throw new BusinessLogicException( "El teléfono del desarrollador está vacío" );
         
-        if(developerEntity.getType().equals(DeveloperEntity.DeveloperType.Developer) && developerEntity.getLeadingProjects().size() > 0)
+        if(developerEntity.getType().equals(DeveloperEntity.DeveloperType.Developer) && !developerEntity.getLeadingProjects().isEmpty())
             throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
         DeveloperEntity dev = persistence.findByLogin(developerEntity.getLogin());
         if( dev!=null && !Objects.equals(dev.getId(), developerId))
@@ -126,9 +126,9 @@ public class DeveloperLogic {
     }
     
     private boolean validatePhone(String phone) {
-        if(phone == null) return false;
+        if(phone == null || phone.length() != 10) return false;
         boolean f = true;
-        for(int i=0; i<phone.length(); i++){
+        for(int i=0; i<10; i++){
             if(!(phone.charAt(i) == '0' ||
                     phone.charAt(i) == '1' ||
                     phone.charAt(i) == '2' ||

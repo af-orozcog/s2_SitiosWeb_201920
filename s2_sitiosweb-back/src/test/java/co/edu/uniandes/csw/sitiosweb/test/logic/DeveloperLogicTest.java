@@ -119,6 +119,7 @@ public class DeveloperLogicTest {
     public void createDeveloper() throws BusinessLogicException {
 
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
+        newEntity.setPhone("3206745567");
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
         Assert.assertNotNull(result);
 
@@ -174,7 +175,7 @@ public class DeveloperLogicTest {
     @Test(expected = BusinessLogicException.class)
     public void createDeveloperTypeNull() throws BusinessLogicException {
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
-        newEntity.setPhone(null);
+        newEntity.setType(null);
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
 
@@ -232,6 +233,7 @@ public class DeveloperLogicTest {
         DeveloperEntity entity = data.get(0);
         DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setId(entity.getId());
+        pojoEntity.setPhone("3206745567");
         developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
         DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());

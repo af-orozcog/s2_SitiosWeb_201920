@@ -114,12 +114,14 @@ public class DeveloperProjectLogicTest {
 
         developer = factory.manufacturePojo(DeveloperEntity.class);
         developer.setId(1L);
+        developer.setPhone("3206745567");
         developer.setProjects(new ArrayList<>());
         em.persist(developer);
 
         leader = factory.manufacturePojo(DeveloperEntity.class);
         leader.setId(2L);
         leader.setLeadingProjects(new ArrayList<>());
+        leader.setPhone("3206745567");
         leader.setType(DeveloperEntity.DeveloperType.Leader);
         em.persist(leader);
 
@@ -145,9 +147,8 @@ public class DeveloperProjectLogicTest {
     public void addDeveloperTest() throws BusinessLogicException {
         ProjectEntity project = factory.manufacturePojo(ProjectEntity.class);
         projectLogic.createProject(project);
-        developerLogic.createDeveloper(developer);
-
-        DeveloperEntity developerEntity = developerProjectLogic.addDeveloper(developer.getId(), project.getId());
+        
+        DeveloperEntity developerEntity = developerProjectLogic.addDeveloper(project.getId(), developer.getId());
         Assert.assertNotNull(developerEntity);
 
         Assert.assertEquals(developerEntity.getId(), developer.getId());

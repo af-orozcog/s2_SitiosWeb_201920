@@ -41,7 +41,7 @@ public class RequesterLogic {
         if (requester.getEmail() == null) {
             throw new BusinessLogicException("El email del solicitante está vacío");
         }
-        if (validatePhone(requester.getPhone())) {
+        if (!validatePhone(requester.getPhone())) {
             throw new BusinessLogicException("El teléfono es inválido");
         }
 
@@ -134,9 +134,9 @@ public class RequesterLogic {
      * @return Si el teléfono es válido
      */
     private boolean validatePhone(String phone) {
-        if(phone == null) return false;
+        if(phone == null || phone.length() != 10) return false;
         boolean f = true;
-        for(int i=0; i<phone.length(); i++){
+        for(int i=0; i<10; i++){
             if(!(phone.charAt(i) == '0' ||
                     phone.charAt(i) == '1' ||
                     phone.charAt(i) == '2' ||
