@@ -28,12 +28,21 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  */
 @RunWith(Arquillian.class)
 public class ProjectLogicTest {
-    
+   
+    /**
+     * Factory to make ProjectEntities classes
+     */
    private PodamFactory factory = new PodamFactoryImpl();
    
+   /**
+    * ProjectLogic to verify rules
+    */
    @Inject
    private ProjectLogic projectLogic;
    
+   /**
+    * EntityManager to handle persistence entities
+    */
    @PersistenceContext
    EntityManager em;
    
@@ -47,6 +56,10 @@ public class ProjectLogicTest {
                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
    }
    
+   /**
+    * test for the creation of a project
+    * @throws BusinessLogicException if a rule is broken during the creation of the project.
+    */
    @Test
    public void createProject()throws BusinessLogicException{
        ProjectEntity newEntity = factory.manufacturePojo(ProjectEntity.class);
@@ -57,6 +70,10 @@ public class ProjectLogicTest {
        Assert.assertEquals(entity.getCompany(), result.getCompany());
    }
    
+   /**
+    * Test to create a project with company atribute null
+    * @throws BusinessLogicException expected to be thrown as a rule is broken.
+    */
    @Test(expected = BusinessLogicException.class)
    public void createProjectCompanyNull() throws BusinessLogicException{
        
@@ -64,6 +81,11 @@ public class ProjectLogicTest {
        newEntity.setCompany(null);
        ProjectEntity result = projectLogic.createProject(newEntity);
    }
+   
+   /**
+    * Test to create project with internalProject atribute null
+    * @throws BusinessLogicException expected to be thrown as a rule is broken.
+    */
    @Test(expected = BusinessLogicException.class)
    public void createInternalProjectNull() throws BusinessLogicException{
        

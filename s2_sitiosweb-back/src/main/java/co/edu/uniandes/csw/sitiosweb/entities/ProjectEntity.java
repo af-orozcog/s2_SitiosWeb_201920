@@ -22,8 +22,14 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class ProjectEntity  extends BaseEntity implements Serializable {
  
+    /**
+     * Atributo que dice si el proyecto es interno o no.
+     */
     private Boolean internalProject;
     
+    /**
+     * Da el nombre de la compañia asociada al proyecto.
+     */
     private String company;
     
     /**
@@ -33,26 +39,44 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<RequestEntity> requests = new ArrayList<>();
 
+    /**
+     * Relationship where a project has one or more requests.
+     */
     @PodamExclude
     @ManyToMany
     private List<DeveloperEntity> developers = new ArrayList<>();
     
+    /**
+     * Relationship where a project has a leader.
+     */
     @PodamExclude
     @OneToOne
     private DeveloperEntity leader;
     
+    /**
+     * Relationship where a project has one or more providers.
+     */
     @PodamExclude
     @OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
     private ProviderEntity provider;
     
+    /**
+     * Relationship where a project has hardware.
+     */
     @PodamExclude
     @OneToOne(mappedBy = "project", fetch=FetchType.LAZY)
     private HardwareEntity hardware;
     
+    /**
+     * Relationship where a project has one or more iterations.
+     */
     @PodamExclude
     @OneToMany (mappedBy = "project",fetch=FetchType.LAZY)
     private List<IterationEntity> iterations = new ArrayList<>();
     
+    /**
+     * Relationship where a project has one or more internalSystems.
+     */
     @PodamExclude
     @OneToMany (mappedBy = "project",fetch=FetchType.LAZY)
     private List<InternalSystemsEntity> internalSystems = new ArrayList<>();
