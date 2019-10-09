@@ -30,12 +30,10 @@ public class ProjectDetailDTO extends ProjectDTO implements Serializable{
      */
     private List<DeveloperDTO> developers;
     
-         /*
-    * Esta lista de tipo DeveloperDTO contiene los developers que estan asociados a un proyecto.
+     /*
+    * Esta lista de tipo InternalSystemsDTO contiene los developers que estan asociados a un proyecto.
      */
     private List<InternalSystemsDTO> internalSystems;
-
-    
     
      /*
     * Esta lista de tipo RequestDTO contiene los requests que estan asociados a un proyecto.
