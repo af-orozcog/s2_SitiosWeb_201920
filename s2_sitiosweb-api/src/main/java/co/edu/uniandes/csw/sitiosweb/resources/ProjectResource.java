@@ -68,9 +68,9 @@ public class ProjectResource {
     @GET
     public List<ProjectDetailDTO> getProjects() {
         LOGGER.info("ProjectResource getProjects: input: void");
-        List<ProjectDetailDTO> listaEditoriales = listEntity2DetailDTO(logica.getProjects());
-        LOGGER.log(Level.INFO, "EditorialResource getEditorials: output: {0}", listaEditoriales);
-        return listaEditoriales;
+        List<ProjectDetailDTO> listaProyectos = listEntity2DetailDTO(logica.getProjects());
+        LOGGER.log(Level.INFO, "ProjectResource getProjects: output: {0}", listaProyectos);
+        return listaProyectos;
     }
 
     /**
@@ -78,7 +78,7 @@ public class ProjectResource {
      *
      * @param projectId Identificador del proyecto que se esta buscando.
      * Este debe ser una cadena de dígitos.
-     * @return JSON {@link ProjectDetailDTO} - La editorial buscada
+     * @return JSON {@link ProjectDetailDTO} - El proyecto buscado
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el proyecto.
      */

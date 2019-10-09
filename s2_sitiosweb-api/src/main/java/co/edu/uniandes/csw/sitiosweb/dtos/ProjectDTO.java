@@ -14,12 +14,36 @@ import java.io.Serializable;
  */
 public class ProjectDTO implements Serializable{
     
+    /**
+     * Atributo boolean que dice si el proyecto es interno o no.
+     */
     private Boolean internalProject;
+    
+    /**
+     * Atributo que dice que compañia tiene a cargo el proyecto.
+     */
     private String company;
+    
+    /**
+     * id del proyecto.
+     */
     private Long id;
+    
+    /**
+     * Hardware del proyecto
+     */
     private HardwareDTO hw;
+    
+    /**
+     * Lider del proyecto.
+     */
     private DeveloperDTO leader;
+    
+    /**
+     * Proveedor del proyecto.
+     */
     private ProviderDTO provider;
+    
     /**
      * Empty constructor
      */
@@ -28,7 +52,7 @@ public class ProjectDTO implements Serializable{
     }
     
     /**
-     * Creates a ProjectDTO object given arojectEntity object.
+     * Creates a ProjectDTO object given projectEntity object.
      * @param entity The ProjectEntity object.
      */
     public ProjectDTO(ProjectEntity entity){

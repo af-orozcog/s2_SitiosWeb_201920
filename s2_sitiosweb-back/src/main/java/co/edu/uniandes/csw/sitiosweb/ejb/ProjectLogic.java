@@ -49,7 +49,7 @@ public class ProjectLogic {
         }
         LOGGER.log(Level.INFO, "Creating a new logic project.");
         pe = persistence.create(pe);
-        LOGGER.log(Level.INFO, "Exiting the creaton of the project.");
+        LOGGER.log(Level.INFO, "Exiting the creation of the project.");
         return pe;
     }
      /**
