@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.test.logic;
 
 import co.edu.uniandes.csw.sitiosweb.ejb.RequesterLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.RequesterPersistence;
 
@@ -46,6 +47,8 @@ public class RequesterLogicTest {
     private UserTransaction utx;
 
     private List<RequesterEntity> data = new ArrayList<RequesterEntity>();
+    
+    private List<UnitEntity> unitData = new ArrayList<UnitEntity>();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -95,7 +98,13 @@ public class RequesterLogicTest {
      */
     private void insertData() {
         for (int i = 0; i < 3; i++) {
+            UnitEntity unitEntity = factory.manufacturePojo(UnitEntity.class);
+            em.persist(unitEntity);
+            unitData.add(unitEntity);
+        }
+        for (int i = 0; i < 3; i++) {
             RequesterEntity entity = factory.manufacturePojo(RequesterEntity.class);
+            entity.setUnit(unitData.get(i));
             em.persist(entity);
             data.add(entity);
         }
@@ -111,6 +120,7 @@ public class RequesterLogicTest {
 
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setPhone("3206745567");
+        newEntity.setUnit(unitData.get(0));
         RequesterEntity result = requesterLogic.createRequester(newEntity);
         Assert.assertNotNull(result);
 
@@ -170,6 +180,32 @@ public class RequesterLogicTest {
         requesterLogic.createRequester(newEntity);
     }
 
+      /**
+     * Prueba para crear un Requester con un unit que no existe.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequesterTestConUnitInexistente() throws BusinessLogicException {
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
+        UnitEntity unitEntity = new UnitEntity();
+        unitEntity.setId(Long.MIN_VALUE);
+        newEntity.setUnit(unitEntity);
+        requesterLogic.createRequester(newEntity);
+    }
+
+    /**
+     * Prueba para crear un Requester con unit en null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequesterTestConNullUnit() throws BusinessLogicException {
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
+        newEntity.setUnit(null);
+        requesterLogic.createRequester(newEntity);
+    }
+    
     /**
      * Prueba para consultar la lista de Requesters.
      */

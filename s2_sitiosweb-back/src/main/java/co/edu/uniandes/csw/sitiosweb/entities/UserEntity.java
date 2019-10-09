@@ -16,9 +16,19 @@ import javax.persistence.Id;
 @Entity
 public class UserEntity extends BaseEntity implements Serializable {
 
+    /**
+     * Login del usuario
+     */
     private String login;
+    
+    /**
+     * Email del usuario
+     */
     private String email;
 
+    /**
+     * Phone del usuario
+     */
     private String phone;
 
     /**

@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.sitiosweb.ejb;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.RequesterPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.UnitPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,9 @@ public class RequesterLogic {
 
     @Inject
     private RequesterPersistence persistence;
+    
+    @Inject
+    private UnitPersistence unitPersistence;
 
     /**
      * Se encarga de crear un RequesterEntity en la base de datos.
@@ -35,6 +39,7 @@ public class RequesterLogic {
      */
     public RequesterEntity createRequester(RequesterEntity requester) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del solicitante");
+        
         if (requester.getLogin() == null) {
             throw new BusinessLogicException("El login del solicitante está vacío");
         }
@@ -44,7 +49,10 @@ public class RequesterLogic {
         if (!validatePhone(requester.getPhone())) {
             throw new BusinessLogicException("El teléfono es inválido");
         }
-
+        if (requester.getUnit() == null || unitPersistence.find(requester.getUnit().getId()) == null) {
+            throw new BusinessLogicException("La unidad es inválida");
+        }
+        
         if (persistence.findByLogin(requester.getLogin()) != null) {
             throw new BusinessLogicException("El login ya existe");
         }
