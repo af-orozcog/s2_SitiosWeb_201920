@@ -1,6 +1,5 @@
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
-import co.edu.uniandes.csw.sitiosweb.adapters.DateAdapter;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
