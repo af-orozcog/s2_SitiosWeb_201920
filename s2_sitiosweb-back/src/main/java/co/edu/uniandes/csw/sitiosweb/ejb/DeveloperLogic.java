@@ -10,6 +10,7 @@ import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -40,17 +41,14 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developer.getEmail() == null )
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
-        if(developer.getPhone() == null )
-            throw new BusinessLogicException( "El teléfono del desarrollador está vacío" );
+        if(validatePhone(developer.getPhone()))
+            throw new BusinessLogicException("El teléfono es inválido");
         if(developer.getType() == null )
             throw new BusinessLogicException( "El tipo del desarrollador está vacío" );
         
         if(persistence.findByLogin(developer.getLogin()) != null)
             throw new BusinessLogicException( "El login ya existe" );
-        //if(validatePhone(user.getPhone()))
-          //  throw new BusinessLogicException("El teléfono es inválido");
-        
-        
+
         developer = persistence.create(developer);
         LOGGER.log(Level.INFO, "Termina proceso de creación del desarrollador");
         return developer;
@@ -91,16 +89,14 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developerEntity.getEmail() == null )
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
-        if(developerEntity.getPhone() == null )
+        if(validatePhone(developerEntity.getPhone()))
             throw new BusinessLogicException( "El teléfono del desarrollador está vacío" );
         
         if(developerEntity.getType().equals(DeveloperEntity.DeveloperType.Developer) && developerEntity.getLeadingProjects().size() > 0)
             throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
-        if(!persistence.find(developerId).getLogin().equalsIgnoreCase(developerEntity.getLogin()) 
-                &&  persistence.findByLogin(developerEntity.getLogin())!=null )
+        DeveloperEntity dev = persistence.findByLogin(developerEntity.getLogin());
+        if( dev!=null && !Objects.equals(dev.getId(), developerId))
             throw new BusinessLogicException("El nuevo login ya existe");
-        //if(validatePhone(user.getPhone()))
-          //  throw new BusinessLogicException("El teléfono es inválido");
         
         DeveloperEntity newEntity = persistence.update(developerEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el desarrollador con id = {0}", developerEntity.getId());
@@ -129,7 +125,22 @@ public class DeveloperLogic {
         LOGGER.log(Level.INFO, "Termina proceso de borrar el desarrollador con id = {0}", developerId);
     }
     
-    //private boolean validatePhone(Integer phone) {
-      //  return !(phone == null || Long.SIZE != 9);
-    //}
+    private boolean validatePhone(String phone) {
+        if(phone == null) return false;
+        boolean f = true;
+        for(int i=0; i<phone.length(); i++){
+            if(!(phone.charAt(i) == '0' ||
+                    phone.charAt(i) == '1' ||
+                    phone.charAt(i) == '2' ||
+                    phone.charAt(i) == '3' ||
+                    phone.charAt(i) == '4' ||
+                    phone.charAt(i) == '5' ||
+                    phone.charAt(i) == '6' ||
+                    phone.charAt(i) == '7' ||
+                    phone.charAt(i) == '8' ||
+                    phone.charAt(i) == '9'))
+                f=false;
+        }
+        return f;
+    }
 }

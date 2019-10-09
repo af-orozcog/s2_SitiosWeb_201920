@@ -32,8 +32,9 @@ import java.util.List;
 
 /**
  *
- * @developer Nicolàs Abondano 201812467
+ * @author Nicolás Abondano nf.abondano 201812467
  */
+@RunWith(Arquillian.class)
 public class DeveloperProjectLogicTest {
 
     private PodamFactory factory = new PodamFactoryImpl();
@@ -143,8 +144,6 @@ public class DeveloperProjectLogicTest {
     @Test
     public void addDeveloperTest() throws BusinessLogicException {
         ProjectEntity project = factory.manufacturePojo(ProjectEntity.class);
-        System.out.println(project);
-        System.out.println(projectLogic);
         projectLogic.createProject(project);
         developerLogic.createDeveloper(developer);
 
