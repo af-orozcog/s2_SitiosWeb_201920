@@ -34,7 +34,8 @@ public class IterationLogic {
     @Inject
     private ProjectPersistence projectPersistence;
     
-    public IterationEntity createIteration(Long projectsId,IterationEntity iteracion) throws BusinessLogicException {
+    public IterationEntity createIteration(Long projectId,IterationEntity iteracion) throws BusinessLogicException {
+        System.out.println(projectId);
         if(iteracion.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(iteracion.getEndDate() == null)
@@ -43,8 +44,9 @@ public class IterationLogic {
             throw new BusinessLogicException("el objetivo esta vacio");
         if(iteracion.getValidationDate() == null)
             throw new BusinessLogicException("la fecha de validación esta vacia");
-        if(noExisteProject(projectsId))
+        if(noExisteProject(projectId))
             throw new BusinessLogicException("el proyecto al que esta asociado no existe");
+        iteracion.setProject(projectPersistence.find(projectId));
         iteracion = persistence.create(iteracion);
         
         return iteracion;
@@ -65,11 +67,11 @@ public class IterationLogic {
      *
      * @return Colección de objetos de IterationEntity.
      */
-    public List<IterationEntity> getIterations() {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los autores");
-        List<IterationEntity> lista = persistence.findAll();
-        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los autores");
-        return lista;
+    public List<IterationEntity> getIterations(Long projectId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar los reviews asociados al book con id = {0}", projectId);
+        ProjectEntity projectEntity = projectPersistence.find(projectId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar los reviews asociados al book con id = {0}", projectId);
+        return projectEntity.getIterations();
     }
     
     /**
@@ -78,14 +80,9 @@ public class IterationLogic {
      * @param iterationId identificador de la iteración
      * @return Instancia de AuthorEntity con los datos del Author consultado.
      */
-    public IterationEntity getIteration(Long iterationId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar el autor con id = {0}", iterationId);
-        IterationEntity iterationEntity = persistence.find(iterationId);
-        if (iterationEntity == null) {
-            LOGGER.log(Level.SEVERE, "La editorial con el id = {0} no existe", iterationId);
-        }
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el autor con id = {0}", iterationId);
-        return iterationEntity;
+    public IterationEntity getIteration(Long projectId, Long iterationId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar la iteracion con id = {0} del proyecto con id = " + projectId, iterationId);
+        return persistence.find(projectId, iterationId);
     }
     
     /**
@@ -97,8 +94,8 @@ public class IterationLogic {
      * @return Instancia de AuthorEntity con los datos actualizados.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public IterationEntity updateIteration(Long projectId, Long iterationId, IterationEntity iterationEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el autor con id = {0}", iterationId);
+    public IterationEntity updateIteration(Long projectId, IterationEntity iterationEntity) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar una iteracion con id = {0} en el proyecto "+ projectId, iterationEntity.getId());
          if(iterationEntity.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(iterationEntity.getEndDate() == null)
@@ -112,7 +109,7 @@ public class IterationLogic {
         ProjectEntity projectEntity = projectPersistence.find(projectId);
         iterationEntity.setProject(projectEntity);
         IterationEntity newIterationEntity = persistence.update(iterationEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actual nizar el autor con id = {0}", iterationEntity.getId());
+        LOGGER.log(Level.INFO, "Termina proceso de actualzar una iteración con id = {0}", iterationEntity.getId());
         return newIterationEntity;
     }
    
@@ -122,13 +119,13 @@ public class IterationLogic {
      * @param iterationsId Identificador de la instancia a eliminar.
      * @throws BusinessLogicException si el autor tiene libros asociados.
      */
-    public void deleteIteration(Long iterationsId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el autor con id = {0}", iterationsId);
-        IterationEntity iteration = getIteration(iterationsId);
-        if (iteration == null) {
-            throw new BusinessLogicException("No se puede borrar la iteracion con id = " + iterationsId + " porque no existe");
+    public void deleteIteration(Long projectId, Long iterationId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
+        IterationEntity old = getIteration(projectId, iterationId);
+        if (old == null) {
+            throw new BusinessLogicException("El review con id = " + iterationId + " no esta asociado a el proyecto con id = " + projectId);
         }
-        persistence.delete(iterationsId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el autor con id = {0}", iterationsId);
+        persistence.delete(old.getId());
+        LOGGER.log(Level.INFO, "Termina proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
     }
 }

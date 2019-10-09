@@ -108,4 +108,5 @@ public class ProjectLogic {
         LOGGER.log(Level.INFO, "Exiting the deletion of the project with id = {0}.", projectId);
     }
     
+    
 }
