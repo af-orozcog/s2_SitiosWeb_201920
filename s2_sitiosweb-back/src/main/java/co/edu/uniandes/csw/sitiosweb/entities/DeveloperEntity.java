@@ -22,6 +22,9 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class DeveloperEntity extends UserEntity implements Serializable {
 
+    /**
+     * Tipo de desarrollador
+     */
     public enum DeveloperType {
         Leader, Developer
     }
