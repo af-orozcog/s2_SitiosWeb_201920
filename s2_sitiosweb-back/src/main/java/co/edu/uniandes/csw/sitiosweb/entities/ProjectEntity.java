@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -42,7 +43,7 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     private DeveloperEntity leader;
     
     @PodamExclude
-    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
+    @ManyToOne
     private ProviderEntity provider;
     
     @PodamExclude

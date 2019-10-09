@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.test.logic;
 
 import co.edu.uniandes.csw.sitiosweb.ejb.ProviderLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.ProviderEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProviderPersistence;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class ProviderLogicTest {
     @Inject
     private UserTransaction utx;
 
-    private List<ProviderEntity> data = new ArrayList<>();
+    private List<ProviderEntity> data = new ArrayList<ProviderEntity>();
 
 
     @Deployment
@@ -77,6 +78,7 @@ public class ProviderLogicTest {
 
     private void clearData() {
         em.createQuery("delete from ProviderEntity").executeUpdate();
+        em.createQuery("delete from ProjectEntity").executeUpdate();
     }
 
     private void insertData() {
@@ -85,6 +87,13 @@ public class ProviderLogicTest {
             em.persist(entity);
             data.add(entity);
         }
+        ProjectEntity project = factory.manufacturePojo(ProjectEntity.class);
+        project.setProvider(data.get(1));
+        em.persist(project);
+        data.get(0).setProjects(new ArrayList<>());
+        data.get(1).setProjects(new ArrayList<>());
+        data.get(2).setProjects(new ArrayList<>());
+        data.get(1).getProjects().add(project);
     }
 
     @Test
@@ -97,6 +106,22 @@ public class ProviderLogicTest {
         Assert.assertEquals(newEntity.getName(), entity.getName());
     }
 
+     @Test(expected = BusinessLogicException.class)
+    public void createProviderkTestConNombreInvalido() throws BusinessLogicException {
+        ProviderEntity newEntity = factory.manufacturePojo(ProviderEntity.class);
+        newEntity.setName("");
+        providerLogic.createProvider(newEntity);
+    }
+
+
+    @Test(expected = BusinessLogicException.class)
+    public void createProviderTestConNombreInvalido2() throws BusinessLogicException {
+        ProviderEntity newEntity = factory.manufacturePojo(ProviderEntity.class);
+        newEntity.setName(null);
+        providerLogic.createProvider(newEntity);
+    }
+    
+    
     @Test
     public void getProvidersTest() {
         List<ProviderEntity> list = providerLogic.getProviders();
@@ -122,7 +147,7 @@ public class ProviderLogicTest {
     }
 
     @Test
-    public void updateProviderTest() {
+    public void updateProviderTest() throws BusinessLogicException {
         ProviderEntity entity = data.get(0);
         ProviderEntity pojoEntity = factory.manufacturePojo(ProviderEntity.class);
 
@@ -135,23 +160,41 @@ public class ProviderLogicTest {
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
         Assert.assertEquals(pojoEntity.getName(), resp.getName());
     }
+    
+        @Test(expected = BusinessLogicException.class)
+    public void updateProviderConNombreInvalidoTest() throws BusinessLogicException {
+        ProviderEntity entity = data.get(0);
+        ProviderEntity pojoEntity = factory.manufacturePojo(ProviderEntity.class);
+        pojoEntity.setName("");
+        pojoEntity.setId(entity.getId());
+        providerLogic.updateProvider(pojoEntity.getId(), pojoEntity);
+    }
 
-    @Test
+    @Test(expected = BusinessLogicException.class)
+    public void updateProviderConNombreInvalidoTest2() throws BusinessLogicException {
+        ProviderEntity entity = data.get(0);
+        ProviderEntity pojoEntity = factory.manufacturePojo(ProviderEntity.class);
+        pojoEntity.setName(null);
+        pojoEntity.setId(entity.getId());
+        providerLogic.updateProvider(pojoEntity.getId(), pojoEntity);
+    }
+
+
+    
+    
+    @Test(expected = BusinessLogicException.class)
+    public void deleteProviderWithProjectTest() throws BusinessLogicException {
+        System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"+ data.size());
+        ProviderEntity entity = data.get(1);
+        providerLogic.deleteProvider(entity.getId());
+    }
+    
+        @Test
     public void deleteProviderTest() throws BusinessLogicException {
         ProviderEntity entity = data.get(0);
         providerLogic.deleteProvider(entity.getId());
         ProviderEntity deleted = em.find(ProviderEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
-    
-    
-    @Test(expected = BusinessLogicException.class)
-    public void createProviderNullNameTest() throws BusinessLogicException
-    {
-        ProviderEntity newEntity = factory.manufacturePojo(ProviderEntity.class);
-        newEntity.setName(null);
-        ProviderEntity result = providerLogic.createProvider(newEntity);
-    }
-    
 }
 
