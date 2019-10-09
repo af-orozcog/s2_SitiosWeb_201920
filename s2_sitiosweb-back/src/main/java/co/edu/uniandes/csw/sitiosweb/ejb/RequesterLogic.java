@@ -41,15 +41,13 @@ public class RequesterLogic {
         if (requester.getEmail() == null) {
             throw new BusinessLogicException("El email del solicitante está vacío");
         }
-        if (requester.getPhone() == null) {
-            throw new BusinessLogicException("El teléfono del solicitante está vacío");
+        if (!validatePhone(requester.getPhone())) {
+            throw new BusinessLogicException("El teléfono es inválido");
         }
 
         if (persistence.findByLogin(requester.getLogin()) != null) {
             throw new BusinessLogicException("El login ya existe");
         }
-        //if(validatePhone(requester.getPhone()))
-        //  throw new BusinessLogicException("El teléfono es inválido");
 
         requester = persistence.create(requester);
         LOGGER.log(Level.INFO, "Termina proceso de creación del solicitante");
@@ -106,8 +104,9 @@ public class RequesterLogic {
             throw new BusinessLogicException("El teléfono del solicitante está vacío");
         }
 
-        //if(validatePhone(RequesterEntity.getPhone()))
-        //  throw new BusinessLogicException("El teléfono es inválido");
+        if (!validatePhone(requesterEntity.getPhone())) {
+            throw new BusinessLogicException("El teléfono es inválido");
+        }
         if (!persistence.find(requesterId).getLogin().equalsIgnoreCase(requesterEntity.getLogin())
                 && persistence.findByLogin(requesterEntity.getLogin()) != null) {
             throw new BusinessLogicException("El login ya existe");
@@ -129,7 +128,27 @@ public class RequesterLogic {
         LOGGER.log(Level.INFO, "Termina proceso de borrar el solicitante con id = {0}", requesterId);
     }
 
-    //private boolean validatePhone(Integer phone) {
-    //  return !(phone == null || Long.SIZE != 9);
-    //}
+     /**
+     * Método que verifica si un teléfono es válido
+     * @param phone El teléfono a verificar
+     * @return Si el teléfono es válido
+     */
+    private boolean validatePhone(String phone) {
+        if(phone == null || phone.length() != 10) return false;
+        boolean f = true;
+        for(int i=0; i<10; i++){
+            if(!(phone.charAt(i) == '0' ||
+                    phone.charAt(i) == '1' ||
+                    phone.charAt(i) == '2' ||
+                    phone.charAt(i) == '3' ||
+                    phone.charAt(i) == '4' ||
+                    phone.charAt(i) == '5' ||
+                    phone.charAt(i) == '6' ||
+                    phone.charAt(i) == '7' ||
+                    phone.charAt(i) == '8' ||
+                    phone.charAt(i) == '9'))
+                f=false;
+        }
+        return f;
+    }
 }

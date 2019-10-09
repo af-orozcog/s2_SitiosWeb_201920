@@ -110,6 +110,7 @@ public class RequesterLogicTest {
     public void createRequester() throws BusinessLogicException {
 
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
+        newEntity.setPhone("3206745567");
         RequesterEntity result = requesterLogic.createRequester(newEntity);
         Assert.assertNotNull(result);
 
@@ -211,6 +212,7 @@ public class RequesterLogicTest {
         RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setId(entity.getId());
+        pojoEntity.setPhone("3206745567");
         requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
         RequesterEntity resp = em.find(RequesterEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
