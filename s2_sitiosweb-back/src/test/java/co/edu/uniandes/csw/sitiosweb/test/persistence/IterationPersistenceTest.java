@@ -46,6 +46,12 @@ public class IterationPersistenceTest {
     
     
     /**
+     * donde se van a preestablecer algunos datos para probar los 
+     * métodos de la logica
+     */
+    private List<ProjectEntity> dataProject = new ArrayList<ProjectEntity>();
+    
+    /**
      * Método necesario para generar un contexto en el cual se 
      * va a llevar a cabo el despliegue
      * @return el contexto
@@ -98,6 +104,7 @@ public class IterationPersistenceTest {
      */
     private void clearData() {
         em.createQuery("delete from IterationEntity").executeUpdate();
+        em.createQuery("delete from ProjectEntity").executeUpdate();
     }
     
     /**
@@ -108,10 +115,16 @@ public class IterationPersistenceTest {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
             IterationEntity entity = factory.manufacturePojo(IterationEntity.class);
-
             em.persist(entity);
-            
             data.add(entity);
+        }
+        for (int i = 0; i < 3; i++) {
+            ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+            IterationEntity en = data.get(i);
+            en.setProject(entity);
+            em.persist(en);
+            em.persist(entity);
+            dataProject.add(entity);
         }
     }
     
@@ -147,23 +160,6 @@ public class IterationPersistenceTest {
         Assert.assertEquals(newEntity.getObjetive(), entity.getObjetive());
     }
     
-    /**
-     * Prueba para consultar la lista de Iterations.
-     */
-    @Test
-    public void getIterationsTest() {
-        List<IterationEntity> list = iterationPersistence.findAll();
-        Assert.assertEquals(data.size(), list.size());
-        for (IterationEntity ent : list) {
-            boolean found = false;
-            for (IterationEntity entity : data) {
-                if (ent.getId().equals(entity.getId())) {
-                    found = true;
-                }
-            }
-            Assert.assertTrue(found);
-        }
-    }
     
     /**
      * Prueba para consultar una Iteracion.
@@ -172,11 +168,10 @@ public class IterationPersistenceTest {
     @Test
     public void getIterationTest() {
         IterationEntity entity = data.get(0);
-        IterationEntity newEntity = iterationPersistence.find(entity.getId());
+        IterationEntity newEntity = iterationPersistence.find(dataProject.get(0).getId(), entity.getId());
         Assert.assertNotNull(newEntity);
-        Assert.assertEquals(entity.getObjetive(), newEntity.getObjetive());
-        
-        Assert.assertEquals(entity.getValidationDate(), newEntity.getValidationDate());
+        Assert.assertEquals(newEntity.getObjetive(), entity.getObjetive());
+        Assert.assertEquals(newEntity.getValidationDate(), entity.getValidationDate());
     }
     
     /**
@@ -195,6 +190,7 @@ public class IterationPersistenceTest {
         IterationEntity resp = em.find(IterationEntity.class, entity.getId());
 
         Assert.assertEquals(newEntity.getObjetive(), resp.getObjetive());
+        Assert.assertEquals(newEntity.getValidationDate(), resp.getValidationDate());
     }
     
     /**
