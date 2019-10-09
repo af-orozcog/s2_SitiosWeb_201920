@@ -46,6 +46,7 @@ public class IterationLogic {
             throw new BusinessLogicException("la fecha de validación esta vacia");
         if(noExisteProject(projectId))
             throw new BusinessLogicException("el proyecto al que esta asociado no existe");
+        iteracion.setProject(projectPersistence.find(projectId));
         iteracion = persistence.create(iteracion);
         
         return iteracion;

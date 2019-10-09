@@ -176,11 +176,24 @@ public class ProjectResource {
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el libro.
      */
-    @Path("{booksId: \\d+}/iterations")
-    public Class<IterationResource> getIterationResource(@PathParam("booksId") Long booksId) {
-        if (logica.getProject(booksId) == null) {
-            throw new WebApplicationException("El recurso /books/" + booksId + "/reviews no existe.", 404);
+    @Path("{projectsId: \\d+}/iterations")
+    public Class<IterationResource> getIterationResource(@PathParam("projectsId") Long projectsId) {
+        if (logica.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews no existe.", 404);
         }
         return IterationResource.class;
+    }
+    
+    /**
+     *
+     * @param projectsId
+     * @return
+     */
+    @Path("{projectsId: \\d+}/hardwares")
+    public Class<HardwareResource> getHardwareResource(@PathParam("projectsId") Long projectsId) {
+        if (logica.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews no existe.", 404);
+        }
+        return HardwareResource.class;
     }
 }
