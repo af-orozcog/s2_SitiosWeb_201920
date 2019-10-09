@@ -53,7 +53,7 @@ public class ProjectLogicTest {
     * EntityManager to handle persistence entities
     */
    @PersistenceContext
-   EntityManager em;
+   private EntityManager em;
    
        /**
      * manejador de transaccionalidad
@@ -154,48 +154,22 @@ public class ProjectLogicTest {
             em.persist(entity);
             dataDeveloper.add(entity);
         }
-         
-        for(int i = 0; i < 3; i++){
-            IterationEntity entity = factory.manufacturePojo(IterationEntity.class);
-            em.persist(entity);
-            dataIteration.add(entity);
-        }
-           
-        for(int i = 0; i < 3; i++){
-            HardwareEntity entity = factory.manufacturePojo(HardwareEntity.class);
-            em.persist(entity);
-            dataHardware.add(entity);
-        }
-            
-        for(int i = 0; i < 3; i++){
-            ProviderEntity entity = factory.manufacturePojo(ProviderEntity.class);
-            em.persist(entity);
-            dataProvider.add(entity);
-        }
-           
-        for(int i = 0; i < 3; i++){
-            InternalSystemsEntity entity = factory.manufacturePojo(InternalSystemsEntity.class);
-            em.persist(entity);
-            dataInternalSystems.add(entity);
-        }
+               System.out.println("Tam dataDeveloper " + dataDeveloper.size());
+
         for (int i = 0; i < 3; i++) {
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+            System.out.println(entity.getCompany());
             entity.setDevelopers(dataDeveloper);
-            DeveloperEntity lider = factory.manufacturePojo(DeveloperEntity.class);
-            entity.setLeader(lider);
-            entity.setIterations(dataIteration);
-            entity.setHardware(dataHardware.get(i));
-            entity.setProvider(dataProvider.get(i));
-            entity.setInternalSystems(dataInternalSystems);
+            System.out.println("llegue1");
+            System.out.println("llegue1.1 " + dataDeveloper.get(0).getLogin());
+            entity.setLeader(dataDeveloper.get(0));
+             System.out.println("llegue2");
             em.persist(entity);
-            
+             System.out.println("llegue3");
             data.add(entity);
+             System.out.println("llegue4");
         }
-        for(int i = 0; i< dataDeveloper.size(); i++){
-            DeveloperEntity entity = dataDeveloper.get(i);
-            entity.setProjects(data);
-        }
-       
+        System.out.println("Tam data " + data.size());
     }
    
    /**
@@ -210,6 +184,7 @@ public class ProjectLogicTest {
        
        ProjectEntity entity = em.find(ProjectEntity.class, result.getId());
        Assert.assertEquals(entity.getCompany(), result.getCompany());
+       Assert.assertEquals(entity.getInternalProject(), result.getInternalProject());
    }
    
    /**
@@ -242,6 +217,7 @@ public class ProjectLogicTest {
     @Test
     public void getProjectsTest() {
         List<ProjectEntity> list = projectLogic.getProjects();
+        
         Assert.assertEquals(data.size(), list.size());
         for (ProjectEntity entity : list) {
             boolean found = false;
@@ -256,6 +232,7 @@ public class ProjectLogicTest {
     
    /**
      * Prueba para actualizar un Project.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     @Test
     public void updateProjectTest() throws BusinessLogicException {
@@ -265,23 +242,33 @@ public class ProjectLogicTest {
         projectLogic.updateProject(data.get(0).getId(), pojoEntity);
 
         ProjectEntity resp = em.find(ProjectEntity.class, entity.getId());
-
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
         Assert.assertEquals(pojoEntity.getCompany(), resp.getCompany());
         Assert.assertEquals(pojoEntity.getInternalProject(), resp.getInternalProject());
     } 
     
     /**
-     * Prueba para eliminar un proyecto con developers asociados
+     * Prueba para eliminar un proyecto sin developers asociados
      *
      * @throws BusinessLogicException
      */
     @Test
-    public void deleteProjectTest() throws BusinessLogicException {
-        ProjectEntity entity = data.get(0);
+    public void deleteProjectWithoutDevelopersTest() throws BusinessLogicException {
+        ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
         projectLogic.deleteProject(entity.getId());
-        IterationEntity deleted = em.find(IterationEntity.class, entity.getId());
+        ProjectEntity deleted = em.find(ProjectEntity.class, entity.getId());
         Assert.assertNull(deleted);
+    }
+    
+     /**
+     * Prueba para eliminar un proyecto con developers
+     *
+     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void deleteProjectWithDevelopersTest() throws BusinessLogicException {
+        ProjectEntity entity = data.get(1);
+        projectLogic.deleteProject(entity.getId());
     }
    
 }
