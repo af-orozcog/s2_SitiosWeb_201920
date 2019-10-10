@@ -40,6 +40,7 @@ import javax.ws.rs.WebApplicationException;
  */
 @Produces("application/json")
 @Consumes("application/json")
+@RequestScoped
 public class IterationResource implements Serializable {
     
     private static final Logger LOGGER = Logger.getLogger(IterationResource.class.getName());
@@ -90,12 +91,12 @@ public class IterationResource implements Serializable {
      */
     @GET
     @Path("{iterationsId: \\d+}")
-    public IterationDTO getIteration(@PathParam("projectsId") Long projectId,@PathParam("iterationsId") Long iterationId) throws WebApplicationException {
-        LOGGER.log(Level.INFO, "IterationResource getIteration: input: {0}", iterationId);
+    public IterationDTO getIteration(@PathParam("projectsId") Long projectId,@PathParam("iterationsId") Long iterationsId) throws WebApplicationException {
+        LOGGER.log(Level.INFO, "IterationResource getIteration: input: {0}", iterationsId);
         System.out.println("LILILILI");
-        IterationEntity iterationEntity = iterationLogic.getIteration(projectId,iterationId);
+        IterationEntity iterationEntity = iterationLogic.getIteration(projectId,iterationsId);
         if (iterationEntity == null) {
-            throw new WebApplicationException("El recurso /iterations/" + iterationId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /iterations/" + iterationsId + " no existe.", 404);
         }
         IterationDTO detailDTO = new IterationDTO(iterationEntity);
         LOGGER.log(Level.INFO, "IterationResource getIteration: output: {0}", detailDTO);
@@ -119,14 +120,14 @@ public class IterationResource implements Serializable {
         if (iterationsId.equals(iteration.getId())) {
             throw new BusinessLogicException("Los ids del iterations no coinciden.");
         }
-        if (iterationLogic.getIteration(projectsId,iterationsId) == null) {
+        IterationEntity entity = iterationLogic.getIteration(projectsId, iterationsId);
+        if (entity == null) {
             throw new WebApplicationException("El recurso /iterations/" + iterationsId + " no existe.", 404);
         }
-        IterationEntity entity = iterationLogic.getIteration(projectsId, iterationsId);
         
-        IterationDTO detailDTO = new IterationDTO(iterationLogic.updateIteration(projectsId, iteration.toEntity()));
-        LOGGER.log(Level.INFO, "IterationResource updateIteration: output: {0}", detailDTO);
-        return detailDTO;
+        IterationDTO iterationDTO = new IterationDTO(iterationLogic.updateIteration(projectsId, iteration.toEntity()));
+        LOGGER.log(Level.INFO, "IterationResource updateIteration: output: {0}", iterationDTO);
+        return iterationDTO;
     }
     
     /**
