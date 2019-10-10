@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
 import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.RequestPersistence;
 import java.util.Calendar;
@@ -42,8 +43,9 @@ public class RequestLogic
     /**
      * Method that creates a request entity through the persistence.
      * BUSINESS LOGIC RULES: 
-     *  - Not one parameter can be null (every field should have a non-empty value).
-     *  - Dates cannot be asigned before today's date.
+     *  - Not one parameter can be null 
+     *  - Every field should have a non-empty value.
+     *  - End and due dates cannot be asigned before today's date.
      *  - The project's budget cannot be negative.
      * @param request Request to create.
      * @return The created request.
@@ -51,6 +53,9 @@ public class RequestLogic
      */
     public RequestEntity createRequest(RequestEntity request) throws BusinessLogicException
     {
+        // Project and requester may be initialized as null and added later due to the logical steps of request creation:
+        // 1) Create the request, 2) associate the requester with the request (synchronized process)
+        // 3) approve the request 4) create the project and 5) associate the project with the request.
         // Today's date.
         Date today = Calendar.getInstance().getTime();
         if(request.getName() == null || request.getName().isEmpty())
@@ -58,7 +63,7 @@ public class RequestLogic
         else if(request.getPurpose() == null || request.getPurpose().isEmpty())
             throw new BusinessLogicException("El propósito del proyecto solicitado está vacío.");
         else if(request.getUnit() == null || request.getUnit().isEmpty())
-            throw new BusinessLogicException(" La unidad del proyecto solicitado está vacía.");
+            throw new BusinessLogicException("La unidad del proyecto solicitado está vacía.");
         else if(request.getEndDate() == null)
             throw new BusinessLogicException("No se eligió una fecha de terminación del proyecto.");
         else if(request.getEndDate().before(today))
@@ -132,13 +137,22 @@ public class RequestLogic
     
     /**
      * Deletes the request with the given id.
+     * BUSINESS LOGIC RULES:
+     *  - A request with assigned requesters may not be deleted (must be deleted from the requester's
+     *    side first, through the .
      * @param requestId The request's id.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public void deleteRequest(Long requestId) throws BusinessLogicException
     {
+        // The logical process through a request deletion (and thus, project deletion) is the following:
+        // 1) a deletion request is approved, 2) the project is deleted (with it's all its dependencies
+        // including the request, which requires the requesters to be removed first), 4) the project is deleted.
         LOGGER.log(Level.INFO, "Deleting request with id = {0}.", requestId);
         // TODO relationships with Requester and Project.
+        RequesterEntity requester = getRequest(requestId).getRequester();
+        if(requester != null)
+            throw new BusinessLogicException("No se puede borrar el request con id = " + requestId + ".");
         persistence.delete(requestId);
         LOGGER.log(Level.INFO, "Exiting the deletion of the request with id = {0}.", requestId);
     }
