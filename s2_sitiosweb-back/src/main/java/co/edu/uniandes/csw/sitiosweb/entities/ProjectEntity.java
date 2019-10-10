@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -58,7 +59,7 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
      * Relationship where a project has one or more providers.
      */
     @PodamExclude
-    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY)
+    @ManyToOne
     private ProviderEntity provider;
     
     /**
