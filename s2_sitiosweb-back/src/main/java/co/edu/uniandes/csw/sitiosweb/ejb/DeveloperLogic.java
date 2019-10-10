@@ -102,8 +102,8 @@ public class DeveloperLogic {
         
         if(developerEntity.getType().equals(DeveloperEntity.DeveloperType.Developer) && !developerEntity.getLeadingProjects().isEmpty())
             throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
-        DeveloperEntity dev = persistence.findByLogin(developerEntity.getLogin());
-        if( dev!=null && !Objects.equals(dev.getId(), developerId))
+        if (!persistence.find(developerId).getLogin().equalsIgnoreCase(developerEntity.getLogin())
+                && persistence.findByLogin(developerEntity.getLogin()) != null) 
             throw new BusinessLogicException("El login ya existe");
         
         DeveloperEntity newEntity = persistence.update(developerEntity);

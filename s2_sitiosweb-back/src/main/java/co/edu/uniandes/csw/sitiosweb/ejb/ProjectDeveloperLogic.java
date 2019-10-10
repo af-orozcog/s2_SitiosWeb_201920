@@ -47,25 +47,6 @@ public class ProjectDeveloperLogic {
         LOGGER.log(Level.INFO, "Termina proceso de asociarle un desarrollador al proyecto con id = {0}", projectsId);
         return developerPersistence.find(developersId);
     }
-    
-    /**
-     * Asocia un Developer lider existente a un Project
-     *
-     * @param projectsId Identificador de la instancia de Project
-     * @param leaderId Identificador de la instancia de Developer
-     * @return Instancia de DeveloperEntity tipo Leader que fue asociada a Project
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     */
-    public DeveloperEntity addLeader(Long projectsId, Long leaderId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de asociarle un desarrollador al proyecto con id = {0}", projectsId);
-        DeveloperEntity leaderEntity = developerPersistence.find(leaderId);
-        if(leaderEntity.getType().equals(DeveloperEntity.DeveloperType.Developer))
-            throw new BusinessLogicException("El desarrollador no es tipo líder");
-        ProjectEntity projectEntity = projectPersistence.find(projectsId);
-        projectEntity.setLeader(leaderEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de asociarle un desarrollador al proyecto con id = {0}", projectsId);
-        return developerPersistence.find(leaderId);
-    }
 
     /**
      * Obtiene una colección de instancias de DeveloperEntity asociadas a una
@@ -98,18 +79,6 @@ public class ProjectDeveloperLogic {
         }
         return null;
     }
-
-    /**
-     * Obtiene una instancia de DeveloperEntity asociada como lider a una
-     * instancia de Project
-     *
-     * @param projectsId Identificador de la instancia de Project
-     * @return La entidad del Desarrollador lider asociada al proyecto
-     */
-    public DeveloperEntity getLeader(Long projectsId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar el desarrollador lider del proyecto con id = {0}", projectsId);
-        return projectPersistence.find(projectsId).getLeader();
-    }
     
     /**
      * Remplaza las instancias de Developer asociadas a una instancia de Project
@@ -125,24 +94,6 @@ public class ProjectDeveloperLogic {
         projectEntity.setDevelopers(list);
         LOGGER.log(Level.INFO, "Termina proceso de reemplazar los desarrolladores del proyecto con id = {0}", projectsId);
         return projectPersistence.find(projectsId).getDevelopers();
-    }
-    
-    /**
-     * Reemplaza la instancia de Developer lider asociada a una instancia de Project
-     *
-     * @param projectsId Identificador de la instancia de Project
-     * @param leaderEntity Instancia de DeveloperEntity a asociar a instancia de Project
-     * @return Nueva instancia de DeveloperEntity asociada como lider
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     */
-    public DeveloperEntity replaceLeader(Long projectsId, DeveloperEntity leaderEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de reemplazar al lider del proyecto con id = {0}", projectsId);
-        ProjectEntity projectEntity = projectPersistence.find(projectsId);
-        if(leaderEntity.getType().equals(DeveloperEntity.DeveloperType.Developer))
-            throw new BusinessLogicException("El desarrollador no es tipo líder");
-        projectEntity.setLeader(leaderEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de reemplazar al lider del proyecto con id = {0}", projectsId);
-        return projectPersistence.find(projectsId).getLeader();
     }
 
     /**

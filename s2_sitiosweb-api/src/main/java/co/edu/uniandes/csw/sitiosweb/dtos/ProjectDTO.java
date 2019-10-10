@@ -57,12 +57,7 @@ public class ProjectDTO implements Serializable{
      */
     public ProjectDTO(ProjectEntity entity){
         if(entity != null){
-            if(entity.getHardware() != null){
-                this.hw = new HardwareDTO(entity.getHardware());
-            }
-            else{
-                this.hw = null;
-            }
+
             if(entity.getLeader() != null){
                 this.leader = new DeveloperDTO(entity.getLeader());
             }
