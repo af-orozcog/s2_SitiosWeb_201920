@@ -104,13 +104,14 @@ public class ProjectResource {
      * @param project {@link ProjectDetailDTO} El proyecto que se desea
      * guardar.
      * @return JSON {@link ProjectDetailDTO} - El proyecto guardada.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el proyecto a
      * actualizar.
      */
     @PUT
     @Path("{projectsId: \\d+}")
-    public ProjectDetailDTO updateProject(@PathParam("projectsId") Long projectId, ProjectDetailDTO project) throws WebApplicationException {
+    public ProjectDetailDTO updateProject(@PathParam("projectsId") Long projectId, ProjectDetailDTO project) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProjectResource updateProject: input: id:{0} , project: {1}", new Object[]{projectId, project});
         project.setId(projectId);
         if (logica.getProject(projectId) == null) {
