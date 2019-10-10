@@ -6,7 +6,6 @@
 package co.edu.uniandes.csw.sitiosweb.tests.postman;
 
 import co.edu.uniandes.csw.postman.tests.PostmanTestBuilder;
-import co.edu.uniandes.csw.sitiosweb.dtos.CascaraDTO;
 import co.edu.uniandes.csw.sitiosweb.dtos.HardwareDTO;
 import co.edu.uniandes.csw.sitiosweb.mappers.BusinessLogicExceptionMapper;
 import co.edu.uniandes.csw.sitiosweb.resources.HardwareResource;
@@ -40,8 +39,8 @@ public class HardwareIT {
                         .importRuntimeDependencies().resolve()
                         .withTransitivity().asFile())
                 // Se agregan los compilados de los paquetes de servicios
-                .addPackage(RestConfig.class.getPackage()) //No importa cual recurso usar, lo importante es agregar el paquet
-                .addPackage(CascaraDTO.class.getPackage()) //No importa cual dto usar, lo importante es agregar el paquete.
+                .addPackage(HardwareResource.class.getPackage()) //No importa cual recurso usar, lo importante es agregar el paquet
+                .addPackage(HardwareDTO.class.getPackage()) //No importa cual dto usar, lo importante es agregar el paquete.
                 .addPackage(BusinessLogicExceptionMapper.class.getPackage())
                 // El archivo que contiene la configuracion a la base de datos.
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
