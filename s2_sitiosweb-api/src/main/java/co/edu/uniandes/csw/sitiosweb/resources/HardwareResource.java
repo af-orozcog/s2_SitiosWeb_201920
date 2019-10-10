@@ -102,10 +102,10 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
      * Actualiza una reseña con la informacion que se recibe en el cuerpo de la
      * petición y se regresa el objeto actualizado.
      *
-     * @param booksId El ID del libro del cual se guarda la reseña
-     * @param reviewsId El ID de la reseña que se va a actualizar
-     * @param review {@link ReviewDTO} - La reseña que se desea guardar.
-     * @return JSON {@link ReviewDTO} - La reseña actualizada.
+     * @param projectsId
+     * @param hardwaresId
+     * @param hardware
+     * @return JSON {@link HardwareDTO} - La reseña actualizada.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando ya existe la reseña.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
@@ -115,7 +115,8 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
     @Path("{hardwaresId: \\d+}")
     public HardwareDTO updateReview(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwaresId, HardwareDTO hardware) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "HardwareResource updateHardware: input: projectsId: {0} , hardwaresId: {1} , hardware:{2}", new Object[]{projectsId, hardwaresId, hardware});
-        if (hardwaresId.equals(hardware.getId())) {
+        hardware.setId(hardwaresId);
+        if (hardwaresId.equals(hardwaresId)) {
             throw new BusinessLogicException("Los ids del Hardware no coinciden.");
         }
         HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwaresId);
