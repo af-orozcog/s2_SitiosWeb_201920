@@ -51,6 +51,8 @@ private PodamFactory factory = new PodamFactoryImpl();
     private UserTransaction utx;
 
     private DeveloperEntity developer = new DeveloperEntity();
+    private DeveloperEntity leader = new DeveloperEntity();
+
     private List<ProjectEntity> data = new ArrayList<>();
 
     /**
@@ -108,13 +110,22 @@ private PodamFactory factory = new PodamFactoryImpl();
         developer.setProjects(new ArrayList<>());
         em.persist(developer);
 
+        leader = factory.manufacturePojo(DeveloperEntity.class);
+        leader.setId(2L);
+        leader.setPhone("3206745567");
+        leader.setLeadingProjects(new ArrayList<>());
+        leader.setType(DeveloperEntity.DeveloperType.Leader);
+        em.persist(developer);
+        
         for (int i = 0; i < 3; i++) {
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
             entity.setDevelopers(new ArrayList<>());
             entity.getDevelopers().add(developer);
+            entity.setLeader(leader);
             em.persist(entity);
             data.add(entity);
             developer.getProjects().add(entity);
+            leader.getLeadingProjects().add(entity);
         }
     }
 
@@ -142,6 +153,31 @@ private PodamFactory factory = new PodamFactoryImpl();
         Assert.assertEquals(lastProject.getInternalProject(), newProject.getInternalProject());
 
     }
+    
+        /**
+     * Prueba para asociar un desarrollador a un proyecto como lider.
+     *
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test
+    public void addLeadingProjectTest() throws BusinessLogicException {
+        ProjectEntity newProject = factory.manufacturePojo(ProjectEntity.class);
+        projectLogic.createProject(newProject);
+        ProjectEntity projectEntity = developerProjectLogic.addLeadingProject(developer.getId(), newProject.getId());
+        Assert.assertNotNull(projectEntity);
+
+        Assert.assertEquals(projectEntity.getId(), newProject.getId());
+        Assert.assertEquals(projectEntity.getCompany(), newProject.getCompany());
+        Assert.assertEquals(projectEntity.getInternalProject(), newProject.getInternalProject());
+
+        ProjectEntity lastProject = developerProjectLogic.getLeadingProject(developer.getId(), newProject.getId());
+
+        Assert.assertEquals(lastProject.getId(), newProject.getId());
+        Assert.assertEquals(lastProject.getCompany(), newProject.getCompany());
+        Assert.assertEquals(lastProject.getInternalProject(), newProject.getInternalProject());
+
+    }
 
     /**
      * Prueba para consultar la lista de Projects de un desarrollador.
@@ -149,6 +185,21 @@ private PodamFactory factory = new PodamFactoryImpl();
     @Test
     public void getProjectsTest() {
         List<ProjectEntity> projectEntities = developerProjectLogic.getProjects(developer.getId());
+
+        Assert.assertEquals(data.size(), projectEntities.size());
+
+        for (int i = 0; i < data.size(); i++) {
+            Assert.assertTrue(projectEntities.contains(data.get(0)));
+        }
+    }
+    
+        /**
+     * Prueba para consultar la lista de Projects liderados por un desarrollador.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test
+    public void getLeadingProjectsTest() throws BusinessLogicException {
+        List<ProjectEntity> projectEntities = developerProjectLogic.getLeadingProjects(leader.getId());
 
         Assert.assertEquals(data.size(), projectEntities.size());
 
@@ -166,6 +217,22 @@ private PodamFactory factory = new PodamFactoryImpl();
     public void getProjectTest() throws BusinessLogicException {
         ProjectEntity projectEntity = data.get(0);
         ProjectEntity project = developerProjectLogic.getProject(developer.getId(), projectEntity.getId());
+        Assert.assertNotNull(project);
+
+        Assert.assertEquals(projectEntity.getId(), project.getId());
+        Assert.assertEquals(projectEntity.getCompany(), project.getCompany());
+        Assert.assertEquals(projectEntity.getInternalProject(), project.getInternalProject());
+    }
+    
+    /**
+     * Prueba para cpnsultar un proyecto liderado por un desarrollador.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test
+    public void getLeadingProjectTest() throws BusinessLogicException {
+        ProjectEntity projectEntity = data.get(0);
+        ProjectEntity project = developerProjectLogic.getLeadingProject(leader.getId(), projectEntity.getId());
         Assert.assertNotNull(project);
 
         Assert.assertEquals(projectEntity.getId(), project.getId());
@@ -190,6 +257,27 @@ private PodamFactory factory = new PodamFactoryImpl();
         }
         developerProjectLogic.replaceProjects(developer.getId(), nuevaLista);
         List<ProjectEntity> projectEntities = developerProjectLogic.getProjects(developer.getId());
+        for (ProjectEntity aNuevaLista : nuevaLista) {
+            Assert.assertTrue(projectEntities.contains(aNuevaLista));
+        }
+    }
+    
+        /**
+     * Prueba para actualizar los proyectos liderados por un desarrollador.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test
+    public void replaceLeadingProjectsTest() throws BusinessLogicException {
+        List<ProjectEntity> nuevaLista = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+            entity.setLeader(leader);
+            projectLogic.createProject(entity);
+            nuevaLista.add(entity);
+        }
+        developerProjectLogic.replaceLeadingProjects(leader.getId(), nuevaLista);
+        List<ProjectEntity> projectEntities = developerProjectLogic.getLeadingProjects(leader.getId());
         for (ProjectEntity aNuevaLista : nuevaLista) {
             Assert.assertTrue(projectEntities.contains(aNuevaLista));
         }
