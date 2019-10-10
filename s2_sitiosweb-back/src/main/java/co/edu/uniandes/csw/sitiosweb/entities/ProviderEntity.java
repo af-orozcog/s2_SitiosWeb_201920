@@ -1,13 +1,14 @@
 
 
+
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 import uk.co.jemos.podam.common.PodamExclude;
 /**
  * @author Andres Martinez Silva 
@@ -17,10 +18,6 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class ProviderEntity extends BaseEntity implements Serializable{
 
     private String name;
-
-    @PodamExclude
-    @OneToOne
-    private ProjectEntity project;
     
     public String getName() {
         return name;
@@ -29,5 +26,18 @@ public class ProviderEntity extends BaseEntity implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
+    
+    @PodamExclude
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.PERSIST, orphanRemoval = false)
+    private List<ProjectEntity> projects = new ArrayList<ProjectEntity>();
+    
+    public List<ProjectEntity> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<ProjectEntity> projects) {
+        this.projects = projects;
+    }
+
     
 }
