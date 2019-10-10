@@ -41,6 +41,7 @@ public class ProjectLogic {
      * @throws BusinessLogicException if any rules are broken
      */
     public ProjectEntity createProject(ProjectEntity pe) throws BusinessLogicException{
+       LOGGER.log(Level.INFO, "Creating a new logic project.");
        
         if(pe.getCompany() == null || pe.getCompany().isEmpty()){
             throw new BusinessLogicException("El proyecto no tiene compañia asociada");
@@ -48,8 +49,8 @@ public class ProjectLogic {
         if(pe.getInternalProject() == null){
             throw new BusinessLogicException("El proyecto no dice si es interno o no");
         }
-        LOGGER.log(Level.INFO, "Creating a new logic project.");
-        pe = persistence.create(pe);
+        
+        persistence.create(pe);
         LOGGER.log(Level.INFO, "Exiting the creation of the project.");
         return pe;
     }

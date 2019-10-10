@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -39,7 +40,7 @@ public class ProjectPersistence {
      * @return all ProjectEntity objects found in the DB
      */
     public List<ProjectEntity> findAll(){
-        TypedQuery query = em.createQuery("select u from ProjectEntity u", ProjectEntity.class);
+        Query query = em.createQuery("select u from ProjectEntity u", ProjectEntity.class);
         return query.getResultList();
     }
     

@@ -79,7 +79,7 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
      * Relationship where a project has one or more internalSystems.
      */
     @PodamExclude
-    @OneToMany (mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch=FetchType.LAZY)
+    @OneToMany (mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch=FetchType.LAZY)
     private List<InternalSystemsEntity> internalSystems = new ArrayList<>();
 
 
