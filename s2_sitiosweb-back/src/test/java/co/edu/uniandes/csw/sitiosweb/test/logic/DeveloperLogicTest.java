@@ -99,8 +99,8 @@ public class DeveloperLogicTest {
         for (int i = 0; i < 3; i++) {
             DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
             entity.setPhone("3206745567");
-            em.persist(entity);
             entity.setLeadingProjects(new ArrayList<>());
+            em.persist(entity);
             data.add(entity);
         }
 
@@ -241,6 +241,7 @@ public class DeveloperLogicTest {
         Assert.assertEquals(pojoEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(pojoEntity.getPhone(), resp.getPhone());
         Assert.assertEquals(pojoEntity.getEmail(), resp.getEmail());
+        Assert.assertEquals(pojoEntity.getType(), resp.getType());
     }
 
     /**
