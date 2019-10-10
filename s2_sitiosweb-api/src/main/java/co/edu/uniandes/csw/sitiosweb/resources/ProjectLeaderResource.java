@@ -24,9 +24,13 @@ SOFTWARE.
 package co.edu.uniandes.csw.sitiosweb.resources;
 
 import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDetailDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.ProjectDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
+import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.ProjectDeveloperLogic;
+import co.edu.uniandes.csw.sitiosweb.ejb.ProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.mappers.WebApplicationExceptionMapper;
 import java.util.List;
@@ -46,7 +50,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.WebApplicationException;
 
 /**
- * Clase que implementa el recurso "projects/{id}/leader".
+ * Clase que implementa el recurso "developers/{id}/leadingProjects".
  *
  * @developer ISIS2603
  * @version 1.0
@@ -55,139 +59,121 @@ import javax.ws.rs.WebApplicationException;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectLeaderResource {
 
-    private static final Logger LOGGER = Logger.getLogger(ProjectLeaderResource.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ProjectDeveloperResource.class.getName());
 
     @Inject
-    private ProjectDeveloperLogic projectDeveloperLogic;
+    private DeveloperProjectLogic developerProjectLogic;
 
     @Inject
-    private DeveloperLogic developerLogic;
+    private ProjectLogic projectLogic;
 
     /**
-     * Asocia un desarrollador existente con un proyecto existente
+     * Asocia un proyecto existente con un desarrollador existente como lider
      *
-     * @param developersId El ID del desarrollador que se va a asociar
-     * @param projectsId El ID del proyecto al cual se le va a asociar el desarrollador
-     * @return JSON {@link DeveloperDetailDTO} - El desarrollador asociado.
+     * @param leadersId El ID del desarrollador al cual se le va a asociar el proyecto
+     * @param projectsId El ID del proyecto que se asocia
+     * @return JSON {@link ProjectDetailDTO} - El proyecto asociado.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el desarrollador.
+     * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @POST
-    @Path("{developersId: \\d+}")
-    public DeveloperDetailDTO addDeveloper(@PathParam("projectsId") Long projectsId, @PathParam("developersId") Long developersId) {
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource addDeveloper: input: projectsId {0} , developersId {1}", new Object[]{projectsId, developersId});
-        if (developerLogic.getDeveloper(developersId) == null) {
-            throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
+    @Path("{projectsId: \\d+}")
+    public ProjectDetailDTO addLeadingProject(@PathParam("developersId") Long leadersId, @PathParam("projectsId") Long projectsId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource addProject: input: developersId {0} , projectsId {1}", new Object[]{leadersId, projectsId});
+        if (projectLogic.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
         }
-        DeveloperDetailDTO detailDTO = new DeveloperDetailDTO(projectDeveloperLogic.addDeveloper(projectsId, developersId));
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource addDeveloper: output: {0}", detailDTO);
+        ProjectDetailDTO detailDTO = new ProjectDetailDTO(developerProjectLogic.addLeadingProject(leadersId, projectsId));
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource addProject: output: {0}", detailDTO);
         return detailDTO;
     }
 
     /**
-     * Busca y devuelve todos los desarrolladores que existen en un proyecto.
+     * Busca y devuelve todos los proyectos que existen liderados por un desarrollador.
      *
-     * @param projectsId El ID del proyecto del cual se buscan los desarrolladores
-     * @return JSONArray {@link DeveloperDetailDTO} - Los desarrolladores encontrados en el
-     * proyecto. Si no hay ninguno retorna una lista vacía.
+     * @param developersId El ID del desarrollador del cual se buscan los proyectos
+     * @return JSONArray {@link ProjectDetailDTO} - Los proyectos encontrados en el
+     * desarrollador. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<DeveloperDetailDTO> getDevelopers(@PathParam("projectsId") Long projectsId) {
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource getDevelopers: input: {0}", projectsId);
-        List<DeveloperDetailDTO> lista = developersListEntity2DTO(projectDeveloperLogic.getDevelopers(projectsId));
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource getDevelopers: output: {0}", lista);
+    public List<ProjectDetailDTO> getLeadingProjects(@PathParam("developersId") Long developersId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProjects: input: {0}", developersId);
+        List<ProjectDetailDTO> lista = projectsListEntity2DTO(developerProjectLogic.getLeadingProjects(developersId));
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProjects: output: {0}", lista);
         return lista;
     }
 
     /**
-     * Busca y devuelve el desarrollador con el ID recibido en la URL, relativo a un
-     * proyecto.
+     * Busca y devuelve el proyecto con el ID recibido en la URL, relativo a un
+     * desarrollador que lo lidera.
      *
-     * @param developersId El ID del desarrollador que se busca
-     * @param projectsId El ID del proyecto del cual se busca el desarrollador
-     * @return {@link DeveloperDetailDTO} - El desarrollador encontrado en el proyecto.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper}
-     * Error de lógica que se genera cuando no se encuentra el desarrollador.
+     * @param leadersId El ID del desarrollador del cual se busca el proyecto
+     * @param projectsId El ID del proyecto que se busca
+     * @return {@link ProjectDetailDTO} - El proyecto encontrado en el desarrollador.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     * si el proyecto no está asociado al desarrollador
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @GET
-    @Path("{developersId: \\d+}")
-    public DeveloperDetailDTO getDeveloper(@PathParam("projectsId") Long projectsId, @PathParam("developersId") Long developersId) {
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource getDeveloper: input: projectsId {0} , developersId {1}", new Object[]{projectsId, developersId});
-        if (developerLogic.getDeveloper(developersId) == null) {
-            throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
+    @Path("{projectsId: \\d+}")
+    public ProjectDetailDTO getProject(@PathParam("developersId") Long leadersId, @PathParam("projectsId") Long projectsId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProject: input: developersId {0} , projectsId {1}", new Object[]{leadersId, projectsId});
+        if (projectLogic.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
         }
-        DeveloperDetailDTO detailDTO = new DeveloperDetailDTO(projectDeveloperLogic.getDeveloper(projectsId, developersId));
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource getDeveloper: output: {0}", detailDTO);
+        ProjectDetailDTO detailDTO = new ProjectDetailDTO(developerProjectLogic.getLeadingProject(leadersId, projectsId));
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProject: output: {0}", detailDTO);
         return detailDTO;
     }
 
     /**
-     * Actualiza la lista de desarrolladores de un proyecto con la lista que se recibe en
-     * el cuerpo.
+     * Actualiza la lista de proyectos liderados por un desarrollador con la lista que se recibe en el
+     * cuerpo
      *
-     * @param projectsId El ID del proyecto al cual se le va a asociar la lista de
-     * desarrolladores
-     * @param developers JSONArray {@link DeveloperDetailDTO} - La lista de desarrolladores
-     * que se desea guardar.
-     * @return JSONArray {@link DeveloperDetailDTO} - La lista actualizada.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper}
-     * Error de lógica que se genera cuando no se encuentra el desarrollador.
+     * @param leadersId El ID del desarrollador al cual se le va a asociar el proyecto
+     * @param projects JSONArray {@link ProjectDetailDTO} - La lista de proyectos que se
+     * desea guardar.
+     * @return JSONArray {@link ProjectDetailDTO} - La lista actualizada.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @PUT
-    public List<DeveloperDetailDTO> replaceDevelopers(@PathParam("projectsId") Long projectsId, List<DeveloperDetailDTO> developers) {
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource replaceDevelopers: input: projectsId {0} , developers {1}", new Object[]{projectsId, developers});
-        for (DeveloperDetailDTO developer : developers) {
-            if (developerLogic.getDeveloper(developer.getId()) == null) {
-                throw new WebApplicationException("El recurso /developers/" + developer.getId() + " no existe.", 404);
+    public List<ProjectDetailDTO> replaceLeadingProjects(@PathParam("developersId") Long leadersId, List<ProjectDetailDTO> projects) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource replaceProjects: input: developersId {0} , projects {1}", new Object[]{leadersId, projects});
+        for (ProjectDetailDTO project : projects) {
+            if (projectLogic.getProject(project.getId()) == null) {
+                throw new WebApplicationException("El recurso /projects/" + project.getId() + " no existe.", 404);
             }
         }
-        List<DeveloperDetailDTO> lista = developersListEntity2DTO(projectDeveloperLogic.replaceDevelopers(projectsId, developersListDTO2Entity(developers)));
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource replaceDevelopers: output:{0}", lista);
+        List<ProjectDetailDTO> lista = projectsListEntity2DTO(developerProjectLogic.replaceLeadingProjects(leadersId, projectsListDTO2Entity(projects)));
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource replaceProjects: output: {0}", lista);
         return lista;
     }
 
     /**
-     * Elimina la conexión entre el desarrollador y el proyecto recibidos en la URL.
+     * Convierte una lista de ProjectEntity a una lista de ProjectDetailDTO.
      *
-     * @param projectsId El ID del proyecto al cual se le va a desasociar el desarrollador
-     * @param developersId El ID del desarrollador que se desasocia
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper}
-     * Error de lógica que se genera cuando no se encuentra el desarrollador.
+     * @param entityList Lista de ProjectEntity a convertir.
+     * @return Lista de ProjectDetailDTO convertida.
      */
-    @DELETE
-    @Path("{developersId: \\d+}")
-    public void removeDeveloper(@PathParam("projectsId") Long projectsId, @PathParam("developersId") Long developersId) {
-        LOGGER.log(Level.INFO, "ProjectDevelopersResource removeDeveloper: input: projectsId {0} , developersId {1}", new Object[]{projectsId, developersId});
-        if (developerLogic.getDeveloper(developersId) == null) {
-            throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
-        }
-        projectDeveloperLogic.removeDeveloper(projectsId, developersId);
-        LOGGER.info("ProjectDevelopersResource removeDeveloper: output: void");
-    }
-
-    /**
-     * Convierte una lista de DeveloperEntity a una lista de DeveloperDetailDTO.
-     *
-     * @param entityList Lista de DeveloperEntity a convertir.
-     * @return Lista de DeveloperDetailDTO convertida.
-     */
-    private List<DeveloperDetailDTO> developersListEntity2DTO(List<DeveloperEntity> entityList) {
-        List<DeveloperDetailDTO> list = new ArrayList<>();
-        for (DeveloperEntity entity : entityList) {
-            list.add(new DeveloperDetailDTO(entity));
+    private List<ProjectDetailDTO> projectsListEntity2DTO(List<ProjectEntity> entityList) {
+        List<ProjectDetailDTO> list = new ArrayList<>();
+        for (ProjectEntity entity : entityList) {
+            list.add(new ProjectDetailDTO(entity));
         }
         return list;
     }
 
     /**
-     * Convierte una lista de DeveloperDetailDTO a una lista de DeveloperEntity.
+     * Convierte una lista de ProjectDetailDTO a una lista de ProjectEntity.
      *
-     * @param dtos Lista de DeveloperDetailDTO a convertir.
-     * @return Lista de DeveloperEntity convertida.
+     * @param dtos Lista de ProjectDetailDTO a convertir.
+     * @return Lista de ProjectEntity convertida.
      */
-    private List<DeveloperEntity> developersListDTO2Entity(List<DeveloperDetailDTO> dtos) {
-        List<DeveloperEntity> list = new ArrayList<>();
-        for (DeveloperDetailDTO dto : dtos) {
+    private List<ProjectEntity> projectsListDTO2Entity(List<ProjectDetailDTO> dtos) {
+        List<ProjectEntity> list = new ArrayList<>();
+        for (ProjectDetailDTO dto : dtos) {
             list.add(dto.toEntity());
         }
         return list;
