@@ -241,7 +241,7 @@
 			"response": []
 		},
 		{
-			"name": "Obtener el project de id 5",
+			"name": "Obtener project existente",
 			"event": [
 				{
 					"listen": "test",
@@ -260,7 +260,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/5",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -270,43 +270,7 @@
 						"s2_sitiosweb-api",
 						"api",
 						"projects",
-						"5"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Obtener el project de id 6",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "f70d54b1-b542-48b9-8f70-c82053816a97",
-						"exec": [
-							"console.log(responseBody);",
-							"var data = JSON.parse(responseBody);",
-							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/6",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"projects",
-						"6"
+						"{{new_id_proyNuevo}}"
 					]
 				}
 			},
@@ -433,7 +397,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/5",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -443,7 +407,7 @@
 						"s2_sitiosweb-api",
 						"api",
 						"projects",
-						"5"
+						"{{new_id_proyNuevo}}"
 					]
 				}
 			},
@@ -484,7 +448,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/5",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -494,7 +458,7 @@
 						"s2_sitiosweb-api",
 						"api",
 						"projects",
-						"5"
+						"{{new_id_proyNuevo}}"
 					]
 				}
 			},
@@ -536,7 +500,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/6",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -546,7 +510,7 @@
 						"s2_sitiosweb-api",
 						"api",
 						"projects",
-						"6"
+						"{{new_id_proyNuevo}}"
 					]
 				}
 			},
