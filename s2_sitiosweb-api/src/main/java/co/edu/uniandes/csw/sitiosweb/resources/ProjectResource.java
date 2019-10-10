@@ -180,7 +180,7 @@ public class ProjectResource {
     @Path("{projectsId: \\d+}/iterations")
     public Class<IterationResource> getIterationResource(@PathParam("projectsId") Long projectsId) {
         if (logica.getProject(projectsId) == null) {
-            throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews no existe.", 404);
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/iterations no existe.", 404);
         }
         return IterationResource.class;
     }
@@ -193,7 +193,7 @@ public class ProjectResource {
     @Path("{projectsId: \\d+}/hardwares")
     public Class<HardwareResource> getHardwareResource(@PathParam("projectsId") Long projectsId) {
         if (logica.getProject(projectsId) == null) {
-            throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews no existe.", 404);
+            throw new WebApplicationException("El recurso /book/" + projectsId + "/reviews no existe.", 404);
         }
         return HardwareResource.class;
     }

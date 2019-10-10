@@ -1,0 +1,605 @@
+{
+	"info": {
+		"_postman_id": "336b3a3b-2fd8-433f-9603-7f0b99a64fc1",
+		"name": "IterationResourceTest",
+		"description": "Iteration resource test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "crear proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "33553fa9-b81a-4f75-a18f-8388923d111d",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_p\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company\": \"IBM\",\r\n    \"internalProject\": true,\r\n    \"developers\": [],\r\n    \"internalSystems\": [],\r\n    \"iterations\": [],\r\n    \"requests\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "Prueba necesaria para crear el proyecto que se va a utilizar para poder cumplir con las reglas de negocio y crear la iteración.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear una iteracion1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "40a882fe-4faf-4296-962b-ce30cf085f41",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_i1\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"objetive\":\"actualizaciones\",\n\t\"validationDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"changes\":\"buenas\",\n\t\"beginDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"endDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"projecto\":{\"id\":{{new_id_p}}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations"
+					]
+				},
+				"description": "Prueba necesaria para pobrar que se cree una iteración con valores validos y asociandola a un proyecto que tambien existe en la base de datos.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear una iteracion2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "40a882fe-4faf-4296-962b-ce30cf085f41",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_i2\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"objetive\":\"actualizaciones2\",\n\t\"validationDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"changes\":\"buenas2\",\n\t\"beginDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"endDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"projecto\":{\"id\":{{new_id_p}}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations"
+					]
+				},
+				"description": "Prueba necesaria para pobrar que se cree una iteración con valores validos y asociandola a un proyecto que tambien existe en la base de datos.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "obtener una iteración que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9e331a5-36ce-4bce-9afe-ed34b89d2135",
+						"exec": [
+							"tests[\"No se deberia obtener una iteracion con un id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /iterations/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations",
+						"0"
+					]
+				},
+				"description": "Consulta una iteracion que no existe en un proyecto en la aplicación.\r\n\r\nCódigo http esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Obetener todas las iteraciones",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6b2a8f2f-a38d-413d-bc27-d82e6be6a26e",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get All\"] = responseCode.code === 200;",
+							"tests[\"iterations count\"] = data.length > 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations"
+					]
+				},
+				"description": "Consulta las iteraciones de un proyecto en la aplicación. La petición no tiene cuerpo.\r\n\r\nCódigo http esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una iteración",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0c16ae9f-70a1-4d38-8239-daaf9e2d9104",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Consulta las iteracion de un proyecto en la aplicación. La petición no tiene cuerpo.\r\n\r\nSe envía el Id de la iteracion a consultar en la URL de la petición.\r\n\r\nCódigo http esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar una iteración",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a66e2d5e-9600-4114-bc5d-d6063ac2f71c",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"objetive\":\"actualizaciones nuevas\",\n\t\"validationDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"changes\":\"prueba de cambio\",\n\t\"beginDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"endDate\":\"2000-08-20T00:00:00-05:00\",\n\t\"projecto\":{\"id\":{{new_id_p}}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Actualiza una iteracion a un proyecto existente. Se envían los Ids de las entidades asociar en la URL de la petición.\r\n\r\nCódigo http esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar una iteración que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a66e2d5e-9600-4114-bc5d-d6063ac2f71c",
+						"exec": [
+							"tests[\"No se puede editar un iteration que no existe.\"] = responseCode.code === 404;",
+							"let id = pm.variables.get(\"new_id_b\");",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /iterations/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company\": \"IBMM\",\r\n    \"internalProject\": true,\r\n    \"developers\": [],\r\n    \"internalSystems\": [],\r\n    \"iterations\": [],\r\n    \"requests\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations",
+						"0"
+					]
+				},
+				"description": "Asocia una iteracion que no existe a un project.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /iterations/0 no existe.\"\r\n\r\nCódigo HTTP esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar una iteración en un project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a66e2d5e-9600-4114-bc5d-d6063ac2f71c",
+						"exec": [
+							"tests[\"No se puede editar una iteración sobre un project que no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0/iterations no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company\": \"IBMM\",\r\n    \"internalProject\": true,\r\n    \"developers\": [],\r\n    \"internalSystems\": [],\r\n    \"iterations\": [],\r\n    \"requests\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/iterations/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"iterations",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Asocia una iteracion a un project que no existe.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /projects/0/iterations no existe.\"\r\n\r\nCódigo HTTP esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "borrar una iteración que no existe en un proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "107be437-d179-40e4-acf0-c4331cd187d2",
+						"exec": [
+							"tests[\"No se puede borrar un iteration que no existe.\"] = responseCode.code === 404;",
+							"let id = pm.variables.get(\"new_id_p\");",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/\"+id+ \"/iterations/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations",
+						"0"
+					]
+				},
+				"description": "Borra una iteración que no existe en la aplicación.\r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\nCódigo http esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "borrar una iteración en un proyecto que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "107be437-d179-40e4-acf0-c4331cd187d2",
+						"exec": [
+							"tests[\"No se puede borrar una iteration de un proyecto que no existe.\"] = responseCode.code === 404;",
+							"let id = pm.variables.get(\"new_id_b\");",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0/iterations no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/iterations/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"iterations",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Borra una iteración de un proyecto que no existe en la aplicación.\r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\nCódigo http esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "borrarle una iteración a un proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "107be437-d179-40e4-acf0-c4331cd187d2",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Borra una iteración asociada a un libro. Se envían los ids de la iteración y del proyecto creados anteriormente.\r\n\r\nCódigo HTTP esperado: 204"
+			},
+			"response": []
+		},
+		{
+			"name": "borrarle una iteración 2 a un proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "107be437-d179-40e4-acf0-c4331cd187d2",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/iterations/{{new_id_i2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"iterations",
+						"{{new_id_i2}}"
+					]
+				},
+				"description": "Borra una iteración asociada a un libro. Se envían los ids de la iteración y del proyecto creados anteriormente.\r\n\r\nCódigo HTTP esperado: 204"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
