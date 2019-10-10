@@ -252,14 +252,18 @@ public class ProjectLogicTest {
      *
      * @throws BusinessLogicException
      */
+    /*
     @Test
     public void deleteProjectWithoutDevelopersTest() throws BusinessLogicException {
-        ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+        ProjectEntity entity = data.get(0);
+        List<DeveloperEntity> de = entity.getDevelopers();
+        de.clear();
+        entity.setDevelopers(de);
         projectLogic.deleteProject(entity.getId());
         ProjectEntity deleted = em.find(ProjectEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
-    
+    /
      /**
      * Prueba para eliminar un proyecto con developers
      *

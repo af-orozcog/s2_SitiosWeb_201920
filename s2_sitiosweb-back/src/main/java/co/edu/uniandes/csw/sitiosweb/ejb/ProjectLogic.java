@@ -102,10 +102,12 @@ public class ProjectLogic {
     {
         LOGGER.log(Level.INFO, "Deleting project with id = {0}.", projectId);
         List<DeveloperEntity> developers = getProject(projectId).getDevelopers();
-        if (developers != null && !developers.isEmpty()) {
+        if (developers == null || developers.isEmpty()) {
+            persistence.delete(projectId);
+        }else {
             throw new BusinessLogicException("No se puede borrar el proyecto con id = " + projectId + " porque tiene developers asociados");
         }
-        persistence.delete(projectId);
+                    
         LOGGER.log(Level.INFO, "Exiting the deletion of the project with id = {0}.", projectId);
     }
     
