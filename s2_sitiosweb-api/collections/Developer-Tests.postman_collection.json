@@ -1,12 +1,100 @@
 {
 	"info": {
-		"_postman_id": "a62cc50f-84a6-4c99-8c6f-b702ef7673fd",
-		"name": "Developer Tests",
+		"_postman_id": "5836a3a0-0e9c-4ffb-a8e7-6b482d961716",
+		"name": "Developer-Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Crear un desarrollador",
+			"name": "Crear un desarrollador con teléfono invalido 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d80427e6-5008-41d2-88de-479a8d9c5f51",
+						"exec": [
+							"tests[\"No crea con teléfono invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556a\",\n \"type\":\"Developer\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Crea un nuevo desarrollador pero con un teléfono inválido. Verifica que se genera el error y el mensaje \"El teléfono es inválido\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un desarrollador con teléfono invalido 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d80427e6-5008-41d2-88de-479a8d9c5f51",
+						"exec": [
+							"tests[\"No crea con teléfono invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556\",\n \"type\":\"Developer\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Crea un nuevo desarrollador pero con un teléfono inválido. Verifica que se genera el error y el mensaje \"El teléfono es inválido\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un líder",
 			"event": [
 				{
 					"listen": "test",
@@ -14,7 +102,7 @@
 						"id": "9af4206b-b7f4-47f9-b950-9ff7be61be67",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
-							"postman.setGlobalVariable(\"new_id_e\",data.id);",
+							"postman.setGlobalVariable(\"new_id_d2\",data.id);",
 							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
 						],
 						"type": "text/javascript"
@@ -27,13 +115,13 @@
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3203745567\",\n \"type\":0\n}",
+					"raw": "{\"login\":\"Lider\",\n \"email\":\"ejemplo2@sitios.com\",\n \"phone\":\"3213745567\",\n \"type\":\"Leader\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -53,7 +141,421 @@
 						"developers"
 					]
 				},
-				"description": "Crea la cuenta de un desarrollador"
+				"description": "Crea otro desarrollador pero que sea tipo líder. El login del recurso debe ser único y el phone debe ser de 10 dígitos y ser números. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un desarrollador con el mismo Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "99432a89-1545-4c9d-9757-3a363a64c973",
+						"exec": [
+							"tests[\"No crea con el mismo login\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El login ya existe\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"errorLogin@sitios.com\",\n\t\"phone\":\"3216745567\",\n\t\"type\":\"Developer\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Crea un nuevo desarrollador pero con un Login que ya existe. Verifica que se genera el error y el mensaje \"El Login ya existe\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los desarrolladores",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad309e51-c9e6-4900-a0ff-f4574a40b3df",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"developers count\"] = data.length >= 0;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Consulta todos los desarrolladores de la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nPara la prueba, se verifica que el conjunto de desarrolladores en la respuesta tenga mas de uno."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b671f4fd-2e8e-4662-a534-d450acfc06d0",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}"
+					]
+				},
+				"description": "Consulta un desarrollador de la aplicación.  \r\nLa petición no tiene cuerpo.\r\nSe envía el id del desarrollador deseado por la URL de la petición."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un desarrollador que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "febd508c-10d5-415e-b52b-846b9e059291",
+						"exec": [
+							"tests[\"No consulta con id que no existe\"] = responseCode.code === 404; ",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"0"
+					]
+				},
+				"description": "Consulta un desarrollador que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /developers/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un desarrollador que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1fe4e1cc-8b1e-48a6-b194-f17a6a2fc158",
+						"exec": [
+							"tests[\"No actualiza con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"errorLogin@sitios.com\",\n\t\"phone\":\"3216745567\",\n\t\"type\":\"Developer\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"0"
+					]
+				},
+				"description": "Actualiza un desarrollador que no existe. \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /developers/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un desarrollador con teléfono invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2faffc82-5165-472c-8ea8-5e9bfc03100c",
+						"exec": [
+							"tests[\"No crea con teléfono inválido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\":\"DesarrolladorNuevo\",\n\t\"email\":\"telefonoInv@sitios.com\",\n\t\"phone\":\"321674556a\",\n\t\"type\":\"Developer\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}"
+					]
+				},
+				"description": "Actualiza un desarrollador con teléfono invalido. \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El teléfono es inválido.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1077a573-437a-4a11-9b9a-87cb45264001",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\":\"DesarrolladorNuevo\",\n\t\"email\":\"editar@sitios.com\",\n\t\"phone\":\"3216743567\",\n\t\"type\":\"Developer\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}"
+					]
+				},
+				"description": "Actualiza un desarrollador existente. \r\nse envía el Id en la URL de la petición."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ec74fba-bc15-4973-99bd-0c1a86a28a2e",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}"
+					]
+				},
+				"description": "Borra un desarrollador. Se envía el id del desarrollador creado anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un líder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ec74fba-bc15-4973-99bd-0c1a86a28a2e",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d2}}"
+					]
+				},
+				"description": "Borra un desarrollador tipo líder. Se envía el id del desarrollador líder creado anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un desarrollador que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0c07240-fe4b-447c-9e39-ab2524df2ace",
+						"exec": [
+							"tests[\"No borra con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"0"
+					]
+				},
+				"description": "Borra un libro que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /developers/0 no existe.\"."
 			},
 			"response": []
 		}
