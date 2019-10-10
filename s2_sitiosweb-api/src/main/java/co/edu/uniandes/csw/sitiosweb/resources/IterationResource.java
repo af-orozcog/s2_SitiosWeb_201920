@@ -5,10 +5,6 @@
  */
 package co.edu.uniandes.csw.sitiosweb.resources;
 
-/**
- *
- * @author Estudiante af.orozcog
- */
 
 
 import java.io.Serializable;

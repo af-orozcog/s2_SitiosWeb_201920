@@ -6,7 +6,42 @@ import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
+/**
+ * IterationDTO Objeto de transferencia de datos de iteraciones. Los DTO contienen las
+ * representaciones de los JSON que se transfieren entre el cliente y el
+ * servidor.
+ *
+ * Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
+ * <pre>
+ *   {
+ *      "id": number,
+ *      "objetive": string,
+ *      "validationDate": Date,
+ *      "changes": string,
+ *      "beginDate":Date,
+ *      "endDate":Date,
+ *      "projecto": {@link ProjectDTO}
+ *   }
+ * </pre> Por ejemplo una reseña se representa asi:<br>
+ *
+ * <pre>
+ *
+ *   {
+ *      "id": 123,
+ *      "objetive": "actualizacion de funcionalidades",
+ *      "validationDate": "2019-08-29T00:00:00Z[UTC]",
+ *      "changes": "cambios en las funcionalidades",
+ *      "beginDate": "2019-08-22T00:00:00Z[UTC]",
+ *      "endDate":"2019-08-28T00:00:00Z[UTC]"
+ *      "projecto":
+ *      {
+ *          "id": 123
+ *      }
+ *   }
+ *
+ * </pre>
+ *
+ */
 /**
  *
  * @author Andres orozco 201730058
