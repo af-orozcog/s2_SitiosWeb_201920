@@ -1,0 +1,660 @@
+{
+	"info": {
+		"_postman_id": "6e3376b9-5ab9-4a95-8318-336eccd10e7f",
+		"name": "ProjectResourceTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72b175f7-c045-4695-a6d9-d014f1957268",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_proyNuevo\",data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project con Developers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "37f59e2a-47db-4490-a828-6a8015fd84b4",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_projectDev\",data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null,\n\t\"developers\": \n\t\t[\n\t\t\t{\"email\": \"lalala@gmail.com\",\n\t\"login\": \"lala\",\n\t\"phone\": \"1112225487\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []},\n\t\t\t{\"email\": \"lelele@gmail.com\",\n\t\"login\": \"lelel\",\n\t\"phone\": \"1112225447\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []}\n\t\t]\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project sin Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "054ab895-fc78-46f3-ae64-8a0a2869e4ed",
+						"exec": [
+							"tests[\"No crea con ISBN invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no tiene compañia asociada\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : null,\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project sin InternalProject",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fe9ae62-db7f-4931-ab9e-06e053a8a5ee",
+						"exec": [
+							"tests[\"No crea con ISBN invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no dice si es interno o no\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : \"Apple\" ,\n\t\"internalProject\" : null,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los proyectos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61738bab-d19b-4aff-800c-d308b72b2a8c",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"projects count\"] = data.length >= 0;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener el project de id 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f70d54b1-b542-48b9-8f70-c82053816a97",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/5",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener el project de id 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f70d54b1-b542-48b9-8f70-c82053816a97",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/6",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener project inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ced3e943-cfff-408e-a886-ef1eb7360460",
+						"exec": [
+							"tests[\"No consulta con id que no existe\"] = responseCode.code === 404; ",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar project inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3da25185-7658-41e0-b932-caa9f2f4858b",
+						"exec": [
+							"tests[\"No actualiza con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : false,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Project con Company Invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cb4b49f7-6b08-45e9-97f3-5e8884a387a5",
+						"exec": [
+							"tests[\"No crea con companía invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no tiene compañia asociada\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : null,\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/5",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Project con InternalProject invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a16ae742-7122-4834-9bcf-5f0d3f773fcb",
+						"exec": [
+							"tests[\"No crea con internalProject invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no dice si es interno o no\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : null,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/5",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d728c5d-e11b-4237-afe2-aaae221650ce",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : false,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/6",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "78bc0bcf-90c9-4de5-ac39-163ce70faa77",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_proyNuevo}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "183371eb-e013-4ba3-9fc7-78bb77ebbec1",
+						"exec": [
+							"tests[\"No borra con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project con developers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6475ff37-e064-4372-a0bf-1cef34a913ad",
+						"exec": [
+							"tests[\"Genera error en el Delete porque hay developers asociados\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectDev}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectDev}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
