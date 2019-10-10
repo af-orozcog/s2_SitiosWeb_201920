@@ -305,4 +305,16 @@ public class RequestEntity extends BaseEntity implements Serializable
      */
     public void setRequestType(RequestType requestType) 
     { this.requestType = requestType; }
+    
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("Request");
+        sb.append(getId());
+        sb.append(" = requester : ");
+        sb.append(requester);
+        sb.append(", project : ");
+        sb.append(project);
+        return sb.toString();
+    }
 }
