@@ -83,7 +83,6 @@ public class HardwareLogic {
      * Actualizar un hardware por ID
      *
      * @param projectId
-     * @param hardwareId El ID del libro a actualizar
      * @param hardware La entidad del libro con los cambios deseados
      * @return La entidad del hardware luego de actualizarla
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
