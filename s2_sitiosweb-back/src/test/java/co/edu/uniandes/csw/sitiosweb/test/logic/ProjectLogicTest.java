@@ -154,22 +154,22 @@ public class ProjectLogicTest {
             em.persist(entity);
             dataDeveloper.add(entity);
         }
-               System.out.println("Tam dataDeveloper " + dataDeveloper.size());
+              // System.out.println("Tam dataDeveloper " + dataDeveloper.size());
 
         for (int i = 0; i < 3; i++) {
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
             System.out.println(entity.getCompany());
             entity.setDevelopers(dataDeveloper);
-            System.out.println("llegue1");
-            System.out.println("llegue1.1 " + dataDeveloper.get(0).getLogin());
+           // System.out.println("llegue1");
+            //System.out.println("llegue1.1 " + dataDeveloper.get(0).getLogin());
             entity.setLeader(dataDeveloper.get(0));
-             System.out.println("llegue2");
+            // System.out.println("llegue2");
             em.persist(entity);
-             System.out.println("llegue3");
+           //  System.out.println("llegue3");
             data.add(entity);
-             System.out.println("llegue4");
+           //  System.out.println("llegue4");
         }
-        System.out.println("Tam data " + data.size());
+       // System.out.println("Tam data " + data.size());
     }
    
    /**
