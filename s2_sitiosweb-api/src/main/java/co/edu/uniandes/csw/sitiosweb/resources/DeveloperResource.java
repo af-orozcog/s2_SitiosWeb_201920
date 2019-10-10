@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.resources;
 
 import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDTO;
 import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 
@@ -32,28 +33,47 @@ import javax.ws.rs.WebApplicationException;
 
 /**
  *
- * @author Nicolás Abondano nf.abondano 201812467
+ * @developer Nicolás Abondano nf.abondano 201812467
  */
 @Path("developers")
 @Produces("application/json")
 @Consumes("application/json")
 @RequestScoped
 public class DeveloperResource {
+
     private final static Logger LOGGER = Logger.getLogger(DeveloperResource.class.getName());
-    
+
     @Inject
     private DeveloperLogic developerLogic;
-    
+
+    /**
+     * Crea un nuevo desarrollador con la informacion que se recibe en el cuerpo de la
+     * petición y se regresa un objeto identico con un id auto-generado por la
+     * base de datos.
+     *
+     * @param developer {@link DeveloperDTO} - EL desarrollador que se desea guardar.
+     * @return JSON {@link DeveloperDTO} - El desarrollador guardado con el atributo id
+     * autogenerado.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica que se genera cuando ya existe el login
+     * o si el telefono ingresado es inválido.
+     */
     @POST
-    public DeveloperDTO createDeveloper(DeveloperDTO developer) throws BusinessLogicException{
+    public DeveloperDTO createDeveloper(DeveloperDTO developer) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "DeveloperResource createDeveloper: input: {0}", developer);
         DeveloperEntity developerEntity = developer.toEntity();
         DeveloperEntity nuevoDeveloperEntity = developerLogic.createDeveloper(developerEntity);
         DeveloperDTO nuevoUsuerDTO = new DeveloperDTO(nuevoDeveloperEntity);
         LOGGER.log(Level.INFO, "DeveloperResource createDeveloper: output: {0}", nuevoUsuerDTO);
-        return nuevoUsuerDTO;    
+        return nuevoUsuerDTO;
     }
 
+    /**
+     * Busca y devuelve todos los desarrolladors que existen en la aplicacion.
+     *
+     * @return JSONArray {@link DeveloperDetailDTO} - Los desarrolladors encontrados en la
+     * aplicación. Si no hay ninguno retorna una lista vacía.
+     */
     @GET
     public List<DeveloperDTO> getDevelopers() {
         LOGGER.info("DeveloperResource getDevelopers: input: void");
@@ -62,6 +82,15 @@ public class DeveloperResource {
         return listaUsuarios;
     }
 
+    /**
+     * Busca el desarrollador con el id asociado recibido en la URL y lo devuelve.
+     *
+     * @param developersId Identificador del desarrollador que se esta buscando. Este debe
+     * ser una cadena de dígitos.
+     * @return JSON {@link DeveloperDetailDTO} - El desarrollador buscado
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el desarrollador.
+     */
     @GET
     @Path("{developersId: \\d+}")
     public DeveloperDTO getDeveloper(@PathParam("developersId") Long developersId) throws WebApplicationException {
@@ -75,19 +104,44 @@ public class DeveloperResource {
         return developerDTO;
     }
 
+    /**
+     * Actualiza el developer con el id recibido en la URL con la información que se
+     * recibe en el cuerpo de la petición.
+     *
+     * @param developersId Identificador del developer que se desea actualizar. Este
+     * debe ser una cadena de dígitos.
+     * @param developer {@link DeveloperDetailDTO} El developer que se desea guardar.
+     * @return JSON {@link DeveloperDetailDTO} - El developer guardado.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el developer a
+     * actualizar.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica que se genera cuando no se puede actualizar el desarrollador.
+     */
+    
     @PUT
     @Path("{developersId: \\d+}")
-    public DeveloperDTO updateDeveloper(@PathParam("developersId") Long developersId, DeveloperDTO developer) throws WebApplicationException, BusinessLogicException {
-        LOGGER.log(Level.INFO, "DeveloperResource updateDeveloper: input: id:{0} , developer: {1}", new Object[]{developersId, developer});
+    public DeveloperDetailDTO updateDeveloper(@PathParam("developersId") Long developersId, DeveloperDetailDTO developer) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "DeveloperResource updateDeveloper: input: developersId: {0} , developer: {1}", new Object[]{developersId, developer});
         developer.setId(developersId);
         if (developerLogic.getDeveloper(developersId) == null) {
             throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
         }
-        DeveloperDTO developerDTO = new DeveloperDTO(developerLogic.updateDeveloper(developersId, developer.toEntity()));
-        LOGGER.log(Level.INFO, "DeveloperResource updateDeveloper: output: {0}", developerDTO);
-        return developerDTO;
+        DeveloperDetailDTO detailDTO = new DeveloperDetailDTO(developerLogic.updateDeveloper(developersId, developer.toEntity()));
+        LOGGER.log(Level.INFO, "DeveloperResource updateDeveloper: output: {0}", detailDTO);
+        return detailDTO;
     }
     
+    /**
+     * Borra el desarrollador con el id asociado recibido en la URL.
+     *
+     * @param developersId Identificador del desarrollador que se desea borrar. Este debe ser
+     * una cadena de dígitos.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica que se genera cuando el desarrollador tiene proyectos liderados asociados.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el desarrollador.
+     */
     @DELETE
     @Path("{developersId: \\d+}")
     public void deleteDeveloper(@PathParam("developersId") Long developersId) throws BusinessLogicException {
@@ -99,6 +153,16 @@ public class DeveloperResource {
         LOGGER.info("DeveloperResource deleteDeveloper: output: void");
     }
 
+    /**
+     * Convierte una lista de entidades a DTO.
+     *
+     * Este método convierte una lista de objetos DeveloperEntity a una lista de
+     * objetos DeveloperDetailDTO (json)
+     *
+     * @param entityList corresponde a la lista de desarrolladors de tipo Entity que
+     * vamos a convertir a DTO.
+     * @return la lista de desarrolladors en forma DTO (json)
+     */
     private List<DeveloperDTO> listEntity2DetailDTO(List<DeveloperEntity> entityList) {
         List<DeveloperDTO> list = new ArrayList<>();
         for (DeveloperEntity entity : entityList) {

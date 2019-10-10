@@ -98,6 +98,7 @@ public class DeveloperLogicTest {
     private void insertData() {
         for (int i = 0; i < 3; i++) {
             DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
+            entity.setPhone("3206745567");
             em.persist(entity);
             entity.setLeadingProjects(new ArrayList<>());
             data.add(entity);

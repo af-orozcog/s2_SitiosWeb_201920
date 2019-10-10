@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
@@ -40,15 +41,16 @@ public class ProjectLogic {
      * @throws BusinessLogicException if any rules are broken
      */
     public ProjectEntity createProject(ProjectEntity pe) throws BusinessLogicException{
+       LOGGER.log(Level.INFO, "Creating a new logic project.");
        
-        if(pe.getCompany() == null){
+        if(pe.getCompany() == null || pe.getCompany().isEmpty()){
             throw new BusinessLogicException("El proyecto no tiene compañia asociada");
         }
         if(pe.getInternalProject() == null){
             throw new BusinessLogicException("El proyecto no dice si es interno o no");
         }
-        LOGGER.log(Level.INFO, "Creating a new logic project.");
-        pe = persistence.create(pe);
+        
+        persistence.create(pe);
         LOGGER.log(Level.INFO, "Exiting the creation of the project.");
         return pe;
     }
@@ -99,8 +101,13 @@ public class ProjectLogic {
     public void deleteProject(Long projectId) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Deleting project with id = {0}.", projectId);
-        // TODO relationships with Requester and Project.
-        persistence.delete(projectId);
+        List<DeveloperEntity> developers = getProject(projectId).getDevelopers();
+        if (developers == null || developers.isEmpty()) {
+            persistence.delete(projectId);
+        }else {
+            throw new BusinessLogicException("No se puede borrar el proyecto con id = " + projectId + " porque tiene developers asociados");
+        }
+                    
         LOGGER.log(Level.INFO, "Exiting the deletion of the project with id = {0}.", projectId);
     }
     

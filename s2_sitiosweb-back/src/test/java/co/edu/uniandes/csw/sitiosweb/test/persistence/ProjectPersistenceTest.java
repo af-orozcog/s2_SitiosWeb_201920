@@ -137,6 +137,7 @@ public class ProjectPersistenceTest {
        ProjectEntity newEntity = pp.find(entity.getId());
        Assert.assertNotNull(newEntity);
        Assert.assertEquals(entity.getCompany(), newEntity.getCompany());
+       Assert.assertEquals(entity.getInternalProject(), newEntity.getInternalProject());
    }
    
    @Test
@@ -158,5 +159,6 @@ public class ProjectPersistenceTest {
        
        ProjectEntity resp = em.find(ProjectEntity.class, entity.getId());
        Assert.assertEquals(newEntity.getCompany(), resp.getCompany());
+       Assert.assertEquals(newEntity.getInternalProject(), resp.getInternalProject());
    }
 }
