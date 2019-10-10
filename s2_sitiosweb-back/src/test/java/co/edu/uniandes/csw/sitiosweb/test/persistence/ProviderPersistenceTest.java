@@ -92,7 +92,7 @@ public class ProviderPersistenceTest {
     }
     
     @Test
-    public void getAuthorsTest() {
+    public void getProvidersTest() {
         List<ProviderEntity> list = pp.findAll();
         Assert.assertEquals(data.size(), list.size());
         for (ProviderEntity ent : list) {
@@ -108,7 +108,7 @@ public class ProviderPersistenceTest {
     
     
     @Test
-    public void getAuthorTest() {
+    public void getProviderTest() {
         ProviderEntity entity = data.get(0);
         ProviderEntity newEntity = pp.find(entity.getId());
         Assert.assertNotNull(newEntity);
@@ -116,7 +116,7 @@ public class ProviderPersistenceTest {
     }
 
     @Test
-    public void updateAuthorTest() {
+    public void updateProviderrTest() {
         ProviderEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
         ProviderEntity newEntity = factory.manufacturePojo(ProviderEntity.class);
@@ -131,10 +131,20 @@ public class ProviderPersistenceTest {
     }
     
     @Test
-    public void deleteAuthorTest() {
+    public void deleteProviderTest() {
         ProviderEntity entity = data.get(0);
         pp.delete(entity.getId());
         ProviderEntity deleted = em.find(ProviderEntity.class, entity.getId());
         Assert.assertNull(deleted);
+    }
+    
+     @Test
+    public void findProviderByNameTest() {
+        ProviderEntity entity = data.get(0);
+        ProviderEntity newEntity = pp.findByName(entity.getName());
+        Assert.assertNotNull(newEntity);
+        Assert.assertEquals(entity.getName(), newEntity.getName());
+        newEntity = pp.findByName(null);
+        Assert.assertNull(newEntity);
     }
 }

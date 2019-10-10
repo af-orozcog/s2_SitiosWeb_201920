@@ -54,7 +54,6 @@ public class ProjectDeveloperLogicTest {
     private UserTransaction utx;
 
     private ProjectEntity project = new ProjectEntity();
-    private DeveloperEntity leader = new DeveloperEntity();
     private List<DeveloperEntity> data = new ArrayList<>();
 
     /**
@@ -112,12 +111,6 @@ public class ProjectDeveloperLogicTest {
         project.setDevelopers(new ArrayList<>());
         em.persist(project);
 
-        leader = factory.manufacturePojo(DeveloperEntity.class);
-        inicializeLeader(leader);
-        leader.getLeadingProjects().add(project);
-        em.persist(leader);
-        project.setLeader(leader);
-
         for (int i = 0; i < 3; i++) {
             DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
             inicializeDeveloper(entity);
@@ -159,37 +152,6 @@ public class ProjectDeveloperLogicTest {
     }
 
     /**
-     * Prueba para asociar un proyecto a un desarrollador lider.
-     *
-     *
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     */
-    @Test
-    public void addLeaderTest() throws BusinessLogicException {
-        DeveloperEntity newLeader = factory.manufacturePojo(DeveloperEntity.class);
-        inicializeLeader(newLeader);
-        developerLogic.createDeveloper(newLeader);
-        
-        DeveloperEntity leaderEntity = projectDeveloperLogic.addLeader(project.getId(), newLeader.getId());
-        Assert.assertNotNull(leaderEntity);
-
-        Assert.assertEquals(leaderEntity.getId(), newLeader.getId());
-        Assert.assertEquals(leaderEntity.getLogin(), newLeader.getLogin());
-        Assert.assertEquals(leaderEntity.getEmail(), newLeader.getEmail());
-        Assert.assertEquals(leaderEntity.getPhone(), newLeader.getPhone());
-        Assert.assertEquals(leaderEntity.getType(), newLeader.getType());
-
-        DeveloperEntity lastLeader = projectDeveloperLogic.getLeader(project.getId());
-
-        Assert.assertEquals(lastLeader.getId(), newLeader.getId());
-        Assert.assertEquals(lastLeader.getLogin(), newLeader.getLogin());
-        Assert.assertEquals(lastLeader.getEmail(), newLeader.getEmail());
-        Assert.assertEquals(lastLeader.getPhone(), newLeader.getPhone());
-        Assert.assertEquals(lastLeader.getType(), newLeader.getType());
-
-    }
-
-    /**
      * Prueba para consultar la lista de Developers de un proyecto.
      */
     @Test
@@ -223,21 +185,6 @@ public class ProjectDeveloperLogicTest {
     }
 
     /**
-     * Prueba para consultar el Leader de un proyecto.
-     */
-    @Test
-    public void getLeaderTest() {
-        DeveloperEntity leaderEntity = projectDeveloperLogic.getLeader(project.getId());
-        Assert.assertNotNull(leaderEntity);
-
-        Assert.assertEquals(leader.getId(), leaderEntity.getId());
-        Assert.assertEquals(leader.getLogin(), leaderEntity.getLogin());
-        Assert.assertEquals(leader.getEmail(), leaderEntity.getEmail());
-        Assert.assertEquals(leader.getPhone(), leaderEntity.getPhone());
-        Assert.assertEquals(leader.getType(), leaderEntity.getType());
-    }
-
-    /**
      * Prueba para actualizar los desarrolladors de un proyecto.
      *
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
@@ -259,37 +206,6 @@ public class ProjectDeveloperLogicTest {
         }
     }
     
-    
-    /**
-     * Prueba para reemplazar el lider de un proyecto
-     *
-     *
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     */
-    @Test
-    public void replaceLeaderTest() throws BusinessLogicException {
-        DeveloperEntity newLeader = factory.manufacturePojo(DeveloperEntity.class);
-        inicializeLeader(newLeader);
-        developerLogic.createDeveloper(newLeader);
-        DeveloperEntity leaderEntity = projectDeveloperLogic.replaceLeader(project.getId(), newLeader);
-        Assert.assertNotNull(leaderEntity);
-
-        Assert.assertEquals(leaderEntity.getId(), newLeader.getId());
-        Assert.assertEquals(leaderEntity.getLogin(), newLeader.getLogin());
-        Assert.assertEquals(leaderEntity.getEmail(), newLeader.getEmail());
-        Assert.assertEquals(leaderEntity.getPhone(), newLeader.getPhone());
-        Assert.assertEquals(leaderEntity.getType(), newLeader.getType());
-
-        DeveloperEntity lastLeader = projectDeveloperLogic.getLeader(project.getId());
-
-        Assert.assertEquals(lastLeader.getId(), newLeader.getId());
-        Assert.assertEquals(lastLeader.getLogin(), newLeader.getLogin());
-        Assert.assertEquals(lastLeader.getEmail(), newLeader.getEmail());
-        Assert.assertEquals(lastLeader.getPhone(), newLeader.getPhone());
-        Assert.assertEquals(lastLeader.getType(), newLeader.getType());
-
-    }
-
     /**
      * Prueba desasociar un desarrollador con un proyecto.
      *
@@ -312,17 +228,5 @@ public class ProjectDeveloperLogicTest {
         developer.setPhone("3206745567");
         developer.setType(DeveloperEntity.DeveloperType.Developer);
         developer.setProjects(new ArrayList<ProjectEntity>());
-    }
-
-    /**
-     * Método auxiliar para inicializar un leader para que cumpla las reglas de
-     * negocio
-     *
-     * @param leader Lider a inicializar
-     */
-    private void inicializeLeader(DeveloperEntity leader) {
-        leader.setPhone("3206745567");
-        leader.setType(DeveloperEntity.DeveloperType.Leader);
-        leader.setLeadingProjects(new ArrayList<ProjectEntity>());
     }
 }

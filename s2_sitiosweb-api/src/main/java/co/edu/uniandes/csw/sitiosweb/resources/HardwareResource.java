@@ -113,16 +113,11 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
      */
     @PUT
     @Path("{hardwaresId: \\d+}")
-    public HardwareDTO updateReview(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwaresId, HardwareDTO hardware) throws BusinessLogicException {
+    public HardwareDTO updateHardware(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwaresId, HardwareDTO hardware) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "HardwareResource updateHardware: input: projectsId: {0} , hardwaresId: {1} , hardware:{2}", new Object[]{projectsId, hardwaresId, hardware});
         hardware.setId(hardwaresId);
-        if (hardwaresId.equals(hardwaresId)) {
-            throw new BusinessLogicException("Los ids del Hardware no coinciden.");
-        }
-        HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwaresId);
-        if (entity == null) {
+        if (hardwareLogic.getHardware(projectsId, hardwaresId) == null) {
             throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews/" + hardwaresId + " no existe.", 404);
-
         }
         HardwareDTO hardwareDTO = new HardwareDTO(hardwareLogic.updateHardware(projectsId, hardware.toEntity()));
         LOGGER.log(Level.INFO, "HardwareResource updateHardware: output:{0}", hardwareDTO);
