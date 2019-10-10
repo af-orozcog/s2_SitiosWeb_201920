@@ -85,10 +85,17 @@ public class ProjectLogic {
      * @param projectId  The project's id.
      * @param projectEntity The request to update.
      * @return The updated project.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public ProjectEntity updateProject(Long projectId, ProjectEntity projectEntity)
+    public ProjectEntity updateProject(Long projectId, ProjectEntity projectEntity) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Updating project with id = {0}.", projectId);
+        if(projectEntity.getCompany() == null){
+            throw new BusinessLogicException("El proyecto no tiene compañia asociada");
+        }
+        if(projectEntity.getInternalProject() == null){
+            throw new BusinessLogicException("El proyecto no dice si es interno o no");
+        }
         ProjectEntity newRequestEntity = persistence.update(projectEntity);
         LOGGER.log(Level.INFO, "Exiting the update of the project with id = {0}.", projectId);
         return newRequestEntity;
