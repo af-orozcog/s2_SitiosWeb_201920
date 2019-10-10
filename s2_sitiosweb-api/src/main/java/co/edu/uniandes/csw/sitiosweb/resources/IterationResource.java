@@ -5,10 +5,6 @@
  */
 package co.edu.uniandes.csw.sitiosweb.resources;
 
-/**
- *
- * @author Estudiante af.orozcog
- */
 
 
 import java.io.Serializable;
@@ -153,7 +149,7 @@ public class IterationResource implements Serializable {
     public void deleteIteration(@PathParam("projectsId") Long projectsId,@PathParam("iterationsId") Long iterationsId) throws BusinessLogicException {
         IterationEntity entity = iterationLogic.getIteration(projectsId, iterationsId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews/" + iterationsId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/iterations/" + iterationsId + " no existe.", 404);
         }
         iterationLogic.deleteIteration(projectsId, iterationsId);
     }
