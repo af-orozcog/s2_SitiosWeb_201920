@@ -1,0 +1,857 @@
+{
+	"info": {
+		"_postman_id": "2e826294-bf1d-4a29-907e-f3e03e59ca96",
+		"name": "DeveloperProject-Tests",
+		"description": "Colección de pruebas sobre el recurso BookAuthors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9af4206b-b7f4-47f9-b950-9ff7be61be67",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_d\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"type\":\"Developer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Crea la cuenta de un desarrollador. El login del recurso debe ser único y el phone debe ser de 10 dígitos y ser números. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72b175f7-c045-4695-a6d9-d014f1957268",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_p\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "\r\nCrea un nuevo proyecto. El recurso tiene sus atributos simples inicializados, lsa listas en este caso y otras relaciones con clases son nulas para facilitar las pruebas. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un project 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72b175f7-c045-4695-a6d9-d014f1957268",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_p2\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "Crea un nuevo proyecto. El recurso tiene sus atributos simples inicializados, lsa listas en este caso y otras relaciones con clases son nulas para facilitar las pruebas. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un proyecto a un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f699e691-caae-4b2e-9c24-4a8ce09969ab",
+						"exec": [
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Asocia un proyecto a un desarrollador en la aplicación. \r\n\r\nSe envía el Id del proyecto y el del desarrollador a asociar en la URL de la petición."
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un proyecto que no existe a un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "408c8842-0532-48cb-9a69-a64339c672cf",
+						"exec": [
+							"tests[\"No deberia asociar al project ya que el project no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"0"
+					]
+				},
+				"description": "Asocia un proyecto que no existe a un desarrollador en la aplicación. \r\n\r\nSe envía el Id del proyecto y el del desarrollador a asociar en la URL de la petición.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /projects/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un proyecto de un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8d6e646f-022a-4d41-855b-fa662aa1a3a2",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Consulta un proyecto de un desarrollador en la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nSe envía el Id del proyecto y del desarrollador a consultar en la URL de la petición."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un proyecto que no existe de un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4356c2c8-7242-40aa-ad6d-2349cfdd45df",
+						"exec": [
+							"tests[\"No deberia obtener el proyecto ya que el project no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"0"
+					]
+				},
+				"description": "Consulta un proyecto que no existe de un desarrollador en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un proyecto no asociado de un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3843fb34-456a-425a-832c-43a60966be5f",
+						"exec": [
+							"tests[\"No se puede obtener un proyecto que no esta asociado\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no está asociado al desarrollador\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/{{new_id_p2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"{{new_id_p2}}"
+					]
+				},
+				"description": "Consulta un desarrollador que no esta asociado a un proyecto en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje El recurso /developers/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar proyectos a un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3374dff-9bc4-4781-9d8b-11c920e28d41",
+						"exec": [
+							"tests[\"no genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n\t\"id\":{{new_id_p}},\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n},\n{\n\t\"id\":{{new_id_p2}},\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}]"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects"
+					]
+				},
+				"description": "Actualiza la lista de proyectos a un desarrollador que no existe.\r\n\r\nSe envía el Id en la URL de la petición.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /developers/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar proyectos a un desarrollador que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3374dff-9bc4-4781-9d8b-11c920e28d41",
+						"exec": [
+							"tests[\"No se deberian asociar los projects ya que el developer no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n\t\"id\":{{new_id_p}},\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n},\n{\n\t\"id\":{{new_id_p2}},\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}]"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"0",
+						"projects"
+					]
+				},
+				"description": "Actualiza la lista de proyectos a un desarrollador que no existe.\r\n\r\nSe envía el Id en la URL de la petición.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /developers/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener los proyectos de un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c07c9b3-26c7-4412-8ec8-13e2ad7549f4",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"no genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"proyects count - book\"] = data.length >= 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/proyects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"proyects"
+					]
+				},
+				"description": "Consulta los proyectos de un desarrollador en la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nSe envía el Id del desarrollador y el del proyecto a consultar en la URL de la petición."
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar proyectos que no existen a un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f1389a0-da68-45bc-90aa-eb08f3c8ac36",
+						"exec": [
+							"tests[\"No se pueden asociar los projects ya que estos no existen\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n    \"id\": 0,\n   \"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}\n]"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects"
+					]
+				},
+				"description": "Actualiza la lista de proyectos de un desarrollador existente con proyectos que no existen. \r\n\r\nSe envía el Id en la URL de la petición.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /projects/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un proyecto a un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9510b6cd-b566-4cfa-b16f-9c783800176d",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Borra la asociación entre un proyecto y un desarrollador. Se envían los ids del desarrollador y del proyecto creados anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un proyecto 2 a un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9510b6cd-b566-4cfa-b16f-9c783800176d",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/{{new_id_p2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"{{new_id_p2}}"
+					]
+				},
+				"description": "Borra la asociación entre un proyecto y un desarrollador. Se envían los ids del desarrollador y del proyecto creados anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un proyecto a un desarrollador que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "91d9959e-4825-4dd7-88e3-3e33b988c765",
+						"exec": [
+							"tests[\"No se deberia eliminar ninguna asociacion ya que el developer no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0/proyects/{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"0",
+						"proyects",
+						"{{new_id_b}}"
+					]
+				},
+				"description": "Borra la asociación entre a un proyecto y un desarrollador que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /developers/0/proyects no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un proyecto que no existe a un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "db442b05-4aea-4f64-9db1-a28176069f5e",
+						"exec": [
+							"tests[\"No se deberia eliminar ninguna asociacion ya que el project no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"0"
+					]
+				},
+				"description": "Borra la asociación entre un proyecto que no existe y un desarrollador en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f1e4dc3-ca8a-4517-a81e-7e899528fbf4",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Borra un proyecto. Se envía el id del proyecto creado anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un proyecto 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f1e4dc3-ca8a-4517-a81e-7e899528fbf4",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects/{{new_id_p2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}",
+						"projects",
+						"{{new_id_p2}}"
+					]
+				},
+				"description": "Borra un proyecto. Se envía el id del proyecto creado anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b1ff16df-2255-4221-9b63-b026ee61a544",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_d}}"
+					]
+				},
+				"description": "**Release: Paso-5**\n\nBorra un autor. Se envía el id del autor creado anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "85289ec4-5837-4749-81e9-dd5223093547",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7d6e9d3f-dfdb-4d35-9c44-c848685b110d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

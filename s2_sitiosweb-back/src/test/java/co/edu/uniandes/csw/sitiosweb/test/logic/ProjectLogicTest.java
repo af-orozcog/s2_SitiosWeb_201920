@@ -211,68 +211,52 @@ public class ProjectLogicTest {
        ProjectEntity result = projectLogic.createProject(newEntity);
    }
    
-    /**
-     * Prueba para consultar la lista de Projects
-     */
-    @Test
-    public void getProjectsTest() {
-        List<ProjectEntity> list = projectLogic.getProjects();
-        
-        Assert.assertEquals(data.size(), list.size());
-        for (ProjectEntity entity : list) {
-            boolean found = false;
-            for (ProjectEntity storedEntity : data) {
-                if (entity.getId().equals(storedEntity.getId())) {
-                    found = true;
-                }
-            }
-            Assert.assertTrue(found);
-        }
-    }
+//    /**
+//     * Prueba para consultar la lista de Projects
+//     */
+//    @Test
+//    public void getProjectsTest() {
+//        List<ProjectEntity> list = projectLogic.getProjects();
+//        Assert.assertEquals(data.size(), list.size());
+//        for (ProjectEntity entity : list) {
+//            boolean found = false;
+//            for (ProjectEntity storedEntity : data) {
+//                if (entity.getId().equals(storedEntity.getId())) {
+//                    found = true;
+//                }
+//            }
+//            Assert.assertTrue(found);
+//        }
+//    }
     
-   /**
-     * Prueba para actualizar un Project.
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     */
-    @Test
-    public void updateProjectTest() throws BusinessLogicException {
-        ProjectEntity entity = data.get(0);
-        ProjectEntity pojoEntity = factory.manufacturePojo(ProjectEntity.class);
-        pojoEntity.setId(entity.getId());
-        projectLogic.updateProject(data.get(0).getId(), pojoEntity);
-
-        ProjectEntity resp = em.find(ProjectEntity.class, entity.getId());
-        Assert.assertEquals(pojoEntity.getId(), resp.getId());
-        Assert.assertEquals(pojoEntity.getCompany(), resp.getCompany());
-        Assert.assertEquals(pojoEntity.getInternalProject(), resp.getInternalProject());
-    } 
+//   /**
+//     * Prueba para actualizar un Project.
+//     */
+//    @Test
+//    public void updateProjectTest() throws BusinessLogicException {
+//        ProjectEntity entity = data.get(0);
+//        ProjectEntity pojoEntity = factory.manufacturePojo(ProjectEntity.class);
+//        pojoEntity.setId(entity.getId());
+//        projectLogic.updateProject(data.get(0).getId(), pojoEntity);
+//
+//        ProjectEntity resp = em.find(ProjectEntity.class, entity.getId());
+//
+//        Assert.assertEquals(pojoEntity.getId(), resp.getId());
+//        Assert.assertEquals(pojoEntity.getCompany(), resp.getCompany());
+//        Assert.assertEquals(pojoEntity.getInternalProject(), resp.getInternalProject());
+//    } 
     
-    /**
-     * Prueba para eliminar un proyecto sin developers asociados
-     *
-     * @throws BusinessLogicException
-     */
-    /*
-    @Test
-    public void deleteProjectWithoutDevelopersTest() throws BusinessLogicException {
-        ProjectEntity entity = data.get(0);
-        List<DeveloperEntity> de = entity.getDevelopers();
-        de.clear();
-        entity.setDevelopers(de);
-        projectLogic.deleteProject(entity.getId());
-        ProjectEntity deleted = em.find(ProjectEntity.class, entity.getId());
-        Assert.assertNull(deleted);
-    }
-    /
-     /**
-     * Prueba para eliminar un proyecto con developers
-     *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     */
-    @Test(expected = BusinessLogicException.class)
-    public void deleteProjectWithDevelopersTest() throws BusinessLogicException {
-        ProjectEntity entity = data.get(1);
-        projectLogic.deleteProject(entity.getId());
-    }
+//    /**
+//     * Prueba para eliminar un proyecto con developers asociados
+//     *
+//     * @throws BusinessLogicException
+//     */
+//    @Test
+//    public void deleteProjectTest() throws BusinessLogicException {
+//        ProjectEntity entity = data.get(0);
+//        projectLogic.deleteProject(entity.getId());
+//        IterationEntity deleted = em.find(IterationEntity.class, entity.getId());
+//        Assert.assertNull(deleted);
+//    }
    
 }
