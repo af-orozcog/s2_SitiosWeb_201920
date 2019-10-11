@@ -158,7 +158,7 @@ public class ProjectLogicTest {
 
         for (int i = 0; i < 3; i++) {
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
-            System.out.println(entity.getCompany());
+            //System.out.println(entity.getCompany());
             entity.setDevelopers(dataDeveloper);
            // System.out.println("llegue1");
             //System.out.println("llegue1.1 " + dataDeveloper.get(0).getLogin());
