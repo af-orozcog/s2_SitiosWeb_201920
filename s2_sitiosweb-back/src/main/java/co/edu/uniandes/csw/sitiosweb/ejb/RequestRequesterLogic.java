@@ -82,11 +82,6 @@ public class RequestRequesterLogic
             requestEntity.setRequester(null);
             requesterEntity.getRequests().remove(requestEntity);
         }
-        else
-        {
-            LOGGER.log(Level.INFO, "No requester was removed since there wasn't one.");
-            throw new BusinessLogicException("No requester was removed since there wasn't one.");
-        }
         LOGGER.log(Level.INFO, "Exiting the deletion of the requester of the request with id = {0}.", requestId);
     }
 }

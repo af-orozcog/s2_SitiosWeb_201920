@@ -195,7 +195,6 @@ public class RequesterUnitLogicTest
         UnitEntity unit = factory.manufacturePojo(UnitEntity.class);
         requester.setUnit(unit);
         Assert.assertNotNull(requester.getUnit());
-        requesterLogic.updateRequester(requesterData.get(2).getId(), requester);
         requesterUnitLogic.removeRequester(requester.getId());
     }
 }

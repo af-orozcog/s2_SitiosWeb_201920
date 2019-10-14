@@ -84,11 +84,6 @@ public class RequestProjectLogic
             requestEntity.setProject(null);
             projectEntity.getRequests().remove(requestEntity);
         }
-        else
-        {
-            LOGGER.log(Level.INFO, "No project was deleted since there wasn't one.");
-            throw new BusinessLogicException("No project was deleted since there wasn't one.");
-        }
         LOGGER.log(Level.INFO, "Exiting the deletion of the project of the request with id = {0}.", requestId);
     }
 }

@@ -83,11 +83,6 @@ public class RequesterUnitLogic
             requesterEntity.setUnit(null);
             unitEntity.getRequesters().remove(requesterEntity);
         }
-        else
-        {
-            LOGGER.log(Level.INFO, "No unit was deleted since there wasn't one.");
-            throw new BusinessLogicException("No unit was deleted since there wasn't one.");
-        }
         LOGGER.log(Level.INFO, "Exiting the deletion of the unit of the requester with id = {0}.", requesterId);
     }
 }
