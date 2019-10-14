@@ -26,7 +26,7 @@ public class RequestLogic
     // Constants
     
     /**
-     * The logicRequest's logger.
+     * The RequestLogic's logger.
      */
     private static final Logger LOGGER = Logger.getLogger(UnitLogic.class.getName());
     
