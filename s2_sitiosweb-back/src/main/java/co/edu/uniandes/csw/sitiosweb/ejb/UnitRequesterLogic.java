@@ -97,7 +97,7 @@ public class UnitRequesterLogic
     }
     
     /**
-     * Replaces the given unit's id for the ones given.
+     * Replaces the given unit's requesters for the ones given.
      * @param unitId The id of the unit whose requesters will be replaced.
      * @param requesters The list of requesters that will become the unit's new requesters.
      * @return The unit's new requesters.

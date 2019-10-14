@@ -149,7 +149,6 @@ public class RequestLogic
         // 1) a deletion request is approved, 2) the project is deleted (with it's all its dependencies
         // including the request, which requires the requesters to be removed first), 4) the project is deleted.
         LOGGER.log(Level.INFO, "Deleting request with id = {0}.", requestId);
-        // TODO relationships with Requester and Project.
         RequesterEntity requester = getRequest(requestId).getRequester();
         if(requester != null)
             throw new BusinessLogicException("No se puede borrar el request con id = " + requestId + ".");
