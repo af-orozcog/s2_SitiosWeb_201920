@@ -6,7 +6,9 @@
 package co.edu.uniandes.csw.sitiosweb.test.logic;
 
 import co.edu.uniandes.csw.sitiosweb.ejb.RequestLogic;
+import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.RequestPersistence;
 import java.util.ArrayList;
@@ -91,6 +93,16 @@ public class RequestLogicTest
      */
     private List<RequestEntity> data = new ArrayList<>();
     
+    /**
+     * The test's project data.
+     */
+    private List<ProjectEntity> projectData = new ArrayList<>();
+
+    /**
+     * The test's requester data.
+     */
+    private List<RequesterEntity> requesterData = new ArrayList<>();    
+    
     // Methods
     
     /**
@@ -134,7 +146,11 @@ public class RequestLogicTest
      * Clears the test's data.
      */
     private void clearData()
-    { em.createQuery("delete from RequestEntity").executeUpdate(); }
+    { 
+        em.createQuery("delete from RequestEntity").executeUpdate();
+        em.createQuery("delete from ProjectEntity").executeUpdate();
+        em.createQuery("delete from RequesterEntity").executeUpdate();
+    }
     
     /**
      * Creates randomly generated requests.
@@ -142,13 +158,28 @@ public class RequestLogicTest
     private void insertData()
     {
         PodamFactory factory = new PodamFactoryImpl();
-        for(int i = 0; i < 3; ++i)
+        for(int i = 0; i < 4; ++i)
         {
             RequestEntity entity = factory.manufacturePojo(RequestEntity.class);
+            ProjectEntity projectEntity = factory.manufacturePojo(ProjectEntity.class);
+            RequesterEntity requesterEntity = factory.manufacturePojo(RequesterEntity.class);
+            // Adds the project and requester data to the request:
+            entity.setProject(projectEntity);
+            entity.setRequester(requesterEntity);
             setValidData(entity);
             em.persist(entity);
+            em.persist(projectEntity);
+            em.persist(requesterEntity);
             data.add(entity);
         }
+        // The first request will not have requester and project.
+        data.get(0).setRequester(null);
+        data.get(0).setProject(null);
+        // The second request will not have a requester.
+        data.get(1).setRequester(null);
+        // The third request will not have a project.
+        data.get(2).setProject(null);
+        // The fourth request will have both requester and project.
     }
     
     /**
@@ -368,6 +399,54 @@ public class RequestLogicTest
         RequestEntity result = requestLogic.createRequest(newEntity);
     }
     
+    /**
+     * Tests the request's invalid name creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyName() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setName(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's invalid purpose creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyPurpose() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setPurpose(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's invalid unit creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyUnit() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setUnit(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's invalid description creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyDescription() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setDescription(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
     // CRUD methods
     
     /**
@@ -432,13 +511,39 @@ public class RequestLogicTest
     }
     
     /**
-     * Test for the deletion of a request.
+     * Test for the deletion of a request (data(0). Specifics in the insertData() method).
      * @throws BusinessLogicException Logic exception associated with business rules.
      */
     @Test
-    public void deteleRequestTest() throws BusinessLogicException
+    public void deteleRequestTest1() throws BusinessLogicException
     {
         RequestEntity entity = data.get(0);
+        requestLogic.deleteRequest(entity.getId());
+        RequestEntity deleted = em.find(RequestEntity.class, entity.getId());
+        Assert.assertNull(deleted);
+    }
+    
+    /**
+     * Test for the deletion of a request (data(1). Specifics in the insertData() method).
+     * @throws BusinessLogicException Logic exception associated with business rules.
+     * */
+    @Test
+    public void deleteRequestTest2() throws BusinessLogicException
+    {
+        RequestEntity entity = data.get(1);
+        requestLogic.deleteRequest(entity.getId());
+        RequestEntity deleted = em.find(RequestEntity.class, entity.getId());
+        Assert.assertNull(deleted);
+    }
+    
+    /**
+     * Test for the deletion of a request (data(2). Specifics in the insertData() method).
+     * @throws BusinessLogicException Logic exception associated with business rules.
+     * */
+    @Test(expected = BusinessLogicException.class)
+    public void deleteRequestTest3() throws BusinessLogicException
+    {
+        RequestEntity entity = data.get(2);
         requestLogic.deleteRequest(entity.getId());
         RequestEntity deleted = em.find(RequestEntity.class, entity.getId());
         Assert.assertNull(deleted);

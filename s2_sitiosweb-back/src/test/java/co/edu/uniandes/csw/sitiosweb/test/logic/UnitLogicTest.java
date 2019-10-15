@@ -149,6 +149,18 @@ public class UnitLogicTest
     }
     
     /**
+     * Tests the unit's name empty creation.
+     * @throws BusinessLogicException Logic exception associated with business rules.
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createUnitEmptyNameTest() throws BusinessLogicException
+    {
+        UnitEntity newEntity = factory.manufacturePojo(UnitEntity.class);
+        newEntity.setName("");
+        UnitEntity result = unitLogic.createUnit(newEntity);
+    }
+    
+    /**
      * Test for the consult of all units.
      */
     @Test

@@ -55,11 +55,20 @@ import javax.ws.rs.WebApplicationException;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectDeveloperResource {
 
+    /**
+     * Logger for this class
+     */
     private static final Logger LOGGER = Logger.getLogger(ProjectDeveloperResource.class.getName());
 
+    /**
+     * Atribute to handle projectDeveloper`s logic
+     */
     @Inject
     private ProjectDeveloperLogic projectDeveloperLogic;
-
+    
+    /**
+     * Atribute to handle developer`s logic
+     */
     @Inject
     private DeveloperLogic developerLogic;
 

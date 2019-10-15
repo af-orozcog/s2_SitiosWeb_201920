@@ -1,8 +1,3 @@
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import co.edu.uniandes.csw.sitiosweb.podam.DateStrategy;
@@ -305,4 +300,16 @@ public class RequestEntity extends BaseEntity implements Serializable
      */
     public void setRequestType(RequestType requestType) 
     { this.requestType = requestType; }
+    
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("Request");
+        sb.append(getId());
+        sb.append(" = requester : ");
+        sb.append(requester);
+        sb.append(", project : ");
+        sb.append(project);
+        return sb.toString();
+    }
 }

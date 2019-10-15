@@ -39,21 +39,43 @@ import java.util.List;
 @RunWith(Arquillian.class)
 public class ProjectDeveloperLogicTest {
 
+    /**
+     * Factory to generate entities
+     */
     private PodamFactory factory = new PodamFactoryImpl();
 
+    /**
+     * Atribute to handle projectDeveloper`s logic
+     */
     @Inject
     private ProjectDeveloperLogic projectDeveloperLogic;
 
+    /**
+     * Atribute to handle developer`s logic
+     */
     @Inject
     private DeveloperLogic developerLogic;
 
+    /**
+     * Entity manager to handle persistence
+     */
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * Atribute to handle transactions on DB
+     */
     @Inject
     private UserTransaction utx;
-
+    
+    /**
+     * Project Entity to begin test
+     */
     private ProjectEntity project = new ProjectEntity();
+    
+    /**
+     * ArrayList of Developers to store DeveloperEntities for the test
+     */
     private List<DeveloperEntity> data = new ArrayList<>();
 
     /**
