@@ -2,17 +2,8 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="sitioswebPU" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.IterationEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.ProviderEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.RequestEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.UnitEntity</class>
-        <class>co.edu.uniandes.csw.sitiosweb.entities.UserEntity</class>
-        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
         <properties>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
