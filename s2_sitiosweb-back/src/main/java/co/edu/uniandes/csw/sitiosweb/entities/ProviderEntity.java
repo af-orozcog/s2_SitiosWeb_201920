@@ -1,6 +1,3 @@
-
-
-
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;

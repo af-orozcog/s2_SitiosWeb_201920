@@ -1,4 +1,3 @@
-
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.adapters.DateAdapter;

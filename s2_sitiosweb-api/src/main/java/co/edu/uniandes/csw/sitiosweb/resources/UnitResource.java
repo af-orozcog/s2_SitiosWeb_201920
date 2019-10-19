@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.sitiosweb.resources;
 
 import co.edu.uniandes.csw.sitiosweb.dtos.UnitDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.UnitDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.UnitLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.UnitEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
@@ -65,10 +66,10 @@ public class UnitResource
     }
     
     @GET
-    public List<UnitDTO> getUnits()
+    public List<UnitDetailDTO> getUnits()
     {
         LOGGER.log(Level.INFO, "UnitResource getUnits: input: void.");
-        List<UnitDTO> listUnits = listEntityToDTO(unitLogic.getUnits());
+        List<UnitDetailDTO> listUnits = listEntityToDetailDTO(unitLogic.getUnits());
         LOGGER.log(Level.INFO, "UnitResource getUnits: output: {0}.", listUnits);
         return listUnits;
     }
@@ -82,13 +83,13 @@ public class UnitResource
      */
     @GET
     @Path("{unitId: \\d+}")
-    public UnitDTO getUnit(@PathParam("unitId") Long unitId) throws WebApplicationException
+    public UnitDetailDTO getUnit(@PathParam("unitId") Long unitId) throws WebApplicationException
     {
         LOGGER.log(Level.INFO, "UnitResource getUnit: input: {0}.", unitId);
         UnitEntity unitEntity = unitLogic.getUnit(unitId);
         if(unitEntity == null)
             throw new WebApplicationException("The resource /units/" + unitId + " doesn't exist.", 404);
-        UnitDTO unitDTO = new UnitDTO(unitEntity);
+        UnitDetailDTO unitDTO = new UnitDetailDTO(unitEntity);
         LOGGER.log(Level.INFO, "UnitResource getUnit: output: {0}.", unitDTO);
         return unitDTO;
     }
@@ -144,6 +145,19 @@ public class UnitResource
         List<UnitDTO> list = new ArrayList<>();
         for(UnitEntity entity : entityList)
             list.add(new UnitDTO(entity));
+        return list;
+    }
+    
+    /**
+     * Transforms a list of unit entity objects into a list of unit detail DTO objects.
+     * @param entityList The list of unit entities.
+     * @return The list of unit detail DTOs.
+     */
+    private List<UnitDetailDTO> listEntityToDetailDTO(List<UnitEntity> entityList)
+    {
+        List<UnitDetailDTO> list = new ArrayList<>();
+        for(UnitEntity entity : entityList)
+            list.add(new UnitDetailDTO(entity));
         return list;
     }
 }

@@ -86,10 +86,10 @@ public class UnitLogic
      * @param UnitEntity The unit to update.
      * @return The updated unit.
      */
-    public UnitEntity updateUnit(Long unitId, UnitEntity UnitEntity)
+    public UnitEntity updateUnit(Long unitId, UnitEntity unitEntity)
     {
         LOGGER.log(Level.INFO, "Updating unit with id = {0}.", unitId);
-        UnitEntity newUnitEntity = persistence.update(UnitEntity);
+        UnitEntity newUnitEntity = persistence.update(unitEntity);
         LOGGER.log(Level.INFO, "Exiting the update of the unit with id = {0}.", unitId);
         return newUnitEntity;
     }
@@ -99,12 +99,10 @@ public class UnitLogic
      * @param unitId The unit's id.
      * BUSINESS LOGIC RULE:
      *  - The name can't be null or empty.
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public void deleteUnit(Long unitId) throws BusinessLogicException
+    public void deleteUnit(Long unitId)
     {
         LOGGER.log(Level.INFO, "Deleting unit with id = {0}.", unitId);
-        // TODO relationships with Requester.
         persistence.delete(unitId);
         LOGGER.log(Level.INFO, "Exiting the deletion of the unit with id = {0}.", unitId);
     }

@@ -399,6 +399,54 @@ public class RequestLogicTest
         RequestEntity result = requestLogic.createRequest(newEntity);
     }
     
+    /**
+     * Tests the request's invalid name creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyName() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setName(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's invalid purpose creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyPurpose() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setPurpose(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's invalid unit creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyUnit() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setUnit(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
+    /**
+     * Tests the request's invalid description creation.
+     * @throws BusinessLogicException  Logic exception associated with business rules.
+     */
+    public void createRequestEmptyDescription() throws BusinessLogicException
+    {
+       RequestEntity newEntity = factory.manufacturePojo(RequestEntity.class);
+       setValidData(newEntity);
+       newEntity.setDescription(""); 
+       RequestEntity result = requestLogic.createRequest(newEntity);
+    }
+    
     // CRUD methods
     
     /**

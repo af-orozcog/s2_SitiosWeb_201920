@@ -259,20 +259,6 @@ public class DeveloperLogicTest {
     }
 
     /**
-     * Prueba para actualizar un Developer con un login existente.
-     *
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     */
-    @Test(expected = BusinessLogicException.class)
-    public void updateDeveloperConLoginExistenteTest() throws BusinessLogicException {
-        DeveloperEntity entity = data.get(0);
-        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
-        pojoEntity.setLogin(data.get(1).getLogin());
-        pojoEntity.setId(entity.getId());
-        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
-    }
-
-    /**
      * Prueba para actualizar un Developer con email null.
      *
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
