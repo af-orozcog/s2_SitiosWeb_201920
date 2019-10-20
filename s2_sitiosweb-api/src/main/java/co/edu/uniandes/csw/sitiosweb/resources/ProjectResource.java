@@ -144,7 +144,19 @@ public class ProjectResource {
         LOGGER.info("ProjectResource deleteProject: output: void");
     }
 
-
+    /**
+     * Method to return a project's developers by the project's id.
+     * @param projectsId - the project's id
+     * @return a ProjectDeveloperResource class.
+     */
+    @Path("{projectsId: \\d+}/developers")
+    public Class<ProjectDeveloperResource> getProjectDeveloperResource(@PathParam("projectsId") Long projectsId){
+        if(logica.getProject(projectsId) == null){
+            throw new WebApplicationException("El recurso /project/" + projectsId + " no existe", 404);
+        }
+        return ProjectDeveloperResource.class;
+    }
+    
     /**
      * Convierte una lista de entidades a DTO.
      *
