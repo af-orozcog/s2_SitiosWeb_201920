@@ -24,6 +24,7 @@ SOFTWARE.
 package co.edu.uniandes.csw.sitiosweb.resources;
 
 import co.edu.uniandes.csw.sitiosweb.dtos.ProjectDetailDTO;
+import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.ProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
@@ -62,7 +63,22 @@ public class DeveloperProjectResource {
 
     @Inject
     private ProjectLogic projectLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
+    
+    @Inject
+    private DeveloperLogic developerLogic;
 
+    /**
+     *
+     * @param developersId
+     * @return
+     */
+    @Path("{developersId: \\d+}/projects")
+    public Class<DeveloperProjectResource> getDeveloperProjectResource(@PathParam("developersId") Long developersId) {
+        if (developerLogic.getDeveloper(developersId) == null) {
+            throw new WebApplicationException("El recurso /project/" + developersId , 404);
+        }
+        return DeveloperProjectResource.class;
+    }
     /**
      * Asocia un proyecto existente con un desarrollador existente
      *
