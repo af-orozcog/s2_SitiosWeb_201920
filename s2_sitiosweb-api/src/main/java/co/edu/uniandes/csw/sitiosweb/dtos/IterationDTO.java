@@ -210,5 +210,20 @@ public class IterationDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-       
+
+    /**
+     * @return the projecto
+     */
+    public ProjectDTO getProjecto() {
+        return projecto;
+    }
+
+    /**
+     * @param projecto the projecto to set
+     */
+    public void setProjecto(ProjectDTO projecto) {
+        this.projecto = projecto;
+    }
+      
+    
 }
