@@ -3,6 +3,7 @@ package co.edu.uniandes.csw.sitiosweb.resources;
 
 
 import co.edu.uniandes.csw.sitiosweb.dtos.ProviderDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.ProviderDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.ProviderLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.ProviderEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
@@ -63,13 +64,13 @@ public class ProviderResource
 
     @GET
     @Path("{providersId: \\d+}")
-    public ProviderDTO getProvider(@PathParam("providersId") Long providersId) throws BusinessLogicException {
+    public ProviderDetailDTO getProvider(@PathParam("providersId") Long providersId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProviderResource getProvider: input: {0}", providersId);
         ProviderEntity entity = providerLogic.getProvider(providersId);
         if (entity == null) {
             throw new WebApplicationException(ERR_MSG_1 + providersId + ERR_MSG_2, 404);
         }
-        ProviderDTO providerDTO = new ProviderDTO(entity);
+        ProviderDetailDTO providerDTO = new ProviderDetailDTO(entity);
         LOGGER.log(Level.INFO, "ProviderResource getProvider: output: {0}", providerDTO);
         return providerDTO;
     }
