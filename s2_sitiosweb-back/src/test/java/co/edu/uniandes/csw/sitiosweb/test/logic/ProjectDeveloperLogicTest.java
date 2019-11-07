@@ -161,7 +161,7 @@ public class ProjectDeveloperLogicTest {
         Assert.assertEquals(developerEntity.getLogin(), newDeveloper.getLogin());
         Assert.assertEquals(developerEntity.getEmail(), newDeveloper.getEmail());
         Assert.assertEquals(developerEntity.getPhone(), newDeveloper.getPhone());
-        Assert.assertEquals(developerEntity.getType(), newDeveloper.getType());
+        Assert.assertEquals(developerEntity.getLeader(), newDeveloper.getLeader());
 
         DeveloperEntity lastDeveloper = projectDeveloperLogic.getDeveloper(project.getId(), newDeveloper.getId());
 
@@ -169,7 +169,7 @@ public class ProjectDeveloperLogicTest {
         Assert.assertEquals(lastDeveloper.getLogin(), newDeveloper.getLogin());
         Assert.assertEquals(lastDeveloper.getEmail(), newDeveloper.getEmail());
         Assert.assertEquals(lastDeveloper.getPhone(), newDeveloper.getPhone());
-        Assert.assertEquals(lastDeveloper.getType(), newDeveloper.getType());
+        Assert.assertEquals(lastDeveloper.getLeader(), newDeveloper.getLeader());
 
     }
 
@@ -202,7 +202,7 @@ public class ProjectDeveloperLogicTest {
         Assert.assertEquals(developerEntity.getLogin(), developer.getLogin());
         Assert.assertEquals(developerEntity.getEmail(), developer.getEmail());
         Assert.assertEquals(developerEntity.getPhone(), developer.getPhone());
-        Assert.assertEquals(developerEntity.getType(), developer.getType());
+        Assert.assertEquals(developerEntity.getLeader(), developer.getLeader());
 
     }
 
@@ -248,7 +248,7 @@ public class ProjectDeveloperLogicTest {
      */
     private void inicializeDeveloper(DeveloperEntity developer) {
         developer.setPhone("3206745567");
-        developer.setType(DeveloperEntity.DeveloperType.Developer);
+        developer.setLeader(false);
         developer.setProjects(new ArrayList<ProjectEntity>());
     }
 }

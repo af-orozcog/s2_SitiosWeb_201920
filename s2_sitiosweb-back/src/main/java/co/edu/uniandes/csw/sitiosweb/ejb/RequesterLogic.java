@@ -40,6 +40,9 @@ public class RequesterLogic {
     public RequesterEntity createRequester(RequesterEntity requester) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del solicitante");
         
+        if(requester.getName() == null ){
+            throw new BusinessLogicException( "El login del desarrollador está vacío" );
+        }
         if (requester.getLogin() == null) {
             throw new BusinessLogicException("El login del solicitante está vacío");
         }
@@ -102,6 +105,8 @@ public class RequesterLogic {
      */
     public RequesterEntity updateRequester(Long requesterId, RequesterEntity requesterEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el solicitante con id = {0}", requesterId);
+        if (requesterEntity.getName() == null )
+            throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if (requesterEntity.getLogin() == null)
             throw new BusinessLogicException("El login del solicitante está vacío");
         if (requesterEntity.getEmail() == null)

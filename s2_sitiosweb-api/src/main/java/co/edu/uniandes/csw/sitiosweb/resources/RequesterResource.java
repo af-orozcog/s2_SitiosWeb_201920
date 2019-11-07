@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.sitiosweb.resources;
 
 import co.edu.uniandes.csw.sitiosweb.dtos.RequesterDTO;
 import co.edu.uniandes.csw.sitiosweb.dtos.RequesterDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.RequesterDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.RequesterLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 
@@ -55,24 +56,24 @@ public class RequesterResource {
     }
 
     @GET
-    public List<RequesterDTO> getRequesters() {
+    public List<RequesterDetailDTO> getRequesters() {
         LOGGER.info("RequesterResource getRequesters: input: void");
-        List<RequesterDTO> listaUsuarios = listEntity2DetailDTO(requesterLogic.getRequesters());
+        List<RequesterDetailDTO> listaUsuarios = listEntity2DetailDTO(requesterLogic.getRequesters());
         LOGGER.log(Level.INFO, "RequesterResource getRequesters: output: {0}", listaUsuarios);
         return listaUsuarios;
     }
 
     @GET
     @Path("{requestersId: \\d+}")
-    public RequesterDTO getRequester(@PathParam("requestersId") Long requestersId) throws WebApplicationException {
+    public RequesterDetailDTO getRequester(@PathParam("requestersId") Long requestersId) throws WebApplicationException {
         LOGGER.log(Level.INFO, "RequesterResource getRequester: input: {0}", requestersId);
         RequesterEntity requesterEntity = requesterLogic.getRequester(requestersId);
         if (requesterEntity == null) {
             throw new WebApplicationException("El recurso /requesters/" + requestersId + " no existe.", 404);
         }
-        RequesterDTO requesterDTO = new RequesterDTO(requesterEntity);
-        LOGGER.log(Level.INFO, "RequesterResource getRequester: output: {0}", requesterDTO);
-        return requesterDTO;
+        RequesterDetailDTO requesterDetailDTO = new RequesterDetailDTO(requesterEntity);
+        LOGGER.log(Level.INFO, "RequesterResource getRequester: output: {0}", requesterDetailDTO);
+        return requesterDetailDTO;
     }
 
     @PUT
@@ -99,10 +100,10 @@ public class RequesterResource {
         LOGGER.info("RequesterResource deleteRequester: output: void");
     }
 
-    private List<RequesterDTO> listEntity2DetailDTO(List<RequesterEntity> entityList) {
-        List<RequesterDTO> list = new ArrayList<>();
+    private List<RequesterDetailDTO> listEntity2DetailDTO(List<RequesterEntity> entityList) {
+        List<RequesterDetailDTO> list = new ArrayList<>();
         for (RequesterEntity entity : entityList) {
-            list.add(new RequesterDTO(entity));
+            list.add(new RequesterDetailDTO(entity));
         }
         return list;
     }

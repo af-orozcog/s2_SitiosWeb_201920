@@ -126,6 +126,7 @@ public class DeveloperLogicTest {
 
         DeveloperEntity entity = em.find(DeveloperEntity.class, result.getId());
         Assert.assertEquals(entity.getId(), result.getId());
+        Assert.assertEquals(entity.getName(), result.getName());
         Assert.assertEquals(entity.getLogin(), result.getLogin());
         Assert.assertEquals(entity.getEmail(), result.getEmail());
         Assert.assertEquals(entity.getPhone(), result.getPhone());
@@ -169,18 +170,6 @@ public class DeveloperLogicTest {
     }
 
     /**
-     * Prueba para crear un Developer con type null.
-     *
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     */
-    @Test(expected = BusinessLogicException.class)
-    public void createDeveloperTypeNull() throws BusinessLogicException {
-        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
-        newEntity.setType(null);
-        DeveloperEntity result = developerLogic.createDeveloper(newEntity);
-    }
-
-    /**
      * Prueba para crear un Developer con un login ya existente.
      *
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
@@ -219,6 +208,7 @@ public class DeveloperLogicTest {
         DeveloperEntity resultEntity = developerLogic.getDeveloper(entity.getId());
         Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
+        Assert.assertEquals(entity.getName(), resultEntity.getName());
         Assert.assertEquals(entity.getLogin(), resultEntity.getLogin());
         Assert.assertEquals(entity.getPhone(), resultEntity.getPhone());
         Assert.assertEquals(entity.getEmail(), resultEntity.getEmail());
@@ -238,12 +228,27 @@ public class DeveloperLogicTest {
         developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
         DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
+        Assert.assertEquals(pojoEntity.getName(), resp.getName());
         Assert.assertEquals(pojoEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(pojoEntity.getPhone(), resp.getPhone());
         Assert.assertEquals(pojoEntity.getEmail(), resp.getEmail());
-        Assert.assertEquals(pojoEntity.getType(), resp.getType());
+        Assert.assertEquals(pojoEntity.getLeader(), resp.getLeader());
     }
 
+    /**
+     * Prueba para actualizar un Developer con name null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateDeveloperConNameNullTest() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
+        pojoEntity.setName(null);
+        pojoEntity.setId(entity.getId());
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
+    }
+    
     /**
      * Prueba para actualizar un Developer con login null.
      *
@@ -296,7 +301,7 @@ public class DeveloperLogicTest {
     public void updateDeveloperConTypeDeveloperTest() throws BusinessLogicException {
         DeveloperEntity entity = data.get(2);
         DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
-        pojoEntity.setType(DeveloperEntity.DeveloperType.Developer);
+        pojoEntity.setLeader(false);
         pojoEntity.setId(entity.getId());
         developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }

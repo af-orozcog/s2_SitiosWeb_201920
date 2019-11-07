@@ -126,10 +126,23 @@ public class RequesterLogicTest {
 
         RequesterEntity entity = em.find(RequesterEntity.class, result.getId());
         Assert.assertEquals(entity.getId(), result.getId());
+        Assert.assertEquals(entity.getName(), result.getName());
         Assert.assertEquals(entity.getLogin(), result.getLogin());
         Assert.assertEquals(entity.getEmail(), result.getEmail());
         Assert.assertEquals(entity.getPhone(), result.getPhone());
 
+    }
+    
+    /**
+     * Prueba para crear un Requester con login null.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createRequesterNameNull() throws BusinessLogicException {
+        RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
+        newEntity.setName(null);
+        RequesterEntity result = requesterLogic.createRequester(newEntity);
     }
 
     /**

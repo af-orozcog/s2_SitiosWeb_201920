@@ -36,14 +36,14 @@ public class DeveloperLogic {
      */
     public DeveloperEntity createDeveloper(DeveloperEntity developer) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del desarrollador");
+        if(developer.getName() == null )
+            throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developer.getLogin() == null )
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developer.getEmail() == null )
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
         if(!validatePhone(developer.getPhone()))
             throw new BusinessLogicException("El teléfono es inválido");
-        if(developer.getType() == null )
-            throw new BusinessLogicException( "El tipo del desarrollador está vacío" );
 
         developer = persistence.create(developer);
         LOGGER.log(Level.INFO, "Termina proceso de creación del desarrollador");
@@ -89,6 +89,8 @@ public class DeveloperLogic {
      */
     public DeveloperEntity updateDeveloper(Long developerId, DeveloperEntity developerEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el desarrollador con id = {0}", developerId);
+        if(developerEntity.getName() == null )
+            throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developerEntity.getLogin() == null )
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developerEntity.getEmail() == null )
@@ -96,7 +98,7 @@ public class DeveloperLogic {
         if(!validatePhone(developerEntity.getPhone()))
             throw new BusinessLogicException("El teléfono es inválido");
         
-        if(developerEntity.getType().equals(DeveloperEntity.DeveloperType.Developer) && !developerEntity.getLeadingProjects().isEmpty())
+        if(!developerEntity.getLeader() && !developerEntity.getLeadingProjects().isEmpty())
             throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
         
         DeveloperEntity newEntity = persistence.update(developerEntity);

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class UserDTO implements Serializable {
 
     private Long id;
+    private String name;
     private String login;
     private String email;
     private String phone;
@@ -32,6 +33,7 @@ public class UserDTO implements Serializable {
     public UserDTO(UserEntity userEntity) {
         if (userEntity != null) {
             this.id = userEntity.getId();
+            this.name = userEntity.getName();
             this.login = userEntity.getLogin();
             this.email = userEntity.getEmail();
             this.phone = userEntity.getPhone();
@@ -50,8 +52,22 @@ public class UserDTO implements Serializable {
         userEntity.setPhone(this.getPhone());
         return userEntity;
     }
+    
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-  /**
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * @return the id
      */
     public Long getId() {

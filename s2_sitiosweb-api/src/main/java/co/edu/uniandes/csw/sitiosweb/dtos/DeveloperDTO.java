@@ -1,7 +1,6 @@
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
-import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity.DeveloperType;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -13,7 +12,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class DeveloperDTO extends UserDTO implements Serializable {
 
-    private DeveloperType type;
+    private boolean leader;
     
     /**
      * Constructor por defecto
@@ -29,7 +28,7 @@ public class DeveloperDTO extends UserDTO implements Serializable {
      */
     public DeveloperDTO(DeveloperEntity developerEntity) {
         super(developerEntity);
-        this.type = developerEntity.getType();
+        this.leader = developerEntity.getLeader();
     }
 
     /**
@@ -41,26 +40,27 @@ public class DeveloperDTO extends UserDTO implements Serializable {
     public DeveloperEntity toEntity() {
         DeveloperEntity developerEntity = new DeveloperEntity();
         developerEntity.setId(this.getId());
+        developerEntity.setName(this.getLogin());
         developerEntity.setLogin(this.getLogin());
         developerEntity.setEmail(this.getEmail());
         developerEntity.setPhone(this.getPhone());
-        developerEntity.setType(this.getType());
+        developerEntity.setLeader(this.getLeader());
         return developerEntity;
         
     }
     
         /**
-     * @return the type
+     * @return if leader
      */
-    public DeveloperType getType() {
-        return type;
+    public boolean getLeader() {
+        return this.leader;
     }
 
     /**
      * @param type the type to set
      */
-    public void setType(DeveloperType type) {
-        this.type = type;
+    public void setLeader(boolean leader) {
+        this.leader = leader;
     }
 
     @Override
