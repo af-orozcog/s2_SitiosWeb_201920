@@ -26,6 +26,7 @@ package co.edu.uniandes.csw.sitiosweb.resources;
 import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.ProjectDeveloperLogic;
+import co.edu.uniandes.csw.sitiosweb.ejb.ProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.mappers.WebApplicationExceptionMapper;
@@ -71,6 +72,25 @@ public class ProjectDeveloperResource {
      */
     @Inject
     private DeveloperLogic developerLogic;
+    
+    /**
+     * Atribute to handle project`s logic
+     */
+    @Inject
+    private ProjectLogic projectLogic;
+    
+    /**
+     *
+     * @param projectsId
+     * @return
+     */
+    @Path("{projectsId: \\d+}/developers")
+    public Class<ProjectDeveloperResource> getProjectDeveloperResource(@PathParam("projectsId") Long projectsId) {
+        if (projectLogic.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /project/" + projectsId , 404);
+        }
+        return ProjectDeveloperResource.class;
+    }
 
     /**
      * Asocia un desarrollador existente con un proyecto existente
