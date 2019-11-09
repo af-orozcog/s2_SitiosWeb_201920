@@ -10,6 +10,7 @@ import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -58,6 +59,10 @@ public class HardwareLogic {
         return entity==null;
     }
     
+    public List<HardwareEntity> getHardwares2(){
+        List<HardwareEntity> hw = persistence.findAll();
+        return hw;
+    }
     /**
      * Devuelve todos los hardwares que hay en la base de datos.
      *

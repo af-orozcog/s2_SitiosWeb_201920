@@ -32,6 +32,7 @@ import javax.ws.rs.WebApplicationException;
 @Path("hardwares")
 @Produces("application/json")
 @Consumes("application/json")
+@RequestScoped
 public class HardwareResource {
     
 private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.getName());
@@ -58,20 +59,27 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
         LOGGER.log(Level.INFO, "HardwareResource createHardware: output: {0}", nuevoHardwareDTO);
         return nuevoHardwareDTO;
     }
-
-    /**
-     * Busca y devuelve todas las reseñas que existen en un libro.
-     * @param projectsId El ID del libro del cual se buscan las reseñas
-     * @return {@link HardwareDTO} - El hardware encontrado en el
-     * proyecto. Si no hay ninguna retorna una lista vacía.
-     */
     @GET
-    public HardwareDTO getHardwares(@PathParam("projectsId") Long projectsId) {
-        LOGGER.log(Level.INFO, "HardwareResource getHardwares: input: {0}", projectsId);
-        HardwareDTO dto = new HardwareDTO(hardwareLogic.getHardwares(projectsId));
-        LOGGER.log(Level.INFO, "HardwareResource getHardwares: output: {0}", dto);
-        return dto;
+    public List<HardwareDTO> getHardwares2(){
+        List<HardwareEntity> lista = hardwareLogic.getHardwares2();
+        LOGGER.log(Level.INFO, "Hardwares con tamaño: " + lista.size());
+        List<HardwareDTO> rt = listEntity2DTO(lista);
+        return rt;
     }
+
+//    /**
+//     * Busca y devuelve todas las reseñas que existen en un libro.
+//     * @param projectsId El ID del libro del cual se buscan las reseñas
+//     * @return {@link HardwareDTO} - El hardware encontrado en el
+//     * proyecto. Si no hay ninguna retorna una lista vacía.
+//     */
+//    @GET
+//    public HardwareDTO getHardwares(@PathParam("projectsId") Long projectsId) {
+//        LOGGER.log(Level.INFO, "HardwareResource getHardwares: input: {0}", projectsId);
+//        HardwareDTO dto = new HardwareDTO(hardwareLogic.getHardwares(projectsId));
+//        LOGGER.log(Level.INFO, "HardwareResource getHardwares: output: {0}", dto);
+//        return dto;
+//    }
 
     /**
      * Busca y devuelve el hardware con el ID recibido en la URL, relativa a un
@@ -144,5 +152,14 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
         }
         hardwareLogic.deleteHardware(projectsId, hardwareId);
     }
+    
+        private List<HardwareDTO> listEntity2DTO(List<HardwareEntity> entityList) {
+        List<HardwareDTO> list = new ArrayList<>();
+        for (HardwareEntity entity : entityList) {
+            list.add(new HardwareDTO(entity));
+        }
+        return list;
+    }
+
 
 }

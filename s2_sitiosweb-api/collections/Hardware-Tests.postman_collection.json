@@ -163,7 +163,7 @@
 						"id": "cf0b2006-3324-4c46-a390-3782596c5d5b",
 						"exec": [
 							"tests[\"No se puede asociar un review a un book que no existe.\"] = responseCode.code === 404;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /books/0/reviews no existe\");"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -386,7 +386,7 @@
 						"id": "24670099-52ec-4c7c-9970-1d24c9463a98",
 						"exec": [
 							"tests[\"No se puede editar un hardware sobre un project que no existe.\"] = responseCode.code === 404;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /books/0/reviews no existe.\");"
+							""
 						],
 						"type": "text/javascript"
 					}
