@@ -177,17 +177,15 @@ public class ProjectResource {
     
     
     /**
-     * Conexión con el servicio de reseñas para un libro. {@link ReviewResource}
+     * Conexión con el servicio de Iteraciones de un projecto. 
      *
-     * Este método conecta la ruta de /books con las rutas de /reviews que
-     * dependen del libro, es una redirección al servicio que maneja el segmento
+     * Este método conecta la ruta de /project con las rutas de /iterations que
+     * dependen del proyecto, es una redirección al servicio que maneja el segmento
      * de la URL que se encarga de las reseñas.
      *
-     * @param booksId El ID del libro con respecto al cual se accede al
-     * servicio.
-     * @return El servicio de Reseñas para ese libro en paricular.\
+     * @param projectsId El ID del proyecto con respecto al cual se accede a la iteración
+     * @return El servicio de iteracions para ese projecto en paricular.\
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el libro.
      */
     @Path("{projectsId: \\d+}/iterations")
     public Class<IterationResource> getIterationResource(@PathParam("projectsId") Long projectsId) {
@@ -198,9 +196,15 @@ public class ProjectResource {
     }
     
     /**
+     * Conexión con el servicio de hardware de un projecto. 
      *
-     * @param projectsId
-     * @return
+     * Este método conecta la ruta de /project con las rutas de /hardwares que
+     * dependen del proyecto, es una redirección al servicio que maneja el segmento
+     * de la URL que se encarga de las reseñas.
+     *
+     * @param projectsId El ID del proyecto con el se accede 
+     * @return El servicio de iteracions para ese projecto en paricular.\
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      */
     @Path("{projectsId: \\d+}/hardwares")
     public Class<HardwareResource> getHardwareResource(@PathParam("projectsId") Long projectsId) {
@@ -209,4 +213,5 @@ public class ProjectResource {
         }
         return HardwareResource.class;
     }
+    
 }
