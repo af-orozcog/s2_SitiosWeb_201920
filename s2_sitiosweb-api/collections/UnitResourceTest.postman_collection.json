@@ -1,73 +1,20 @@
 {
 	"info": {
-		"_postman_id": "2b41b0d3-d739-4f75-bcf4-32fdf4dca552",
-		"name": "ProviderResourceTest",
+		"_postman_id": "51176cee-3706-4b2d-81bc-62ea3be9ba46",
+		"name": "UnitResourceTest",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Crear un proveedor",
+			"name": "crear una unidad",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "8094c242-9b31-416c-9e67-330d76ad5201",
+						"id": "e236a76b-b5c4-446b-bb8a-ed46c775962d",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
-							"postman.setGlobalVariable(\"new_id_p\",data.id);",
-							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
-							"console.log(data.id);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\":\"cisco\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"providers"
-					]
-				},
-				"description": "Prueba necesaria para pobrar que se cree un proveedor con valores validos. Codigo esperado: 200"
-			},
-			"response": []
-		},
-		{
-			"name": "crear proveedor 2",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9a5881bf-d70d-4e19-a9c7-710a22df11d3",
-						"exec": [
-							"var data = JSON.parse(responseBody);",
-							"postman.setGlobalVariable(\"new_id_p2\",data.id);",
+							"postman.setGlobalVariable(\"new_id_u\",data.id);",
 							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
 							"console.log(data.id);"
 						],
@@ -87,7 +34,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"juniper\"\r\n}",
+					"raw": "{\n\t\"name\":\"departamento ingenieria de sistemas\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -95,7 +42,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -104,20 +51,73 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers"
+						"units"
 					]
 				},
-				"description": "Prueba necesaria para pobrar que se cree un proveedor con valores validos. Codigo esperado: 200"
+				"description": "Prueba necesaria para pobrar que se cree una unidad con valores validos. Codigo esperado: 200"
 			},
 			"response": []
 		},
 		{
-			"name": "obtener todos los proveedores",
+			"name": "Crear una unidad 2",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "b49b948d-3e8b-4d16-abae-b23dd4dd6725",
+						"id": "10a84ed2-1be3-4dc3-8203-22b9d0498d03",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_u2\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"departamento ingenieria industrial\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units"
+					]
+				},
+				"description": "Prueba necesaria para pobrar que se cree una unidad con valores validos. Codigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "obtener todas las unidades",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3e352a35-813c-4ee7-8f81-b39c39deedac",
 						"exec": [
 							"var data= JSON.parse(responseBody);",
 							"tests[\"No genera error en el Gell All\"] = responseCode.code === 200;",
@@ -131,7 +131,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -140,20 +140,20 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers"
+						"units"
 					]
 				},
-				"description": "Consulta los proveedores registrados en la aplicación. La petición no tiene cuerpo.\r\n\r\nCódigo http esperado: 200"
+				"description": "Consulta las unidades registrados en la aplicación. La petición no tiene cuerpo.\r\n\r\nCódigo http esperado: 200"
 			},
 			"response": []
 		},
 		{
-			"name": "obtener un proveedor",
+			"name": "obtener una unidad",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "6d3fec11-c623-4420-a8ab-8c25bc1e5855",
+						"id": "8325f486-9450-482c-bd32-65e00a432077",
 						"exec": [
 							"console.log(responseBody);",
 							"var data = JSON.parse(responseBody);",
@@ -167,7 +167,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers/{{new_id_p}}",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -176,24 +176,24 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers",
-						"{{new_id_p}}"
+						"units",
+						"{{new_id_u}}"
 					]
 				},
-				"description": "Consulta los proveedores de un proyecto en la aplicación. La petición no tiene cuerpo.\r\n\r\nSe envía el Id del proveedor a consultar en la URL de la petición.\r\n\r\nCódigo http esperado: 200"
+				"description": "Consulta las unidades de un proyecto en la aplicación. La petición no tiene cuerpo.\r\n\r\nSe envía el Id de la unidad a consultar en la URL de la petición.\r\n\r\nCódigo http esperado: 200"
 			},
 			"response": []
 		},
 		{
-			"name": "obetener un proveedor que no existe",
+			"name": "obtener una unidad que no existe",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "10fd8332-5962-41d6-bd8c-95598d86627a",
+						"id": "cfe34461-91bc-4d1e-9f0d-58fe524a93ae",
 						"exec": [
-							"tests[\"No se deberia obtener un proveedor que no existe\"] = responseCode.code === 404;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /providers/0 no existe.\");"
+							"tests[\"No se deberia obtener una unidad que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"The resource /units/0 doesn't exist.\");"
 						],
 						"type": "text/javascript"
 					}
@@ -203,7 +203,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers/0",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/0",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -212,21 +212,21 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers",
+						"units",
 						"0"
 					]
 				},
-				"description": "Consulta un proveedor que no existe en la aplicación.\r\n\r\nCódigo http esperado: 404"
+				"description": "Consulta una unidad que no existe en la aplicación.\r\n\r\nCódigo http esperado: 404"
 			},
 			"response": []
 		},
 		{
-			"name": "editar un proveedor",
+			"name": "editar una unidad",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "fcc8e660-ee17-4235-b147-6ee39c2b85f6",
+						"id": "71855928-b6e0-462c-83be-c8e9af35576c",
 						"exec": [
 							"console.log(responseBody);",
 							"var data = JSON.parse(responseBody);",
@@ -248,7 +248,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\":\"CISCO\"\n}",
+					"raw": "{\n\t\"name\":\"departamento ingenieria de sistemas y computación\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -256,7 +256,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers/{{new_id_p}}",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -265,24 +265,24 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers",
-						"{{new_id_p}}"
+						"units",
+						"{{new_id_u}}"
 					]
 				},
-				"description": "Actualiza un proveedor existente. Se envía el ID del proveedor que se quiere actualizar\r\n\r\nCódigo http esperado: 200"
+				"description": "Actualiza una unidad existente. Se envía el ID del unidad que se quiere actualizar\r\n\r\nCódigo http esperado: 200"
 			},
 			"response": []
 		},
 		{
-			"name": "editar un proveedor que no existe",
+			"name": "editar una unidad que no existe",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "1d78f649-b32e-4473-99f9-d7ca5926cf64",
+						"id": "0f8eebe4-6cad-4a4c-b477-5e6a0bc496e0",
 						"exec": [
-							"tests[\"No se deberia actualizar un provider con id que no existe\"] = responseCode.code === 404;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /providers/0 no existe.\");"
+							"tests[\"No se deberia editar una unidad que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"The resource /units/0 doesn't exist.\");"
 						],
 						"type": "text/javascript"
 					}
@@ -300,7 +300,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\":\"CISCO\"\n}",
+					"raw": "{\n\t\"name\":\"departamento ingenieria de sistemas y computación\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -308,7 +308,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers/0",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/0",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -317,21 +317,21 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers",
+						"units",
 						"0"
 					]
 				},
-				"description": "hace cambios a un proveedor que no existe.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /providers/0 no existe.\"\r\n\r\nCódigo HTTP esperado: 404"
+				"description": "hace cambios a una unidad que no existe.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"The resource /units/0 doesn't exist.\"\r\n\r\nCódigo HTTP esperado: 404"
 			},
 			"response": []
 		},
 		{
-			"name": "Borrar un proveedor",
+			"name": "Borrar una unidad",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "74f24952-1ef2-4b67-8e2d-ce34eb15841b",
+						"id": "6bbdac86-58ea-4ea9-a849-31bd9205e26e",
 						"exec": [
 							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
 						],
@@ -343,7 +343,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers/{{new_id_p}}",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -352,21 +352,21 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers",
-						"{{new_id_p}}"
+						"units",
+						"{{new_id_u}}"
 					]
 				},
-				"description": "Borra un proveedor. Se envía el id del proveedor que se quiere borrar.\r\n\r\nCódigo HTTP esperado: 204"
+				"description": "Borra una unidad. Se envía el id de la unidad que se quiere borrar.\r\n\r\nCódigo HTTP esperado: 204"
 			},
 			"response": []
 		},
 		{
-			"name": "Borrar el proveedor 2",
+			"name": "Borrar una unidad 2",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "40da2b81-061d-40ec-9f28-002b74045e53",
+						"id": "cbe15100-d7ae-44fd-95e8-1215f9461e3a",
 						"exec": [
 							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
 						],
@@ -378,7 +378,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers/{{new_id_p2}}",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u2}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -387,24 +387,24 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers",
-						"{{new_id_p2}}"
+						"units",
+						"{{new_id_u2}}"
 					]
 				},
-				"description": "Borra un proveedor. Se envía el id del proveedor que se quiere borrar.\r\n\r\nCódigo HTTP esperado: 204"
+				"description": "Borra una unidad. Se envía el id de la unidad que se quiere borrar.\r\n\r\nCódigo HTTP esperado: 204"
 			},
 			"response": []
 		},
 		{
-			"name": "Borrar un proveedor que no existe",
+			"name": "Borrar una unidad que no existe",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "e53eee1f-5483-4fa4-a6b2-77528af7f168",
+						"id": "bba08c30-d4fa-43a3-b079-57fff506a1cc",
 						"exec": [
-							"tests[\"No se deberia borrar un autor con un id que no existe\"] = responseCode.code === 404;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /providers/0 no existe.\");"
+							"tests[\"No se deberia poder borrar una unidad que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"The resource /units/0 doesn't exist.\");"
 						],
 						"type": "text/javascript"
 					}
@@ -414,7 +414,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/providers/0",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/0",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -423,11 +423,11 @@
 					"path": [
 						"s2_sitiosweb-api",
 						"api",
-						"providers",
+						"units",
 						"0"
 					]
 				},
-				"description": "Borra un proveedor que no existe en la aplicación.\r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\nCódigo http esperado: 404"
+				"description": "Borra una unidad que no existe en la aplicación.\r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\nCódigo http esperado: 404"
 			},
 			"response": []
 		}
