@@ -118,10 +118,11 @@ public class DeveloperPersistenceTest {
         Assert.assertNotNull(result);
 
         DeveloperEntity entity = em.find(DeveloperEntity.class, result.getId());
+        Assert.assertEquals(developer.getName(), entity.getName());
         Assert.assertEquals(developer.getLogin(), entity.getLogin());
         Assert.assertEquals(developer.getEmail(), entity.getEmail());
         Assert.assertEquals(developer.getPhone(), entity.getPhone());
-        Assert.assertEquals(developer.getType(), entity.getType());
+        Assert.assertEquals(developer.getLeader(), entity.getLeader());
     }
 
     /**
@@ -150,10 +151,11 @@ public class DeveloperPersistenceTest {
         DeveloperEntity entity = data.get(0);
         DeveloperEntity newEntity = developerPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
+        Assert.assertEquals(entity.getName(), newEntity.getName());
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
         Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
         Assert.assertEquals(entity.getPhone(), newEntity.getPhone());
-        Assert.assertEquals(entity.getType(), newEntity.getType());
+        Assert.assertEquals(entity.getLeader(), newEntity.getLeader());
 
     }
 
@@ -171,10 +173,11 @@ public class DeveloperPersistenceTest {
         developerPersistence.update(newEntity);
         DeveloperEntity resp = em.find(DeveloperEntity.class, entity.getId());
 
+        Assert.assertEquals(newEntity.getName(), resp.getName());
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
         Assert.assertEquals(newEntity.getPhone(), resp.getPhone());
-        Assert.assertEquals(newEntity.getType(), resp.getType());
+        Assert.assertEquals(newEntity.getLeader(), resp.getLeader());
 
     }
 

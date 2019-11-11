@@ -11,6 +11,11 @@ import javax.persistence.Entity;
 public class UserEntity extends BaseEntity implements Serializable {
 
     /**
+     * Name del usuario
+     */
+    private String name;
+
+    /**
      * Login del usuario
      */
     private String login;
@@ -25,6 +30,20 @@ public class UserEntity extends BaseEntity implements Serializable {
      */
     private String phone;
 
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     /**
      * @return the login
      */

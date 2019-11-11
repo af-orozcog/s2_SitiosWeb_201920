@@ -1,0 +1,436 @@
+{
+	"info": {
+		"_postman_id": "51176cee-3706-4b2d-81bc-62ea3be9ba46",
+		"name": "UnitResourceTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "crear una unidad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e236a76b-b5c4-446b-bb8a-ed46c775962d",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_u\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"departamento ingenieria de sistemas\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units"
+					]
+				},
+				"description": "Prueba necesaria para pobrar que se cree una unidad con valores validos. Codigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear una unidad 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10a84ed2-1be3-4dc3-8203-22b9d0498d03",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_u2\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"departamento ingenieria industrial\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units"
+					]
+				},
+				"description": "Prueba necesaria para pobrar que se cree una unidad con valores validos. Codigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "obtener todas las unidades",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3e352a35-813c-4ee7-8f81-b39c39deedac",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Gell All\"] = responseCode.code === 200;",
+							"tests[\"authors count\"] = data.length >= 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units"
+					]
+				},
+				"description": "Consulta las unidades registrados en la aplicación. La petición no tiene cuerpo.\r\n\r\nCódigo http esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "obtener una unidad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8325f486-9450-482c-bd32-65e00a432077",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units",
+						"{{new_id_u}}"
+					]
+				},
+				"description": "Consulta las unidades de un proyecto en la aplicación. La petición no tiene cuerpo.\r\n\r\nSe envía el Id de la unidad a consultar en la URL de la petición.\r\n\r\nCódigo http esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "obtener una unidad que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfe34461-91bc-4d1e-9f0d-58fe524a93ae",
+						"exec": [
+							"tests[\"No se deberia obtener una unidad que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"The resource /units/0 doesn't exist.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units",
+						"0"
+					]
+				},
+				"description": "Consulta una unidad que no existe en la aplicación.\r\n\r\nCódigo http esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "editar una unidad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "71855928-b6e0-462c-83be-c8e9af35576c",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"departamento ingenieria de sistemas y computación\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units",
+						"{{new_id_u}}"
+					]
+				},
+				"description": "Actualiza una unidad existente. Se envía el ID del unidad que se quiere actualizar\r\n\r\nCódigo http esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "editar una unidad que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0f8eebe4-6cad-4a4c-b477-5e6a0bc496e0",
+						"exec": [
+							"tests[\"No se deberia editar una unidad que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"The resource /units/0 doesn't exist.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"departamento ingenieria de sistemas y computación\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units",
+						"0"
+					]
+				},
+				"description": "hace cambios a una unidad que no existe.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"The resource /units/0 doesn't exist.\"\r\n\r\nCódigo HTTP esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una unidad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6bbdac86-58ea-4ea9-a849-31bd9205e26e",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units",
+						"{{new_id_u}}"
+					]
+				},
+				"description": "Borra una unidad. Se envía el id de la unidad que se quiere borrar.\r\n\r\nCódigo HTTP esperado: 204"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una unidad 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cbe15100-d7ae-44fd-95e8-1215f9461e3a",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/{{new_id_u2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units",
+						"{{new_id_u2}}"
+					]
+				},
+				"description": "Borra una unidad. Se envía el id de la unidad que se quiere borrar.\r\n\r\nCódigo HTTP esperado: 204"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una unidad que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bba08c30-d4fa-43a3-b079-57fff506a1cc",
+						"exec": [
+							"tests[\"No se deberia poder borrar una unidad que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"The resource /units/0 doesn't exist.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/units/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units",
+						"0"
+					]
+				},
+				"description": "Borra una unidad que no existe en la aplicación.\r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\nCódigo http esperado: 404"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -12,12 +12,23 @@ import java.util.List;
  */
 public class ProviderDetailDTO extends ProviderDTO implements Serializable{
     
+    /**
+     * proyectos con los cuales esta relacionado el proveedor
+     */
     private List<ProjectDTO> projects;
     
+    
+    /**
+     * Constructor
+     */
     public ProviderDetailDTO(){
         super();
     }
     
+    /**
+     * 
+     * @param providerEntity 
+     */
     public ProviderDetailDTO(ProviderEntity providerEntity){
         super(providerEntity);
         if(providerEntity.getProjects() != null){
@@ -41,14 +52,20 @@ public class ProviderDetailDTO extends ProviderDTO implements Serializable{
          return providerEntity;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public List<ProjectDTO> getProjects() {
         return projects;
     }
 
+    /**
+     * 
+     * @param projects 
+     */
     public void setProjects(List<ProjectDTO> projects) {
         this.projects = projects;
     }
-    
-    
     
 }

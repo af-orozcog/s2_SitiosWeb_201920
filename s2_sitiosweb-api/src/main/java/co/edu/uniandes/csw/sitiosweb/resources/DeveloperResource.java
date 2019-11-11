@@ -75,9 +75,9 @@ public class DeveloperResource {
      * aplicación. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<DeveloperDTO> getDevelopers() {
+    public List<DeveloperDetailDTO> getDevelopers() {
         LOGGER.info("DeveloperResource getDevelopers: input: void");
-        List<DeveloperDTO> listaUsuarios = listEntity2DetailDTO(developerLogic.getDevelopers());
+        List<DeveloperDetailDTO> listaUsuarios = listEntity2DetailDTO(developerLogic.getDevelopers());
         LOGGER.log(Level.INFO, "DeveloperResource getDevelopers: output: {0}", listaUsuarios);
         return listaUsuarios;
     }
@@ -93,15 +93,15 @@ public class DeveloperResource {
      */
     @GET
     @Path("{developersId: \\d+}")
-    public DeveloperDTO getDeveloper(@PathParam("developersId") Long developersId) throws WebApplicationException {
+    public DeveloperDetailDTO getDeveloper(@PathParam("developersId") Long developersId) throws WebApplicationException {
         LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: input: {0}", developersId);
         DeveloperEntity developerEntity = developerLogic.getDeveloper(developersId);
         if (developerEntity == null) {
             throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
         }
-        DeveloperDTO developerDTO = new DeveloperDTO(developerEntity);
-        LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: output: {0}", developerDTO);
-        return developerDTO;
+        DeveloperDetailDTO developerDetailDTO = new DeveloperDetailDTO(developerEntity);
+        LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: output: {0}", developerDetailDTO);
+        return developerDetailDTO;
     }
 
     /**
@@ -163,10 +163,10 @@ public class DeveloperResource {
      * vamos a convertir a DTO.
      * @return la lista de desarrolladors en forma DTO (json)
      */
-    private List<DeveloperDTO> listEntity2DetailDTO(List<DeveloperEntity> entityList) {
-        List<DeveloperDTO> list = new ArrayList<>();
+    private List<DeveloperDetailDTO> listEntity2DetailDTO(List<DeveloperEntity> entityList) {
+        List<DeveloperDetailDTO> list = new ArrayList<>();
         for (DeveloperEntity entity : entityList) {
-            list.add(new DeveloperDTO(entity));
+            list.add(new DeveloperDetailDTO(entity));
         }
         return list;
     }

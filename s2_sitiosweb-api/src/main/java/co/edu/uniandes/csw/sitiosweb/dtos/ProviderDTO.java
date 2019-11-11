@@ -10,7 +10,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author Andres Martinez Silva
  */
 public class ProviderDTO implements Serializable{
-        private Long id;
+    /**
+     * Id del proveedor
+     */
+    private Long id;
+    
+    /**
+     * Nombre del proveedor
+     */
     private String name;
 
     /**

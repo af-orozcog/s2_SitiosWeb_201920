@@ -118,4 +118,28 @@ public class DeveloperPersistence {
         LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por login ", login);
         return result;
     }
+    
+     /**
+     * Busca si hay algun desarrollador con el Name que se envía de argumento
+     *
+     * @param name: Name del desarrollador que se está buscando
+     * @return null si no existe ningun desarrollador con el name del
+     * argumento. Si existe alguno devuelve el primero.
+     */
+    public DeveloperEntity findByName(String name) {
+        LOGGER.log(Level.INFO, "Consultando desarrollador por name ", name);
+        TypedQuery query = em.createQuery("Select e From DeveloperEntity e where e.name = :name", DeveloperEntity.class);
+        query = query.setParameter("name", name);
+        List<DeveloperEntity> sameName = query.getResultList();
+        DeveloperEntity result;
+        if (sameName == null) {
+            result = null;
+        } else if (sameName.isEmpty()) {
+            result = null;
+        } else {
+            result = sameName.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por name ", name);
+        return result;
+    }
 }
