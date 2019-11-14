@@ -515,7 +515,7 @@
 						"id": "46120128-1445-4782-86d2-55caa7398beb",
 						"exec": [
 							"tests[\"No crea sin unidad.\"] = responseCode.code === 412;",
-							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\" La unidad del proyecto solicitado está vacía.\");  "
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"La unidad del proyecto solicitado está vacía.\");  "
 						],
 						"type": "text/javascript"
 					}
