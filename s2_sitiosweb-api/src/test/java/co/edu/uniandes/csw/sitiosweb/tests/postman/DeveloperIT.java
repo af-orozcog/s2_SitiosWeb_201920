@@ -53,7 +53,8 @@ public class DeveloperIT {
     @Test
     @RunAsClient
     public void postman() throws IOException {
-        PostmanTestBuilder tp = new PostmanTestBuilder();
+        try {
+            PostmanTestBuilder tp = new PostmanTestBuilder();
         tp.setTestWithoutLogin(COLLECTION, "Entorno-IT.postman_environment");
         String desiredResult = "0";
         Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
@@ -64,6 +65,8 @@ public class DeveloperIT {
 
         Assert.assertEquals("Error en Assertions de: " + COLLECTION, desiredResult, tp.getAssertions_failed());
     }
-
-    
+     catch (Exception e) {
+    e.printStackTrace();
+}
+    }
 }
