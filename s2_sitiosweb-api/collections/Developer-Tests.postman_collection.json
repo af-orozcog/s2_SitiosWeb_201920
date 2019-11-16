@@ -74,7 +74,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556\",\n \"type\":\"Developer\"\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556\",\n \"leader\":true\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
@@ -90,6 +90,58 @@
 					]
 				},
 				"description": "Crea un nuevo desarrollador pero con un teléfono inválido. Verifica que se genera el error y el mensaje \"El teléfono es inválido\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9af4206b-b7f4-47f9-b950-9ff7be61be67",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_d\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Nombre1\",\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				}
 			},
 			"response": []
 		},
@@ -121,7 +173,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"login\":\"Lider\",\n \"email\":\"ejemplo2@sitios.com\",\n \"phone\":\"3213745567\",\n \"type\":\"Leader\"\n}",
+					"raw": "{\n\t\"name\":\"Lider1\",\n\t\"login\":\"DesarrolladorLider\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -142,50 +194,6 @@
 					]
 				},
 				"description": "Crea otro desarrollador pero que sea tipo líder. El login del recurso debe ser único y el phone debe ser de 10 dígitos y ser números. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
-			},
-			"response": []
-		},
-		{
-			"name": "Crear un desarrollador con el mismo Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "99432a89-1545-4c9d-9757-3a363a64c973",
-						"exec": [
-							"tests[\"No crea con el mismo login\"] = responseCode.code === 412;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El login ya existe\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"errorLogin@sitios.com\",\n\t\"phone\":\"3216745567\",\n\t\"type\":\"Developer\"\n}"
-				},
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"developers"
-					]
-				},
-				"description": "Crea un nuevo desarrollador pero con un Login que ya existe. Verifica que se genera el error y el mensaje \"El Login ya existe\"."
 			},
 			"response": []
 		},
@@ -330,7 +338,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"errorLogin@sitios.com\",\n\t\"phone\":\"3216745567\",\n\t\"type\":\"Developer\"\n}"
+					"raw": "{\n\t\"name\":\"NombreEditado\",\n\t\"login\":\"editado\",\n\t\"email\":\"editado@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0",
@@ -375,7 +383,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\":\"DesarrolladorNuevo\",\n\t\"email\":\"telefonoInv@sitios.com\",\n\t\"phone\":\"321674556a\",\n\t\"type\":\"Developer\"\n}"
+					"raw": "{\n\t\"name\":\"NombreEditado\",\n\t\"login\":\"editado\",\n\t\"email\":\"editado@sitios.com\",\n\t\"phone\":\"3203745567a\",\n\t\"leader\":true\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}",
@@ -421,7 +429,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\":\"DesarrolladorNuevo\",\n\t\"email\":\"editar@sitios.com\",\n\t\"phone\":\"3216743567\",\n\t\"type\":\"Developer\"\n}"
+					"raw": "{\n\t\"name\":\"NombreEditado\",\n\t\"login\":\"editado\",\n\t\"email\":\"editado@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}",

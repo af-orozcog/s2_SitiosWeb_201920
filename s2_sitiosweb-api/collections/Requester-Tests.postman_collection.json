@@ -76,7 +76,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"login\":\"Solicitante\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556a\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -120,7 +120,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"login\":\"Solicitante\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"32074556a7\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -168,7 +168,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"login\":\"Solicitante\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3203745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -216,7 +216,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"login\":\"Solicitante2\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3203745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}",
+					"raw": "{\n \"name\":\"Nombre2\",\n \"login\":\"Solicitante2\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -237,50 +237,6 @@
 					]
 				},
 				"description": "Crea otro solicitante. El login del recurso debe ser único y el phone debe ser de 10 dígitos y ser números. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
-			},
-			"response": []
-		},
-		{
-			"name": "Crear un solicitante con el mismo Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "99432a89-1545-4c9d-9757-3a363a64c973",
-						"exec": [
-							"tests[\"No crea con el mismo login\"] = responseCode.code === 412;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El login ya existe\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"login\":\"Solicitante\",\n\t\"email\":\"errorLogin@sitios.com\",\n\t\"phone\":\"3203745537\",\n\t\"unit\":{\"id\":{{new_id_u}} }\n}"
-				},
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"requesters"
-					]
-				},
-				"description": "Crea un nuevo solicitante pero con un Login que ya existe. Verifica que se genera el error y el mensaje \"El login ya existe\"."
 			},
 			"response": []
 		},
@@ -311,7 +267,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"login\":\"SolicitanteUnidad\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3203745567\",\n \"unit\":{\"id\":0 }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":0 }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -471,7 +427,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\":\"Solicitante\",\n\t\"email\":\"noExiste@sitios.com\",\n\t\"phone\":\"3216745567\",\n\t\"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/0",
@@ -516,7 +472,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\":\"Solicitante\",\n\t\"email\":\"noExiste@sitios.com\",\n\t\"phone\":\"321674556a\",\n\t\"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320674556a7\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",
@@ -562,7 +518,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\":\"SolicitanteNuevo\",\n\t\"email\":\"noExiste@sitios.com\",\n\t\"phone\":\"3216745567\",\n\t\"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Editado1\",\n \"login\":\"SolicitanteN1\",\n \"email\":\"cambio@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",

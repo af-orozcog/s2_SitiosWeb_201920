@@ -35,7 +35,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"type\":\"Developer\"\n}",
+					"raw": "{\n\t\"name\":\"Nombre1\",\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
