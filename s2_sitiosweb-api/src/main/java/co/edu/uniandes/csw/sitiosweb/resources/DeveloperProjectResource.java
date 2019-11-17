@@ -1,4 +1,4 @@
-/*
+ /*
 MIT License
 
 Copyright (c) 2017 Universidad de los Andes - ISIS2603
@@ -24,9 +24,9 @@ SOFTWARE.
 package co.edu.uniandes.csw.sitiosweb.resources;
 
 import co.edu.uniandes.csw.sitiosweb.dtos.ProjectDetailDTO;
-import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
-import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.ProjectLogic;
+import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperProjectLogic;
+import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.mappers.WebApplicationExceptionMapper;
@@ -49,13 +49,16 @@ import javax.ws.rs.WebApplicationException;
 /**
  * Clase que implementa el recurso "developers/{id}/projects".
  *
- * @developer ISIS2603
+ * @project ISIS2603
  * @version 1.0
  */
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DeveloperProjectResource {
 
+    /**
+     * Logger for this class
+     */
     private static final Logger LOGGER = Logger.getLogger(DeveloperProjectResource.class.getName());
 
     /**
@@ -63,19 +66,19 @@ public class DeveloperProjectResource {
      */
     @Inject
     private DeveloperProjectLogic developerProjectLogic;
-
-     /**
-     * Atribute to handle project's logic
-     */
-    @Inject
-    private ProjectLogic projectLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
     
     /**
-     * Atribute to handle developer's logic
+     * Atribute to handle project`s logic
+     */
+    @Inject
+    private ProjectLogic projectLogic;
+    
+    /**
+     * Atribute to handle developer`s logic
      */
     @Inject
     private DeveloperLogic developerLogic;
-
+    
     /**
      *
      * @param developersId
@@ -88,12 +91,12 @@ public class DeveloperProjectResource {
         }
         return DeveloperProjectResource.class;
     }
-    
+
     /**
      * Asocia un proyecto existente con un desarrollador existente
      *
+     * @param projectsId El ID del proyecto que se va a asociar
      * @param developersId El ID del desarrollador al cual se le va a asociar el proyecto
-     * @param projectsId El ID del proyecto que se asocia
      * @return JSON {@link ProjectDetailDTO} - El proyecto asociado.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el proyecto.
@@ -111,10 +114,10 @@ public class DeveloperProjectResource {
     }
 
     /**
-     * Busca y devuelve todos los proyectos que existen en un desarrollador.
+     * Busca y devuelve todos los proyectoes que existen en un desarrollador.
      *
-     * @param developersId El ID del desarrollador del cual se buscan los proyectos
-     * @return JSONArray {@link ProjectDetailDTO} - Los proyectos encontrados en el
+     * @param developersId El ID del desarrollador del cual se buscan los proyectoes
+     * @return JSONArray {@link ProjectDetailDTO} - Los proyectoes encontrados en el
      * desarrollador. Si no hay ninguno retorna una lista vacía.
      */
     @GET
@@ -129,17 +132,15 @@ public class DeveloperProjectResource {
      * Busca y devuelve el proyecto con el ID recibido en la URL, relativo a un
      * desarrollador.
      *
-     * @param developersId El ID del desarrollador del cual se busca el proyecto
      * @param projectsId El ID del proyecto que se busca
+     * @param developersId El ID del desarrollador del cual se busca el proyecto
      * @return {@link ProjectDetailDTO} - El proyecto encontrado en el desarrollador.
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
-     * si el proyecto no está asociado al desarrollador
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper}
      * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @GET
     @Path("{projectsId: \\d+}")
-    public ProjectDetailDTO getProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) throws BusinessLogicException {
+    public ProjectDetailDTO getProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) {
         LOGGER.log(Level.INFO, "DeveloperProjectsResource getProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
             throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
@@ -150,14 +151,15 @@ public class DeveloperProjectResource {
     }
 
     /**
-     * Actualiza la lista de proyectos de un desarrollador con la lista que se recibe en el
-     * cuerpo
+     * Actualiza la lista de proyectoes de un desarrollador con la lista que se recibe en
+     * el cuerpo.
      *
-     * @param developersId El ID del desarrollador al cual se le va a asociar el proyecto
-     * @param projects JSONArray {@link ProjectDetailDTO} - La lista de proyectos que se
-     * desea guardar.
+     * @param developersId El ID del desarrollador al cual se le va a asociar la lista de
+     * proyectoes
+     * @param projects JSONArray {@link ProjectDetailDTO} - La lista de proyectoes
+     * que se desea guardar.
      * @return JSONArray {@link ProjectDetailDTO} - La lista actualizada.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper}
      * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @PUT
@@ -169,27 +171,27 @@ public class DeveloperProjectResource {
             }
         }
         List<ProjectDetailDTO> lista = projectsListEntity2DTO(developerProjectLogic.replaceProjects(developersId, projectsListDTO2Entity(projects)));
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource replaceProjects: output: {0}", lista);
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource replaceProjects: output:{0}", lista);
         return lista;
     }
 
     /**
-     * Elimina la conexión entre el proyecto y e desarrollador recibidos en la URL.
+     * Elimina la conexión entre el proyecto y el desarrollador recibidos en la URL.
      *
      * @param developersId El ID del desarrollador al cual se le va a desasociar el proyecto
      * @param projectsId El ID del proyecto que se desasocia
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper}
      * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
     @DELETE
     @Path("{projectsId: \\d+}")
     public void removeProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) {
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource deleteProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
+        LOGGER.log(Level.INFO, "DeveloperProjectsResource removeProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
             throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
         }
         developerProjectLogic.removeProject(developersId, projectsId);
-        LOGGER.info("DeveloperProjectsResource deleteProject: output: void");
+        LOGGER.info("DeveloperProjectsResource removeProject: output: void");
     }
 
     /**
