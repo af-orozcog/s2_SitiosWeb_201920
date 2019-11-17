@@ -58,12 +58,21 @@ public class DeveloperProjectResource {
 
     private static final Logger LOGGER = Logger.getLogger(DeveloperProjectResource.class.getName());
 
+    /**
+     * Atribute to handle developerProject`s logic
+     */
     @Inject
     private DeveloperProjectLogic developerProjectLogic;
 
+     /**
+     * Atribute to handle project's logic
+     */
     @Inject
     private ProjectLogic projectLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
     
+    /**
+     * Atribute to handle developer's logic
+     */
     @Inject
     private DeveloperLogic developerLogic;
 

@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 /**
  *
- * @developer Nicolás Abondano nf.abondano 201812467
  */
 @Stateless
 public class ProjectDeveloperLogic {

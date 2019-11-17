@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 /**
  *
- * @developer Nicolás Abondano nf.abondano 201812467
  */
 @Stateless
 public class DeveloperProjectLogic {
@@ -42,7 +41,7 @@ public class DeveloperProjectLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de asociarle un proyecto al desarrollador con id = {0}", developersId);
         DeveloperEntity developerEntity = developerPersistence.find(developersId);
         ProjectEntity projectEntity = projectPersistence.find(projectsId);
-        projectEntity.getDevelopers().add(developerEntity);
+        developerEntity.getProjects().add(projectEntity);
         LOGGER.log(Level.INFO, "Termina proceso de asociarle un proyecto al desarrollador con id = {0}", developersId);
         return projectPersistence.find(projectsId);
     }
