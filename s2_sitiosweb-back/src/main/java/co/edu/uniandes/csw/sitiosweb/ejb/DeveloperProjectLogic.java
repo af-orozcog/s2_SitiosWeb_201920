@@ -65,18 +65,17 @@ public class DeveloperProjectLogic {
      * @param developersId Identificador de la instancia de Developer
      * @param projectsId Identificador de la instancia de Project
      * @return La entidadd de Proyecto del desarrollador
-     * @throws BusinessLogicException Si el proyecto no está asociado al desarrollador
      */
-    public ProjectEntity getProject(Long developersId, Long projectsId) throws BusinessLogicException {
+    public ProjectEntity getProject(Long developersId, Long projectsId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
         List<ProjectEntity> projects = developerPersistence.find(developersId).getProjects();
         ProjectEntity projectEntity = projectPersistence.find(projectsId);
         int index = projects.indexOf(projectEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar un proyecto del desarrollador con id = {0}", developersId);
         if (index >= 0) {
             return projects.get(index);
         }
-        throw new BusinessLogicException("El proyecto no está asociado al desarrollador");
+        return null;
     }
 
     /**

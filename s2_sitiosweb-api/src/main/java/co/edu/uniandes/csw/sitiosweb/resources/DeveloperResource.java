@@ -152,6 +152,19 @@ public class DeveloperResource {
         developerLogic.deleteDeveloper(developersId);
         LOGGER.info("DeveloperResource deleteDeveloper: output: void");
     }
+    
+    /**
+     * Method to return a developer's projects by the developer's id.
+     * @param developersId - the developer's id
+     * @return a DeveloperProjectResource class.
+     */
+    @Path("{developersId: \\d+}/projects")
+    public Class<DeveloperProjectResource> getDeveloperProjectResource(@PathParam("developersId") Long developersId) {
+        if (developerLogic.getDeveloper(developersId) == null) {
+            throw new WebApplicationException("El recurso /developer/" + developersId , 404);
+        }
+        return DeveloperProjectResource.class;
+    }
 
     /**
      * Convierte una lista de entidades a DTO.

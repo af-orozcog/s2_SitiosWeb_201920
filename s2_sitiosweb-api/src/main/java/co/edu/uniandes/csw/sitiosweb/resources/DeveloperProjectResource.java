@@ -84,10 +84,11 @@ public class DeveloperProjectResource {
     @Path("{developersId: \\d+}/projects")
     public Class<DeveloperProjectResource> getDeveloperProjectResource(@PathParam("developersId") Long developersId) {
         if (developerLogic.getDeveloper(developersId) == null) {
-            throw new WebApplicationException("El recurso /project/" + developersId , 404);
+            throw new WebApplicationException("El recurso /developer/" + developersId , 404);
         }
         return DeveloperProjectResource.class;
     }
+    
     /**
      * Asocia un proyecto existente con un desarrollador existente
      *
