@@ -41,7 +41,7 @@ public class RequesterLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del solicitante");
         
         if(requester.getName() == null ){
-            throw new BusinessLogicException( "El login del desarrollador está vacío" );
+            throw new BusinessLogicException( "El nombre del solicitante está vacío" );
         }
         if (requester.getLogin() == null) {
             throw new BusinessLogicException("El login del solicitante está vacío");
@@ -55,10 +55,6 @@ public class RequesterLogic {
         if (requester.getUnit() == null || unitPersistence.find(requester.getUnit().getId()) == null) {
             throw new BusinessLogicException("La unidad es inválida");
         }
-        
-        /*if (persistence.findByLogin(requester.getLogin()) != null) {
-            throw new BusinessLogicException("El login ya existe");
-        }*/
 
         requester = persistence.create(requester);
         LOGGER.log(Level.INFO, "Termina proceso de creación del solicitante");
@@ -106,7 +102,7 @@ public class RequesterLogic {
     public RequesterEntity updateRequester(Long requesterId, RequesterEntity requesterEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el solicitante con id = {0}", requesterId);
         if (requesterEntity.getName() == null )
-            throw new BusinessLogicException( "El login del desarrollador está vacío" );
+            throw new BusinessLogicException( "El nombre del solicitante está vacío" );
         if (requesterEntity.getLogin() == null)
             throw new BusinessLogicException("El login del solicitante está vacío");
         if (requesterEntity.getEmail() == null)
@@ -115,11 +111,7 @@ public class RequesterLogic {
             throw new BusinessLogicException("El teléfono del solicitante está vacío");
 
         if (!validatePhone(requesterEntity.getPhone()))
-            throw new BusinessLogicException("El teléfono es inválido");
-        /*if (!persistence.find(requesterId).getLogin().equalsIgnoreCase(requesterEntity.getLogin())
-                && persistence.findByLogin(requesterEntity.getLogin()) != null) 
-            throw new BusinessLogicException("El login ya existe");*/
-        
+            throw new BusinessLogicException("El teléfono es inválido");     
 
         RequesterEntity newEntity = persistence.update(requesterEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el solicitante con id = {0}", requesterEntity.getId());
@@ -146,16 +138,7 @@ public class RequesterLogic {
         if(phone == null || phone.length() != 10) return false;
         boolean f = true;
         for(int i=0; i<10; i++){
-            if(!(phone.charAt(i) == '0' ||
-                    phone.charAt(i) == '1' ||
-                    phone.charAt(i) == '2' ||
-                    phone.charAt(i) == '3' ||
-                    phone.charAt(i) == '4' ||
-                    phone.charAt(i) == '5' ||
-                    phone.charAt(i) == '6' ||
-                    phone.charAt(i) == '7' ||
-                    phone.charAt(i) == '8' ||
-                    phone.charAt(i) == '9'))
+            if(!(phone.charAt(i) >= '0' && phone.charAt(i) <= '9'))
                 f=false;
         }
         return f;

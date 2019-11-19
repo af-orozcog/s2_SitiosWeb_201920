@@ -169,18 +169,19 @@ public class DeveloperLogicTest {
         newEntity.setPhone(null);
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
-
+    
     /**
-     * Prueba para crear un Developer con un login ya existente.
+     * Prueba para crear un Developer con name null.
      *
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void createDeveloperLoginExistente() throws BusinessLogicException {
+    public void createDeveloperNameNull() throws BusinessLogicException {
         DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
-        newEntity.setLogin(data.get(0).getLogin());
-        developerLogic.createDeveloper(newEntity);
+        newEntity.setName(null);
+        DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
+
 
     /**
      * Prueba para consultar la lista de Developers.
@@ -296,13 +297,13 @@ public class DeveloperLogicTest {
     }
 
     /**
-     * Prueba para actualizar un Developer con type developer y es lider de
+     * Prueba para actualizar un Developer con leader false y es lider de
      * proyectos.
      *
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void updateDeveloperConTypeDeveloperTest() throws BusinessLogicException {
+    public void updateDeveloperConLeaderTest() throws BusinessLogicException {
         DeveloperEntity entity = data.get(2);
         DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setLeader(false);

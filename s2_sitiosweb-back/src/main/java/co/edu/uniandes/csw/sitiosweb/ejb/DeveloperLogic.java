@@ -37,7 +37,7 @@ public class DeveloperLogic {
     public DeveloperEntity createDeveloper(DeveloperEntity developer) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del desarrollador");
         if(developer.getName() == null )
-            throw new BusinessLogicException( "El login del desarrollador está vacío" );
+            throw new BusinessLogicException( "El nombre del desarrollador está vacío" );
         if(developer.getLogin() == null )
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developer.getEmail() == null )
@@ -90,7 +90,7 @@ public class DeveloperLogic {
     public DeveloperEntity updateDeveloper(Long developerId, DeveloperEntity developerEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el desarrollador con id = {0}", developerId);
         if(developerEntity.getName() == null )
-            throw new BusinessLogicException( "El login del desarrollador está vacío" );
+            throw new BusinessLogicException( "El nombre del desarrollador está vacío" );
         if(developerEntity.getLogin() == null )
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developerEntity.getEmail() == null )
@@ -132,16 +132,7 @@ public class DeveloperLogic {
         if(phone == null || phone.length() != 10) return false;
         boolean f = true;
         for(int i=0; i<10; i++){
-            if(!(phone.charAt(i) == '0' ||
-                    phone.charAt(i) == '1' ||
-                    phone.charAt(i) == '2' ||
-                    phone.charAt(i) == '3' ||
-                    phone.charAt(i) == '4' ||
-                    phone.charAt(i) == '5' ||
-                    phone.charAt(i) == '6' ||
-                    phone.charAt(i) == '7' ||
-                    phone.charAt(i) == '8' ||
-                    phone.charAt(i) == '9'))
+            if(!(phone.charAt(i) >= '0' && phone.charAt(i) <= '9'))
                 f=false;
         }
         return f;

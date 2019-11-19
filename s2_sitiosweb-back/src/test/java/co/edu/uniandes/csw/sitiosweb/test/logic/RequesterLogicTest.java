@@ -286,17 +286,17 @@ public class RequesterLogicTest {
         pojoEntity.setId(entity.getId());
         requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
-
+    
     /**
-     * Prueba para actualizar un Requester con un login existente.
+     * Prueba para actualizar un Requester con login null.
      *
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void updateRequesterConLoginExistenteTest() throws BusinessLogicException {
+    public void updateRequesterConNameNullTest() throws BusinessLogicException {
         RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
-        pojoEntity.setLogin(data.get(1).getLogin());
+        pojoEntity.setName(null);
         pojoEntity.setId(entity.getId());
         requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
