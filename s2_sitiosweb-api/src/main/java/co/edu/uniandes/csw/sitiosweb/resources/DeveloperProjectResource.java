@@ -26,7 +26,6 @@ package co.edu.uniandes.csw.sitiosweb.resources;
 import co.edu.uniandes.csw.sitiosweb.dtos.ProjectDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.ProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperProjectLogic;
-import co.edu.uniandes.csw.sitiosweb.ejb.DeveloperLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.mappers.WebApplicationExceptionMapper;
@@ -60,6 +59,16 @@ public class DeveloperProjectResource {
      * Logger for this class
      */
     private static final Logger LOGGER = Logger.getLogger(DeveloperProjectResource.class.getName());
+    
+    /**
+     * Constante mensaje error project
+     */
+    private static final String RECURSOPROJECT = "El recurso /projects/";
+    
+    /**
+     * Constante no existe mensaje
+     */
+    private static final String NOEXISTE = " no existe.";
 
     /**
      * Atribute to handle developerProject`s logic
@@ -87,7 +96,7 @@ public class DeveloperProjectResource {
     public ProjectDetailDTO addProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) {
         LOGGER.log(Level.INFO, "DeveloperProjectsResource addProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
+            throw new WebApplicationException( RECURSOPROJECT + projectsId + NOEXISTE , 404);
         }
         ProjectDetailDTO detailDTO = new ProjectDetailDTO(developerProjectLogic.addProject(developersId, projectsId));
         LOGGER.log(Level.INFO, "DeveloperProjectsResource addProject: output: {0}", detailDTO);
@@ -116,7 +125,7 @@ public class DeveloperProjectResource {
      * @param developersId El ID del desarrollador del cual se busca el proyecto
      * @param projectsId El ID del proyecto que se busca
      * @return {@link ProjectDetailDTO} - El proyecto encontrado en el desarrollador.
-     * @throws co.edu.uniandes.csw.projectstore.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      * si el proyecto no está asociado al desarrollador
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el proyecto.
@@ -126,7 +135,7 @@ public class DeveloperProjectResource {
     public ProjectDetailDTO getProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "DeveloperProjectsResource getProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
+            throw new WebApplicationException( RECURSOPROJECT + projectsId + NOEXISTE , 404);
         }
         ProjectDetailDTO detailDTO = new ProjectDetailDTO(developerProjectLogic.getProject(developersId, projectsId));
         LOGGER.log(Level.INFO, "DeveloperProjectsResource getProject: output: {0}", detailDTO);
@@ -149,7 +158,7 @@ public class DeveloperProjectResource {
         LOGGER.log(Level.INFO, "DeveloperProjectsResource replaceProjects: input: developersId {0} , projects {1}", new Object[]{developersId, projects});
         for (ProjectDetailDTO project : projects) {
             if (projectLogic.getProject(project.getId()) == null) {
-                throw new WebApplicationException("El recurso /projects/" + project.getId() + " no existe.", 404);
+                throw new WebApplicationException( RECURSOPROJECT + project.getId() + NOEXISTE , 404);
             }
         }
         List<ProjectDetailDTO> lista = projectsListEntity2DTO(developerProjectLogic.replaceProjects(developersId, projectsListDTO2Entity(projects)));
@@ -170,7 +179,7 @@ public class DeveloperProjectResource {
     public void removeProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) {
         LOGGER.log(Level.INFO, "DeveloperProjectsResource deleteProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
+            throw new WebApplicationException( RECURSOPROJECT + projectsId + NOEXISTE , 404);
         }
         developerProjectLogic.removeProject(developersId, projectsId);
         LOGGER.info("DeveloperProjectsResource deleteProject: output: void");
