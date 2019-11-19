@@ -174,65 +174,23 @@ public class RequestDTO implements Serializable
     }
 
     /**
+     * @return the purpose.
+     */
+    public String getPurpose() 
+    { return purpose; }
+    
+    /**
      * @return the name.
      */
     public String getName() 
     { return name; }
 
     /**
-     * @param name the name to set.
-     */
-    public void setName(String name) 
-    { this.name = name; }
-
-    /**
-     * @return the purpose.
-     */
-    public String getPurpose() 
-    { return purpose; }
-
-    /**
      * @param purpose the purpose to set.
      */
     public void setPurpose(String purpose) 
     { this.purpose = purpose; }
-
-    /**
-     * @return the description
-     */
-    public String getDescription() 
-    { return description; }
-
-    /**
-     * @param description the description to set.
-     */
-    public void setDescription(String description) 
-    { this.description = description; }
-
-    /**
-     * @return the unit.
-     */
-    public String getUnit() 
-    { return unit; }
-
-    /**
-     * @param unit the unit to set.
-     */
-    public void setUnit(String unit) 
-    { this.unit = unit; }
-
-    /**
-     * @return the budget.
-     */
-    public Integer getBudget() 
-    { return budget; }
-
-    /**
-     * @param budget the budget to set.
-     */
-    public void setBudget(Integer budget) 
-    { this.budget = budget; }
-
+    
     /**
      * @return the beginDate.
      */
@@ -240,11 +198,65 @@ public class RequestDTO implements Serializable
     { return beginDate; }
 
     /**
-     * @param beginDate the beginDate to set.
+     * @return the description
      */
-    public void setBeginDate(Date beginDate) 
-    { this.beginDate = beginDate; }
+    public String getDescription() 
+    { return description; }
+    
+    /**
+     * @param name the name to set.
+     */
+    public void setName(String name) 
+    { this.name = name; }
+    
+    /**
+     * @param dueDate the dueDate to set.
+     */
+    public void setDueDate(Date dueDate) 
+    { this.dueDate = dueDate; }
+    
+    /**
+     * @return the endDate.
+     */
+    public Date getEndDate() 
+    { return endDate; }
 
+    /**
+     * @param description the description to set.
+     */
+    public void setDescription(String description) 
+    { this.description = description; }
+    
+    /**
+     * @param unit the unit to set.
+     */
+    public void setUnit(String unit) 
+    { this.unit = unit; }
+
+    /**
+     * @return the unit.
+     */
+    public String getUnit() 
+    { return unit; }
+    
+    /**
+     * @param status the status to set.
+     */
+    public void setStatus(Status status) 
+    { this.status = status; }
+
+    /**
+     * @return the webCategory.
+     */
+    public WebCategory getWebCategory() 
+    { return webCategory; }
+
+    /**
+     * @return the budget.
+     */
+    public Integer getBudget() 
+    { return budget; }
+    
     /**
      * @return the dueDate.
      */
@@ -252,17 +264,29 @@ public class RequestDTO implements Serializable
     { return dueDate; }
 
     /**
-     * @param dueDate the dueDate to set.
+     * @param budget the budget to set.
      */
-    public void setDueDate(Date dueDate) 
-    { this.dueDate = dueDate; }
+    public void setBudget(Integer budget) 
+    { this.budget = budget; }
+    
+    /**
+     * @param requestType the requestType to set.
+     */
+    public void setRequestType(RequestType requestType) 
+    { this.requestType = requestType; }
 
     /**
-     * @return the endDate.
+     * @return the requester.
      */
-    public Date getEndDate() 
-    { return endDate; }
+    public RequesterDTO getRequester() 
+    { return requester; }
 
+    /**
+     * @param beginDate the beginDate to set.
+     */
+    public void setBeginDate(Date beginDate) 
+    { this.beginDate = beginDate; }
+    
     /**
      * @param endDate the endDate to set.
      */
@@ -274,6 +298,18 @@ public class RequestDTO implements Serializable
      */
     public Long getId() 
     { return id; }
+    
+    /**
+     * @param webCategory the webCategory to set.
+     */
+    public void setWebCategory(WebCategory webCategory) 
+    { this.webCategory = webCategory; }
+
+    /**
+     * @return the requestType.
+     */
+    public RequestType getRequestType() 
+    { return requestType; }
 
     /**
      * @param id the id to set.
@@ -288,48 +324,6 @@ public class RequestDTO implements Serializable
     { return status; }
 
     /**
-     * @param status the status to set.
-     */
-    public void setStatus(Status status) 
-    { this.status = status; }
-
-    /**
-     * @return the webCategory.
-     */
-    public WebCategory getWebCategory() 
-    { return webCategory; }
-
-    /**
-     * @param webCategory the webCategory to set.
-     */
-    public void setWebCategory(WebCategory webCategory) 
-    { this.webCategory = webCategory; }
-
-    /**
-     * @return the requestType.
-     */
-    public RequestType getRequestType() 
-    { return requestType; }
-
-    /**
-     * @param requestType the requestType to set.
-     */
-    public void setRequestType(RequestType requestType) 
-    { this.requestType = requestType; }
-
-    /**
-     * @return the requester.
-     */
-    public RequesterDTO getRequester() 
-    { return requester; }
-
-    /**
-     * @param requester the requester to set.
-     */
-    public void setRequester(RequesterDTO requester) 
-    { this.requester = requester; }
-
-    /**
      * @return the project.
      */
     public ProjectDTO getProject() 
@@ -340,4 +334,10 @@ public class RequestDTO implements Serializable
      */
     public void setProject(ProjectDTO project) 
     { this.project = project; }
+
+    /**
+     * @param requester the requester to set.
+     */
+    public void setRequester(RequesterDTO requester) 
+    { this.requester = requester; }
 }

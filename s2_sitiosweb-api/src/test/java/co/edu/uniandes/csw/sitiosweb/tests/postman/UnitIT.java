@@ -6,9 +6,13 @@
 package co.edu.uniandes.csw.sitiosweb.tests.postman;
 
 import co.edu.uniandes.csw.postman.tests.PostmanTestBuilder;
-import co.edu.uniandes.csw.sitiosweb.dtos.DeveloperDTO;
+
+import co.edu.uniandes.csw.sitiosweb.dtos.IterationDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.UnitDTO;
 import co.edu.uniandes.csw.sitiosweb.mappers.BusinessLogicExceptionMapper;
-import co.edu.uniandes.csw.sitiosweb.resources.DeveloperResource;
+
+import co.edu.uniandes.csw.sitiosweb.resources.IterationResource;
+import co.edu.uniandes.csw.sitiosweb.resources.UnitResource;
 import java.io.File;
 import java.io.IOException;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -23,12 +27,12 @@ import org.junit.runner.RunWith;
 
 /**
  *
- * @author s.santosb
+ * @author af.orozcog 201730058
  */
 @RunWith(Arquillian.class)
-public class DeveloperIT {
+public class UnitIT {
     
-    private static final String COLLECTION = "Developer-Tests.postman_collection";
+    private static final String COLLECTION = ".UnitResourceTest.postman_collection";
 
     @Deployment(testable = true)
     public static WebArchive createDeployment() {
@@ -38,8 +42,8 @@ public class DeveloperIT {
                         .importRuntimeDependencies().resolve()
                         .withTransitivity().asFile())
                 // Se agregan los compilados de los paquetes de servicios
-                .addPackage(DeveloperResource.class.getPackage()) //No importa cual recurso usar, lo importante es agregar el paquet
-                .addPackage(DeveloperDTO.class.getPackage()) //No importa cual dto usar, lo importante es agregar el paquete.
+                .addPackage(UnitResource.class.getPackage()) //No importa cual recurso usar, lo importante es agregar el paquet
+                .addPackage(UnitDTO.class.getPackage()) //No importa cual dto usar, lo importante es agregar el paquete.
                 .addPackage(BusinessLogicExceptionMapper.class.getPackage())
                 // El archivo que contiene la configuracion a la base de datos.
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
@@ -53,8 +57,7 @@ public class DeveloperIT {
     @Test
     @RunAsClient
     public void postman() throws IOException {
-        try {
-            PostmanTestBuilder tp = new PostmanTestBuilder();
+        PostmanTestBuilder tp = new PostmanTestBuilder();
         tp.setTestWithoutLogin(COLLECTION, "Entorno-IT.postman_environment");
         String desiredResult = "0";
         Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
@@ -65,8 +68,6 @@ public class DeveloperIT {
 
         Assert.assertEquals("Error en Assertions de: " + COLLECTION, desiredResult, tp.getAssertions_failed());
     }
-     catch (Exception e) {
-    e.printStackTrace();
-}
-    }
+
+    
 }
