@@ -59,6 +59,7 @@ public class ProjectResource {
         projectEntity = logica.createProject(projectEntity);
         return new ProjectDTO (projectEntity);
     }
+    
    /**
      * Busca y devuelve todos los proyectos que existen en la aplicacion.
      *
@@ -152,7 +153,7 @@ public class ProjectResource {
     @Path("{projectsId: \\d+}/developers")
     public Class<ProjectDeveloperResource> getProjectDeveloperResource(@PathParam("projectsId") Long projectsId){
         if(logica.getProject(projectsId) == null){
-            throw new WebApplicationException("El recurso /project/" + projectsId + " no existe", 404);
+            throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
         }
         return ProjectDeveloperResource.class;
     }
