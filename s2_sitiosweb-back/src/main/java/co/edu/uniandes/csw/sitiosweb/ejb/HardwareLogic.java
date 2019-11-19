@@ -10,7 +10,6 @@ import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.logging.Level;
@@ -33,17 +32,16 @@ public class HardwareLogic {
     private ProjectPersistence projectPersistence;
     
     public HardwareEntity createHardware(Long projectId,HardwareEntity iteracion) throws BusinessLogicException {
-        System.out.println(projectId);
         if(iteracion.getIp() == null)
-           throw new BusinessLogicException("la fecha de inicio esta vacia"); 
+           throw new BusinessLogicException("El ip esta vacio"); 
         if(iteracion.getRam() == 0)
-           throw new BusinessLogicException("la fecha de inicio esta vacia"); 
+           throw new BusinessLogicException("La ram es invalidad"); 
         if(iteracion.getCores() == 0)
-            throw new BusinessLogicException("la fecha final esta vacia");
+            throw new BusinessLogicException("Los nucleos son invalidos");
         if(iteracion.getCpu() == null)
-            throw new BusinessLogicException("el objetivo esta vacio");
+            throw new BusinessLogicException("El tipo de cpu es invalido");
         if(iteracion.getPlataforma() == null)
-            throw new BusinessLogicException("la fecha de validación esta vacia");
+            throw new BusinessLogicException("La plataforma de desarrollo es invalida");
         if(noExisteProject(projectId))
             throw new BusinessLogicException("el proyecto al que esta asociado no existe");
         iteracion.setProject(projectPersistence.find(projectId));
@@ -83,7 +81,7 @@ public class HardwareLogic {
      * @return Instancia de AuthorEntity con los datos del Author consultado.
      */
     public HardwareEntity getHardware(Long projectId, Long hardwareId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar la iteracion con id = {0} del proyecto con id = " + projectId, hardwareId);
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar la iteracion con id = {0} del proyecto con id = ", hardwareId);
         return persistence.find(projectId, hardwareId);
     }
     
@@ -97,7 +95,7 @@ public class HardwareLogic {
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public HardwareEntity updateHardware(Long projectId, HardwareEntity hardwareEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar una iteracion con id = {0} en el proyecto "+ projectId, hardwareEntity.getId());
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar una iteracion con id = {0} en el proyecto ", hardwareEntity.getId());
         if(hardwareEntity.getRam() == 0)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(hardwareEntity.getCores() == 0)
@@ -122,13 +120,13 @@ public class HardwareLogic {
      * @throws BusinessLogicException si el autor tiene libros asociados.
      */
     public void deleteHardware(Long projectId, Long hardwareId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el review con id = {0} del libro con id = " + projectId, hardwareId);
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el review con id = {0} del libro con id = " , hardwareId);
         HardwareEntity old = getHardware(projectId, hardwareId);
         if (old == null) {
-            throw new BusinessLogicException("El review con id = " + hardwareId + " no esta asociado a el proyecto con id = " + projectId);
+            throw new BusinessLogicException("El review con id = " + hardwareId + " no esta asociado a el proyecto con id = " );
         }
         persistence.delete(old.getId());
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el review con id = {0} del libro con id = " + projectId, hardwareId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar el review con id = {0} del libro con id = " , hardwareId);
     }
 
 }

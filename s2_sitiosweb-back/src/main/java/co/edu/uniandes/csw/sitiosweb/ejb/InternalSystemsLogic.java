@@ -6,10 +6,8 @@
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
 import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
-import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
-import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.logging.Logger;
@@ -35,7 +33,6 @@ public class InternalSystemsLogic {
     private ProjectPersistence projectPersistence;
     
     public InternalSystemsEntity createInternalSystems(Long projectId,InternalSystemsEntity iteracion) throws BusinessLogicException {
-        System.out.println(projectId);
         if(iteracion.getType() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(noExisteProject(projectId))
@@ -62,9 +59,7 @@ public class InternalSystemsLogic {
      * @return Colección de objetos de InternalSystemsEntity.
      */
     public List<InternalSystemsEntity> getInternalSystems(Long projectId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar los reviews asociados al book con id = {0}", projectId);
         ProjectEntity projectEntity = projectPersistence.find(projectId);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar los reviews asociados al book con id = {0}", projectId);
         return projectEntity.getInternalSystems();
     }
     
@@ -75,7 +70,6 @@ public class InternalSystemsLogic {
      * @return Instancia de AuthorEntity con los datos del Author consultado.
      */
     public InternalSystemsEntity getInternalSystems(Long projectId, Long iterationId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar la iteracion con id = {0} del proyecto con id = " + projectId, iterationId);
         return persistence.find(projectId, iterationId);
     }
     
@@ -83,13 +77,11 @@ public class InternalSystemsLogic {
      * Actualiza la información de una instancia de Author.
      *
      * @param projectId id del proyecto al que pertenece
-     * @param iterationId id de la iteración
      * @param iterationEntity Instancia de InternalSystemsEntity con los nuevos datos.
      * @return Instancia de AuthorEntity con los datos actualizados.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public InternalSystemsEntity updateInternalSystems(Long projectId, InternalSystemsEntity iterationEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar una iteracion con id = {0} en el proyecto "+ projectId, iterationEntity.getId());
          if(iterationEntity.getType() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(noExisteProject(projectId))
@@ -97,7 +89,6 @@ public class InternalSystemsLogic {
         ProjectEntity projectEntity = projectPersistence.find(projectId);
         iterationEntity.setProject(projectEntity);
         InternalSystemsEntity newInternalSystemsEntity = persistence.update(iterationEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualzar una iteración con id = {0}", iterationEntity.getId());
         return newInternalSystemsEntity;
     }
    
@@ -108,13 +99,11 @@ public class InternalSystemsLogic {
      * @throws BusinessLogicException si el autor tiene libros asociados.
      */
     public void deleteInternalSystems(Long projectId, Long iterationId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
         InternalSystemsEntity old = getInternalSystems(projectId, iterationId);
         if (old == null) {
             throw new BusinessLogicException("El review con id = " + iterationId + " no esta asociado a el proyecto con id = " + projectId);
         }
         persistence.delete(old.getId());
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
     }
     
     
