@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Arquillian.class)
 public class DeveloperIT {
-    
+
     private static final String COLLECTION = "Developer-Tests.postman_collection";
 
     @Deployment(testable = true)
@@ -59,14 +59,17 @@ public class DeveloperIT {
         String desiredResult = "0";
         Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
 
-        Assert.assertEquals("Error en Requests de: " + COLLECTION, desiredResult, tp.getRequests_failed());
+            Assert.assertEquals("Error en Requests de: " + COLLECTION, desiredResult, tp.getRequests_failed());
 
-        Assert.assertEquals("Error en Test-Scripts de: " + COLLECTION, desiredResult, tp.getTest_scripts_failed());
+            Assert.assertEquals("Error en Test-Scripts de: " + COLLECTION, desiredResult, tp.getTest_scripts_failed());
 
-        Assert.assertEquals("Error en Assertions de: " + COLLECTION, desiredResult, tp.getAssertions_failed());
+            Assert.assertEquals("Error en Assertions de: " + COLLECTION, desiredResult, tp.getAssertions_failed());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-     catch (Exception e) {
-    e.printStackTrace();
+
+    
 }
     }
 }
