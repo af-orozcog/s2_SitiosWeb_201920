@@ -54,9 +54,10 @@ public class HardwareIT {
     @Test
     @RunAsClient
     public void postman() throws IOException {
-        try {
             PostmanTestBuilder tp = new PostmanTestBuilder();
-            tp.setTestWithoutLogin(COLLECTION, "Entorno IT.postman_environment");
+            
+            try{
+            tp.setTestWithoutLogin(COLLECTION, "Entorno-IT.postman_environment");
             String desiredResult = "0";
             Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
 

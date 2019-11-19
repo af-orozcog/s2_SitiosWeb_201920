@@ -215,4 +215,12 @@ public class ProjectResource {
         return HardwareResource.class;
     }
     
+    @Path("{projectsId: \\d+}/internalSystems")
+    public Class<InternalSystemsResource> getInternalSystemsResource(@PathParam("projectsId") Long projectsId) {
+        if (logica.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /book/" + projectsId + "/reviews no existe.", 404);
+        }
+        return InternalSystemsResource.class;
+    }
+    
 }

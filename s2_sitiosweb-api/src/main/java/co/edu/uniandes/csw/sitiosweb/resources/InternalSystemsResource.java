@@ -40,7 +40,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @Produces("application/json")
 @Consumes("application/json")
-@RequestScoped
 public class InternalSystemsResource {
     
     private static final Logger LOGGER = Logger.getLogger(InternalSystemsResource.class.getName());
