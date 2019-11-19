@@ -55,9 +55,9 @@ public class DeveloperIT {
     public void postman() throws IOException {
         try {
             PostmanTestBuilder tp = new PostmanTestBuilder();
-        tp.setTestWithoutLogin(COLLECTION, "Entorno-IT.postman_environment");
-        String desiredResult = "0";
-        Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
+            tp.setTestWithoutLogin(COLLECTION, "Entorno-IT.postman_environment");
+            String desiredResult = "0";
+            Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
 
             Assert.assertEquals("Error en Requests de: " + COLLECTION, desiredResult, tp.getRequests_failed());
 
@@ -69,7 +69,4 @@ public class DeveloperIT {
         }
     }
 
-    
-}
-    }
 }
