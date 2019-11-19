@@ -1,0 +1,638 @@
+{
+	"info": {
+		"_postman_id": "6e3376b9-5ab9-4a95-8318-336eccd10e7f",
+		"name": "ProjectResourceTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72b175f7-c045-4695-a6d9-d014f1957268",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_proyNuevo\",data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "\r\nCrea un nuevo proyecto. El recurso tiene sus atributos simples inicializados, lsa listas en este caso y otras relaciones con clases son nulas para facilitar las pruebas. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project con Developers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "37f59e2a-47db-4490-a828-6a8015fd84b4",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_projectDev\",data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null,\n\t\"developers\": \n\t\t[\n\t\t\t{\"email\": \"lalala@gmail.com\",\n\t\"login\": \"lala\",\n\t\"phone\": \"1112225487\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []},\n\t\t\t{\"email\": \"lelele@gmail.com\",\n\t\"login\": \"lelel\",\n\t\"phone\": \"1112225447\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []}\n\t\t]\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "\r\nCrea un nuevo proyecto. El recurso tiene sus atributos simples inicializados, las otras relaciones con clases son nulas para facilitar las pruebas excepto por la lista de Developers, que tiene dos Developers incluidos para hacer pruebas más adelante. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project sin Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "054ab895-fc78-46f3-ae64-8a0a2869e4ed",
+						"exec": [
+							"tests[\"No crea con ISBN invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no tiene compañia asociada\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : null,\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "\r\nCrea un nuevo proyecto. El recurso tiene sus atributos simples inicializados excepto que Company es null para probar regla de negocio, las listas en este caso y otras relaciones con clases son nulas para facilitar las pruebas. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\n\r\n**Código http esperado: 412**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project sin InternalProject",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fe9ae62-db7f-4931-ab9e-06e053a8a5ee",
+						"exec": [
+							"tests[\"No crea con ISBN invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no dice si es interno o no\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : \"Apple\" ,\n\t\"internalProject\" : null,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "\r\nCrea un nuevo proyecto. El recurso tiene sus atributos simples inicializados excepto que internalProject es null para probar regla de negocio, las listas en este caso y otras relaciones con clases son nulas para facilitar las pruebas. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\n\r\n**Código http esperado: 412**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los proyectos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61738bab-d19b-4aff-800c-d308b72b2a8c",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"projects count\"] = data.length >= 0;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "Obtiene todos los proyectos en la base de datos, mostrando sus json correspondientes. Debería mostrar dos proyectos.\n**Código esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener project existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f70d54b1-b542-48b9-8f70-c82053816a97",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_proyNuevo}}"
+					]
+				},
+				"description": "Obtiene un proyecto en la base de datos según su id, mostrando su json correspondiente. Debería mostrar el proyecto creado sin developers.\n**Código esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener project inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ced3e943-cfff-408e-a886-ef1eb7360460",
+						"exec": [
+							"tests[\"No consulta con id que no existe\"] = responseCode.code === 404; ",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0"
+					]
+				},
+				"description": "Trata de obtener un proyecto que no existe en la base de datos. Se espera que falle.\n**Código esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar project inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3da25185-7658-41e0-b932-caa9f2f4858b",
+						"exec": [
+							"tests[\"No actualiza con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : false,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0"
+					]
+				},
+				"description": "Trata de actualizar un proyecto que no existe en la base de datos. Falla al no encontrar el proyecto de id 0.\n**Código esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Project con Company Invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cb4b49f7-6b08-45e9-97f3-5e8884a387a5",
+						"exec": [
+							"tests[\"No crea con companía invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no tiene compañia asociada\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : null,\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_proyNuevo}}"
+					]
+				},
+				"description": "Trata de actualizar un proyecto que existe en la base de datos pero que tiene Company inválido según las reglas de negocio. Se espera que falle.\n**Código esperado: 412**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Project con InternalProject invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a16ae742-7122-4834-9bcf-5f0d3f773fcb",
+						"exec": [
+							"tests[\"No crea con internalProject invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proyecto no dice si es interno o no\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : null,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_proyNuevo}}"
+					]
+				},
+				"description": "Trata de actualizar un proyecto que existe en la base de datos pero que tiene InternalProject inválido según las reglas de negocio. Se espera que falle.\n**Código esperado: 412**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d728c5d-e11b-4237-afe2-aaae221650ce",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : false,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_proyNuevo}}"
+					]
+				},
+				"description": "Actualiza un proyecto que existe en la base de datos con atributo válidos según las reglas dde negocio. Se espera que funcione al encontrar el proyecto y actualizarlo.\nEl proyecto se encuentra por su id, que fue creado de primero.\n**Código esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "78bc0bcf-90c9-4de5-ac39-163ce70faa77",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_proyNuevo}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_proyNuevo}}"
+					]
+				},
+				"description": "Borra el primer proyecto creado en las pruebas, al encontrarlo por su id en la base de datos. Debería funcionar.\n**Código esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "183371eb-e013-4ba3-9fc7-78bb77ebbec1",
+						"exec": [
+							"tests[\"No borra con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0"
+					]
+				},
+				"description": "Trata de borrar un proyecto que no existe en la base de datos porque su id no está. Debería fallar por esto.\n\n**Código esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project con developers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6475ff37-e064-4372-a0bf-1cef34a913ad",
+						"exec": [
+							"tests[\"Genera error en el Delete porque hay developers asociados\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectDev}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectDev}}"
+					]
+				},
+				"description": "Borra el segundo proyecto creado en las pruebas, que tiene una lista de Developers. Este debería fallar porque el proyecto no debe estar asociado a Developers para poder borrarse. El proyecto con Developers se encuentra por su id en la base de datos, que fue guardado al inicio. Debería fallar y mandar excepción.\n**Código esperado: 204**"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

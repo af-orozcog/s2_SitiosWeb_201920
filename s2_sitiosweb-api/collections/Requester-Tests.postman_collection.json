@@ -1,0 +1,683 @@
+{
+	"info": {
+		"_postman_id": "e9ac0a45-abf5-4a8e-b301-5d597f0824d7",
+		"name": "Requester-Tests",
+		"description": "Colección de pruebas sobre el recurso Requester",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear una unidad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75724e0d-ab07-4116-a3a6-0c87e88dd1da",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_u\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"UnitP\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s2_sitiosweb-api/api/units",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"units"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un solicitante con teléfono invalido 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d80427e6-5008-41d2-88de-479a8d9c5f51",
+						"exec": [
+							"tests[\"No crea con teléfono invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320745567\",\n  \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters"
+					]
+				},
+				"description": "Crea un nuevo solicitante pero con un teléfono inválido. Verifica que se genera el error y el mensaje \"El teléfono es inválido\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un solicitante con teléfono invalido 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d80427e6-5008-41d2-88de-479a8d9c5f51",
+						"exec": [
+							"tests[\"No crea con teléfono invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"32074556a7\",\n  \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters"
+					]
+				},
+				"description": "Crea un nuevo solicitante pero con un teléfono inválido. Verifica que se genera el error y el mensaje \"El teléfono es inválido\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un solicitante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe340c59-ae35-451a-b2b1-6f5f7748b9f1",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_r\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters"
+					]
+				},
+				"description": "Añade un usuario tipo solicitante a la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un solicitante 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9af4206b-b7f4-47f9-b950-9ff7be61be67",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_r2\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Nombre2\",\n \"login\":\"Solicitante2\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters"
+					]
+				},
+				"description": "Crea otro solicitante. El login del recurso debe ser único y el phone debe ser de 10 dígitos y ser números. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un solicitante con unidad que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe340c59-ae35-451a-b2b1-6f5f7748b9f1",
+						"exec": [
+							"tests[\"No crea con unidad que no existe\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"La unidad es inválida\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":0 }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters"
+					]
+				},
+				"description": "Crea un nuevo solicitante pero con una unidad que no existe. Verifica que se genera el error y el mensaje \"La unidad es inválida\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los solicitantes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad309e51-c9e6-4900-a0ff-f4574a40b3df",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"developers count\"] = data.length >= 0;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters"
+					]
+				},
+				"description": "Consulta todos los solicitantes de la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nPara la prueba, se verifica que el conjunto de libros en la respuesta tenga mas de uno."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un solicitante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b671f4fd-2e8e-4662-a534-d450acfc06d0",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Consulta un solicitante de la aplicación.  \r\nLa petición no tiene cuerpo.\r\nSe envía el id del solicitante deseado por la URL de la petición."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un solicitante que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "febd508c-10d5-415e-b52b-846b9e059291",
+						"exec": [
+							"tests[\"No consulta con id que no existe\"] = responseCode.code === 404; ",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /requesters/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"0"
+					]
+				},
+				"description": "Consulta un solicitante que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /requesters/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un solicitante que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1fe4e1cc-8b1e-48a6-b194-f17a6a2fc158",
+						"exec": [
+							"tests[\"No actualiza con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /requesters/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"0"
+					]
+				},
+				"description": "Actualiza un solicitante que no existe. \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /requesters/0 no existe.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un solicitante con teléfono invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2faffc82-5165-472c-8ea8-5e9bfc03100c",
+						"exec": [
+							"tests[\"No crea con teléfono inválido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320674556a7\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Actualiza un solicitante con teléfono invalido. \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El teléfono es inválido.\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un solicitante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1077a573-437a-4a11-9b9a-87cb45264001",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\":\"Editado1\",\n \"login\":\"SolicitanteN1\",\n \"email\":\"cambio@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Actualiza un solicitante existente. \r\nse envía el Id en la URL de la petición."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un solicitante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ec74fba-bc15-4973-99bd-0c1a86a28a2e",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Borra un solicitante. Se envía el id del solicitante creado anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un solicitante 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ec74fba-bc15-4973-99bd-0c1a86a28a2e",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"{{new_id_r2}}"
+					]
+				},
+				"description": "Borra un solicitante. Se envía el id del solicitante creado anteriormente."
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un solicitante que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0c07240-fe4b-447c-9e39-ab2524df2ace",
+						"exec": [
+							"tests[\"No borra con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /requesters/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requesters",
+						"0"
+					]
+				},
+				"description": "Borra un solicitante que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /requesters/0 no existe.\"."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8314521c-3861-4d61-a9f9-ce248893f8d7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8771ac89-0c9b-4d2a-892f-4c86e368f4af",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

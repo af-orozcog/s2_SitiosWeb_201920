@@ -1,15 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Developer Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
-import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
-import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
+import co.edu.uniandes.csw.sitiosweb.persistence.DeveloperPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,8 +17,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 /**
+ * Clase que implementa la conexion con la persistencia para la relación entre
+ * la entidad de Developer y Project.
  *
- * @author Nicolás Abondano nf.abondano 201812467
+ * @developer ISIS2603
  */
 @Stateless
 public class DeveloperProjectLogic {
@@ -32,96 +34,91 @@ public class DeveloperProjectLogic {
     private DeveloperPersistence developerPersistence;
 
     /**
-     * Asocia un Developer existente a un Project
+     * Asocia un Project existente a un Developer
      *
-     * @param projectId Identificador de la instancia de Project
-     * @param developerId Identificador de la instancia de Developer
-     * @return Instancia de DeveloperEntity que fue asociada a Project
+     * @param developersId Identificador de la instancia de Developer
+     * @param projectsId Identificador de la instancia de Project
+     * @return Instancia de ProjectEntity que fue asociada a Developer
      */
-    public DeveloperEntity addDeveloper(Long projectId, Long developerId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de asociarle un desarrollador al proyecto con id = {0}", projectId);
-        DeveloperEntity developerEntity = developerPersistence.find(developerId);
-        ProjectEntity projectEntity = projectPersistence.find(projectId);
+    public ProjectEntity addProject(Long developersId, Long projectsId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de asociarle un proyecto al desarrollador con id = {0}", developersId);
+        DeveloperEntity developerEntity = developerPersistence.find(developersId);
+        ProjectEntity projectEntity = projectPersistence.find(projectsId);
         projectEntity.getDevelopers().add(developerEntity);
-        developerEntity.getProjects().add(projectEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de asociarle un desarrollador al proyecto con id = {0}", projectId);
-        return developerPersistence.find(developerId);
+        LOGGER.log(Level.INFO, "Termina proceso de asociarle un proyecto al desarrollador con id = {0}", developersId);
+        return projectPersistence.find(projectsId);
     }
 
     /**
-     * Asocia un Developer lider existente a un Project recién creado
+     * Obtiene una colección de instancias de ProjectEntity asociadas a una
+     * instancia de Developer
      *
-     * @param projectId Identificador de la instancia de Project
-     * @param developerId Identificador de la instancia de Developer
-     * @return Instancia de DeveloperEntity que fue asociada a Project
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     * @param developersId Identificador de la instancia de Developer
+     * @return Colección de instancias de ProjectEntity asociadas a la instancia de
+     * Developer
      */
-    public DeveloperEntity addLeader(Long projectId, Long developerId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de asociarle un desarrollador lider al proyecto con id = {0}", projectId);
-        DeveloperEntity developerEntity = developerPersistence.find(developerId);
-        ProjectEntity projectEntity = projectPersistence.find(projectId);
-        if (!developerEntity.getType().equals(DeveloperEntity.DeveloperType.Leader)) {
-            throw new BusinessLogicException("No se puede asociar el desarrollador con id = " + developerId + " porque no es un lider");
+    public List<ProjectEntity> getProjects(Long developersId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los proyectos del desarrollador con id = {0}", developersId);
+        return developerPersistence.find(developersId).getProjects();
+    }
+
+    /**
+     * Obtiene una instancia de ProjectEntity asociada a una instancia de Developer
+     *
+     * @param developersId Identificador de la instancia de Developer
+     * @param projectsId Identificador de la instancia de Project
+     * @return La entidadd de Proyecto del desarrollador
+     * @throws BusinessLogicException Si el proyecto no está asociado al desarrollador
+     */
+    public ProjectEntity getProject(Long developersId, Long projectsId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
+        List<ProjectEntity> projects = developerPersistence.find(developersId).getProjects();
+        ProjectEntity projectEntity = projectPersistence.find(projectsId);
+        int index = projects.indexOf(projectEntity);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
+        if (index >= 0) {
+            return projects.get(index);
         }
-
-        projectEntity.setLeader(developerEntity);
-        developerEntity.getLeadingProjects().add(projectEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de asociarle un desarrollador lider al proyecto con id = {0}", projectId);
-        return developerPersistence.find(developerId);
+        throw new BusinessLogicException("El proyecto no está asociado al desarrollador)");
     }
 
     /**
-     * Obtiene una colección de instancias de DeveloperEntity asociadas a una
-     * instancia de Project
+     * Remplaza las instancias de Project asociadas a una instancia de Developer
      *
-     * @param projectId Identificador de la instancia de Book
-     * @return Colección de instancias de AuthorEntity asociadas a la instancia
-     * de Book
-     */
-    public List<DeveloperEntity> getDevelopers(Long projectId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los desarrolladores del proyecto con id = {0}", projectId);
-        return projectPersistence.find(projectId).getDevelopers();
-    }
-
-    /**
-     * Remplazar el lider de un project.
-     *
-     * @param projectId Identificador de la instancia de Project
      * @param developerId Identificador de la instancia de Developer
-     * @return Instancia de DeveloperEntity que fue asociada a Project
-     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     * @param projects Colección de instancias de ProjectEntity a asociar a instancia
+     * de Developer
+     * @return Nueva colección de ProjectEntity asociada a la instancia de Developer
      */
-    public DeveloperEntity replaceLeader(Long projectId, Long developerId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar proyecto con id = {0}", projectId);
-        ProjectEntity projectEntity = projectPersistence.find(projectId);
+    public List<ProjectEntity> replaceProjects(Long developerId, List<ProjectEntity> projects) {
+        LOGGER.log(Level.INFO, "Inicia proceso de reemplazar los proyectos asocidos al developer con id = {0}", developerId);
         DeveloperEntity developerEntity = developerPersistence.find(developerId);
-        DeveloperEntity oldLeaderEntity = developerPersistence.find(projectEntity.getLeader().getId());
-
-        if (!developerEntity.getType().equals(DeveloperEntity.DeveloperType.Leader)) {
-            throw new BusinessLogicException("No se puede asociar el desarrollador con id = " + developerId + " porque no es un lider");
+        List<ProjectEntity> projectList = projectPersistence.findAll();
+        for (ProjectEntity project : projectList) {
+            if (projects.contains(project)) {
+                if (!project.getDevelopers().contains(developerEntity)) {
+                    project.getDevelopers().add(developerEntity);
+                }
+            } else {
+                project.getDevelopers().remove(developerEntity);
+            }
         }
-        projectEntity.setLeader(developerEntity);
-        developerEntity.getLeadingProjects().add(projectEntity);
-        oldLeaderEntity.getLeadingProjects().remove(projectEntity);
-
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar proyecto con id = {0}", developerEntity.getId());
-        return developerEntity;
+        developerEntity.setProjects(projects);
+        LOGGER.log(Level.INFO, "Termina proceso de reemplazar los proyectos asocidos al developer con id = {0}", developerId);
+        return developerEntity.getProjects();
     }
 
     /**
-     * Borrar un Developer de un proyecto.
+     * Desasocia un Project existente de un Developer existente
      *
-     * @param developerId El desarrollador que se desea borrar del proyecto.
-     * @param projectId
+     * @param developersId Identificador de la instancia de Developer
+     * @param projectsId Identificador de la instancia de Project
      */
-    public void removeDeveloper(Long developerId, Long projectId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el desarrollador del proyecto con id = {0}", projectId);
-        DeveloperEntity developerEntity = developerPersistence.find(developerId);
-        ProjectEntity projectEntity = projectPersistence.find(projectId);
-
-        developerEntity.getProjects().remove(projectEntity);
+    public void removeProject(Long developersId, Long projectsId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar un proyecto del developer con id = {0}", developersId);
+        DeveloperEntity developerEntity = developerPersistence.find(developersId);
+        ProjectEntity projectEntity = projectPersistence.find(projectsId);
         projectEntity.getDevelopers().remove(developerEntity);
-
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el desarrollador del proyecto con id = {0}", projectId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar un proyecto del developer con id = {0}", developersId);
     }
 }

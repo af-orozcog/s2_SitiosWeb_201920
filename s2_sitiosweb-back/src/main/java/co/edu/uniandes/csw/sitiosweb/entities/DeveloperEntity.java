@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
@@ -10,7 +5,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -22,9 +16,6 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class DeveloperEntity extends UserEntity implements Serializable {
 
-    public enum DeveloperType {
-        Leader, Developer
-    }
     
     @PodamExclude
     @ManyToMany(mappedBy = "developers")
@@ -34,8 +25,7 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     @OneToMany(mappedBy = "leader")
     private List<ProjectEntity> leadingProjects;
     
-    @Enumerated(EnumType.ORDINAL)
-    private DeveloperType type;
+    private boolean leader;
 
     /**
      * @return the projects
@@ -52,17 +42,17 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     }
 
     /**
-     * @return the type
+     * @return if is leader
      */
-    public DeveloperType getType() {
-        return type;
+    public boolean getLeader() {
+        return leader;
     }
 
     /**
-     * @param type the type to set
+     * @param leader if is leader
      */
-    public void setType(DeveloperType type) {
-        this.type = type;
+    public void setLeader(boolean leader) {
+        this.leader = leader;
     }
     /**
      * @return the leadingProjects

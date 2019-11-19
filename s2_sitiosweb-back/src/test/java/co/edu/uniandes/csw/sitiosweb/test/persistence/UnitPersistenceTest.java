@@ -26,7 +26,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
- * @author Daniel del Castillo
+ * @author Daniel del Castillo A.
  */
 @RunWith(Arquillian.class)
 public class UnitPersistenceTest 
@@ -130,6 +130,24 @@ public class UnitPersistenceTest
         
         UnitEntity entity = em.find(UnitEntity.class, result.getId());
         Assert.assertEquals(request.getName(), entity.getName());
+    }
+    
+    /**
+     * Tests that the persisted unit doesn't change name after persisted.
+     */
+    @Test
+    public void createTestInvalidNameTest()
+    {
+        // Falta crear request
+        PodamFactory factory = new PodamFactoryImpl();
+        UnitEntity request = factory.manufacturePojo(UnitEntity.class);
+        UnitEntity result = up.create(request);
+        Assert.assertNotNull(result);
+        String name = result.getName();
+        // Attribute Name is modified:
+        request.setName("Different name");
+        UnitEntity entity = em.find(UnitEntity.class, result.getId());
+        Assert.assertEquals(name, entity.getName());
     }
     
     /**

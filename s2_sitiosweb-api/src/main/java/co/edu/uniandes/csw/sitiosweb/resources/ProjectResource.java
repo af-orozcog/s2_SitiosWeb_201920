@@ -36,10 +36,23 @@ import javax.ws.rs.WebApplicationException;
 @RequestScoped
 public class ProjectResource {
     
+    /**
+     * Atributo para tener conexion con logica.
+     */
     @Inject 
     private ProjectLogic logica;
+    
+    /**
+     * Logger de la clase
+     */
     private static final Logger LOGGER = Logger.getLogger(ProjectResource.class.getName());
     
+    /**
+     * Metodo para crear un objeto ProjectEntity
+     * @param project Objeto de ProjectDTO a crear
+     * @return ProjectDTO nuevo en la app
+     * @throws BusinessLogicException si se incumple algua regla de negocio
+     */
     @POST
     public ProjectDTO createProject(ProjectDTO project) throws BusinessLogicException{
         ProjectEntity projectEntity = project.toEntity();
@@ -55,9 +68,9 @@ public class ProjectResource {
     @GET
     public List<ProjectDetailDTO> getProjects() {
         LOGGER.info("ProjectResource getProjects: input: void");
-        List<ProjectDetailDTO> listaEditoriales = listEntity2DetailDTO(logica.getProjects());
-        LOGGER.log(Level.INFO, "EditorialResource getEditorials: output: {0}", listaEditoriales);
-        return listaEditoriales;
+        List<ProjectDetailDTO> listaProyectos = listEntity2DetailDTO(logica.getProjects());
+        LOGGER.log(Level.INFO, "ProjectResource getProjects: output: {0}", listaProyectos);
+        return listaProyectos;
     }
 
     /**
@@ -65,7 +78,7 @@ public class ProjectResource {
      *
      * @param projectId Identificador del proyecto que se esta buscando.
      * Este debe ser una cadena de dígitos.
-     * @return JSON {@link ProjectDetailDTO} - La editorial buscada
+     * @return JSON {@link ProjectDetailDTO} - El proyecto buscado
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el proyecto.
      */
@@ -91,13 +104,14 @@ public class ProjectResource {
      * @param project {@link ProjectDetailDTO} El proyecto que se desea
      * guardar.
      * @return JSON {@link ProjectDetailDTO} - El proyecto guardada.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el proyecto a
      * actualizar.
      */
     @PUT
     @Path("{projectsId: \\d+}")
-    public ProjectDetailDTO updateProject(@PathParam("projectsId") Long projectId, ProjectDetailDTO project) throws WebApplicationException {
+    public ProjectDetailDTO updateProject(@PathParam("projectsId") Long projectId, ProjectDetailDTO project) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProjectResource updateProject: input: id:{0} , project: {1}", new Object[]{projectId, project});
         project.setId(projectId);
         if (logica.getProject(projectId) == null) {
@@ -130,7 +144,19 @@ public class ProjectResource {
         LOGGER.info("ProjectResource deleteProject: output: void");
     }
 
-
+    /**
+     * Method to return a project's developers by the project's id.
+     * @param projectsId - the project's id
+     * @return a ProjectDeveloperResource class.
+     */
+    @Path("{projectsId: \\d+}/developers")
+    public Class<ProjectDeveloperResource> getProjectDeveloperResource(@PathParam("projectsId") Long projectsId){
+        if(logica.getProject(projectsId) == null){
+            throw new WebApplicationException("El recurso /project/" + projectsId + " no existe", 404);
+        }
+        return ProjectDeveloperResource.class;
+    }
+    
     /**
      * Convierte una lista de entidades a DTO.
      *
@@ -148,4 +174,44 @@ public class ProjectResource {
         }
         return list;
     }
+    
+    
+    /**
+     * Conexión con el servicio de Iteraciones de un projecto. 
+     *
+     * Este método conecta la ruta de /project con las rutas de /iterations que
+     * dependen del proyecto, es una redirección al servicio que maneja el segmento
+     * de la URL que se encarga de las reseñas.
+     *
+     * @param projectsId El ID del proyecto con respecto al cual se accede a la iteración
+     * @return El servicio de iteracions para ese projecto en paricular.\
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     */
+    @Path("{projectsId: \\d+}/iterations")
+    public Class<IterationResource> getIterationResource(@PathParam("projectsId") Long projectsId) {
+        if (logica.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/iterations no existe.", 404);
+        }
+        return IterationResource.class;
+    }
+    
+    /**
+     * Conexión con el servicio de hardware de un projecto. 
+     *
+     * Este método conecta la ruta de /project con las rutas de /hardwares que
+     * dependen del proyecto, es una redirección al servicio que maneja el segmento
+     * de la URL que se encarga de las reseñas.
+     *
+     * @param projectsId El ID del proyecto con el se accede 
+     * @return El servicio de iteracions para ese projecto en paricular.\
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     */
+    @Path("{projectsId: \\d+}/hardwares")
+    public Class<HardwareResource> getHardwareResource(@PathParam("projectsId") Long projectsId) {
+        if (logica.getProject(projectsId) == null) {
+            throw new WebApplicationException("El recurso /book/" + projectsId + "/reviews no existe.", 404);
+        }
+        return HardwareResource.class;
+    }
+    
 }

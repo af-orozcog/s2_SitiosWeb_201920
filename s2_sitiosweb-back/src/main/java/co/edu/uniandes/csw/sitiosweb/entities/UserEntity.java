@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  *
@@ -16,10 +10,44 @@ import javax.persistence.Id;
 @Entity
 public class UserEntity extends BaseEntity implements Serializable {
 
+    /**
+     * Name del usuario
+     */
+    private String name;
+
+    /**
+     * Login del usuario
+     */
     private String login;
+
+    /**
+     * Email del usuario
+     */
     private String email;
 
+    /**
+     * Phone del usuario
+     */
     private String phone;
+
+    /**
+     * Imagen del usuario
+     */
+    private String image;
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * @return the login
@@ -61,6 +89,20 @@ public class UserEntity extends BaseEntity implements Serializable {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    /**
+     * @return the image
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(String image) {
+        this.image = image;
     }
 
 }

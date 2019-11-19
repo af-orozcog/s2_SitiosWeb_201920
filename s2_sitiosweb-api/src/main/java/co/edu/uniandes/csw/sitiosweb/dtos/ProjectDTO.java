@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
@@ -14,22 +9,86 @@ import java.io.Serializable;
  */
 public class ProjectDTO implements Serializable{
     
+    /**
+     * Atributo boolean que dice si el proyecto es interno o no.
+     */
     private Boolean internalProject;
+    
+    /**
+     * Atributo que dice que compañia tiene a cargo el proyecto.
+     */
     private String company;
+    
+    /**
+     * id del proyecto.
+     */
     private Long id;
     
+    /**
+     * Hardware del proyecto
+     */
+    private HardwareDTO hw;
+    
+    /**
+     * Lider del proyecto.
+     */
+    private DeveloperDTO leader;
+    
+    /**
+     * Proveedor del proyecto.
+     */
+    private ProviderDTO provider;
+    
+    /**
+     * Empty constructor
+     */
     public ProjectDTO (){
         
     }
     
+    /**
+     * Creates a ProjectDTO object given projectEntity object.
+     * @param entity The ProjectEntity object.
+     */
     public ProjectDTO(ProjectEntity entity){
-        setId(entity.getId());
-        setInternalProject(entity.getInternalProject());
-        setCompany(entity.getCompany());
+        if(entity != null){
+
+            if(entity.getLeader() != null){
+                this.leader = new DeveloperDTO(entity.getLeader());
+            }
+            else{
+                this.leader = null;
+            }
+            if(entity.getProvider() != null){
+                this.provider = new ProviderDTO(entity.getProvider());
+            }
+            else{
+                this.provider = null;
+            }
+            this.id = entity.getId();
+            this.internalProject = entity.getInternalProject();
+            this.company = entity.getCompany();
+            
+        }
     }
     
+    // Methods
+    
+    /**
+     * Converts the ProjectDTO to a ProjetEntity object.
+     * @return The ProjectEntity object with the information in this object.
+     */
     public ProjectEntity toEntity(){
         ProjectEntity entidad = new ProjectEntity();
+        if(this.getHw() != null){
+            entidad.setHardware(this.getHw().toEntity());
+        }
+        if(this.getLeader() != null){
+            entidad.setLeader(this.getLeader().toEntity());
+        }
+        if(this.getProvider() != null){
+            entidad.setProvider(this.getProvider().toEntity());
+        }
         entidad.setId(this.getId());
         entidad.setInternalProject(this.internalProject);
         entidad.setCompany(this.company);
@@ -75,6 +134,48 @@ public class ProjectDTO implements Serializable{
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the hw
+     */
+    public HardwareDTO getHw() {
+        return hw;
+    }
+
+    /**
+     * @param hw the hw to set
+     */
+    public void setHw(HardwareDTO hw) {
+        this.hw = hw;
+    }
+
+    /**
+     * @return the leader
+     */
+    public DeveloperDTO getLeader() {
+        return leader;
+    }
+
+    /**
+     * @param leader the leader to set
+     */
+    public void setLeader(DeveloperDTO leader) {
+        this.leader = leader;
+    }
+
+    /**
+     * @return the provider
+     */
+    public ProviderDTO getProvider() {
+        return provider;
+    }
+
+    /**
+     * @param provider the provider to set
+     */
+    public void setProvider(ProviderDTO provider) {
+        this.provider = provider;
     }
     
 }

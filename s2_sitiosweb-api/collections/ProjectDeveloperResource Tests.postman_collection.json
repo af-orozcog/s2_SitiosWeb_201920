@@ -1,0 +1,718 @@
+{
+	"info": {
+		"_postman_id": "3ea873f7-6f49-41c5-a7b0-a74af4c355c0",
+		"name": "ProjectDeveloperResource Tests",
+		"description": "Esta colección prueba la relación entre Project y Developer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un Developer 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "86c912ed-e3b2-4c3b-9a64-d05e6de73ce8",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_dev1\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\t\n\t\"name\": \"nombrex\",\n\t\"email\": \"nicogi@gmail.com\",\n\t\"login\": \"n.giraldo\",\n\t\"phone\": \"1112225487\",\n\t\"leader\" : false,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Crea un primer Developer con sus atributos correspondientes.\n\n**Código esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un Developer 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aba282d7-7a36-4a77-80c3-6e8c6c42e758",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_dev2\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\t\n\t\"name\": \"Armando\",\n\t\"email\": \"armandocasas@gmail.com\",\n\t\"login\": \"armmo.casas\",\n\t\"phone\": \"1112225777\",\n\t\"leader\": true,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Crea un segundo developer con sus atributos simples.\n\n**Código esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72b175f7-c045-4695-a6d9-d014f1957268",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_projectNuevo\",data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : false,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "\r\nCrea un nuevo proyecto. El recurso tiene sus atributos simples inicializados, lsa listas en este caso y otras relaciones con clases son nulas para facilitar las pruebas. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un developer a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15f59022-6e6d-4378-9d94-bec5c1c32d89",
+						"exec": [
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers/{{new_id_dev1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers",
+						"{{new_id_dev1}}"
+					]
+				},
+				"description": "Agrega el primer developer al proyecto creado.\n\n**Codigo esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un developer que no existe a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f1458b8-9974-4ac4-b1ab-074b269c2417",
+						"exec": [
+							"tests[\"No deberia asociar al developer ya que el developer no existe.\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers",
+						"0"
+					]
+				},
+				"description": "Trata de agregar un developer que no existe a un proyeto existente. Debería fallar.\n**Código esperado: 404 **"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un developer de un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "98ed1bc6-a853-4d11-805d-0972c3f49b17",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Get\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers/{{new_id_dev1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers",
+						"{{new_id_dev1}}"
+					]
+				},
+				"description": "Obtiene el developer del project al que se asignó.\nLa petición no tiene cuerpo.\n\nSe envía el Id del developer y del proyecto a consultar en la URL de la petición.\n\n**Código http esperado: 200**\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un developer que no existe de un proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "908bd249-f618-4641-aa1a-de55be6aa3cc",
+						"exec": [
+							"tests[\"No deberia obtener el developer ya que el developer no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers",
+						"0"
+					]
+				},
+				"description": "Trata de obtener un developer asociado al project creado.\nDebería fallar al no existir el developer.\n**Código esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar developers a un proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3536340-ebad-4463-8dab-1f5145cb54fd",
+						"exec": [
+							"tests[\"no genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\"id\": {{new_id_dev1}},\n\t\"name\": \"nombrex\",\n\t\"email\": \"nicogi@gmail.com\",\n\t\"login\": \"n.giraldo\",\n\t\"phone\": \"1112225487\",\n\t\"leader\" : false,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n\t},\n\t{\n\t\"id\": {{new_id_dev2}},\n\t\"name\": \"Armando\",\n\t\"email\": \"armandocasas@gmail.com\",\n\t\"login\": \"armmo.casas\",\n\t\"phone\": \"1112225777\",\n\t\"leader\": true,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n\t}\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers"
+					]
+				},
+				"description": "Asocia nuevos developers al proyecto creado.\nSe envía el Id del proyecto a actualizar en la URL de la petición.\n\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar developers a un proyecto que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c9884543-2ddb-46b3-8c5e-8ee5974ab72b",
+						"exec": [
+							"tests[\"No se deberian asociar los developers ya que el project no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\"id\": {{new_id_dev1}},\n\t\"email\": \"nicogi@gmail.com\",\n\t\"login\": \"n.giraldo\",\n\t\"phone\": \"1112225487\",\n\t\"type\" : \"Developer\"\n\t},\n\t{\n\t\"id\": {{new_id_dev2}},\n\t\"email\": \"armandocasas@gmail.com\",\n\t\"login\": \"armmo.casas\",\n\t\"phone\": \"1112225777\",\n\t\"type\" : \"Developer\"\n\t}\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"developers"
+					]
+				},
+				"description": "Agrega developers a un proyecto de id 0, es decir, no existe en la base de datos.\n\n**Código esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener developers de un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b79e1b63-4fe6-4517-83c6-a69b8442279c",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"no genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"developers count - project\"] = data.length >= 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers"
+					]
+				},
+				"description": "Consulta los developers de un project en la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nSe envía el Id del project en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un developer a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "95f54381-a097-471f-b86c-04a063b7468e",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers/{{new_id_dev1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers",
+						"{{new_id_dev1}}"
+					]
+				},
+				"description": "Borra un developer al proyecto creado en la base de datos.\nNo debería fallar porque el project tiene al developer.\n**Código esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un developer 2 a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "95f54381-a097-471f-b86c-04a063b7468e",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers/{{new_id_dev2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers",
+						"{{new_id_dev2}}"
+					]
+				},
+				"description": "Borra un developer al proyecto creado en la base de datos.\nNo debería fallar porque el project tiene al developer.\n**Código esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un developer que no existe al project.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "550950ae-1fc6-41cb-bfe7-acbf3a9c3546",
+						"exec": [
+							"tests[\"No so deberia eliminar el developer ya que este no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}/developers/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}",
+						"developers",
+						"0"
+					]
+				},
+				"description": "Borra un developer que no existe al project.\nDebería fallar.\n**Código esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un developer a un project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "550950ae-1fc6-41cb-bfe7-acbf3a9c3546",
+						"exec": [
+							"tests[\"No so deberia eliminar el developer ya que el project no existe..\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/developers/{{new_id_dev1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"developers",
+						"{{new_id_dev1}}"
+					]
+				},
+				"description": "Borra un developer que no existe al project.\nDebería fallar.\n**Código esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un developer 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "407ae2a4-7b5b-41ab-87c9-b010cb4a8070",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_dev1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_dev1}}"
+					]
+				},
+				"description": "Borra un developer. Se envía el id del developer creado anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un developer 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "407ae2a4-7b5b-41ab-87c9-b010cb4a8070",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_dev2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers",
+						"{{new_id_dev2}}"
+					]
+				},
+				"description": "Borra un developer. Se envía el id del developer creado anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "407ae2a4-7b5b-41ab-87c9-b010cb4a8070",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_projectNuevo}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_projectNuevo}}"
+					]
+				},
+				"description": "Borra un project. Se envía el id del project creado anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

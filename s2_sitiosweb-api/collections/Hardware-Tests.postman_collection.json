@@ -1,0 +1,688 @@
+{
+	"info": {
+		"_postman_id": "2d26de7f-d99d-46e0-bbd8-70b6866ddcb6",
+		"name": "Hardware Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "403017d2-d847-4771-87dc-66f7626947ee",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_p\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company\": \"Google\",\r\n    \"internalProject\": true,\r\n    \"developers\": [],\r\n    \"internalSystems\": [],\r\n    \"iterations\": [],\r\n    \"requests\": []\r\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "Crea un nuevo project. El recurso tiene todos los atributos asociados a project. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Hardware a un Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96ef8fe5-a67b-4ec0-9fbb-eb6e3d1ff5ad",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_r\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip\": 12356895,\n    \"cores\": 4567,\n    \"ram\": 213,\n    \"cpu\": \"Muchos\",\n    \"plataforma\": \"Jeje\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares"
+					]
+				},
+				"description": "Crea un nuevo hardware a un project. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Hardware 2 a un Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87e0dd48-c8ff-438b-a604-2a7ddb666f62",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_r2\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip\": 666666,\n    \"cores\": 1234,\n    \"ram\": 360,\n    \"cpu\": \"Bastantisimos\",\n    \"plataforma\": \"OnPremise\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Crea un nuevo hardware a un project. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Hardware a Project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf0b2006-3324-4c46-a390-3782596c5d5b",
+						"exec": [
+							"tests[\"No se puede asociar un review a un book que no existe.\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip\": 666666,\n    \"cores\": 1234,\n    \"ram\": 360,\n    \"cpu\": \"Bastantisimos\",\n    \"plataforma\": \"OnPremise\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/hardwares",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"hardwares"
+					]
+				},
+				"description": "Crea un nuevo hardware pero con un project que no existe. Verifica que se genera el error y el mensaje \"El recurso /projects/0/hardwares no existe\".\r\n\r\n**Código HTTP esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un hardware de un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45a10f04-b149-4236-96d3-9ae7b1320fb8",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"no genera error en el Get\"] = responseCode.code === 200;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Consulta los hardwares de un project en la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nSe envía el Id del project a consultar y del hardware en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un hardware 2 de un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0ea06364-2543-43b1-841a-e18730038c20",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"no genera error en el Get All\"] = responseCode.code === 200;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares/{{new_id_r2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares",
+						"{{new_id_r2}}"
+					]
+				},
+				"description": "Consulta los hardwares de un project en la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nSe envía el Id del project a consultar y del hardware en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editarle un hardware a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "63d4263a-8ebe-4948-9d9d-16287d88e18e",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip\": 12356895,\n    \"cores\": 4567,\n    \"ram\": 213,\n    \"cpu\": \"S\",\n    \"plataforma\": \"Jeje\",\n    \"projecto\":\n    {\n    \"company\": \"Google\",\n    \"internalProject\": true,\n    \"developers\": [],\n    \"internalSystems\": [],\n    \"iterations\": [],\n    \"requests\": []\n    }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Actualiza un hardware a un project existente. Se envían los Ids de las entidades asociar en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editarle un hardware 2 a projecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7526dd51-a210-4397-ae16-6fa435f1c23a",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip\": 666666,\n    \"cores\": 1234,\n    \"ram\": 360,\n    \"cpu\": \"Poquiticos\",\n    \"plataforma\": \"OnPremise\",\n    \"projecto\":\n    {\n    \"company\": \"Google\",\n    \"internalProject\": true,\n    \"developers\": [],\n    \"internalSystems\": [],\n    \"iterations\": [],\n    \"requests\": []\n    }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares/{{new_id_r2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares",
+						"{{new_id_r2}}"
+					]
+				},
+				"description": "Actualiza un hardware a un project existente. Se envían los Ids de las entidades asociar en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editarle hardware a project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "24670099-52ec-4c7c-9970-1d24c9463a98",
+						"exec": [
+							"tests[\"No se puede editar un hardware sobre un project que no existe.\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip\": 12356895,\n    \"cores\": 4567,\n    \"ram\": 213,\n    \"cpu\": \"S\",\n    \"plataforma\": \"Jeje\",\n    \"projecto\":\n    {\n    \"company\": \"Google\",\n    \"internalProject\": true,\n    \"developers\": [],\n    \"internalSystems\": [],\n    \"iterations\": [],\n    \"requests\": []\n    }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/hardwares/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"hardwares",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Asocia un hardware a un project que no existe.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /projects/0 no existe.\".\r\n\r\n**Código HTTP esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editarle hardware a hardware que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6f433e22-2286-4d00-a7c6-45c4d458fdde",
+						"exec": [
+							"tests[\"No se puede editar un hardware que no existe.\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip\": 12356895,\n    \"cores\": 4567,\n    \"ram\": 213,\n    \"cpu\": \"S\",\n    \"plataforma\": \"Jeje\",\n    \"projecto\":\n    {\n    \"company\": \"Google\",\n    \"internalProject\": true,\n    \"developers\": [],\n    \"internalSystems\": [],\n    \"iterations\": [],\n    \"requests\": []\n    }\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_b}}/hardwares/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_b}}",
+						"hardwares",
+						"0"
+					]
+				},
+				"description": "Asocia un hardware que no existe a un project.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /projects/id/hardwares/0 no existe.\".\r\n\r\n**Código HTTP esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un hardware que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2554a200-b525-4e80-a0e7-4db69fe6cc60",
+						"exec": [
+							"tests[\"No s epuede borrar un hardware que no existe.\"] = responseCode.code === 404;",
+							"let id = pm.variables.get(\"new_id_p\");",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /projects/\"+id+\"/hardwares/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares",
+						"0"
+					]
+				},
+				"description": "Borra un hardware que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\n**Código http esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un hardware de un project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96ba9349-8718-4f62-af82-8df717022cda",
+						"exec": [
+							"tests[\"No se puede borrar un hardware sobre un project que no existe.\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/hardwares/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"hardwares",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Borra un hardware a un project que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\n**Código http esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un hardware a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "691aaa8b-5d5c-4786-88a0-eef874c03f95",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares/{{new_id_r}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares",
+						"{{new_id_r}}"
+					]
+				},
+				"description": "Borra un hardware asociada a un project. Se envían los ids de la hardware y el project creados anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle a un hardware 2 a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2710e5d5-d367-45b1-90a6-bae07506a4a0",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/hardwares/{{new_id_r2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"hardwares",
+						"{{new_id_r2}}"
+					]
+				},
+				"description": "Borra un hardware asociada a un project. Se envían los ids de la hardware y el project creados anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6c57123e-d375-414c-b185-d794cf84f33b",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Borra un project. Se envían el id  del project creados anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

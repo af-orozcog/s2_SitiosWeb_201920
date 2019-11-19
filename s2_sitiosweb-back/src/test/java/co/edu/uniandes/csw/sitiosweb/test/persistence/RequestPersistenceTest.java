@@ -7,9 +7,14 @@ package co.edu.uniandes.csw.sitiosweb.test.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity.RequestType;
+import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity.Status;
+import co.edu.uniandes.csw.sitiosweb.entities.RequestEntity.WebCategory;
 import co.edu.uniandes.csw.sitiosweb.entities.RequesterEntity;
 import co.edu.uniandes.csw.sitiosweb.persistence.RequestPersistence;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -27,7 +32,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
- * @author Daniel del Castillo
+ * @author Daniel del Castillo A.
  */
 @RunWith(Arquillian.class)
 public class RequestPersistenceTest 
@@ -144,6 +149,202 @@ public class RequestPersistenceTest
     }
     
     /**
+     * Tests that the persisted request doesn't change name after persisted.
+     */
+    @Test
+    public void createRequestInvalidNameTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        String name = result.getName();
+        // Attribute Name is modified:
+        request.setName("Different name");
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(name, entity.getName());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change purpose after persisted.
+     */
+    @Test
+    public void createRequestInvalidPurposeTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        String purpose = result.getPurpose();
+        // Attribute Purpose is modified:
+        request.setPurpose("Different purpose");
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(purpose, entity.getPurpose());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change the description after persisted.
+     */
+    @Test
+    public void createRequestInvalidDescriptionTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        String description = result.getDescription();
+        // Attribute Description is modified:
+        request.setDescription("Different description");
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(description, entity.getDescription());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change unit after persisted.
+     */
+    @Test
+    public void createRequestInvalidUnitTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        String unit = result.getUnit();
+        // Attribute Unit is modified:
+        request.setUnit("Different unit");
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(unit, entity.getUnit());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change budget after persisted.
+     */
+    @Test
+    public void createRequestInvalidBudgetTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        Integer budget = result.getBudget();
+        // Attribute Budget is modified:
+        request.setBudget(request.getBudget()+1);
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(budget, entity.getBudget());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change the starting date after persisted.
+     */
+    @Test
+    public void createRequestInvalidBeginDateTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        Date beginDate = result.getBeginDate();
+        // Attribute BeginDate is modified to be 1 hour in the future:
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(request.getBeginDate());
+        cal.add(Calendar.HOUR_OF_DAY, 1);
+        request.setBeginDate(cal.getTime());
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(beginDate, entity.getBeginDate());
+    }
+
+    /**
+     * Tests that the persisted request doesn't change the due date after persisted.
+     */
+    @Test
+    public void createRequestInvalidDueDateTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        Date dueDate = result.getDueDate();
+        // Attribute DueDate is modified to be 1 hour in the future:
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(request.getDueDate());
+        cal.add(Calendar.HOUR_OF_DAY, 1);
+        request.setDueDate(cal.getTime());
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(dueDate, entity.getDueDate());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change the end date after persisted.
+     */
+    @Test
+    public void createRequestInvalidEndDateTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        Date endDate = result.getEndDate();
+        // Attribute EndDate is modified to be 1 hour in the future:
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(request.getEndDate());
+        cal.add(Calendar.HOUR_OF_DAY, 1);
+        request.setEndDate(cal.getTime());
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(endDate, entity.getEndDate());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change status after persisted.
+     */
+    @Test
+    public void createRequestInvalidStatusTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        Status status = result.getStatus();
+        // Attribute Status is modified:
+        request.setStatus(getDifferentStatus(request.getStatus()));
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(status, entity.getStatus());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change type after persisted.
+     */
+    @Test
+    public void createRequestInvalidRequestTypeTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        RequestType requestType = result.getRequestType();
+        // Attribute RequestType is modified:
+        request.setRequestType(getDifferentRequestType(request.getRequestType()));
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(requestType, entity.getRequestType());
+    }
+    
+    /**
+     * Tests that the persisted request doesn't change web category after persisted.
+     */
+    @Test
+    public void createRequestInvalidWebCategoryTest()
+    {
+        PodamFactory factory = new PodamFactoryImpl();
+        RequestEntity request = factory.manufacturePojo(RequestEntity.class);
+        RequestEntity result = rp.create(request);
+        Assert.assertNotNull(result);
+        WebCategory webCategory = result.getWebCategory();
+        // Attribute WebCategory is modified:
+        request.setWebCategory(getDifferentWebCategory(request.getWebCategory()));
+        RequestEntity entity = em.find(RequestEntity.class, result.getId());
+        Assert.assertEquals(webCategory, entity.getWebCategory());
+    }
+    
+    /**
      * Tests the retrieval of multiple requests from the database.
      */
     @Test
@@ -200,5 +401,91 @@ public class RequestPersistenceTest
         rp.delete(entity.getId());
         RequestEntity deleted = em.find(RequestEntity.class, entity.getId());
         Assert.assertNull(deleted);
+    }
+    
+    // Auxiliar methods:
+    
+    /**
+     * @param status A specific status. Status = {Accepted, Denied, Development, Pending, Production}.
+     * @return A different Status than the one given.
+     */
+    public Status getDifferentStatus(Status status)
+    {
+        Status result = null;
+        switch (status) 
+        {
+            case Accepted:
+                result = Status.Denied;
+                break;
+            case Denied:
+                result = Status.Development;
+                break;
+            case Development:
+                result = Status.Pending;
+                break;
+            case Pending:
+                result = Status.Production;
+                break;
+            case Production:
+                result = Status.Accepted;
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+    
+    /**
+     * @param requestType A specific request type. RequestType = {Change, Creation, Development, Elimination, Production}. 
+     * @return A different request type than the one given.
+     */
+    public RequestType getDifferentRequestType(RequestType requestType)
+    {
+        RequestType result = null;
+        switch(requestType)
+        {
+            case Change:
+                result = RequestType.Creation;
+                break;
+            case Creation:
+                result = RequestType.Development;
+                break;
+            case Development:
+                result = RequestType.Elimination;
+                break;
+            case Elimination:
+                result = RequestType.Production;
+                break;
+            case Production:
+                result = RequestType.Change;
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+    
+    /**
+     * @param webCategory A specific web category. WebCategory = {Descriptive, Event, Application}.
+     * @return A different web category than the one given.
+     */
+    public WebCategory getDifferentWebCategory(WebCategory webCategory)
+    {
+        WebCategory result = null;
+        switch(webCategory)
+        {
+            case Application:
+                result = WebCategory.Descriptive;
+                break;
+            case Descriptive:
+                result = WebCategory.Event;
+                break;
+            case Event:
+                result = WebCategory.Application;
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 }

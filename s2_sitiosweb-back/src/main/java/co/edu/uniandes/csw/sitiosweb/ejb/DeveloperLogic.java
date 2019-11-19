@@ -36,24 +36,14 @@ public class DeveloperLogic {
      */
     public DeveloperEntity createDeveloper(DeveloperEntity developer) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del desarrollador");
-        if (developer.getLogin() == null) {
-            throw new BusinessLogicException("El login del desarrollador está vacío");
-        }
-        if (developer.getEmail() == null) {
-            throw new BusinessLogicException("El email del desarrollador está vacío");
-        }
-        if (developer.getPhone() == null) {
-            throw new BusinessLogicException("El teléfono del desarrollador está vacío");
-        }
-        if (developer.getType() == null) {
-            throw new BusinessLogicException("El tipo del desarrollador está vacío");
-        }
-
-        if (persistence.findByLogin(developer.getLogin()) != null) {
-            throw new BusinessLogicException("El login ya existe");
-        }
-        //if(validatePhone(user.getPhone()))
-        //  throw new BusinessLogicException("El teléfono es inválido");
+        if(developer.getName() == null )
+            throw new BusinessLogicException( "El nombre del desarrollador está vacío" );
+        if(developer.getLogin() == null )
+            throw new BusinessLogicException( "El login del desarrollador está vacío" );
+        if(developer.getEmail() == null )
+            throw new BusinessLogicException( "El email del desarrollador está vacío" );
+        if(!validatePhone(developer.getPhone()))
+            throw new BusinessLogicException("El teléfono es inválido");
 
         developer = persistence.create(developer);
         LOGGER.log(Level.INFO, "Termina proceso de creación del desarrollador");
@@ -81,47 +71,36 @@ public class DeveloperLogic {
      */
     public DeveloperEntity getDeveloper(Long developerId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el desarrollador con id = {0}", developerId);
-        DeveloperEntity DeveloperEntity = persistence.find(developerId);
-        if (DeveloperEntity == null) {
+        DeveloperEntity developerEntity = persistence.find(developerId);
+        if (developerEntity == null) {
             LOGGER.log(Level.SEVERE, "El desarrollador con el id = {0} no existe", developerId);
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el desarrollador con id = {0}", developerId);
-        return DeveloperEntity;
+        return developerEntity;
     }
-
-    /**
-     * Actualiza la información de una instancia de Developer.
+    
+     /**
+     * Actualizar un desarrollador por ID
      *
-     * @param developerId Identificador de la instancia a actualizar
-     * @param developerEntity Instancia de DeveloperEntity con los nuevos datos.
-     * @return Instancia de DeveloperEntity con los datos actualizados.
-     * @throws BusinessLogicException si el la instancia con los nuevos datos
-     * tiene datos inválidos.
+     * @param developerId El ID del desarrollador a actualizar
+     * @param developerEntity La entidad del desarrollador con los cambios deseados
+     * @return La entidad del desarrollador luego de actualizarla
+     * @throws BusinessLogicException Si tiene datos nuevos inválidos
      */
     public DeveloperEntity updateDeveloper(Long developerId, DeveloperEntity developerEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el desarrollador con id = {0}", developerId);
-        if (developerEntity.getLogin() == null) {
-            throw new BusinessLogicException("El login del desarrollador está vacío");
-        }
-        if (developerEntity.getEmail() == null) {
-            throw new BusinessLogicException("El email del desarrollador está vacío");
-        }
-        if (developerEntity.getPhone() == null) {
-            throw new BusinessLogicException("El teléfono del desarrollador está vacío");
-        }
-
-        if (!persistence.find(developerId).getLogin().equalsIgnoreCase(developerEntity.getLogin())
-                && persistence.findByLogin(developerEntity.getLogin()) != null) {
-            throw new BusinessLogicException("El login ya existe");
-        }
-
-        List<ProjectEntity> leadingProjects = getDeveloper(developerId).getLeadingProjects();
-        if (leadingProjects != null && !leadingProjects.isEmpty() && developerEntity.getType().equals(DeveloperEntity.DeveloperType.Developer)) {
-            throw new BusinessLogicException("El desarrollador no puede dejar de ser lider si está liderando proyectos");
-        }
-        //if(validatePhone(user.getPhone()))
-        //  throw new BusinessLogicException("El teléfono es inválido");
-
+        if(developerEntity.getName() == null )
+            throw new BusinessLogicException( "El nombre del desarrollador está vacío" );
+        if(developerEntity.getLogin() == null )
+            throw new BusinessLogicException( "El login del desarrollador está vacío" );
+        if(developerEntity.getEmail() == null )
+            throw new BusinessLogicException( "El email del desarrollador está vacío" );
+        if(!validatePhone(developerEntity.getPhone()))
+            throw new BusinessLogicException("El teléfono es inválido");
+        
+        if(!developerEntity.getLeader() && !developerEntity.getLeadingProjects().isEmpty())
+            throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
+        
         DeveloperEntity newEntity = persistence.update(developerEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el desarrollador con id = {0}", developerEntity.getId());
         return newEntity;
@@ -148,8 +127,14 @@ public class DeveloperLogic {
         persistence.delete(developerId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el desarrollador con id = {0}", developerId);
     }
-
-    //private boolean validatePhone(Integer phone) {
-    //  return !(phone == null || Long.SIZE != 9);
-    //}
+    
+    private boolean validatePhone(String phone) {
+        if(phone == null || phone.length() != 10) return false;
+        boolean f = true;
+        for(int i=0; i<10; i++){
+            if(!(phone.charAt(i) >= '0' && phone.charAt(i) <= '9'))
+                f=false;
+        }
+        return f;
+    }
 }

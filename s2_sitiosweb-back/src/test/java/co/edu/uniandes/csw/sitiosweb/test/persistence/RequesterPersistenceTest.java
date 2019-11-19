@@ -117,9 +117,11 @@ public class RequesterPersistenceTest {
         Assert.assertNotNull(result);
 
         RequesterEntity entity = em.find(RequesterEntity.class, result.getId());
+        Assert.assertEquals(requester.getName(), entity.getName());
         Assert.assertEquals(requester.getLogin(), entity.getLogin());
         Assert.assertEquals(requester.getEmail(), entity.getEmail());
         Assert.assertEquals(requester.getPhone(), entity.getPhone());
+        Assert.assertEquals(requester.getImage(), entity.getImage());
 
     }
 
@@ -149,9 +151,11 @@ public class RequesterPersistenceTest {
         RequesterEntity entity = data.get(0);
         RequesterEntity newEntity = up.find(entity.getId());
         Assert.assertNotNull(newEntity);
+        Assert.assertEquals(entity.getName(), newEntity.getName());
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
         Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
         Assert.assertEquals(entity.getPhone(), newEntity.getPhone());
+        Assert.assertEquals(entity.getImage(), newEntity.getImage());
 
     }
 
@@ -180,9 +184,11 @@ public class RequesterPersistenceTest {
         up.update(newEntity);
 
         RequesterEntity resp = em.find(RequesterEntity.class, entity.getId());
+        Assert.assertEquals(newEntity.getName(), resp.getName());
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
-        Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+        Assert.assertEquals(newEntity.getPhone(), resp.getPhone());
+        Assert.assertEquals(newEntity.getImage(), resp.getImage());
 
     }
 }

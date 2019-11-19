@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
 import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
 import java.io.Serializable;
-import java.util.Date;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -19,11 +13,34 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class HardwareDTO implements Serializable{
     
     private Long id;
+    
     private Long ip;
-    private int cores;
-    private int ram;
+    
+    /**
+     * la cantidad de cores
+     */
+    private Integer cores;
+    
+    /**
+     * la cantidad de memoria Ram
+     */
+    private Integer ram;
+    
+    /**
+     * la cpu del Hardware
+     */
     private String cpu;
+    
+    
+    /**
+     * la plataforma del Hardware
+     */
     private String plataforma;
+    
+    /**
+     * Atributo que representa la asociación con el projecto
+     */
+    private ProjectDTO projecto;
    
 
     /**
@@ -47,7 +64,8 @@ public class HardwareDTO implements Serializable{
             this.ram = hardwareEntity.getRam();
             this.cpu = hardwareEntity.getCpu();
             this.plataforma = hardwareEntity.getPlataforma();
-    
+            ProjectDTO toAdd = new ProjectDTO(hardwareEntity.getProject());
+            this.projecto = toAdd;
         }
     }
 

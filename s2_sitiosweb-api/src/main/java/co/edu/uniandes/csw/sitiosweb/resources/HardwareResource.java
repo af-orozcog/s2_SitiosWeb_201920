@@ -29,8 +29,10 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author s.santosb
  */
+@Path("hardwares")
 @Produces("application/json")
 @Consumes("application/json")
+@RequestScoped
 public class HardwareResource {
     
 private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.getName());
@@ -57,20 +59,27 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
         LOGGER.log(Level.INFO, "HardwareResource createHardware: output: {0}", nuevoHardwareDTO);
         return nuevoHardwareDTO;
     }
-
-    /**
-     * Busca y devuelve todas las reseñas que existen en un libro.
-     * @param projectsId El ID del libro del cual se buscan las reseñas
-     * @return {@link HardwareDTO} - El hardware encontrado en el
-     * proyecto. Si no hay ninguna retorna una lista vacía.
-     */
     @GET
-    public HardwareDTO getHardwares(@PathParam("projectsId") Long projectsId) {
-        LOGGER.log(Level.INFO, "HardwareResource getHardwares: input: {0}", projectsId);
-        HardwareDTO dto = new HardwareDTO(hardwareLogic.getHardwares(projectsId));
-        LOGGER.log(Level.INFO, "HardwareResource getHardwares: output: {0}", dto);
-        return dto;
+    public List<HardwareDTO> getHardwares2(){
+        List<HardwareEntity> lista = hardwareLogic.getHardwares2();
+        LOGGER.log(Level.INFO, "Hardwares con tamaño: " + lista.size());
+        List<HardwareDTO> rt = listEntity2DTO(lista);
+        return rt;
     }
+
+//    /**
+//     * Busca y devuelve todas las reseñas que existen en un libro.
+//     * @param projectsId El ID del libro del cual se buscan las reseñas
+//     * @return {@link HardwareDTO} - El hardware encontrado en el
+//     * proyecto. Si no hay ninguna retorna una lista vacía.
+//     */
+//    @GET
+//    public HardwareDTO getHardwares(@PathParam("projectsId") Long projectsId) {
+//        LOGGER.log(Level.INFO, "HardwareResource getHardwares: input: {0}", projectsId);
+//        HardwareDTO dto = new HardwareDTO(hardwareLogic.getHardwares(projectsId));
+//        LOGGER.log(Level.INFO, "HardwareResource getHardwares: output: {0}", dto);
+//        return dto;
+//    }
 
     /**
      * Busca y devuelve el hardware con el ID recibido en la URL, relativa a un
@@ -101,10 +110,10 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
      * Actualiza una reseña con la informacion que se recibe en el cuerpo de la
      * petición y se regresa el objeto actualizado.
      *
-     * @param booksId El ID del libro del cual se guarda la reseña
-     * @param reviewsId El ID de la reseña que se va a actualizar
-     * @param review {@link ReviewDTO} - La reseña que se desea guardar.
-     * @return JSON {@link ReviewDTO} - La reseña actualizada.
+     * @param projectsId
+     * @param hardwaresId
+     * @param hardware
+     * @return JSON {@link HardwareDTO} - La reseña actualizada.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando ya existe la reseña.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
@@ -112,15 +121,11 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
      */
     @PUT
     @Path("{hardwaresId: \\d+}")
-    public HardwareDTO updateReview(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwaresId, HardwareDTO hardware) throws BusinessLogicException {
+    public HardwareDTO updateHardware(@PathParam("projectsId") Long projectsId, @PathParam("hardwaresId") Long hardwaresId, HardwareDTO hardware) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "HardwareResource updateHardware: input: projectsId: {0} , hardwaresId: {1} , hardware:{2}", new Object[]{projectsId, hardwaresId, hardware});
-        if (hardwaresId.equals(hardware.getId())) {
-            throw new BusinessLogicException("Los ids del Hardware no coinciden.");
-        }
-        HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwaresId);
-        if (entity == null) {
+        hardware.setId(hardwaresId);
+        if (hardwareLogic.getHardware(projectsId, hardwaresId) == null) {
             throw new WebApplicationException("El recurso /books/" + projectsId + "/reviews/" + hardwaresId + " no existe.", 404);
-
         }
         HardwareDTO hardwareDTO = new HardwareDTO(hardwareLogic.updateHardware(projectsId, hardware.toEntity()));
         LOGGER.log(Level.INFO, "HardwareResource updateHardware: output:{0}", hardwareDTO);
@@ -147,5 +152,14 @@ private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.get
         }
         hardwareLogic.deleteHardware(projectsId, hardwareId);
     }
+    
+        private List<HardwareDTO> listEntity2DTO(List<HardwareEntity> entityList) {
+        List<HardwareDTO> list = new ArrayList<>();
+        for (HardwareEntity entity : entityList) {
+            list.add(new HardwareDTO(entity));
+        }
+        return list;
+    }
+
 
 }

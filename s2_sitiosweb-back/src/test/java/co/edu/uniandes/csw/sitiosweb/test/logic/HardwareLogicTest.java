@@ -205,6 +205,15 @@ public class HardwareLogicTest {
         Assert.assertEquals(resultEntity.getCpu(),entity.getCpu());
         Assert.assertEquals(resultEntity.getPlataforma(),entity.getPlataforma());
     }
+    
+    /**
+     *
+     */
+    @Test
+    public void getHardwares2Test(){
+        List<HardwareEntity> d = hardwareLogic.getHardwares2();
+        Assert.assertEquals(d.size(),data.size());
+    }
 
     /**
      * Prueba para actualizar un Review.

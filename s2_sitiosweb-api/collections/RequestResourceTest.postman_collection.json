@@ -1,0 +1,1016 @@
+{
+	"info": {
+		"_postman_id": "953a3090-6dd9-4bbc-923c-94bc7a8d2652",
+		"name": "RequestResourceTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e86d0a0-264e-4f6b-aa6d-46894bd5cc39",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_e\", data.id);",
+							"tests[\"No genera error en el POST.\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin fecha de inicio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb179f5e-3d4b-4b97-9eda-187da4836eb0",
+						"exec": [
+							"tests[\"No crea sin fecha de inicio.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"No se eligió una fecha de comienzo del proyecto.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin presupuesto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e86d0a0-264e-4f6b-aa6d-46894bd5cc39",
+						"exec": [
+							"tests[\"No crea sin presupuesto.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"El presupuesto del proyecto está vacío.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin descripción",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c6150b6-54f8-4eb0-a52f-98655fece215",
+						"exec": [
+							"tests[\"No crea sin descrpción.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"La descripción del proyecto solicitado está vacía.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin fecha de entrega",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58e9241c-6e77-4880-9509-6614bbaf01e3",
+						"exec": [
+							"tests[\"No crea sin fecha de entrega.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"No se eligió una fecha de entrega del proyecto.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin fecha de terminación",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26c9eca6-d2ec-4507-9235-1873cbcdc251",
+						"exec": [
+							"tests[\"No crea sin fecha de terminación.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"No se eligió una fecha de terminación del proyecto.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin nombre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea sin nombre.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"El nombre del proyecto solicitado está vacío.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin propósito",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea sin propósito.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"El propósito del proyecto solicitado está vacío.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin tipo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea sin tipo.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"No se eligió el tipo de la solicitud.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin estado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea sin estado.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"No se eligió estado para la solicitud.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin unidad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea sin unidad.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"La unidad del proyecto solicitado está vacía.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request sin categoría web",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea sin categoría web.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"No se eligió categoría web para el proyecto.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request con fecha de comienzo inválida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea con fecha de comienzo anterior a hoy.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"La fecha de comienzo es anterior a la fecha de hoy.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"1997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request con fecha de entrega inválida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea con fecha de entrega anterior a hoy.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"La fecha de entrega es anterior a la fecha de hoy.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"1998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"2999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Request con fecha de terminación inválida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No crea con fecha de terminación anterior a hoy.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"La fecha de terminación es anterior a la fecha de hoy.\");  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 9876,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"1999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Pending\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edita Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No genera error en el PUT.\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"beginDate\": \"2997-10-09T05:00:00Z[UTC]\",\r\n        \"budget\": 987600,\r\n        \"description\": \"Creación de un proyecto básico para análisis numérico.\",\r\n        \"dueDate\": \"2998-10-09T05:00:00Z[UTC]\",\r\n        \"endDate\": \"1999-10-09T05:00:00Z[UTC]\",\r\n        \"name\": \"Proyecto análisis numérico\",\r\n        \"purpose\": \"Regresiones lineales sobre datos de vibraciones.\",\r\n        \"requestType\": \"Creation\",\r\n        \"status\": \"Accepted\",\r\n        \"unit\": \"IMEC\",\r\n        \"webCategory\": \"Application\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests/{{new_id_e}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests",
+						"{{new_id_e}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos las Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aaaf21d2-4bec-40f3-a883-c07a4dcbe5f5",
+						"exec": [
+							"tests[\"No genera error en el GET.\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fcd5fe77-3242-44d1-91fe-08ef40a9eb3b",
+						"exec": [
+							"tests[\"No genera error en el GET.\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests/{{new_id_e}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests",
+						"{{new_id_e}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No genera error en el DELETE.\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests/{{new_id_e}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests",
+						"{{new_id_e}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Request que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46120128-1445-4782-86d2-55caa7398beb",
+						"exec": [
+							"tests[\"No genera error en el DELETE.\"] = responseCode.code === 404;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requests/{{new_id_e}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"requests",
+						"{{new_id_e}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

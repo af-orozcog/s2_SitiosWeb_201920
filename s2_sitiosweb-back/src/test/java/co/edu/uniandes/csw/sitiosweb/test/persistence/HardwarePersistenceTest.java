@@ -134,7 +134,7 @@ public class HardwarePersistenceTest {
 
 
     @Test
-    public void deleteEditorialTest() {
+    public void deleteHardwareTest() {
         HardwareEntity entity = data.get(0);
         hw.delete(entity.getId());
         HardwareEntity deleted = em.find(HardwareEntity.class, entity.getId());
@@ -142,7 +142,7 @@ public class HardwarePersistenceTest {
     }
 
     @Test
-    public void updateEditorialTest() {
+    public void updateHardwareTest() {
         HardwareEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
         HardwareEntity newEntity = factory.manufacturePojo(HardwareEntity.class);

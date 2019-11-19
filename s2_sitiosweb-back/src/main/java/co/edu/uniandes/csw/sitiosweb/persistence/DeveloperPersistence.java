@@ -30,7 +30,8 @@ public class DeveloperPersistence {
     /**
      * Método para persisitir la entidad en la base de datos.
      *
-     * @param developerEntity objeto desarrollador que se creará en la base de datos
+     * @param developerEntity objeto desarrollador que se creará en la base de
+     * datos
      * @return devuelve la entidad creada con un id dado por la base de datos.
      */
     public DeveloperEntity create(DeveloperEntity developerEntity) {
@@ -44,9 +45,9 @@ public class DeveloperPersistence {
     /**
      * Devuelve todos los desarrolladores de la base de datos.
      *
-     * @return una lista con todos los desarrolladores que encuentre en la base de datos,
-     * "select u from DeveloperEntity u" es como un "select * from DeveloperEntity;" -
-     * "SELECT * FROM table_name" en SQL.
+     * @return una lista con todos los desarrolladores que encuentre en la base
+     * de datos, "select u from DeveloperEntity u" es como un "select * from
+     * DeveloperEntity;" - "SELECT * FROM table_name" en SQL.
      */
     public List<DeveloperEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todos los desarrolladores");
@@ -69,8 +70,9 @@ public class DeveloperPersistence {
     /**
      * Actualiza un desarrollador.
      *
-     * @param developerEntity: el desarrollador que viene con los nuevos cambios. Por ejemplo
-     * el nombre pudo cambiar. En ese caso, se haria uso del método update.
+     * @param developerEntity: el desarrollador que viene con los nuevos
+     * cambios. Por ejemplo el nombre pudo cambiar. En ese caso, se haria uso
+     * del método update.
      * @return un desarrollador con los cambios aplicados.
      */
     public DeveloperEntity update(DeveloperEntity developerEntity) {
@@ -79,10 +81,10 @@ public class DeveloperPersistence {
         return em.merge(developerEntity);
     }
 
-     /**
+    /**
      *
-     * Borra un desarrollador de la base de datos recibiendo como argumento el id del
-     * desarrollador
+     * Borra un desarrollador de la base de datos recibiendo como argumento el
+     * id del desarrollador
      *
      * @param developersId: id correspondiente al desarrollador a borrar.
      */
@@ -93,12 +95,12 @@ public class DeveloperPersistence {
         em.remove(developerEntity);
     }
 
-     /**
+    /**
      * Busca si hay algun desarrollador con el Login que se envía de argumento
      *
      * @param login: Login del desarrollador que se está buscando
-     * @return null si no existe ningun desarrollador con el login del argumento. Si
-     * existe alguno devuelve el primero.
+     * @return null si no existe ningun desarrollador con el login del
+     * argumento. Si existe alguno devuelve el primero.
      */
     public DeveloperEntity findByLogin(String login) {
         LOGGER.log(Level.INFO, "Consultando desarrollador por login ", login);
@@ -114,6 +116,30 @@ public class DeveloperPersistence {
             result = sameLogin.get(0);
         }
         LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por login ", login);
+        return result;
+    }
+    
+     /**
+     * Busca si hay algun desarrollador con el Name que se envía de argumento
+     *
+     * @param name: Name del desarrollador que se está buscando
+     * @return null si no existe ningun desarrollador con el name del
+     * argumento. Si existe alguno devuelve el primero.
+     */
+    public DeveloperEntity findByName(String name) {
+        LOGGER.log(Level.INFO, "Consultando desarrollador por name ", name);
+        TypedQuery query = em.createQuery("Select e From DeveloperEntity e where e.name = :name", DeveloperEntity.class);
+        query = query.setParameter("name", name);
+        List<DeveloperEntity> sameName = query.getResultList();
+        DeveloperEntity result;
+        if (sameName == null) {
+            result = null;
+        } else if (sameName.isEmpty()) {
+            result = null;
+        } else {
+            result = sameName.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por name ", name);
         return result;
     }
 }

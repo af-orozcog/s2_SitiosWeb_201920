@@ -1,14 +1,46 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.uniandes.csw.sitiosweb.dtos;
 
+import co.edu.uniandes.csw.sitiosweb.adapters.DateAdapter;
 import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import java.io.Serializable;
 import java.util.Date;
-
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+/**
+ * IterationDTO Objeto de transferencia de datos de iteraciones. Los DTO contienen las
+ * representaciones de los JSON que se transfieren entre el cliente y el
+ * servidor.
+ *
+ * Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
+ * <pre>
+ *   {
+ *      "id": number,
+ *      "objetive": string,
+ *      "validationDate": Date,
+ *      "changes": string,
+ *      "beginDate":Date,
+ *      "endDate":Date,
+ *      "projecto": {@link ProjectDTO}
+ *   }
+ * </pre> Por ejemplo una reseña se representa asi:<br>
+ *
+ * <pre>
+ *
+ *   {
+ *      "id": 123,
+ *      "objetive": "actualizacion de funcionalidades",
+ *      "validationDate": "2019-08-29T00:00:00Z[UTC]",
+ *      "changes": "cambios en las funcionalidades",
+ *      "beginDate": "2019-08-22T00:00:00Z[UTC]",
+ *      "endDate":"2019-08-28T00:00:00Z[UTC]"
+ *      "projecto":
+ *      {
+ *          "id": 123
+ *      }
+ *   }
+ *
+ * </pre>
+ *
+ */
 /**
  *
  * @author Andres orozco 201730058
@@ -23,21 +55,25 @@ public class IterationDTO implements Serializable {
     /**
      * Atributo que representa la fecha de validación
      */
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date validationDate;
     
     /**
      * atributo que representa los cambios que se hicieron durante la iteración
      */
+    
     private String changes;
     
     /**
      * atributo que representa la fecha de inicio de la iteración
      */
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date beginDate;
     
     /**
      * atributo que representa la fecha final de la iteración
      */
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date endDate;
     
     /**
@@ -45,6 +81,12 @@ public class IterationDTO implements Serializable {
      */
     private Long id;
        
+    /**
+    * Atributo que representa la asociación con el projecto
+    */
+    private ProjectDTO projecto;
+    
+    
     /**
      * Método constructor vacio
      */
@@ -65,6 +107,8 @@ public class IterationDTO implements Serializable {
             this.changes = iterationEntity.getChanges();
             this.beginDate = iterationEntity.getBeginDate();
             this.endDate = iterationEntity.getEndDate();
+            ProjectDTO toAdd = new ProjectDTO(iterationEntity.getProject());
+            this.projecto = toAdd;
         }
     }
     
@@ -166,5 +210,20 @@ public class IterationDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-       
+
+    /**
+     * @return the projecto
+     */
+    public ProjectDTO getProjecto() {
+        return projecto;
+    }
+
+    /**
+     * @param projecto the projecto to set
+     */
+    public void setProjecto(ProjectDTO projecto) {
+        this.projecto = projecto;
+    }
+      
+    
 }

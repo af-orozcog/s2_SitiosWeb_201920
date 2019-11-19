@@ -137,8 +137,9 @@ public class IterationLogicTest {
     @Test
     public void createIteration() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
-        IterationEntity result = iterationLogic.createIteration(newEntity);
-        //Assert.assertNotNull(result);
+        newEntity.setProject(dataProject.get(0));
+        IterationEntity result = iterationLogic.createIteration(dataProject.get(0).getId(),newEntity);
+        Assert.assertNotNull(result);
         
         IterationEntity entity = em.find(IterationEntity.class,result.getId());
         Assert.assertEquals(entity.getObjetive(),result.getObjetive());
@@ -151,8 +152,9 @@ public class IterationLogicTest {
     @Test (expected = BusinessLogicException.class)
     public void createIterationObjetiveNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setProject(dataProject.get(0));
         newEntity.setObjetive(null);
-        IterationEntity result = iterationLogic.createIteration(newEntity);
+        IterationEntity result = iterationLogic.createIteration(dataProject.get(0).getId(),newEntity);
     }
     
     /**
@@ -162,8 +164,9 @@ public class IterationLogicTest {
     @Test (expected = BusinessLogicException.class)
     public void createIterationValidationDateNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setProject(dataProject.get(0));
         newEntity.setValidationDate(null);
-        IterationEntity result = iterationLogic.createIteration(newEntity);
+        IterationEntity result = iterationLogic.createIteration(dataProject.get(0).getId(),newEntity);
     }
     
     /**
@@ -173,8 +176,9 @@ public class IterationLogicTest {
     @Test (expected = BusinessLogicException.class)
     public void createIterationBeginDateNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setProject(dataProject.get(0));
         newEntity.setBeginDate(null);
-        IterationEntity result = iterationLogic.createIteration(newEntity);
+        IterationEntity result = iterationLogic.createIteration(dataProject.get(0).getId(),newEntity);
     }
     
     /**
@@ -184,8 +188,9 @@ public class IterationLogicTest {
     @Test (expected = BusinessLogicException.class)
     public void createIterationEndDateNull() throws BusinessLogicException{
         IterationEntity newEntity = factory.manufacturePojo(IterationEntity.class);
+        newEntity.setProject(dataProject.get(0));
         newEntity.setEndDate(null);
-        IterationEntity result = iterationLogic.createIteration(newEntity);
+        IterationEntity result = iterationLogic.createIteration(dataProject.get(0).getId(),newEntity);
     }
     
     
@@ -194,8 +199,8 @@ public class IterationLogicTest {
      */
     @Test
     public void getIterationsTest() {
-        List<IterationEntity> list = iterationLogic.getIterations();
-        Assert.assertEquals(data.size(), list.size());
+        List<IterationEntity> list = iterationLogic.getIterations(dataProject.get(0).getId());
+        Assert.assertEquals(1, list.size());
         for (IterationEntity entity : list) {
             boolean found = false;
             for (IterationEntity storedEntity : data) {
@@ -205,6 +210,15 @@ public class IterationLogicTest {
             }
             Assert.assertTrue(found);
         }
+    }
+    
+    @Test
+    public void getIterationTest(){
+        IterationEntity entity = data.get(0);
+        IterationEntity resultEntity = iterationLogic.getIteration(dataProject.get(0).getId(), entity.getId());
+        Assert.assertNotNull(resultEntity);
+        Assert.assertEquals(entity.getObjetive(), resultEntity.getObjetive());
+        Assert.assertEquals(entity.getValidationDate(), resultEntity.getValidationDate());
     }
     
    /**
@@ -221,9 +235,8 @@ public class IterationLogicTest {
 
         IterationEntity resp = em.find(IterationEntity.class, entity.getId());
 
-        Assert.assertEquals(pojoEntity.getId(), resp.getId());
         Assert.assertEquals(pojoEntity.getObjetive(), resp.getObjetive());
-        Assert.assertEquals(pojoEntity.getChanges(), resp.getChanges());
+        Assert.assertEquals(pojoEntity.getValidationDate(), resp.getValidationDate());
     } 
     
     /**
@@ -234,8 +247,19 @@ public class IterationLogicTest {
     @Test
     public void deleteIterationTest() throws BusinessLogicException {
         IterationEntity entity = data.get(0);
-        iterationLogic.deleteIteration(entity.getId());
+        iterationLogic.deleteIteration(dataProject.get(0).getId(), entity.getId());
         IterationEntity deleted = em.find(IterationEntity.class, entity.getId());
         Assert.assertNull(deleted);
+    }
+    
+    /**
+     * Prueba para eliminarle un review a un book del cual no pertenece.
+     *
+     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void deleteIterationConProjectNoAsociadoTest() throws BusinessLogicException {
+        IterationEntity entity = data.get(0);
+        iterationLogic.deleteIteration(dataProject.get(1).getId(), entity.getId());
     }
 }

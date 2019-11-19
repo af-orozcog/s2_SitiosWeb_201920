@@ -11,7 +11,6 @@ import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.List;
-import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -47,7 +46,7 @@ public class HardwareLogic {
             throw new BusinessLogicException("La plataforma del hardware esta vacia");
         }
         
-        if(noExisteProject(projectsId)==true){
+        if(noExisteProject(projectsId)){
             throw new BusinessLogicException("El proyecto al que esta asociado no existe");
         }
         
@@ -60,6 +59,10 @@ public class HardwareLogic {
         return entity==null;
     }
     
+    public List<HardwareEntity> getHardwares2(){
+        List<HardwareEntity> hw = persistence.findAll();
+        return hw;
+    }
     /**
      * Devuelve todos los hardwares que hay en la base de datos.
      *
@@ -85,7 +88,6 @@ public class HardwareLogic {
      * Actualizar un hardware por ID
      *
      * @param projectId
-     * @param hardwareId El ID del libro a actualizar
      * @param hardware La entidad del libro con los cambios deseados
      * @return La entidad del hardware luego de actualizarla
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException

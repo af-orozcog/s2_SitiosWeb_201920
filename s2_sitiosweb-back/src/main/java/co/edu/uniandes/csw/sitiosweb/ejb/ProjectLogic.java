@@ -5,6 +5,8 @@
  */
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
+import co.edu.uniandes.csw.sitiosweb.entities.DeveloperEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
@@ -21,6 +23,9 @@ import javax.inject.Inject;
 @Stateless
 public class ProjectLogic {
     
+    /**
+     * Peristence class for the logic to use
+     */
     @Inject
     private ProjectPersistence persistence;
     
@@ -29,17 +34,24 @@ public class ProjectLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectLogic.class.getName());
     
+    /**
+     * Contructor of ProjectEntity that evaluates rules before a ProjectEntity's creation
+     * @param pe ProjectEntity to be created
+     * @return a new ProjectEntity 
+     * @throws BusinessLogicException if any rules are broken
+     */
     public ProjectEntity createProject(ProjectEntity pe) throws BusinessLogicException{
+       LOGGER.log(Level.INFO, "Creating a new logic project.");
        
-        if(pe.getCompany() == null){
+        if(pe.getCompany() == null || pe.getCompany().isEmpty()){
             throw new BusinessLogicException("El proyecto no tiene compañia asociada");
         }
         if(pe.getInternalProject() == null){
             throw new BusinessLogicException("El proyecto no dice si es interno o no");
         }
-        LOGGER.log(Level.INFO, "Creating a new logic project.");
-        pe = persistence.create(pe);
-        LOGGER.log(Level.INFO, "Exiting the creaton of the project.");
+        
+        persistence.create(pe);
+        LOGGER.log(Level.INFO, "Exiting the creation of the project.");
         return pe;
     }
      /**
@@ -73,10 +85,17 @@ public class ProjectLogic {
      * @param projectId  The project's id.
      * @param projectEntity The request to update.
      * @return The updated project.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
-    public ProjectEntity updateProject(Long projectId, ProjectEntity projectEntity)
+    public ProjectEntity updateProject(Long projectId, ProjectEntity projectEntity) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Updating project with id = {0}.", projectId);
+        if(projectEntity.getCompany() == null){
+            throw new BusinessLogicException("El proyecto no tiene compañia asociada");
+        }
+        if(projectEntity.getInternalProject() == null){
+            throw new BusinessLogicException("El proyecto no dice si es interno o no");
+        }
         ProjectEntity newRequestEntity = persistence.update(projectEntity);
         LOGGER.log(Level.INFO, "Exiting the update of the project with id = {0}.", projectId);
         return newRequestEntity;
@@ -89,8 +108,15 @@ public class ProjectLogic {
     public void deleteProject(Long projectId) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Deleting project with id = {0}.", projectId);
-        // TODO relationships with Requester and Project.
-        persistence.delete(projectId);
+        List<DeveloperEntity> developers = getProject(projectId).getDevelopers();
+        if (developers == null || developers.isEmpty()) {
+            persistence.delete(projectId);
+        }else {
+            throw new BusinessLogicException("No se puede borrar el proyecto con id = " + projectId + " porque tiene developers asociados");
+        }
+                    
         LOGGER.log(Level.INFO, "Exiting the deletion of the project with id = {0}.", projectId);
     }
+    
+    
 }

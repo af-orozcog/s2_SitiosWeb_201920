@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.uniandes.csw.sitiosweb.resources;
 
 
 
 import co.edu.uniandes.csw.sitiosweb.dtos.ProviderDTO;
+import co.edu.uniandes.csw.sitiosweb.dtos.ProviderDetailDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.ProviderLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.ProviderEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
@@ -35,8 +31,14 @@ import javax.ws.rs.WebApplicationException;
 @Produces("application/json")
 @Consumes("application/json")
 @RequestScoped
-public class ProviderResource {
-
+public class ProviderResource 
+{
+    // Constants
+    
+    private static final String ERR_MSG_1 = "El recurso /providers/";
+    
+    private static final String ERR_MSG_2 = " no existe.";
+    
     private static final Logger LOGGER = Logger.getLogger(ProviderResource.class.getName());
 
     @Inject
@@ -62,13 +64,13 @@ public class ProviderResource {
 
     @GET
     @Path("{providersId: \\d+}")
-    public ProviderDTO getProvider(@PathParam("providersId") Long providersId) throws BusinessLogicException {
+    public ProviderDetailDTO getProvider(@PathParam("providersId") Long providersId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProviderResource getProvider: input: {0}", providersId);
         ProviderEntity entity = providerLogic.getProvider(providersId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /providers/" + providersId + " no existe.", 404);
+            throw new WebApplicationException(ERR_MSG_1 + providersId + ERR_MSG_2, 404);
         }
-        ProviderDTO providerDTO = new ProviderDTO(entity);
+        ProviderDetailDTO providerDTO = new ProviderDetailDTO(entity);
         LOGGER.log(Level.INFO, "ProviderResource getProvider: output: {0}", providerDTO);
         return providerDTO;
     }
@@ -77,13 +79,13 @@ public class ProviderResource {
     @PUT
     @Path("{providersId: \\d+}")
     public ProviderDTO updateProvider(@PathParam("providersId") Long providersId, ProviderDTO provider) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "ProviderResource updateProvider: input: booksId: {0} , providersId: {1} , provider:{2}", new Object[]{ providersId, provider});
+        LOGGER.log(Level.INFO, "ProviderResource updateProvider: input: providersId: {0} , provider:{1}", new Object[]{ providersId, provider});
         if (providersId.equals(provider.getId())) {
             throw new BusinessLogicException("Los ids del Provider no coinciden.");
         }
         ProviderEntity entity = providerLogic.getProvider(providersId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /providers/" + providersId + " no existe.", 404);
+            throw new WebApplicationException(ERR_MSG_1 + providersId + ERR_MSG_2, 404);
 
         }
         ProviderDTO providerDTO = new ProviderDTO(providerLogic.updateProvider(providersId, provider.toEntity()));
@@ -98,13 +100,13 @@ public class ProviderResource {
     public void deleteProvider( @PathParam("providersId") Long providersId) throws BusinessLogicException {
         ProviderEntity entity = providerLogic.getProvider(providersId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /providers/" + providersId + " no existe.", 404);
+            throw new WebApplicationException(ERR_MSG_1 + providersId + ERR_MSG_2, 404);
         }
         providerLogic.deleteProvider( providersId);
     }
 
     private List<ProviderDTO> listEntity2DTO(List<ProviderEntity> entityList) {
-        List<ProviderDTO> list = new ArrayList<ProviderDTO>();
+        List<ProviderDTO> list = new ArrayList<>();
         for (ProviderEntity entity : entityList) {
             list.add(new ProviderDTO(entity));
         }
