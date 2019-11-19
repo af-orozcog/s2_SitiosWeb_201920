@@ -94,12 +94,12 @@ public class DeveloperProjectResource {
     @POST
     @Path("{projectsId: \\d+}")
     public ProjectDetailDTO addProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) {
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource addProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
+        LOGGER.log(Level.INFO, "DeveloperProjectResource addProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
             throw new WebApplicationException( RECURSOPROJECT + projectsId + NOEXISTE , 404);
         }
         ProjectDetailDTO detailDTO = new ProjectDetailDTO(developerProjectLogic.addProject(developersId, projectsId));
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource addProject: output: {0}", detailDTO);
+        LOGGER.log(Level.INFO, "DeveloperProjectResource addProject: output: {0}", detailDTO);
         return detailDTO;
     }
 
@@ -112,9 +112,9 @@ public class DeveloperProjectResource {
      */
     @GET
     public List<ProjectDetailDTO> getProjects(@PathParam("developersId") Long developersId) {
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProjects: input: {0}", developersId);
+        LOGGER.log(Level.INFO, "DeveloperProjectResource getProjects: input: {0}", developersId);
         List<ProjectDetailDTO> lista = projectsListEntity2DTO(developerProjectLogic.getProjects(developersId));
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProjects: output: {0}", lista);
+        LOGGER.log(Level.INFO, "DeveloperProjectResource getProjects: output: {0}", lista);
         return lista;
     }
 
@@ -133,12 +133,12 @@ public class DeveloperProjectResource {
     @GET
     @Path("{projectsId: \\d+}")
     public ProjectDetailDTO getProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
+        LOGGER.log(Level.INFO, "DeveloperProjectResource getProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
             throw new WebApplicationException( RECURSOPROJECT + projectsId + NOEXISTE , 404);
         }
         ProjectDetailDTO detailDTO = new ProjectDetailDTO(developerProjectLogic.getProject(developersId, projectsId));
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource getProject: output: {0}", detailDTO);
+        LOGGER.log(Level.INFO, "DeveloperProjectResource getProject: output: {0}", detailDTO);
         return detailDTO;
     }
 
@@ -155,14 +155,14 @@ public class DeveloperProjectResource {
      */
     @PUT
     public List<ProjectDetailDTO> replaceProjects(@PathParam("developersId") Long developersId, List<ProjectDetailDTO> projects) {
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource replaceProjects: input: developersId {0} , projects {1}", new Object[]{developersId, projects});
+        LOGGER.log(Level.INFO, "DeveloperProjectResource replaceProjects: input: developersId {0} , projects {1}", new Object[]{developersId, projects});
         for (ProjectDetailDTO project : projects) {
             if (projectLogic.getProject(project.getId()) == null) {
                 throw new WebApplicationException( RECURSOPROJECT + project.getId() + NOEXISTE , 404);
             }
         }
         List<ProjectDetailDTO> lista = projectsListEntity2DTO(developerProjectLogic.replaceProjects(developersId, projectsListDTO2Entity(projects)));
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource replaceProjects: output: {0}", lista);
+        LOGGER.log(Level.INFO, "DeveloperProjectResource replaceProjects: output: {0}", lista);
         return lista;
     }
 
@@ -177,12 +177,12 @@ public class DeveloperProjectResource {
     @DELETE
     @Path("{projectsId: \\d+}")
     public void removeProject(@PathParam("developersId") Long developersId, @PathParam("projectsId") Long projectsId) {
-        LOGGER.log(Level.INFO, "DeveloperProjectsResource deleteProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
+        LOGGER.log(Level.INFO, "DeveloperProjectResource deleteProject: input: developersId {0} , projectsId {1}", new Object[]{developersId, projectsId});
         if (projectLogic.getProject(projectsId) == null) {
             throw new WebApplicationException( RECURSOPROJECT + projectsId + NOEXISTE , 404);
         }
         developerProjectLogic.removeProject(developersId, projectsId);
-        LOGGER.info("DeveloperProjectsResource deleteProject: output: void");
+        LOGGER.info("DeveloperProjectResource deleteProject: output: void");
     }
 
     /**

@@ -78,19 +78,6 @@ public class ProjectDeveloperResource {
      */
     @Inject
     private ProjectLogic projectLogic;
-    
-    /**
-     *
-     * @param projectsId
-     * @return
-     */
-    @Path("{projectsId: \\d+}/developers")
-    public Class<ProjectDeveloperResource> getProjectDeveloperResource(@PathParam("projectsId") Long projectsId) {
-        if (projectLogic.getProject(projectsId) == null) {
-            throw new WebApplicationException("El recurso /project/" + projectsId , 404);
-        }
-        return ProjectDeveloperResource.class;
-    }
 
     /**
      * Asocia un desarrollador existente con un proyecto existente

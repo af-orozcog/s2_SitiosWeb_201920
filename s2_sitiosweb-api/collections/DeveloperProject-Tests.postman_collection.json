@@ -141,7 +141,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\":\"Nombre1\",\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true\n}",
+					"raw": "{\n\t\"name\":\"Nombre1\",\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true,\n\t \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -417,7 +417,7 @@
 						"id": "5c07c9b3-26c7-4412-8ec8-13e2ad7549f4",
 						"exec": [
 							"var data= JSON.parse(responseBody);",
-							"tests[\"no genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;",
 							"tests[\"proyects count - developer\"] = data.length >= 1;"
 						],
 						"type": "text/javascript"
@@ -428,7 +428,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/proyects",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/{{new_id_d}}/projects",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -439,7 +439,7 @@
 						"api",
 						"developers",
 						"{{new_id_d}}",
-						"proyects"
+						"projects"
 					]
 				},
 				"description": "Consulta los proyectos de un desarrollador en la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nSe envía el Id del desarrollador y el del proyecto a consultar en la URL de la petición."
@@ -597,7 +597,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0/proyects/{{new_id_b}}",
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0/projects/{{new_id_b}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -608,7 +608,7 @@
 						"api",
 						"developers",
 						"0",
-						"proyects",
+						"projects",
 						"{{new_id_b}}"
 					]
 				},
