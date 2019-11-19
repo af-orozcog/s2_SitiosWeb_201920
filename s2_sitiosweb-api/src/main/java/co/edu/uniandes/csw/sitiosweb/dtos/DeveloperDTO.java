@@ -39,7 +39,7 @@ public class DeveloperDTO extends UserDTO implements Serializable {
     public DeveloperEntity toEntity() {
         DeveloperEntity developerEntity = new DeveloperEntity();
         developerEntity.setId(this.getId());
-        developerEntity.setName(this.getLogin());
+        developerEntity.setName(this.getName());
         developerEntity.setLogin(this.getLogin());
         developerEntity.setEmail(this.getEmail());
         developerEntity.setPhone(this.getPhone());
