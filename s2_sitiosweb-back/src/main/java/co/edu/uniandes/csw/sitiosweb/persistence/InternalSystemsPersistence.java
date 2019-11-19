@@ -6,7 +6,12 @@
 package co.edu.uniandes.csw.sitiosweb.persistence;
 
 import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.IterationEntity;
+
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,30 +24,97 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class InternalSystemsPersistence {
     
+	private static final Logger LOGGER = Logger.getLogger(InternalSystemsPersistence.class.getName());
     @PersistenceContext(unitName = "sitioswebPU")
+    
+    
     protected EntityManager em;
-
-    public InternalSystemsEntity create(InternalSystemsEntity internal){
-        em.persist(internal);
-        return internal;
+    
+    /**
+     * Método que persiste la iteración pasada por parametro en la base de datos
+     * @param iteration la iteración que se quiere hacer persistir
+     * @return la iteración que se persistio
+     */
+    public InternalSystemsEntity create (InternalSystemsEntity iteration){
+        LOGGER.log(Level.INFO, "Creando una internalS nueva");
+        
+        em.persist(iteration);
+        LOGGER.log(Level.INFO, "InternalS creada");
+        return iteration;
     }
     
+    /**
+     * Devuelve todas las iteraciones de la base de datos.
+     *
+     * @return una lista con todas las iteraciones que encuentre en la base de
+     * datos, "select u from IterationEntity u" es como un "select * from
+     * IterationEntity;" - "SELECT * FROM table_name" en SQL.
+     */
     public List<InternalSystemsEntity> findAll() {
-        TypedQuery query = em.createQuery("select u from InternalSystemsEntity u", InternalSystemsEntity.class);
+        LOGGER.log(Level.INFO, "Consultando todas las iteraciones");
+        // Se crea un query para buscar todas las iteraciones en la base de datos.
+        TypedQuery query = em.createQuery("select u from InternalSystemsEntity u",InternalSystemsEntity.class);
+        // Note que en el query se hace uso del método getResultList() que obtiene una lista de las iteraciones.
         return query.getResultList();
     }
-    
-    public InternalSystemsEntity find(Long internalId) {
-        return em.find(InternalSystemsEntity.class, internalId);
+    /**
+     * Busca si hay alguna iteracion con el id que se envía de argumento
+     *
+     * @param iterationId: id correspondiente a la iteracion buscada.
+     * @return una iteracion.
+     */
+    public InternalSystemsEntity find(Long projectId, Long iterationId) {
+        /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
+        el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
+        Suponga que es algo similar a "select * from IterationEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
+         */
+        LOGGER.log(Level.INFO, "Consultando la iteracion con id = {0} del proyecto con id = " + projectId, iterationId);
+        TypedQuery<InternalSystemsEntity> q = em.createQuery("select p from InternalSystemsEntity p where (p.project.id = :projectId) and (p.id = :iterationId)", InternalSystemsEntity.class);
+        q.setParameter("projectId", projectId);
+        q.setParameter("iterationId", iterationId);
+        List<InternalSystemsEntity> results = q.getResultList();
+        InternalSystemsEntity review = null;
+        if (results == null) {
+            review = null;
+        } else if (results.isEmpty()) {
+            review = null;
+        } else if (results.size() >= 1) {
+            review = results.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar el review con id = {0} del libro con id =" + projectId, iterationId);
+        return review;
     }
     
-    public InternalSystemsEntity update(InternalSystemsEntity internal) {
-        return em.merge(internal);
+    /**
+     * Actualiza una iteracion.
+     *
+     * @param iterationEntity: la iteracion que viene con los nuevos cambios. Por
+     * ejemplo el nombre pudo cambiar. En ese caso, se haria uso del método
+     * update.
+     * @return una iteracion con los cambios aplicados.
+     */
+    public InternalSystemsEntity update(InternalSystemsEntity iterationEntity) {
+        LOGGER.log(Level.INFO, "Actualizando la iteracion con id={0}", iterationEntity.getId());
+        /* Note que hacemos uso de un método propio del EntityManager llamado merge() que recibe como argumento
+        la iteracion con los cambios, esto es similar a 
+        "UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;" en SQL.
+         */
+        return em.merge(iterationEntity);
     }
     
-    public void delete(Long internalId) {
-        InternalSystemsEntity entity = em.find(InternalSystemsEntity.class, internalId);
-        em.remove(entity);
-    }
+    /**
+     * Borra una iteracion de la base de datos recibiendo como argumento el id de la
+     * iteracion
+     *
+     * @param iterationId: id correspondiente a la iteracion a borrar.
+     */
+    public void delete(Long iterationId) {
 
-}
+        LOGGER.log(Level.INFO, "Borrando la iteracion con id={0}", iterationId);
+        // Se hace uso de mismo método que esta explicado en public IterationEntity find(Long id) para obtener la iteracion a borrar.
+        InternalSystemsEntity iterationEntity = em.find(InternalSystemsEntity.class, iterationId);
+        /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
+        EntityManager para eliminar de la base de datos el objeto que encontramos y queremos borrar.
+        Es similar a "delete from IterationEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/
+        em.remove(iterationEntity);
+    }}

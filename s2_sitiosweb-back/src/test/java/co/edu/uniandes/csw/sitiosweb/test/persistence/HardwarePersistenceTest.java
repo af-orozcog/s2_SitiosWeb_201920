@@ -32,27 +32,52 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @RunWith(Arquillian.class)
 public class HardwarePersistenceTest {
     
+    /**
+     * atributo necesario para tener transaccionalidad durante las pruebas
+     */
+    @Inject
+    UserTransaction utx;
+
+    /**
+     * arreglo donde se guardan algunas iteraciones preestablecidas para
+     * probar los métodos
+     */
+    private List<HardwareEntity> data = new ArrayList<>();
+    
+    
+    /**
+     * donde se van a preestablecer algunos datos para probar los 
+     * métodos de la logica
+     */
+    private List<ProjectEntity> dataProject = new ArrayList<ProjectEntity>();
+    
+    /**
+     * Método necesario para generar un contexto en el cual se 
+     * va a llevar a cabo el despliegue
+     * @return el contexto
+     */
     @Deployment
     public static JavaArchive createDeploymet(){
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(HardwareEntity.class.getPackage())
+                .addPackage(HardwarePersistence.class.getPackage())
                 .addPackage(ProjectEntity.class.getPackage())
-                .addClass(HardwarePersistence.class)
-                .addAsManifestResource("META-INF/persistence.xml","persistence.xml")
-                .addAsManifestResource("META-INF/beans.xml","beans.xml");
+                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
-    @Inject
-    HardwarePersistence hw;
     
+    /**
+     * atributo con el cual se llama a la persistencia
+     */
+    @Inject
+    HardwarePersistence hardwarePersistence;
+    
+    /**
+     * manejador del contexto de persistencia
+     */
     @PersistenceContext
-    EntityManager em;
+    protected EntityManager em;
     
-    @Inject
-    UserTransaction utx;
-
-    private List<HardwareEntity> data = new ArrayList<HardwareEntity>();
-
-
     /**
      * Configuración inicial de la prueba.
      */
@@ -73,74 +98,93 @@ public class HardwarePersistenceTest {
             }
         }
     }
-
+  
     /**
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
         em.createQuery("delete from HardwareEntity").executeUpdate();
+        em.createQuery("delete from ProjectEntity").executeUpdate();
     }
+    
+    /**
+     * Inserta los datos iniciales para el correcto funcionamiento de las
+     * pruebas.
+     */
     private void insertData() {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
-
             HardwareEntity entity = factory.manufacturePojo(HardwareEntity.class);
-
             em.persist(entity);
-
             data.add(entity);
         }
+        for (int i = 0; i < 3; i++) {
+            ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+            HardwareEntity en = data.get(i);
+            en.setProject(entity);
+            em.persist(en);
+            em.persist(entity);
+            dataProject.add(entity);
+        }
     }
+    
+    
+    /**
+     * Método para la creación de la iteracion
+     */
     @Test
     public void createTest(){
         PodamFactory factory = new PodamFactoryImpl();
         HardwareEntity hardware = factory.manufacturePojo(HardwareEntity.class);
-        HardwareEntity result = hw.create(hardware);
+        HardwareEntity result = hardwarePersistence.create(hardware);
         Assert.assertNotNull(result);
         
         HardwareEntity entity = em.find(HardwareEntity.class,result.getId());
-        Assert.assertEquals(hardware.getIp(),entity.getIp());
         Assert.assertEquals(hardware.getCores(),entity.getCores());
-        Assert.assertEquals(hardware.getRam(),entity.getRam());
         Assert.assertEquals(hardware.getCpu(),entity.getCpu());
+        Assert.assertEquals(hardware.getIp(),entity.getIp());
         Assert.assertEquals(hardware.getPlataforma(),entity.getPlataforma());
+
         
     }
     
-
+    /**
+     * Prueba para crear un .
+     */
     @Test
-    public void getHardwaresTest() {
-        List<HardwareEntity> list = hw.findAll();
-        Assert.assertEquals(data.size(), list.size());
-        for (HardwareEntity ent : list) {
-            boolean found = false;
-            for (HardwareEntity entity : data) {
-                if (ent.getId().equals(entity.getId())) {
-                    found = true;
-                }
-            }
-            Assert.assertTrue(found);
-        }
+    public void createHardwareTest() {
+        PodamFactory factory = new PodamFactoryImpl();
+        HardwareEntity newEntity = factory.manufacturePojo(HardwareEntity.class);
+        HardwareEntity result = hardwarePersistence.create(newEntity);
+
+        Assert.assertNotNull(result);
+
+        HardwareEntity entity = em.find(HardwareEntity.class, result.getId());
+
+        Assert.assertEquals(newEntity.getIp(), entity.getIp());
     }
-
-
+    
+    
+    /**
+     * Prueba para consultar una Iteracion.
+     * prueba que los valores devueltos sean correctos
+     */
     @Test
     public void getHardwareTest() {
         HardwareEntity entity = data.get(0);
-        HardwareEntity newEntity = hw.find(entity.getId());
+        HardwareEntity newEntity = hardwarePersistence.find(dataProject.get(0).getId(), entity.getId());
         Assert.assertNotNull(newEntity);
-        Assert.assertEquals(entity.getCores(), newEntity.getCores());
+        Assert.assertEquals(newEntity.getCores(),entity.getCores());
+        Assert.assertEquals(newEntity.getCpu(),entity.getCpu());
+        Assert.assertEquals(newEntity.getIp(),entity.getIp());
+        Assert.assertEquals(newEntity.getPlataforma(),entity.getPlataforma());
     }
-
-
-    @Test
-    public void deleteHardwareTest() {
-        HardwareEntity entity = data.get(0);
-        hw.delete(entity.getId());
-        HardwareEntity deleted = em.find(HardwareEntity.class, entity.getId());
-        Assert.assertNull(deleted);
-    }
-
+    
+    
+    
+    /**
+     * Prueba para actualizar una Iteracion.
+     */
     @Test
     public void updateHardwareTest() {
         HardwareEntity entity = data.get(0);
@@ -149,10 +193,25 @@ public class HardwarePersistenceTest {
 
         newEntity.setId(entity.getId());
 
-        hw.update(newEntity);
+        hardwarePersistence.update(newEntity);
 
         HardwareEntity resp = em.find(HardwareEntity.class, entity.getId());
-        Assert.assertEquals(newEntity.getCores(), resp.getCores());
+
+        Assert.assertEquals(newEntity.getCores(),resp.getCores());
+        Assert.assertEquals(newEntity.getCpu(),resp.getCpu());
+        Assert.assertEquals(newEntity.getIp(),resp.getIp());
+        Assert.assertEquals(newEntity.getPlataforma(),resp.getPlataforma());
+    }
+    
+    /**
+     * Prueba para eliminar una Iteracion.
+     */
+    @Test
+    public void deleteHardwareTest() {
+        HardwareEntity entity = data.get(0);
+        hardwarePersistence.delete(entity.getId());
+        HardwareEntity deleted = em.find(HardwareEntity.class, entity.getId());
+        Assert.assertNull(deleted);
     }
     
 }

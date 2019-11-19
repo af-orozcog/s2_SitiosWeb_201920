@@ -100,19 +100,26 @@ public class HardwareDTO implements Serializable{
     }
 
     /**
+     * @return the cores
+     */
+    public int getCores() {
+        return cores;
+    }
+    
+    /**
      * @param id the id to set
      */
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     /**
-     * @return the ip
+     * @param cores the cores to set
      */
-    public Long getIp() {
-        return ip;
+    public void setCores(int cores) {
+        this.cores = cores;
     }
-
+    
     /**
      * @param ip the ip to set
      */
@@ -121,17 +128,17 @@ public class HardwareDTO implements Serializable{
     }
 
     /**
-     * @return the cores
+     * @return the ip
      */
-    public int getCores() {
-        return cores;
+    public Long getIp() {
+        return ip;
     }
-
+    
     /**
-     * @param cores the cores to set
+     * @param plataforma the plataforma to set
      */
-    public void setCores(int cores) {
-        this.cores = cores;
+    public void setPlataforma(String plataforma) {
+        this.plataforma = plataforma;
     }
 
     /**
@@ -140,14 +147,7 @@ public class HardwareDTO implements Serializable{
     public int getRam() {
         return ram;
     }
-
-    /**
-     * @param ram the ram to set
-     */
-    public void setRam(int ram) {
-        this.ram = ram;
-    }
-
+    
     /**
      * @return the cpu
      */
@@ -156,6 +156,20 @@ public class HardwareDTO implements Serializable{
     }
 
     /**
+     * @return the plataforma
+     */
+    public String getPlataforma() {
+        return plataforma;
+    }
+    
+    /**
+     * @param ram the ram to set
+     */
+    public void setRam(int ram) {
+        this.ram = ram;
+    }
+    
+    /**
      * @param cpu the cpu to set
      */
     public void setCpu(String cpu) {
@@ -163,16 +177,18 @@ public class HardwareDTO implements Serializable{
     }
 
     /**
-     * @return the plataforma
+     * @return the projecto
      */
-    public String getPlataforma() {
-        return plataforma;
+    public ProjectDTO getProject() {
+        return projecto;
     }
 
     /**
-     * @param plataforma the plataforma to set
+     * @param projecto the projecto to set
      */
-    public void setPlataforma(String plataforma) {
-        this.plataforma = plataforma;
+    public void setProject(ProjectDTO projecto) {
+        this.projecto = projecto;
     }
+    
+    
 }

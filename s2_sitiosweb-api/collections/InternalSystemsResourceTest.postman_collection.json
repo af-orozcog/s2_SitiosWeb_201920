@@ -1,0 +1,648 @@
+{
+	"info": {
+		"_postman_id": "a1e3366b-ce1c-4acf-bd87-8da227bcaf14",
+		"name": "InternalSystemsResourceTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear proyecto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ee3c33d-42ab-4c1c-9d44-9058b0a124b2",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_p\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company\": \"AmazonPrime\",\r\n    \"internalProject\": false,\r\n    \"developers\": [],\r\n    \"internalSystems\": [],\r\n    \"iterations\": [],\r\n    \"requests\": []\r\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "Prueba necesaria para crear el proyecto que se va a utilizar para poder cumplir con las reglas de negocio y crear la iteración.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear internalSystems 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6841307f-7541-4995-91e4-b319935aee46",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_i1\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\":\"Actual\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems"
+					]
+				},
+				"description": "Prueba necesaria para pobrar que se cree una internalSystem con valores validos y asociandola a un proyecto que tambien existe en la base de datos.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear internalSystems 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6841307f-7541-4995-91e4-b319935aee46",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_i2\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\":\"Actual 2\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems"
+					]
+				},
+				"description": "Prueba necesaria para pobrar que se cree una internalSystem con valores validos y asociandola a un proyecto que tambien existe en la base de datos.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener internalSystem que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b8df54a7-f986-4190-bfd5-16915206cffd",
+						"exec": [
+							"tests[\"No se deberia obtener una iteracion con un id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /internalSystemss/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems",
+						"0"
+					]
+				},
+				"description": "Consulta una internalSystem que no existe en un proyecto en la aplicación.\r\n\r\nCódigo http esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todas las internalSystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65a3d1f7-c23b-4dc6-a23e-e07263e79594",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get All\"] = responseCode.code === 200;",
+							"tests[\"iterations count\"] = data.length > 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems"
+					]
+				},
+				"description": "Obtener todas las internalSystems asociadas a un proyecto especifico. \nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una internalSystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfdfdc61-79b5-47ca-801e-f0c6af51c251",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get All\"] = responseCode.code === 200;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Obtiene una internalSystem especifica dentro de un proyecto dado.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar una internalSystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfdfdc61-79b5-47ca-801e-f0c6af51c251",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Put\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\":\"actualizaciones nuevas\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Edita una internalSystem dentro de un proyecto dado.\nCodigo esperado: 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar una internalSystem que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfdfdc61-79b5-47ca-801e-f0c6af51c251",
+						"exec": [
+							"tests[\"No se puede editar un iteration que no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /internalSystemss/0 no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\":\"actualizaciones nuevas\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems",
+						"0"
+					]
+				},
+				"description": "Edita una internalSystem que no existe dentro de un proyecto dado. \nCodigo esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar una internalSystem en un proyecto que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfdfdc61-79b5-47ca-801e-f0c6af51c251",
+						"exec": [
+							"tests[\"No se puede editar un iteration que no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /book/0/reviews no existe.\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\":\"actualizaciones nuevas\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/internalSystems/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"internalSystems",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Edita una internalSystem dentro de un proyecto inexistente. \nCodigo esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una internalSystem que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b1a0782-e2f0-4b10-9a9d-57f609dcc24c",
+						"exec": [
+							"tests[\"No se puede borrar un internalSystem que no existe.\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems",
+						"0"
+					]
+				},
+				"description": "Borra una internalSystem inexistente.\nCodigo esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una internalSystem a un project que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b1a0782-e2f0-4b10-9a9d-57f609dcc24c",
+						"exec": [
+							"tests[\"No se puede borrar un internalSystem a un project que no existe.\"] = responseCode.code === 404;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/0/internalSystems/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"0",
+						"internalSystems",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Borra una internalSystem dentro de un project que no existe\nCodigo esperado: 404"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una internalSystem a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b1a0782-e2f0-4b10-9a9d-57f609dcc24c",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems/{{new_id_i1}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems",
+						"{{new_id_i1}}"
+					]
+				},
+				"description": "Borra una internalSystem dentro de un proyecto dado.\nCodigo esperado: 204"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una internalSystem 2 a un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b1a0782-e2f0-4b10-9a9d-57f609dcc24c",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}/internalSystems/{{new_id_i2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}",
+						"internalSystems",
+						"{{new_id_i2}}"
+					]
+				},
+				"description": "Borra una internalSystem dentro de un proyecto dado. \nCodigo esperado: 204"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b1a0782-e2f0-4b10-9a9d-57f609dcc24c",
+						"exec": [
+							"tests[\"no genera error en el Delete\"] = responseCode.code === 204;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Borra un project\nCodigo esperado: 204"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

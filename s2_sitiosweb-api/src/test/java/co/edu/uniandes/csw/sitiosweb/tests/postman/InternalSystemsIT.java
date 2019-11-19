@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class InternalSystemsIT {
 
-    private static final String COLLECTION = "InternalSystems-Tests.postman_collection";
+    private static final String COLLECTION = "InternalSystemsResourceTest.postman_collection";
 
     @Deployment(testable = true)
     public static WebArchive createDeployment() {

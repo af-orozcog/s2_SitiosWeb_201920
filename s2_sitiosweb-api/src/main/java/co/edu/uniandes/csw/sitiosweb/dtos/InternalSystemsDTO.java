@@ -13,6 +13,11 @@ public class InternalSystemsDTO implements Serializable{
     
     private Long id;
     private String type;
+    /**
+    * Atributo que representa la asociación con el projecto
+    */
+    private ProjectDTO projecto;
+
     
      /**
      * Constructor vacio
@@ -30,7 +35,13 @@ public class InternalSystemsDTO implements Serializable{
     public InternalSystemsDTO(InternalSystemsEntity internalSystemsEntity) {
         if (internalSystemsEntity != null) {
             this.id = internalSystemsEntity.getId();
-            this.type = internalSystemsEntity.getType();    
+            this.type = internalSystemsEntity.getType(); 
+            if(internalSystemsEntity.getProject()!=null){
+                this.projecto = new ProjectDTO(internalSystemsEntity.getProject());
+            }
+            else{
+                this.projecto = null;
+            }
         }
     }
 
@@ -52,6 +63,13 @@ public class InternalSystemsDTO implements Serializable{
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
+    
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
     /**
      * @return the id
@@ -61,6 +79,13 @@ public class InternalSystemsDTO implements Serializable{
     }
 
     /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+    
+    /**
      * @param id the id to set
      */
     public void setId(Long id) {
@@ -68,17 +93,21 @@ public class InternalSystemsDTO implements Serializable{
     }
 
     /**
-     * @return the type
+     * @return the projecto
      */
-    public String getType() {
-        return type;
+    public ProjectDTO getProject() {
+        return projecto;
     }
 
     /**
-     * @param type the type to set
+     * @param projecto the projecto to set
      */
-    public void setType(String type) {
-        this.type = type;
+    public void setProject(ProjectDTO projecto) {
+        this.projecto = projecto;
     }
-
+    
+    
+    
+    
+    
 }

@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class HardwareIT {
 
-    private static final String COLLECTION = "Hardware-Tests.postman_collection";
+    private static final String COLLECTION = "HardwareResourceTest.postman_collection";
 
     @Deployment(testable = true)
     public static WebArchive createDeployment() {

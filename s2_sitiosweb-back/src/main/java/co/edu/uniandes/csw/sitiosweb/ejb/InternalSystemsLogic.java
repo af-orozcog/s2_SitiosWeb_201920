@@ -6,8 +6,10 @@
 package co.edu.uniandes.csw.sitiosweb.ejb;
 
 import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
+import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.logging.Logger;
@@ -30,56 +32,89 @@ public class InternalSystemsLogic {
     private InternalSystemsPersistence persistence;
     
     @Inject
-    private ProjectPersistence projectP;
-
+    private ProjectPersistence projectPersistence;
     
-    public InternalSystemsEntity createInternalSystems(InternalSystemsEntity internalSystems) throws BusinessLogicException{
-        if(internalSystems.getType()==null){
-            throw new BusinessLogicException("El tipo del sistema esta vacio");
-        }
+    public InternalSystemsEntity createInternalSystems(Long projectId,InternalSystemsEntity iteracion) throws BusinessLogicException {
+        System.out.println(projectId);
+        if(iteracion.getType() == null)
+           throw new BusinessLogicException("la fecha de inicio esta vacia"); 
+        if(noExisteProject(projectId))
+            throw new BusinessLogicException("el proyecto al que esta asociado no existe");
+        iteracion.setProject(projectPersistence.find(projectId));
+        iteracion = persistence.create(iteracion);
         
-        internalSystems = persistence.create(internalSystems);
-        return internalSystems;
-    }
-    
-    public List<InternalSystemsEntity> getInternalSystems() {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los sistemas internos");
-        List<InternalSystemsEntity> lista = persistence.findAll();
-        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los sistemas internos");
-        return lista;
-    }
-    
-    public InternalSystemsEntity getInternalSystems(Long internalSystemsId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar los sistemas con id = {0}", internalSystemsId);
-        InternalSystemsEntity internalSystemsEntity = persistence.find(internalSystemsId);
-        if (internalSystemsEntity == null) {
-            LOGGER.log(Level.SEVERE, "El sistema con el id = {0} no existe", internalSystemsId);
-        }
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el sistema con id = {0}", internalSystemsId);
-        return internalSystemsEntity;
+        return iteracion;
     }
     
     /**
-     * Retorna todos los internalSystems que posee un project
-     * @param projectId. Id del proyecto del que se desea buscar todos sus internalSystems
-     * @return Lista de InternalSystemsEntity de un mismo proyecto
+     * Método que notifica si hay un proyecto relacionado con el id pasado por parametro
+     * @param id el id del proyecto que se quiere consultar
+     * @return falso o verdadero si existe el proyecto
      */
-    public List<InternalSystemsEntity> getInternalSystemsByProject(Long projectId) {
-        ProjectEntity project = projectP.find(projectId);
-        return project.getInternalSystems();
+    private boolean noExisteProject(Long id){
+        ProjectEntity entity = projectPersistence.find(id);
+        return entity==null;
     }
     
-    public InternalSystemsEntity updateInternalSystems(Long internalSystemsId, InternalSystemsEntity internalSystemsEntity) {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el sistema interno con id = {0}", internalSystemsId);
-        InternalSystemsEntity newInternalSystemsEntity = persistence.update(internalSystemsEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el sistema interno con id = {0}", internalSystemsId);
+    /**
+     * Obtiene la lista de los registros de iterations.
+     *
+     * @return Colección de objetos de InternalSystemsEntity.
+     */
+    public List<InternalSystemsEntity> getInternalSystems(Long projectId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar los reviews asociados al book con id = {0}", projectId);
+        ProjectEntity projectEntity = projectPersistence.find(projectId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar los reviews asociados al book con id = {0}", projectId);
+        return projectEntity.getInternalSystems();
+    }
+    
+    /**
+     * Obtiene los datos de una instancia de Author a partir de su ID.
+     *
+     * @param iterationId identificador de la iteración
+     * @return Instancia de AuthorEntity con los datos del Author consultado.
+     */
+    public InternalSystemsEntity getInternalSystems(Long projectId, Long iterationId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar la iteracion con id = {0} del proyecto con id = " + projectId, iterationId);
+        return persistence.find(projectId, iterationId);
+    }
+    
+    /**
+     * Actualiza la información de una instancia de Author.
+     *
+     * @param projectId id del proyecto al que pertenece
+     * @param iterationId id de la iteración
+     * @param iterationEntity Instancia de InternalSystemsEntity con los nuevos datos.
+     * @return Instancia de AuthorEntity con los datos actualizados.
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    public InternalSystemsEntity updateInternalSystems(Long projectId, InternalSystemsEntity iterationEntity) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar una iteracion con id = {0} en el proyecto "+ projectId, iterationEntity.getId());
+         if(iterationEntity.getType() == null)
+           throw new BusinessLogicException("la fecha de inicio esta vacia"); 
+        if(noExisteProject(projectId))
+            throw new BusinessLogicException("el proyecto no existe");
+        ProjectEntity projectEntity = projectPersistence.find(projectId);
+        iterationEntity.setProject(projectEntity);
+        InternalSystemsEntity newInternalSystemsEntity = persistence.update(iterationEntity);
+        LOGGER.log(Level.INFO, "Termina proceso de actualzar una iteración con id = {0}", iterationEntity.getId());
         return newInternalSystemsEntity;
     }
-    
-        public void deleteInternalSystems(Long internalSystemsId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el sistema interno con id = {0}", internalSystemsId);
-        persistence.delete(internalSystemsId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el sistema interno con id = {0}", internalSystemsId);
+   
+    /**
+     * Elimina una instancia de iteración de la base de datos.
+     *
+     * @param iterationsId Identificador de la instancia a eliminar.
+     * @throws BusinessLogicException si el autor tiene libros asociados.
+     */
+    public void deleteInternalSystems(Long projectId, Long iterationId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
+        InternalSystemsEntity old = getInternalSystems(projectId, iterationId);
+        if (old == null) {
+            throw new BusinessLogicException("El review con id = " + iterationId + " no esta asociado a el proyecto con id = " + projectId);
+        }
+        persistence.delete(old.getId());
+        LOGGER.log(Level.INFO, "Termina proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
     }
     
     
