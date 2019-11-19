@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class RequesterIT {
 
-    private static final String COLLECTION = "Requester-Tests.postman_collection";
+    private static final String COLLECTION = "RequesterResourceTest.postman_collection";
 
     @Deployment(testable = true)
     public static WebArchive createDeployment() {
@@ -53,8 +53,10 @@ public class RequesterIT {
     @Test
     @RunAsClient
     public void postman() throws IOException {
+        
+        PostmanTestBuilder tp = new PostmanTestBuilder();
+
         try {
-            PostmanTestBuilder tp = new PostmanTestBuilder();
             tp.setTestWithoutLogin(COLLECTION, "Entorno-IT.postman_environment");
             String desiredResult = "0";
             Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
