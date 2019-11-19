@@ -19,7 +19,7 @@ public class UserEntity extends BaseEntity implements Serializable {
      * Login del usuario
      */
     private String login;
-    
+
     /**
      * Email del usuario
      */
@@ -29,6 +29,11 @@ public class UserEntity extends BaseEntity implements Serializable {
      * Phone del usuario
      */
     private String phone;
+
+    /**
+     * Imagen del usuario
+     */
+    private String image;
 
     /**
      * @return the name
@@ -43,7 +48,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     /**
      * @return the login
      */
@@ -84,6 +89,20 @@ public class UserEntity extends BaseEntity implements Serializable {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    /**
+     * @return the image
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(String image) {
+        this.image = image;
     }
 
 }

@@ -121,6 +121,7 @@ public class RequesterPersistenceTest {
         Assert.assertEquals(requester.getLogin(), entity.getLogin());
         Assert.assertEquals(requester.getEmail(), entity.getEmail());
         Assert.assertEquals(requester.getPhone(), entity.getPhone());
+        Assert.assertEquals(requester.getImage(), entity.getImage());
 
     }
 
@@ -154,6 +155,7 @@ public class RequesterPersistenceTest {
         Assert.assertEquals(entity.getLogin(), newEntity.getLogin());
         Assert.assertEquals(entity.getEmail(), newEntity.getEmail());
         Assert.assertEquals(entity.getPhone(), newEntity.getPhone());
+        Assert.assertEquals(entity.getImage(), newEntity.getImage());
 
     }
 
@@ -185,7 +187,8 @@ public class RequesterPersistenceTest {
         Assert.assertEquals(newEntity.getName(), resp.getName());
         Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
         Assert.assertEquals(newEntity.getEmail(), resp.getEmail());
-        Assert.assertEquals(newEntity.getLogin(), resp.getLogin());
+        Assert.assertEquals(newEntity.getPhone(), resp.getPhone());
+        Assert.assertEquals(newEntity.getImage(), resp.getImage());
 
     }
 }

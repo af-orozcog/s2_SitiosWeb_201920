@@ -17,19 +17,21 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 /**
+ * Clase que implementa la conexion con la persistencia para la relación entre
+ * la entidad de Developer y Project.
  *
+ * @developer ISIS2603
  */
 @Stateless
 public class DeveloperProjectLogic {
 
-    
     private static final Logger LOGGER = Logger.getLogger(DeveloperProjectLogic.class.getName());
 
     @Inject
-    private DeveloperPersistence developerPersistence;
+    private ProjectPersistence projectPersistence;
 
     @Inject
-    private ProjectPersistence projectPersistence;
+    private DeveloperPersistence developerPersistence;
 
     /**
      * Asocia un Project existente a un Developer
@@ -40,9 +42,9 @@ public class DeveloperProjectLogic {
      */
     public ProjectEntity addProject(Long developersId, Long projectsId) {
         LOGGER.log(Level.INFO, "Inicia proceso de asociarle un proyecto al desarrollador con id = {0}", developersId);
-        ProjectEntity projectEntity = projectPersistence.find(projectsId);
         DeveloperEntity developerEntity = developerPersistence.find(developersId);
-        developerEntity.getProjects().add(projectEntity);
+        ProjectEntity projectEntity = projectPersistence.find(projectsId);
+        projectEntity.getDevelopers().add(developerEntity);
         LOGGER.log(Level.INFO, "Termina proceso de asociarle un proyecto al desarrollador con id = {0}", developersId);
         return projectPersistence.find(projectsId);
     }
@@ -52,11 +54,11 @@ public class DeveloperProjectLogic {
      * instancia de Developer
      *
      * @param developersId Identificador de la instancia de Developer
-     * @return Colección de instancias de ProjectEntity asociadas a la instancia
-     * de Developer
+     * @return Colección de instancias de ProjectEntity asociadas a la instancia de
+     * Developer
      */
     public List<ProjectEntity> getProjects(Long developersId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los proyectoes del desarrollador con id = {0}", developersId);
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los proyectos del desarrollador con id = {0}", developersId);
         return developerPersistence.find(developersId).getProjects();
     }
 
@@ -65,34 +67,45 @@ public class DeveloperProjectLogic {
      *
      * @param developersId Identificador de la instancia de Developer
      * @param projectsId Identificador de la instancia de Project
-     * @return La entidad del Proyecto asociada al desarrollador
+     * @return La entidadd de Proyecto del desarrollador
+     * @throws BusinessLogicException Si el proyecto no está asociado al desarrollador
      */
-    public ProjectEntity getProject(Long developersId, Long projectsId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar un proyecto del desarrollador con id = {0}", developersId);
+    public ProjectEntity getProject(Long developersId, Long projectsId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
         List<ProjectEntity> projects = developerPersistence.find(developersId).getProjects();
         ProjectEntity projectEntity = projectPersistence.find(projectsId);
         int index = projects.indexOf(projectEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar un proyecto del desarrollador con id = {0}", developersId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
         if (index >= 0) {
             return projects.get(index);
         }
-        return null;
+        throw new BusinessLogicException("El proyecto no está asociado al desarrollador)");
     }
-    
+
     /**
      * Remplaza las instancias de Project asociadas a una instancia de Developer
      *
-     * @param developersId Identificador de la instancia de Developer
-     * @param list Colección de instancias de ProjectEntity a asociar a instancia
+     * @param developerId Identificador de la instancia de Developer
+     * @param projects Colección de instancias de ProjectEntity a asociar a instancia
      * de Developer
      * @return Nueva colección de ProjectEntity asociada a la instancia de Developer
      */
-    public List<ProjectEntity> replaceProjects(Long developersId, List<ProjectEntity> list) {
-        LOGGER.log(Level.INFO, "Inicia proceso de reemplazar los proyectoes del desarrollador con id = {0}", developersId);
-        DeveloperEntity developerEntity = developerPersistence.find(developersId);
-        developerEntity.setProjects(list);
-        LOGGER.log(Level.INFO, "Termina proceso de reemplazar los proyectoes del desarrollador con id = {0}", developersId);
-        return developerPersistence.find(developersId).getProjects();
+    public List<ProjectEntity> replaceProjects(Long developerId, List<ProjectEntity> projects) {
+        LOGGER.log(Level.INFO, "Inicia proceso de reemplazar los proyectos asocidos al developer con id = {0}", developerId);
+        DeveloperEntity developerEntity = developerPersistence.find(developerId);
+        List<ProjectEntity> projectList = projectPersistence.findAll();
+        for (ProjectEntity project : projectList) {
+            if (projects.contains(project)) {
+                if (!project.getDevelopers().contains(developerEntity)) {
+                    project.getDevelopers().add(developerEntity);
+                }
+            } else {
+                project.getDevelopers().remove(developerEntity);
+            }
+        }
+        developerEntity.setProjects(projects);
+        LOGGER.log(Level.INFO, "Termina proceso de reemplazar los proyectos asocidos al developer con id = {0}", developerId);
+        return developerEntity.getProjects();
     }
 
     /**
@@ -102,10 +115,10 @@ public class DeveloperProjectLogic {
      * @param projectsId Identificador de la instancia de Project
      */
     public void removeProject(Long developersId, Long projectsId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar un proyecto del desarrollador con id = {0}", developersId);
-        ProjectEntity projectEntity = projectPersistence.find(projectsId);
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar un proyecto del developer con id = {0}", developersId);
         DeveloperEntity developerEntity = developerPersistence.find(developersId);
-        developerEntity.getProjects().remove(projectEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar un proyecto del desarrollador con id = {0}", developersId);
+        ProjectEntity projectEntity = projectPersistence.find(projectsId);
+        projectEntity.getDevelopers().remove(developerEntity);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar un proyecto del developer con id = {0}", developersId);
     }
 }

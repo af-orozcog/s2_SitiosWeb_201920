@@ -7,59 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "Crear un desarrollador",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9af4206b-b7f4-47f9-b950-9ff7be61be67",
-						"exec": [
-							"var data = JSON.parse(responseBody);",
-							"postman.setGlobalVariable(\"new_id_d\",data.id);",
-							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
-							"console.log(data.id);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\":\"Nombre1\",\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"developers"
-					]
-				},
-				"description": "Crea la cuenta de un desarrollador. El login del recurso debe ser único y el phone debe ser de 10 dígitos y ser números. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
-			},
-			"response": []
-		},
-		{
 			"name": "Crear un project",
 			"event": [
 				{
@@ -166,6 +113,59 @@
 			"response": []
 		},
 		{
+			"name": "Crear un desarrollador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f47de4c0-186b-4402-b054-f9253f982f6c",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_d\",data.id);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Nombre1\",\n\t\"login\":\"Desarrollador\",\n\t\"email\":\"ejemplo@sitios.com\",\n\t\"phone\":\"3203745567\",\n\t\"leader\":true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"developers"
+					]
+				},
+				"description": "Crea la cuenta de un desarrollador. El login del recurso debe ser único y el phone debe ser de 10 dígitos y ser números. El Id es inicializado por la BD y se debe ver en la respuesta. \r\n\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección."
+			},
+			"response": []
+		},
+		{
 			"name": "Agregar un proyecto a un desarrollador",
 			"event": [
 				{
@@ -181,12 +181,7 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
@@ -414,52 +409,6 @@
 			"response": []
 		},
 		{
-			"name": "Asociar proyectos a un desarrollador que no existe",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "b3374dff-9bc4-4781-9d8b-11c920e28d41",
-						"exec": [
-							"tests[\"No se deberian asociar los projects ya que el developer no existe.\"] = responseCode.code === 404;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /developers/0 no existe.\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[{\n\t\"id\":{{new_id_p}},\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n},\n{\n\t\"id\":{{new_id_p2}},\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}]"
-				},
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers/0/projects",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"developers",
-						"0",
-						"projects"
-					]
-				},
-				"description": "Actualiza la lista de proyectos a un desarrollador que no existe.\r\n\r\nSe envía el Id en la URL de la petición.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /developers/0 no existe.\"."
-			},
-			"response": []
-		},
-		{
 			"name": "Obtener los proyectos de un desarrollador",
 			"event": [
 				{
@@ -469,7 +418,7 @@
 						"exec": [
 							"var data= JSON.parse(responseBody);",
 							"tests[\"no genera error en el Get all\"] = responseCode.code === 200;",
-							"tests[\"proyects count - book\"] = data.length >= 1;"
+							"tests[\"proyects count - developer\"] = data.length >= 1;"
 						],
 						"type": "text/javascript"
 					}

@@ -130,7 +130,8 @@ public class DeveloperLogicTest {
         Assert.assertEquals(entity.getLogin(), result.getLogin());
         Assert.assertEquals(entity.getEmail(), result.getEmail());
         Assert.assertEquals(entity.getPhone(), result.getPhone());
-
+        Assert.assertEquals(entity.getImage(), result.getImage());
+        Assert.assertEquals(entity.getLeader(), result.getLeader());
     }
 
     /**
@@ -212,6 +213,8 @@ public class DeveloperLogicTest {
         Assert.assertEquals(entity.getLogin(), resultEntity.getLogin());
         Assert.assertEquals(entity.getPhone(), resultEntity.getPhone());
         Assert.assertEquals(entity.getEmail(), resultEntity.getEmail());
+        Assert.assertEquals(entity.getLeader(), resultEntity.getLeader());
+        Assert.assertEquals(entity.getImage(), resultEntity.getImage());
     }
 
     /**
@@ -233,6 +236,7 @@ public class DeveloperLogicTest {
         Assert.assertEquals(pojoEntity.getPhone(), resp.getPhone());
         Assert.assertEquals(pojoEntity.getEmail(), resp.getEmail());
         Assert.assertEquals(pojoEntity.getLeader(), resp.getLeader());
+        Assert.assertEquals(pojoEntity.getImage(), resp.getImage());
     }
 
     /**

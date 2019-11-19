@@ -17,6 +17,7 @@ public class UserDTO implements Serializable {
     private String login;
     private String email;
     private String phone;
+    private String image;
     
     /**
      * Constructor por defecto
@@ -37,6 +38,7 @@ public class UserDTO implements Serializable {
             this.login = userEntity.getLogin();
             this.email = userEntity.getEmail();
             this.phone = userEntity.getPhone();
+            this.image = userEntity.getImage();
         }
     }
 
@@ -47,10 +49,19 @@ public class UserDTO implements Serializable {
      */
     public UserEntity toEntity() {
         UserEntity userEntity = new UserEntity();
+        userEntity.setName(this.getName());
         userEntity.setLogin(this.getLogin());
         userEntity.setEmail(this.getEmail());
         userEntity.setPhone(this.getPhone());
+        userEntity.setImage(this.getImage());
         return userEntity;
+    }
+    
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
     
     /**
@@ -59,14 +70,14 @@ public class UserDTO implements Serializable {
     public String getName() {
         return name;
     }
-
+    
     /**
-     * @param name the name to set
+     * @param id the id to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
-
+    
     /**
      * @return the id
      */
@@ -75,12 +86,12 @@ public class UserDTO implements Serializable {
     }
 
     /**
-     * @param id the id to set
+     * @param login the login to set
      */
-    public void setId(Long id) {
-        this.id = id;
+    public void setLogin(String login) {
+        this.login = login;
     }
-
+    
     /**
      * @return the login
      */
@@ -89,12 +100,12 @@ public class UserDTO implements Serializable {
     }
 
     /**
-     * @param login the login to set
+     * @param email the email to set
      */
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
-
+    
     /**
      * @return the email
      */
@@ -103,12 +114,12 @@ public class UserDTO implements Serializable {
     }
 
     /**
-     * @param email the email to set
+     * @param phone the phone to set
      */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
-
+    
     /**
      * @return the phone
      */
@@ -117,10 +128,17 @@ public class UserDTO implements Serializable {
     }
 
     /**
-     * @param phone the phone to set
+     * @param image the image to set
      */
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+            /**
+     * @return the image
+     */
+    public String getImage() {
+        return image;
     }
 
     @Override

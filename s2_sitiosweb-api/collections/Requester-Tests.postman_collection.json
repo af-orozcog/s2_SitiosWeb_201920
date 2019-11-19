@@ -76,7 +76,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320745567\",\n  \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -120,7 +120,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"32074556a7\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"32074556a7\",\n  \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -168,7 +168,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -216,7 +216,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre2\",\n \"login\":\"Solicitante2\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}",
+					"raw": "{\n \"name\":\"Nombre2\",\n \"login\":\"Solicitante2\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -267,7 +267,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":0 }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":0 }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
@@ -427,7 +427,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/0",
@@ -472,7 +472,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320674556a7\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320674556a7\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",
@@ -518,7 +518,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"name\":\"Editado1\",\n \"login\":\"SolicitanteN1\",\n \"email\":\"cambio@sitios.com\",\n \"phone\":\"3206745567\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
+					"raw": "{\n \"name\":\"Editado1\",\n \"login\":\"SolicitanteN1\",\n \"email\":\"cambio@sitios.com\",\n \"phone\":\"3206745567\",\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters/{{new_id_r}}",

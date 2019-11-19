@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8e8d0a42-786d-4877-a0dd-c4d2a647be6b",
+		"_postman_id": "3ea873f7-6f49-41c5-a7b0-a74af4c355c0",
 		"name": "ProjectDeveloperResource Tests",
 		"description": "Esta colección prueba la relación entre Project y Developer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -35,7 +35,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\t\n\t\"email\": \"nicogi@gmail.com\",\n\t\"login\": \"n.giraldo\",\n\t\"phone\": \"1112225487\",\n\t\"type\" : \"Developer\"\n}",
+					"raw": "{\t\n\t\"name\": \"nombrex\",\n\t\"email\": \"nicogi@gmail.com\",\n\t\"login\": \"n.giraldo\",\n\t\"phone\": \"1112225487\",\n\t\"leader\" : false,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -88,7 +88,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\t\n\t\"email\": \"armandocasas@gmail.com\",\n\t\"login\": \"armmo.casas\",\n\t\"phone\": \"1112225777\",\n\t\"type\" : \"Developer\"\n}",
+					"raw": "{\t\n\t\"name\": \"Armando\",\n\t\"email\": \"armandocasas@gmail.com\",\n\t\"login\": \"armmo.casas\",\n\t\"phone\": \"1112225777\",\n\t\"leader\": true,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -341,7 +341,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n\t{\n\t\"id\": {{new_id_dev1}},\n\t\"email\": \"nicogi@gmail.com\",\n\t\"login\": \"n.giraldo\",\n\t\"phone\": \"1112225487\",\n\t\"type\" : \"Developer\"\n\t},\n\t{\n\t\"id\": {{new_id_dev2}},\n\t\"email\": \"armandocasas@gmail.com\",\n\t\"login\": \"armmo.casas\",\n\t\"phone\": \"1112225777\",\n\t\"type\" : \"Developer\"\n\t}\n]",
+					"raw": "[\n\t{\n\t\"id\": {{new_id_dev1}},\n\t\"name\": \"nombrex\",\n\t\"email\": \"nicogi@gmail.com\",\n\t\"login\": \"n.giraldo\",\n\t\"phone\": \"1112225487\",\n\t\"leader\" : false,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n\t},\n\t{\n\t\"id\": {{new_id_dev2}},\n\t\"name\": \"Armando\",\n\t\"email\": \"armandocasas@gmail.com\",\n\t\"login\": \"armmo.casas\",\n\t\"phone\": \"1112225777\",\n\t\"leader\": true,\n\t\"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n\t}\n]",
 					"options": {
 						"raw": {
 							"language": "json"
