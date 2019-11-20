@@ -71,11 +71,11 @@ public class DeveloperProjectLogic {
      * @throws BusinessLogicException Si el proyecto no está asociado al desarrollador
      */
     public ProjectEntity getProject(Long developersId, Long projectsId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el proyecto con id = {0} del desarrollador con id = ", projectsId);
         List<ProjectEntity> projects = developerPersistence.find(developersId).getProjects();
         ProjectEntity projectEntity = projectPersistence.find(projectsId);
         int index = projects.indexOf(projectEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el proyecto con id = {0} del desarrollador con id = " + developersId, projectsId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el proyecto con id = {0} del desarrollador con id = ", projectsId);
         if (index >= 0) {
             return projects.get(index);
         }

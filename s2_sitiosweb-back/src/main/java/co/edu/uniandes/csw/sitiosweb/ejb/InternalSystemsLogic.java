@@ -10,9 +10,7 @@ import co.edu.uniandes.csw.sitiosweb.entities.ProjectEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.InternalSystemsPersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
-import java.util.logging.Logger;
 import java.util.List;
-import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -24,7 +22,6 @@ import javax.inject.Inject;
 @Stateless
 public class InternalSystemsLogic {
     
-    private static final Logger LOGGER = Logger.getLogger(InternalSystemsLogic.class.getName());
     
     @Inject
     private InternalSystemsPersistence persistence;
@@ -56,6 +53,7 @@ public class InternalSystemsLogic {
     /**
      * Obtiene la lista de los registros de iterations.
      *
+     * @param projectId
      * @return Colección de objetos de InternalSystemsEntity.
      */
     public List<InternalSystemsEntity> getInternalSystems(Long projectId) {
@@ -66,6 +64,7 @@ public class InternalSystemsLogic {
     /**
      * Obtiene los datos de una instancia de Author a partir de su ID.
      *
+     * @param projectId
      * @param iterationId identificador de la iteración
      * @return Instancia de AuthorEntity con los datos del Author consultado.
      */
@@ -88,14 +87,14 @@ public class InternalSystemsLogic {
             throw new BusinessLogicException("el proyecto no existe");
         ProjectEntity projectEntity = projectPersistence.find(projectId);
         iterationEntity.setProject(projectEntity);
-        InternalSystemsEntity newInternalSystemsEntity = persistence.update(iterationEntity);
-        return newInternalSystemsEntity;
+        return persistence.update(iterationEntity);
     }
    
     /**
      * Elimina una instancia de iteración de la base de datos.
      *
-     * @param iterationsId Identificador de la instancia a eliminar.
+     * @param projectId
+     * @param iterationId
      * @throws BusinessLogicException si el autor tiene libros asociados.
      */
     public void deleteInternalSystems(Long projectId, Long iterationId) throws BusinessLogicException {

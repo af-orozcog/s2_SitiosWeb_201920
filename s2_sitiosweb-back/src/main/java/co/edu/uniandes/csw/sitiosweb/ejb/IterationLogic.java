@@ -11,8 +11,6 @@ import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.sitiosweb.persistence.IterationPersistence;
 import co.edu.uniandes.csw.sitiosweb.persistence.ProjectPersistence;
 import java.util.List;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
@@ -35,7 +33,6 @@ public class IterationLogic {
     private ProjectPersistence projectPersistence;
     
     public IterationEntity createIteration(Long projectId,IterationEntity iteracion) throws BusinessLogicException {
-        System.out.println(projectId);
         if(iteracion.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(iteracion.getEndDate() == null)
@@ -65,6 +62,7 @@ public class IterationLogic {
     /**
      * Obtiene la lista de los registros de iterations.
      *
+     * @param projectId
      * @return Colección de objetos de IterationEntity.
      */
     public List<IterationEntity> getIterations(Long projectId) {
@@ -77,11 +75,12 @@ public class IterationLogic {
     /**
      * Obtiene los datos de una instancia de Author a partir de su ID.
      *
+     * @param projectId
      * @param iterationId identificador de la iteración
      * @return Instancia de AuthorEntity con los datos del Author consultado.
      */
     public IterationEntity getIteration(Long projectId, Long iterationId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar la iteracion con id = {0} del proyecto con id = " + projectId, iterationId);
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar la iteracion con id = {0} del proyecto con id = ", iterationId);
         return persistence.find(projectId, iterationId);
     }
     
@@ -89,13 +88,12 @@ public class IterationLogic {
      * Actualiza la información de una instancia de Author.
      *
      * @param projectId id del proyecto al que pertenece
-     * @param iterationId id de la iteración
      * @param iterationEntity Instancia de IterationEntity con los nuevos datos.
      * @return Instancia de AuthorEntity con los datos actualizados.
      * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
      */
     public IterationEntity updateIteration(Long projectId, IterationEntity iterationEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar una iteracion con id = {0} en el proyecto "+ projectId, iterationEntity.getId());
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar una iteracion con id = {0} en el proyecto ", iterationEntity.getId());
          if(iterationEntity.getBeginDate() == null)
            throw new BusinessLogicException("la fecha de inicio esta vacia"); 
         if(iterationEntity.getEndDate() == null)
@@ -108,15 +106,14 @@ public class IterationLogic {
             throw new BusinessLogicException("el proyecto no existe");
         ProjectEntity projectEntity = projectPersistence.find(projectId);
         iterationEntity.setProject(projectEntity);
-        IterationEntity newIterationEntity = persistence.update(iterationEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualzar una iteración con id = {0}", iterationEntity.getId());
-        return newIterationEntity;
+        return persistence.update(iterationEntity);
     }
    
     /**
      * Elimina una instancia de iteración de la base de datos.
      *
-     * @param iterationsId Identificador de la instancia a eliminar.
+     * @param projectId
+     * @param iterationId
      * @throws BusinessLogicException si el autor tiene libros asociados.
      */
     public void deleteIteration(Long projectId, Long iterationId) throws BusinessLogicException {
