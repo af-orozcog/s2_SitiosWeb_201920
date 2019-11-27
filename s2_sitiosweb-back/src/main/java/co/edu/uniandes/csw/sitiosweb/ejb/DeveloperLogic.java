@@ -44,6 +44,8 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
         if(!validatePhone(developer.getPhone()))
             throw new BusinessLogicException("El teléfono es inválido");
+        if(developer.getImage() == null )
+            developer.setImage("https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png");
 
         developer = persistence.create(developer);
         LOGGER.log(Level.INFO, "Termina proceso de creación del desarrollador");
