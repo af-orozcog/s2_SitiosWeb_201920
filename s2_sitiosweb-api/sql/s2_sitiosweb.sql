@@ -122,7 +122,13 @@ insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATI
 insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (9, '2019-03-18 05:47:11', '', '2019-03-21 20:57:21', '', '2019-04-25 00:24:58',100001);
 insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (10, '2019-02-04 18:39:15', '', '2019-08-27 07:21:28', '', '2019-11-10 07:44:29',100001);
 
+--Se crean las unidades a las que pertenecen los requesters
+insert into UNITENTITY (ID,NAME) values (100000,'ing sistemas');
+insert into UNITENTITY (ID,NAME) values (100001,'mecanica');
+
 --Se crean los requesters 
-insert into USERENTITY (ID, DTYPE, EMAIL, IMAGE, LOGIN, NAME, PHONE, LEADER) values (100006, 'RequesterEntity', 'jorge@uni', 'https://www.pandasecurity.com/mediacenter/src/uploads/2016/02/boss.jpg', 'jorge', 'Jorge', '4565654', 0);
-insert into USERENTITY (ID, DTYPE, EMAIL, IMAGE, LOGIN, NAME, PHONE, LEADER) values (100007, 'RequesterEntity', 'villalobos@uni', 'https://i1.wp.com/devbasu.com/wp-content/uploads/2015/04/describe-your-ideal-boss.jpg?w=2400&ssl=1', 'villa', 'Villalobos', '45621568', 0);
+insert into USERENTITY (ID, DTYPE, EMAIL, IMAGE, LOGIN, NAME, PHONE, LEADER,UNIT_ID) values (100006, 'RequesterEntity', 'jorge@uni', 'https://www.pandasecurity.com/mediacenter/src/uploads/2016/02/boss.jpg', 'jorge', 'Jorge', '4565654', 0,100000);
+insert into USERENTITY (ID, DTYPE, EMAIL, IMAGE, LOGIN, NAME, PHONE, LEADER,UNIT_ID) values (100007, 'RequesterEntity', 'villalobos@uni', 'https://i1.wp.com/devbasu.com/wp-content/uploads/2015/04/describe-your-ideal-boss.jpg?w=2400&ssl=1', 'villa', 'Villalobos', '45621568', 0,100001);
+
+--
 
