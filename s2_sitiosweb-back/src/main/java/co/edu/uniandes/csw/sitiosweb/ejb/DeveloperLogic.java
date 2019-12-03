@@ -44,9 +44,6 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
         if(!validatePhone(developer.getPhone()))
             throw new BusinessLogicException("El teléfono es inválido");
-        if(developer.getImage() == null )
-            developer.setImage("https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png");
-
         developer = persistence.create(developer);
         LOGGER.log(Level.INFO, "Termina proceso de creación del desarrollador");
         return developer;
@@ -81,6 +78,23 @@ public class DeveloperLogic {
         return developerEntity;
     }
     
+        /**
+     * Obtiene los datos de una instancia de Developer a partir de su Login.
+     *
+     * @param developersLogin Identificador de la instancia a consultar
+     * @return Instancia de DeveloperEntity con los datos del Developer
+     * consultado.
+     */
+    public DeveloperEntity getDeveloperByLogin(String developersLogin) {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el desarrollador con login = {0}", developersLogin);
+        DeveloperEntity developerEntity = persistence.findByLogin(developersLogin);
+        if (developerEntity == null) {
+            LOGGER.log(Level.SEVERE, "El desarrollador con el login = {0} no existe", developersLogin);
+        }
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el desarrollador con login = {0}", developersLogin);
+        return developerEntity;
+    }
+    
      /**
      * Actualizar un desarrollador por ID
      *
@@ -99,7 +113,7 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
         if(!validatePhone(developerEntity.getPhone()))
             throw new BusinessLogicException("El teléfono es inválido");
-        
+
         if(!developerEntity.getLeader() && !developerEntity.getLeadingProjects().isEmpty())
             throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
         
