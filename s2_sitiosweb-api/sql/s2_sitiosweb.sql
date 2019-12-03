@@ -42,7 +42,7 @@ VALUES (100011,10,'Intel Core i7',15725320217,'DEBIAN',79,100001);
 
 --lider proyecto 1
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100000,'DeveloperEntity','nf.abondano','https://sistemas.uniandes.edu.co/images/Personas/Profesores/jvillalo.jpg','nf.abondano','41066578',1);
+VALUES (100000,'DeveloperEntity','nf.abondano','https://sistemas.uniandes.edu.co/images/Personas/Profesores/jvillalo.jpg','nf.abondano','nicolas','41066578',1);
 -- se agrega el lider del proyecto 1
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100000,100000);
@@ -52,7 +52,7 @@ SET LEADER_ID = 100000
 WHERE ID = 100000;
 --lider del proyecto 2
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100001,'DeveloperEntity','d.galindo','https://sistemas.uniandes.edu.co/images/Personas/Profesores/vm.toro815.jpg','a.galindo','41066588',1);
+VALUES (100001,'DeveloperEntity','d.galindo','https://sistemas.uniandes.edu.co/images/Personas/Profesores/vm.toro815.jpg','a.galindo','daniel','41066588',1);
 -- se agrega el lider del proyecto 2
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100001,100001);
@@ -63,9 +63,9 @@ WHERE ID = 100001;
 
 --desarrolladores del proyecto 1
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100002,'DeveloperEntity','af.orozcog','https://sistemas.uniandes.edu.co/images/Personas/Profesores/rcardoso.jpg','af.orozcog','41066589',0);
+VALUES (100002,'DeveloperEntity','af.orozcog','https://sistemas.uniandes.edu.co/images/Personas/Profesores/rcardoso.jpg','af.orozcog','Andres','41066589',0);
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100003,'DeveloperEntity','a.maritnez','https://sistemas.uniandes.edu.co/images/Personas/Profesores/o-gonza1.jpg','a.martinez','41066590',0);
+VALUES (100003,'DeveloperEntity','a.maritnez','https://sistemas.uniandes.edu.co/images/Personas/Profesores/o-gonza1.jpg','a.martinez','Andres','41066590',0);
 --se añaden los desarrolladores del proyecto 1
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100000,100002);
@@ -74,9 +74,9 @@ VALUES (100000,100003);
 
 --desarrolladores del proyecto 2
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100004,'DeveloperEntity','d.delcastillo','https://sistemas.uniandes.edu.co/images/Personas/Profesores/stakahas.jpg','d.delcastillo','41066591',0);
+VALUES (100004,'DeveloperEntity','d.delcastillo','https://sistemas.uniandes.edu.co/images/Personas/Profesores/stakahas.jpg','d.delcastillo','daniel','41066591',0);
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100005,'DeveloperEntity','s.bautista','https://sistemas.uniandes.edu.co/images/Personas/Profesores/mar-san1.jpg','s.bautista','41066592',0);
+VALUES (100005,'DeveloperEntity','s.bautista','https://sistemas.uniandes.edu.co/images/Personas/Profesores/mar-san1.jpg','s.bautista','sebastian','41066592',0);
 --se añaden los desarrolladores del proyecto 2
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100001,100004);
@@ -93,9 +93,9 @@ VALUES (100002,'externo',100001);
 
 --se crean proveedores para los proyectos
 INSERT INTO PROVIDERENTITY(ID,NAME)
-VALUES (100000,'google',100000);
+VALUES (100000,'google');
 INSERT INTO PROVIDERENTITY(ID,NAME)
-VALUES (100001,'microsoft',100000);
+VALUES (100001,'microsoft');
 
 -- se agrega el proveedor como tal a la tabla 
 UPDATE PROJECTENTITY
@@ -119,3 +119,5 @@ insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATI
 insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100008, '5/7/2019', '', '10/14/2019', '', '11/29/2019',100001);
 insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100009, '12/29/2018', '', '8/21/2019', '', '1/8/2019',100001);
 insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100010, '4/15/2019', '', '11/21/2019', '', '1/1/2019',100001);
+
+--Se crean los requesters 
