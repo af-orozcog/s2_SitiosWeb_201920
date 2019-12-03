@@ -97,6 +97,28 @@ public class DeveloperResource {
         LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: output: {0}", detailDTO);
         return detailDTO;
     }
+    
+        /**
+     * Busca el desarrollador con el id asociado recibido en la URL y lo devuelve.
+     *
+     * @param developersLogin Identificador del desarrollador que se esta buscando. Este debe
+     * ser una cadena de dígitos.
+     * @return JSON {@link DeveloperDetailDTO} - El desarrollador buscado
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el desarrollador.
+     */
+    @GET
+    @Path("/{developersLogin}")
+    public DeveloperDetailDTO getDeveloperByLogin(@PathParam("developersLogin") String developersLogin) {
+        LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: input: {0}", developersLogin);
+        DeveloperEntity developerEntity = developerLogic.getDeveloperByLogin(developersLogin);
+        if (developerEntity == null) {
+            throw new WebApplicationException("El recurso /developers/login" + developersLogin + " no existe.", 404);
+        }
+        DeveloperDetailDTO detailDTO = new DeveloperDetailDTO(developerEntity);
+        LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: output: {0}", detailDTO);
+        return detailDTO;
+    }
 
     /**
      * Actualiza el desarrollador con el id recibido en la URL con la información que se
