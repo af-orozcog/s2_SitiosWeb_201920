@@ -1,10 +1,13 @@
 DELETE FROM PROJECTENTITY_USERENTITY;
 DELETE FROM HARDWAREENTITY;
+DELETE FROM INTERNALSYSTEMSENTITY;
+DELETE FROM ITERATIONENTITY;
+DELETE FROM PROJECTENTITY_USERENTITY;
+DELETE FROM REQUESTENTITY;
 DELETE FROM PROJECTENTITY;
 DELETE FROM USERENTITY;
-DELETE FROM UNITENTITY;
-
-select * from PROJECTENTITY;
+DELETE FROM PROVIDERENTITY;
+--select * from PROJECTENTITY;
 -- Se crea el primer proyecto
 INSERT INTO PROJECTENTITY(ID,COMPANY,INTERNALPROJECT)
 VALUES (100000,'IBM',1);
@@ -42,7 +45,7 @@ VALUES (100011,10,'Intel Core i7',15725320217,'DEBIAN',79,100001);
 
 --lider proyecto 1
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100000,'DeveloperEntity','nf.abondano','https://sistemas.uniandes.edu.co/images/Personas/Profesores/jvillalo.jpg','nf.abondano','nicolas','41066578',1);
+VALUES (100000,'DeveloperEntity','nf.abondano','https://previews.123rf.com/images/agencyby/agencyby1302/agencyby130200524/18099898-ingeniero-en-blanco-casco-plano-manos-concepto-de-construcci%C3%B3n-exitosa.jpg','nf.abondano','nicolas','41066578',1);
 -- se agrega el lider del proyecto 1
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100000,100000);
@@ -52,7 +55,7 @@ SET LEADER_ID = 100000
 WHERE ID = 100000;
 --lider del proyecto 2
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100001,'DeveloperEntity','d.galindo','https://sistemas.uniandes.edu.co/images/Personas/Profesores/vm.toro815.jpg','a.galindo','daniel','41066588',1);
+VALUES (100001,'DeveloperEntity','d.galindo','https://image.freepik.com/foto-gratis/paneles-cielo-azul_79405-9694.jpg','a.galindo','daniel','41066588',1);
 -- se agrega el lider del proyecto 2
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100001,100001);
@@ -63,9 +66,9 @@ WHERE ID = 100001;
 
 --desarrolladores del proyecto 1
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100002,'DeveloperEntity','af.orozcog','https://sistemas.uniandes.edu.co/images/Personas/Profesores/rcardoso.jpg','af.orozcog','Andres','41066589',0);
+VALUES (100002,'DeveloperEntity','af.orozcog','https://image.freepik.com/foto-gratis/ingeniero-industrial-cascos-seguridad-casco-usa-computadora-portatil-pantalla-tactil_61243-421.jpg','af.orozcog','Andres','41066589',0);
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100003,'DeveloperEntity','a.maritnez','https://sistemas.uniandes.edu.co/images/Personas/Profesores/o-gonza1.jpg','a.martinez','Andres','41066590',0);
+VALUES (100003,'DeveloperEntity','a.maritnez','https://image.freepik.com/foto-gratis/green-energy-paneles-solares-cielo-azul_79405-5404.jpg','a.martinez','Andres','41066590',0);
 --se añaden los desarrolladores del proyecto 1
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100000,100002);
@@ -74,15 +77,14 @@ VALUES (100000,100003);
 
 --desarrolladores del proyecto 2
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100004,'DeveloperEntity','d.delcastillo','https://sistemas.uniandes.edu.co/images/Personas/Profesores/stakahas.jpg','d.delcastillo','daniel','41066591',0);
+VALUES (100004,'DeveloperEntity','d.delcastillo','https://image.shutterstock.com/image-photo/image-africanamerican-business-leader-looking-600w-131916311.jpg','d.delcastillo','daniel','41066591',0);
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
-VALUES (100005,'DeveloperEntity','s.bautista','https://sistemas.uniandes.edu.co/images/Personas/Profesores/mar-san1.jpg','s.bautista','sebastian','41066592',0);
+VALUES (100005,'DeveloperEntity','s.bautista','https://st2.depositphotos.com/1091429/8652/i/950/depositphotos_86521056-stock-photo-construction-engineer-in-hardhat.jpg','s.bautista','sebastian','41066592',0);
 --se añaden los desarrolladores del proyecto 2
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100001,100004);
 INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
 VALUES (100001,100005);
-
 --se crean los sistemas internos y se asigna un proyecto
 INSERT INTO INTERNALSYSTEMSENTITY(ID,TYPE,PROJECT_ID)
 VALUES (100000,'autonomo',100000);
@@ -107,17 +109,20 @@ SET PROVIDER_ID = 100001
 WHERE ID = 100001;
 
 --Se crean las iteraciones para el proyecto 1
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (100001, '6/25/2019', '', '11/11/2019', '', '9/27/2019',100000);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (100002, '2/16/2019', '', '11/21/2019', '', '10/9/2019',100000);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (100003, '2/6/2019', '', '8/27/2019', '', '1/29/2019',100000);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (100004, '2/21/2019', '', '1/21/2019', '', '10/10/2019',100000);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (100005, '6/28/2019', '', '6/30/2019', '', '9/24/2019',100000);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (1, '2019-02-27 21:24:04', '', '2019-01-28 05:35:55', '', '2019-11-27 10:09:34',100000);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (2, '2019-05-13 17:34:58', '', '2018-12-26 10:22:50', '', '2019-04-06 21:09:53',100000);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (3, '2018-12-08 14:17:17', '', '2019-09-24 02:14:34', '', '2019-11-11 00:51:33',100000);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (4, '2019-10-15 11:26:55', '', '2019-04-30 09:41:50', '', '2019-09-13 01:30:27',100000);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (5, '2019-03-01 12:35:28', '', '2019-04-16 04:26:17', '', '2018-12-29 14:58:38',100000);
 
---Se crean las iteraciones para el proyecto 2
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100006, '2/4/2019', '', '9/23/2019', '', '4/18/2019',100001);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100007, '7/19/2019', '', '7/22/2019', '', '5/29/2019',100001);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100008, '5/7/2019', '', '10/14/2019', '', '11/29/2019',100001);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100009, '12/29/2018', '', '8/21/2019', '', '1/8/2019',100001);
-insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE) values (100010, '4/15/2019', '', '11/21/2019', '', '1/1/2019',100001);
+--se crean las iteraicones para el proyecto 2
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (6, '2019-05-29 22:17:36', '', '2019-11-24 21:32:44', '', '2019-03-21 20:52:03',100001);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (7, '2019-05-17 15:37:47', '', '2019-05-30 17:27:03', '', '2019-04-06 00:59:39',100001);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (8, '2019-06-24 20:39:51', '', '2019-02-24 05:32:16', '', '2019-09-01 19:46:05',100001);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (9, '2019-03-18 05:47:11', '', '2019-03-21 20:57:21', '', '2019-04-25 00:24:58',100001);
+insert into ITERATIONENTITY (id, BEGINDATE, CHANGES, ENDDATE, OBJETIVE, VALIDATIONDATE,PROJECT_ID) values (10, '2019-02-04 18:39:15', '', '2019-08-27 07:21:28', '', '2019-11-10 07:44:29',100001);
 
 --Se crean los requesters 
+insert into USERENTITY (ID, DTYPE, EMAIL, IMAGE, LOGIN, NAME, PHONE, LEADER) values (100006, 'RequesterEntity', 'jorge@uni', 'https://www.pandasecurity.com/mediacenter/src/uploads/2016/02/boss.jpg', 'jorge', 'Jorge', '4565654', 0);
+insert into USERENTITY (ID, DTYPE, EMAIL, IMAGE, LOGIN, NAME, PHONE, LEADER) values (100007, 'RequesterEntity', 'villalobos@uni', 'https://i1.wp.com/devbasu.com/wp-content/uploads/2015/04/describe-your-ideal-boss.jpg?w=2400&ssl=1', 'villa', 'Villalobos', '45621568', 0);
+
