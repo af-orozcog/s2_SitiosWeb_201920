@@ -90,6 +90,23 @@ public class RequesterLogic {
         return RequesterEntity;
     }
 
+     /**
+     * Obtiene los datos de una instancia de Requester a partir de su login.
+     *
+     * @param requestersLogin Identificador de la instancia a consultar
+     * @return Instancia de RequesterEntity con los datos del Requester
+     * consultado.
+     */
+    public RequesterEntity getRequesterByLogin(String requestersLogin) {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el solicitante con login = {0}", requestersLogin);
+        RequesterEntity RequesterEntity = persistence.findByLogin(requestersLogin);
+        if (RequesterEntity == null) {
+            LOGGER.log(Level.SEVERE, "El solicitante con el login = {0} no existe", requestersLogin);
+        }
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el solicitante con login = {0}", requestersLogin);
+        return RequesterEntity;
+    }
+    
     /**
      * Actualiza la información de una instancia de Requester.
      *
