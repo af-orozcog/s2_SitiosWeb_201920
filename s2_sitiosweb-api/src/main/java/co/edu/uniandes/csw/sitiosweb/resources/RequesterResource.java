@@ -75,6 +75,19 @@ public class RequesterResource {
         LOGGER.log(Level.INFO, "RequesterResource getRequester: output: {0}", requesterDetailDTO);
         return requesterDetailDTO;
     }
+    
+    @GET
+    @Path("/{requestersLogin}")
+    public RequesterDetailDTO getRequesterByLogin(@PathParam("requestersLogin") String requestersLogin) throws WebApplicationException {
+        LOGGER.log(Level.INFO, "RequesterResource getRequester: input: {0}", requestersLogin);
+        RequesterEntity requesterEntity = requesterLogic.getRequesterByLogin(requestersLogin);
+        if (requesterEntity == null) {
+            throw new WebApplicationException("El recurso /requesters/" + requestersLogin + " no existe.", 404);
+        }
+        RequesterDetailDTO requesterDetailDTO = new RequesterDetailDTO(requesterEntity);
+        LOGGER.log(Level.INFO, "RequesterResource getRequester: output: {0}", requesterDetailDTO);
+        return requesterDetailDTO;
+    }
 
     @PUT
     @Path("{requestersId: \\d+}")
