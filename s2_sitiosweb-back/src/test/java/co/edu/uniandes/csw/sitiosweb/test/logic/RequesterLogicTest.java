@@ -105,6 +105,8 @@ public class RequesterLogicTest {
         for (int i = 0; i < 3; i++) {
             RequesterEntity entity = factory.manufacturePojo(RequesterEntity.class);
             entity.setUnit(unitData.get(i));
+            entity.setPhone("1234567890");
+            entity.setLogin("Login" + i);
             em.persist(entity);
             data.add(entity);
         }
@@ -120,6 +122,7 @@ public class RequesterLogicTest {
 
         RequesterEntity newEntity = factory.manufacturePojo(RequesterEntity.class);
         newEntity.setPhone("3206745567");
+        newEntity.setLogin(newEntity.getLogin()+"4");
         newEntity.setUnit(unitData.get(0));
         RequesterEntity result = requesterLogic.createRequester(newEntity);
         Assert.assertNotNull(result);
@@ -263,7 +266,8 @@ public class RequesterLogicTest {
         RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setId(entity.getId());
-        pojoEntity.setPhone("3206745567");
+        pojoEntity.setLogin(pojoEntity.getLogin() + "5");
+        pojoEntity.setPhone("0123456789");
         requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
         RequesterEntity resp = em.find(RequesterEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
@@ -322,10 +326,25 @@ public class RequesterLogicTest {
      */
     @Test(expected = BusinessLogicException.class)
     public void updateRequesterConPhoneNullTest() throws BusinessLogicException {
-        RequesterEntity entity = data.get(0);
+       RequesterEntity entity = data.get(0);
         RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
         pojoEntity.setPhone(null);
         pojoEntity.setId(entity.getId());
+        requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity); 
+    }
+    
+    /**
+     * Prueba para actualizar un Developer con login existente.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void uptadteRequesterConLoginExistente() throws BusinessLogicException {
+        RequesterEntity entity = data.get(0);
+        RequesterEntity entityR = data.get(1);
+        RequesterEntity pojoEntity = factory.manufacturePojo(RequesterEntity.class);
+        pojoEntity.setId(entity.getId());
+        pojoEntity.setLogin(entityR.getLogin());
         requesterLogic.updateRequester(pojoEntity.getId(), pojoEntity);
     }
 

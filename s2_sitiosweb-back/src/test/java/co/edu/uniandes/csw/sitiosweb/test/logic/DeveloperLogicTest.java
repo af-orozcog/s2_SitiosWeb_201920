@@ -182,7 +182,18 @@ public class DeveloperLogicTest {
         DeveloperEntity result = developerLogic.createDeveloper(newEntity);
     }
 
-
+    /**
+     * Prueba para crear un Requester con un login ya existente.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createDeveloperConLoginExistente() throws BusinessLogicException {
+        DeveloperEntity newEntity = factory.manufacturePojo(DeveloperEntity.class);
+        newEntity.setLogin(data.get(0).getLogin());
+        developerLogic.createDeveloper(newEntity);
+    }
+    
     /**
      * Prueba para consultar la lista de Developers.
      */
@@ -308,6 +319,21 @@ public class DeveloperLogicTest {
         DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
         pojoEntity.setLeader(false);
         pojoEntity.setId(entity.getId());
+        developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
+    }
+    
+    /**
+     * Prueba para actualizar un Developer con login existente.
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void uptadteRequesterConLoginExistente() throws BusinessLogicException {
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity entityR = data.get(1);
+        DeveloperEntity pojoEntity = factory.manufacturePojo(DeveloperEntity.class);
+        pojoEntity.setId(entity.getId());
+        pojoEntity.setLogin(entityR.getLogin());
         developerLogic.updateDeveloper(pojoEntity.getId(), pojoEntity);
     }
 
