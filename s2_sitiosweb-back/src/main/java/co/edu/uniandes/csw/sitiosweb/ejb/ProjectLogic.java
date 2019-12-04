@@ -48,9 +48,6 @@ public class ProjectLogic {
         if(pe.getInternalProject() == null){
             throw new BusinessLogicException("El proyecto no dice si es interno o no");
         }
-        if(pe.getName() == null){
-            throw new BusinessLogicException("El nombre del proyecto es nulo");
-        }
         if(persistence.findByName(pe.getName()) != null){
             throw new BusinessLogicException("Un proyecto con el mismo nombre ya existe");
         }

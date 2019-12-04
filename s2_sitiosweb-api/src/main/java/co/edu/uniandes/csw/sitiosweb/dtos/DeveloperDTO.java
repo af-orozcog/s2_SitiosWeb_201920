@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class DeveloperDTO extends UserDTO implements Serializable {
 
-    private boolean leader;
+    private Boolean leader;
 
     /**
      * Constructor por defecto
@@ -27,7 +27,9 @@ public class DeveloperDTO extends UserDTO implements Serializable {
      */
     public DeveloperDTO(DeveloperEntity developerEntity) {
         super(developerEntity);
+        if(developerEntity!=null){
         this.leader = developerEntity.getLeader();
+        };
     }
 
     /**
@@ -52,7 +54,7 @@ public class DeveloperDTO extends UserDTO implements Serializable {
     /**
      * @return if leader
      */
-    public boolean getLeader() {
+    public Boolean getLeader() {
         return this.leader;
     }
 
