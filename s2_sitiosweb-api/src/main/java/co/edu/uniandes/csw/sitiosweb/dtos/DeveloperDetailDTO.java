@@ -15,6 +15,8 @@ public class DeveloperDetailDTO extends DeveloperDTO implements Serializable {
 
     private List<ProjectDTO> projects;
     
+    private List<ProjectDTO> leadingProjects;
+    
     public DeveloperDetailDTO() {
         super();
     }
@@ -49,6 +51,13 @@ public class DeveloperDetailDTO extends DeveloperDTO implements Serializable {
             }
             developerEntity.setProjects(projectsEntity);
         }
+        if (getLeadingProjects()!= null ){
+            List<ProjectEntity> leadingsEntity = new ArrayList<>();
+            for (ProjectDTO dtoProject: getLeadingProjects()){
+                leadingsEntity.add(dtoProject.toEntity());
+            }
+            developerEntity.setLeadingProjects(leadingsEntity);
+        }
         return developerEntity;
     }
     
@@ -64,5 +73,19 @@ public class DeveloperDetailDTO extends DeveloperDTO implements Serializable {
      */
     public void setProjects(List<ProjectDTO> projects) {
         this.projects = projects;
+    }
+    
+    /**
+     * @return the leadingProjects
+     */
+    public List<ProjectDTO> getLeadingProjects() {
+        return leadingProjects;
+    }
+
+    /**
+     * @param leadingProjects the leadingProjects to set
+     */
+    public void setLeadingProjects(List<ProjectDTO> leadingProjects) {
+        this.leadingProjects = leadingProjects;
     }
 }
