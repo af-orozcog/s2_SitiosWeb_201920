@@ -113,6 +113,7 @@ private PodamFactory factory = new PodamFactoryImpl();
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
             entity.setDevelopers(new ArrayList<>());
             entity.getDevelopers().add(developer);
+            entity.setName("project" + i);
             em.persist(entity);
             data.add(entity);
             developer.getProjects().add(entity);
@@ -128,6 +129,7 @@ private PodamFactory factory = new PodamFactoryImpl();
     @Test
     public void addProjectTest() throws BusinessLogicException {
         ProjectEntity newProject = factory.manufacturePojo(ProjectEntity.class);
+        newProject.setName("new project");
         projectLogic.createProject(newProject);
         ProjectEntity projectEntity = developerProjectLogic.addProject(developer.getId(), newProject.getId());
         Assert.assertNotNull(projectEntity);
@@ -184,6 +186,7 @@ private PodamFactory factory = new PodamFactoryImpl();
         List<ProjectEntity> nuevaLista = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+            entity.setName("replace" + i);
             entity.setDevelopers(new ArrayList<>());
             entity.getDevelopers().add(developer);
             projectLogic.createProject(entity);
