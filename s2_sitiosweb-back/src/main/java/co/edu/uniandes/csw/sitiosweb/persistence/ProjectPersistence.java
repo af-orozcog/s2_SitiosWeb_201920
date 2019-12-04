@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * @author Daniel Galindo Ruiz
@@ -53,6 +55,21 @@ public class ProjectPersistence {
         return em.find(ProjectEntity.class, projectID);
     }
     
+    
+    public ProjectEntity findByName(String name) {
+        TypedQuery query = em.createQuery("Select e From ProjectEntity e where e.name = :name", ProjectEntity.class);
+        query = query.setParameter("name", name);
+        List<ProjectEntity> sameName = query.getResultList();
+        ProjectEntity result;
+        if (sameName == null) {
+            result = null;
+        } else if (sameName.isEmpty()) {
+            result = null;
+        } else {
+            result = sameName.get(0);
+        }
+        return result;
+    } 
     /**
      * Updates the ProjectEntity specified by parameter.
      * @param project the ProjectEntity to be updated.

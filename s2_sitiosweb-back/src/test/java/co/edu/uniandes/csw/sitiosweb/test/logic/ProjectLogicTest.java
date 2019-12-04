@@ -203,6 +203,30 @@ public class ProjectLogicTest {
    }
    
    /**
+    * Test to create a project with company atribute null
+    * @throws BusinessLogicException expected to be thrown as a rule is broken.
+    */
+   @Test(expected = BusinessLogicException.class)
+   public void createProjectNameNull() throws BusinessLogicException{
+       ProjectEntity newEntity = factory.manufacturePojo(ProjectEntity.class);
+       newEntity.setName(null);
+       ProjectEntity result = projectLogic.createProject(newEntity);
+   }
+   
+   /**
+    * Test to create a project with company atribute null
+    * @throws BusinessLogicException expected to be thrown as a rule is broken.
+    */
+   @Test(expected = BusinessLogicException.class)
+   public void createProjectNameRepeated() throws BusinessLogicException{
+       ProjectEntity newEntity1 = factory.manufacturePojo(ProjectEntity.class);
+       newEntity1.setName("hola");
+       ProjectEntity result = projectLogic.createProject(newEntity1);
+       ProjectEntity newEntity2 = factory.manufacturePojo(ProjectEntity.class);
+       newEntity2.setName("hola");
+       result = projectLogic.createProject(newEntity2);
+   }
+   /**
     * Test to create project with internalProject atribute null
     * @throws BusinessLogicException expected to be thrown as a rule is broken.
     */

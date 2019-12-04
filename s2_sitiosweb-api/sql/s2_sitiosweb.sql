@@ -1,11 +1,11 @@
 DELETE FROM PROJECTENTITY_USERENTITY;
-DELETE FROM UNITENTITY;
 DELETE FROM INTERNALSYSTEMSENTITY;
 DELETE FROM HARDWAREENTITY;
 DELETE FROM ITERATIONENTITY;
 DELETE FROM REQUESTENTITY;
 DELETE FROM PROJECTENTITY;
 DELETE FROM USERENTITY;
+DELETE FROM UNITENTITY;
 DELETE FROM PROVIDERENTITY;
 
 --select * from PROJECTENTITY;
@@ -47,10 +47,8 @@ VALUES (100011,10,'Intel Core i7',15725320217,'DEBIAN',79,100001);
 --lider proyecto 1
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
 VALUES (100000,'DeveloperEntity','nf.abondano','https://previews.123rf.com/images/agencyby/agencyby1302/agencyby130200524/18099898-ingeniero-en-blanco-casco-plano-manos-concepto-de-construcci%C3%B3n-exitosa.jpg','nf.abondano','nicolas','41066578',1);
--- se agrega el lider del proyecto 1
-INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
-VALUES (100000,100000);
---se agrega el lider como tal a la tabla
+--se agrega de nuev
+--se agrega el lider como tal a la tabla 
 UPDATE PROJECTENTITY
 SET LEADER_ID = 100000
 WHERE ID = 100000;
@@ -58,8 +56,6 @@ WHERE ID = 100000;
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
 VALUES (100001,'DeveloperEntity','d.galindo','https://image.freepik.com/foto-gratis/paneles-cielo-azul_79405-9694.jpg','a.galindo','daniel','41066588',1);
 -- se agrega el lider del proyecto 2
-INSERT INTO PROJECTENTITY_USERENTITY(PROJECTS_ID,DEVELOPERS_ID)
-VALUES (100001,100001);
 -- se agrega el lider como tal a la tabla 
 UPDATE PROJECTENTITY
 SET LEADER_ID = 100001

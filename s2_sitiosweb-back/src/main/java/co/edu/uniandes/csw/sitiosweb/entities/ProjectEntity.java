@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
+import uk.co.jemos.podam.common.PodamStringValue;
 
 /**
  *
@@ -25,8 +26,16 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     private Boolean internalProject;
     
     /**
+     * Atributo donde se almacena el nombre del proyecto
+     */
+    @PodamStringValue(length = 1)
+    private String name;
+    
+    
+    /**
      * Da el nombre de la compañia asociada al proyecto.
      */
+    @PodamStringValue(length = 1)
     private String company;
     
     /**
@@ -202,6 +211,20 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
      */
     public void setProvider(ProviderEntity provider) {
         this.provider = provider;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
     
 

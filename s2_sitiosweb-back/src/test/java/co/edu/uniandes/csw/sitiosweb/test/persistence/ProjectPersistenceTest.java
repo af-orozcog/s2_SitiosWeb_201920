@@ -140,6 +140,15 @@ public class ProjectPersistenceTest {
        Assert.assertEquals(entity.getInternalProject(), newEntity.getInternalProject());
    }
    
+   @Test 
+   public void getProjectByName(){
+       ProjectEntity entity = data.get(0);
+       ProjectEntity newEntity = pp.findByName(entity.getName());
+       Assert.assertNotNull(newEntity);
+       Assert.assertEquals(entity.getCompany(), newEntity.getCompany());
+       Assert.assertEquals(entity.getInternalProject(), newEntity.getInternalProject());
+   }
+   
    @Test
    public void deleteProjectTest(){
        ProjectEntity entity = data.get(0);
