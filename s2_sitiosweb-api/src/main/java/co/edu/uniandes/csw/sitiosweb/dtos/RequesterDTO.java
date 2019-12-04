@@ -27,7 +27,9 @@ public class RequesterDTO extends UserDTO implements Serializable {
      */
     public RequesterDTO(RequesterEntity requesterEntity) {
         super(requesterEntity);
+        if(requesterEntity!=null){
         unit = new UnitDTO(requesterEntity.getUnit());
+        }
 
     }
 

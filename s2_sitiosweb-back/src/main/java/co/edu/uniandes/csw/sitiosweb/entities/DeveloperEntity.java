@@ -25,7 +25,7 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     @OneToMany(mappedBy = "leader")
     private List<ProjectEntity> leadingProjects;
     
-    private boolean leader;
+    private Boolean leader;
 
     /**
      * @return the projects
@@ -44,7 +44,7 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     /**
      * @return if is leader
      */
-    public boolean getLeader() {
+    public Boolean getLeader() {
         return leader;
     }
 

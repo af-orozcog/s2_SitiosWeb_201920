@@ -77,6 +77,21 @@ public class InternalSystemsDTO implements Serializable{
     public Long getId() {
         return id;
     }
+    
+        /**
+     * @return the projecto
+     */
+    public ProjectDTO getProjecto() {
+        return projecto;
+    }
+
+    /**
+     * @param projecto the projecto to set
+     */
+    public void setProjecto(ProjectDTO projecto) {
+        this.projecto = projecto;
+    }
+
 
     /**
      * @return the type
@@ -92,19 +107,6 @@ public class InternalSystemsDTO implements Serializable{
         this.id = id;
     }
 
-    /**
-     * @return the projecto
-     */
-    public ProjectDTO getProject() {
-        return projecto;
-    }
-
-    /**
-     * @param projecto the projecto to set
-     */
-    public void setProject(ProjectDTO projecto) {
-        this.projecto = projecto;
-    }
     
     
     
