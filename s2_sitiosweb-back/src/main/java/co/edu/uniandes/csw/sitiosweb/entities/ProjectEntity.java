@@ -56,7 +56,7 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
      * Relationship where a project has a leader.
      */
     @PodamExclude
-    @OneToOne
+    @ManyToOne
     private DeveloperEntity leader;
     
     /**
