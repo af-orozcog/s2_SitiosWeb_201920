@@ -40,6 +40,11 @@ public class ProjectDTO implements Serializable{
     private ProviderDTO provider;
     
     /**
+     * El nombre del proyecto
+     */
+    private String name;
+    
+    /**
      * Empty constructor
      */
     public ProjectDTO (){
@@ -68,7 +73,7 @@ public class ProjectDTO implements Serializable{
             this.id = entity.getId();
             this.internalProject = entity.getInternalProject();
             this.company = entity.getCompany();
-            
+            this.name = entity.getName();
         }
     }
     
@@ -90,8 +95,9 @@ public class ProjectDTO implements Serializable{
             entidad.setProvider(this.getProvider().toEntity());
         }
         entidad.setId(this.getId());
-        entidad.setInternalProject(this.internalProject);
-        entidad.setCompany(this.company);
+        entidad.setInternalProject(this.getInternalProject());
+        entidad.setCompany(this.getCompany());
+        entidad.setName(this.getName());
         return entidad;
     }
     /**
@@ -176,6 +182,20 @@ public class ProjectDTO implements Serializable{
      */
     public void setProvider(ProviderDTO provider) {
         this.provider = provider;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
     
 }

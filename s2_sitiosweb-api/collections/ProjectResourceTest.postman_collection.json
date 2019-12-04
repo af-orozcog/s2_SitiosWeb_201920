@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6e3376b9-5ab9-4a95-8318-336eccd10e7f",
+		"_postman_id": "188b0d24-9873-4556-9cac-af1022e3709a",
 		"name": "ProjectResourceTest",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -32,7 +32,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"raw": "{\n\t\"name\":\"proyecto de prueba\",\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,7 +83,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null,\n\t\"developers\": \n\t\t[\n\t\t\t{\"email\": \"lalala@gmail.com\",\n\t\"login\": \"lala\",\n\t\"phone\": \"1112225487\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []},\n\t\t\t{\"email\": \"lelele@gmail.com\",\n\t\"login\": \"lelel\",\n\t\"phone\": \"1112225447\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []}\n\t\t]\n\t\n}",
+					"raw": "{\n\t\"name\":\"proyecto de prueba1\",\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null,\n\t\"developers\": \n\t\t[\n\t\t\t{\"email\": \"lalala@gmail.com\",\n\t\"login\": \"lala\",\n\t\"phone\": \"1112225487\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []},\n\t\t\t{\"email\": \"lelele@gmail.com\",\n\t\"login\": \"lelel\",\n\t\"phone\": \"1112225447\",\n\t\"type\" : \"Developer\",\n\t\"leadingProjects\": [],\n\t\"projects\": []}\n\t\t]\n\t\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -134,7 +134,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"company\" : null,\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"raw": "{\n\t\"name\":\"proyecto de prueba2\",\n\t\"company\" : null,\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -185,7 +185,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"company\" : \"Apple\" ,\n\t\"internalProject\" : null,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
+					"raw": "{\n\t\"name\":\"proyecto de prueba4\",\n\t\"company\" : \"Apple\" ,\n\t\"internalProject\" : null,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -630,6 +630,107 @@
 					]
 				},
 				"description": "Borra el segundo proyecto creado en las pruebas, que tiene una lista de Developers. Este debería fallar porque el proyecto no debe estar asociado a Developers para poder borrarse. El proyecto con Developers se encuentra por su id en la base de datos, que fue guardado al inicio. Debería fallar y mandar excepción.\n**Código esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Project con nombre repetido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c380baa-5e33-4d01-aa3b-84cff94fefb0",
+						"exec": [
+							"tests[\"No crea con ISBN invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"Un proyecto con el mismo nombre ya existe\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"proyecto de prueba\",\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				},
+				"description": "se crea un proyecto con nombre repetido para probar que no se pueda\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un project sin nombre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f007ff7b-01a6-4d96-a6c8-a6e4b2b1362d",
+						"exec": [
+							"tests[\"No crea con ISBN invalido\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El nombre del proyecto es nulo\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": null,\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_sitiosweb-api",
+						"api",
+						"projects"
+					]
+				}
 			},
 			"response": []
 		}
