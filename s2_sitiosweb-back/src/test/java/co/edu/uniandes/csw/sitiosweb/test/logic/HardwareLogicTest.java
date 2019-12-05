@@ -193,6 +193,43 @@ public class HardwareLogicTest {
     } 
     
     /**
+     * Prueba para eliminarle un review a un book del cual no pertenece.
+     *
+     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateHardwareCoresZeroTest() throws BusinessLogicException {
+        HardwareEntity entity = data.get(0);
+        entity.setCores(0);
+        hardwareLogic.updateHardware(dataProject.get(0).getId(), entity);
+    }
+    
+        /**
+     * Prueba para eliminarle un review a un book del cual no pertenece.
+     *
+     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateHardwareCpuNullTest() throws BusinessLogicException {
+        HardwareEntity entity = data.get(0);
+        entity.setCpu(null);
+        hardwareLogic.updateHardware(dataProject.get(0).getId(), entity);
+    }
+    
+            /**
+     * Prueba para eliminarle un review a un book del cual no pertenece.
+     *
+     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void updateHardwarePlataformaNullTest() throws BusinessLogicException {
+        HardwareEntity entity = data.get(0);
+        entity.setPlataforma(null);
+        hardwareLogic.updateHardware(dataProject.get(0).getId(), entity);
+    }
+
+
+    /**
      * Prueba para eliminar una iteración
      *
      * @throws BusinessLogicException
