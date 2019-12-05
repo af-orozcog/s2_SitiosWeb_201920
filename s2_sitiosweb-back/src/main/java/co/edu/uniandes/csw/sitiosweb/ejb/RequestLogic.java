@@ -62,8 +62,6 @@ public class RequestLogic
             throw new BusinessLogicException("El nombre del proyecto solicitado está vacío.");
         else if(request.getPurpose() == null || request.getPurpose().isEmpty())
             throw new BusinessLogicException("El propósito del proyecto solicitado está vacío.");
-        else if(request.getUnit() == null || request.getUnit().isEmpty())
-            throw new BusinessLogicException("La unidad del proyecto solicitado está vacía.");
         else if(request.getEndDate() == null)
             throw new BusinessLogicException("No se eligió una fecha de terminación del proyecto.");
         else if(request.getEndDate().before(today))
