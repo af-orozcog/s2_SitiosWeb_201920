@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3ea873f7-6f49-41c5-a7b0-a74af4c355c0",
+		"_postman_id": "5a50eded-1c14-4196-b7d7-f251ada9c096",
 		"name": "ProjectDeveloperResource Tests",
 		"description": "Esta colección prueba la relación entre Project y Developer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -139,7 +139,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : false,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"raw": "{\n\t\"name\":\"Proyecto prueba\",\n\t\"company\" : \"Wix\",\n\t\"internalProject\" : false,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
 					"options": {
 						"raw": {
 							"language": "json"
