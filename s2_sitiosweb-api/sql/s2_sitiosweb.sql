@@ -52,15 +52,20 @@ VALUES (100000,'DeveloperEntity','nf.abondano','https://previews.123rf.com/image
 UPDATE PROJECTENTITY
 SET LEADER_ID = 100000
 WHERE ID = 100000;
+
+update userentity set phone = '3001235682' where id = 100002;
+update userentity set phone = '3001235679' where id = 100003;
+update userentity set phone = '3001235680' where id = 100004;
+update userentity set phone = '3001235681' where id = 100005;
+
 --lider del proyecto 2
-INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
+INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER
 VALUES (100001,'DeveloperEntity','d.galindo','https://image.freepik.com/foto-gratis/paneles-cielo-azul_79405-9694.jpg','a.galindo','daniel','41066588',1);
 -- se agrega el lider del proyecto 2
 -- se agrega el lider como tal a la tabla 
 UPDATE PROJECTENTITY
 SET LEADER_ID = 100001
 WHERE ID = 100001;
-
 --desarrolladores del proyecto 1
 INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
 VALUES (100002,'DeveloperEntity','af.orozcog','https://image.freepik.com/foto-gratis/ingeniero-industrial-cascos-seguridad-casco-usa-computadora-portatil-pantalla-tactil_61243-421.jpg','af.orozcog','Andres','41066589',0);
