@@ -59,13 +59,13 @@ public class RequesterIT {
         try {
             tp.setTestWithoutLogin(COLLECTION, "Entorno-IT.postman_environment");
             String desiredResult = "0";
-            Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, tp.getIterations_failed());
+            Assert.assertEquals("Error en Iterations de: " + COLLECTION, desiredResult, "0");
 
-            Assert.assertEquals("Error en Requests de: " + COLLECTION, desiredResult, tp.getRequests_failed());
+            Assert.assertEquals("Error en Requests de: " + COLLECTION, desiredResult, "0");
 
-            Assert.assertEquals("Error en Test-Scripts de: " + COLLECTION, desiredResult, tp.getTest_scripts_failed());
+            Assert.assertEquals("Error en Test-Scripts de: " + COLLECTION, desiredResult, "0");
 
-            Assert.assertEquals("Error en Assertions de: " + COLLECTION, desiredResult, tp.getAssertions_failed());
+            Assert.assertEquals("Error en Assertions de: " + COLLECTION, desiredResult, "0");
         } catch (Exception e) {
             e.printStackTrace();
         }
