@@ -201,7 +201,18 @@ public class ProjectLogicTest {
        newEntity.setCompany(null);
        ProjectEntity result = projectLogic.createProject(newEntity);
    }
-      
+   
+   /**
+    * Test to create a project with company atribute null
+    * @throws BusinessLogicException expected to be thrown as a rule is broken.
+    */
+   @Test(expected = BusinessLogicException.class)
+   public void createProjectNameNull() throws BusinessLogicException{
+       ProjectEntity newEntity = factory.manufacturePojo(ProjectEntity.class);
+       newEntity.setName(null);
+       ProjectEntity result = projectLogic.createProject(newEntity);
+   }
+   
    /**
     * Test to create a project with company atribute null
     * @throws BusinessLogicException expected to be thrown as a rule is broken.

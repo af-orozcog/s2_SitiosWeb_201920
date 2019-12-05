@@ -102,7 +102,7 @@ public class HardwareDTO implements Serializable{
     /**
      * @return the cores
      */
-    public Integer getCores() {
+    public int getCores() {
         return cores;
     }
     
@@ -144,7 +144,7 @@ public class HardwareDTO implements Serializable{
     /**
      * @return the ram
      */
-    public Integer getRam() {
+    public int getRam() {
         return ram;
     }
     
@@ -179,14 +179,14 @@ public class HardwareDTO implements Serializable{
     /**
      * @return the projecto
      */
-    public ProjectDTO getProjecto() {
+    public ProjectDTO getProject() {
         return projecto;
     }
 
     /**
      * @param projecto the projecto to set
      */
-    public void setProjecto(ProjectDTO projecto) {
+    public void setProject(ProjectDTO projecto) {
         this.projecto = projecto;
     }
     

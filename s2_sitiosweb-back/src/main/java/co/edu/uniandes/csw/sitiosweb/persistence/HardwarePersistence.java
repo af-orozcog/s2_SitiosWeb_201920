@@ -67,7 +67,7 @@ public class HardwarePersistence {
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from HardwareEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
          */
-        LOGGER.log(Level.INFO, "Consultando la iteracion con id = {0} del proyecto con id = " + projectId, hardwareId);
+        LOGGER.log(Level.INFO, "Consultando la iteracion con id = {0} del proyecto con id = " , hardwareId);
         TypedQuery<HardwareEntity> q = em.createQuery("select p from HardwareEntity p where (p.project.id = :projectId) and (p.id = :hardwareId)", HardwareEntity.class);
         q.setParameter("projectId", projectId);
         q.setParameter("hardwareId", hardwareId);
@@ -77,7 +77,7 @@ public class HardwarePersistence {
             review = null;
         } else if (results.isEmpty()) {
             review = null;
-        } else if (results.size() >= 1) {
+        } else if (!results.isEmpty()) {
             review = results.get(0);
         }
         LOGGER.log(Level.INFO, "Saliendo de consultar el review con id = {0} del libro con id =" + projectId, hardwareId);

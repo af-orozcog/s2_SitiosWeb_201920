@@ -3,6 +3,8 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -23,7 +25,7 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     @OneToMany(mappedBy = "leader")
     private List<ProjectEntity> leadingProjects;
     
-    private Boolean leader;
+    private boolean leader;
 
     /**
      * @return the projects
@@ -42,7 +44,7 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     /**
      * @return if is leader
      */
-    public Boolean getLeader() {
+    public boolean getLeader() {
         return leader;
     }
 

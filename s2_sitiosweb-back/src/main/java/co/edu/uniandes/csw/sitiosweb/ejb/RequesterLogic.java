@@ -79,12 +79,12 @@ public class RequesterLogic {
      */
     public RequesterEntity getRequester(Long requesterId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el solicitante con id = {0}", requesterId);
-        RequesterEntity requesterEntity = persistence.find(requesterId);
-        if (requesterEntity == null) {
+        RequesterEntity RequesterEntity = persistence.find(requesterId);
+        if (RequesterEntity == null) {
             LOGGER.log(Level.SEVERE, "El solicitante con el id = {0} no existe", requesterId);
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el solicitante con id = {0}", requesterId);
-        return requesterEntity;
+        return RequesterEntity;
     }
 
      /**
@@ -96,12 +96,12 @@ public class RequesterLogic {
      */
     public RequesterEntity getRequesterByLogin(String requestersLogin) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el solicitante con login = {0}", requestersLogin);
-        RequesterEntity requesterEntity = persistence.findByLogin(requestersLogin);
-        if (requesterEntity == null) {
+        RequesterEntity RequesterEntity = persistence.findByLogin(requestersLogin);
+        if (RequesterEntity == null) {
             LOGGER.log(Level.SEVERE, "El solicitante con el login = {0} no existe", requestersLogin);
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el solicitante con login = {0}", requestersLogin);
-        return requesterEntity;
+        return RequesterEntity;
     }
     
     /**

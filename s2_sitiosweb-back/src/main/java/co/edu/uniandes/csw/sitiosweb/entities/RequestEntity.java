@@ -28,11 +28,11 @@ public class RequestEntity extends BaseEntity implements Serializable
      */
     public enum RequestType
     {
-        ELIMINATION,
-        CREATION,
-        CHANGE,
-        DEVELOPMENT,
-        PRODUCTION
+        Elimination,
+        Creation,
+        Change,
+        Development,
+        Production
     }
     
     /**
@@ -40,9 +40,9 @@ public class RequestEntity extends BaseEntity implements Serializable
      */
     public enum WebCategory
     {
-        DESCRIPTIVE,
-        APPLICATION,
-        EVENT
+        Descriptive,
+        Application,
+        Event
     }
     
     /**
@@ -50,11 +50,11 @@ public class RequestEntity extends BaseEntity implements Serializable
      */
     public enum Status
     {
-        DEVELOPMENT,
-        PRODUCTION,
-        ACCEPTED,
-        PENDING,
-        DENIED
+        Development,
+        Production,
+        Accepted,
+        Pending,
+        Denied
     }
     
     // Attributes

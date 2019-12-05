@@ -54,9 +54,9 @@ public class ProviderResource
     }
 
     @GET
-    public List<ProviderDetailDTO> getProviders() {
+    public List<ProviderDTO> getProviders() {
         LOGGER.log(Level.INFO, "ProviderResource getProviders: input: {0}");
-        List<ProviderDetailDTO> listaDTOs = listEntity2DTO(providerLogic.getProviders());
+        List<ProviderDTO> listaDTOs = listEntity2DTO(providerLogic.getProviders());
         LOGGER.log(Level.INFO, "EditorialBooksResource getBooks: output: {0}", listaDTOs);
         return listaDTOs;
     }
@@ -105,10 +105,10 @@ public class ProviderResource
         providerLogic.deleteProvider( providersId);
     }
 
-    private List<ProviderDetailDTO> listEntity2DTO(List<ProviderEntity> entityList) {
-        List<ProviderDetailDTO> list = new ArrayList<>();
+    private List<ProviderDTO> listEntity2DTO(List<ProviderEntity> entityList) {
+        List<ProviderDTO> list = new ArrayList<>();
         for (ProviderEntity entity : entityList) {
-            list.add(new ProviderDetailDTO(entity));
+            list.add(new ProviderDTO(entity));
         }
         return list;
     }
