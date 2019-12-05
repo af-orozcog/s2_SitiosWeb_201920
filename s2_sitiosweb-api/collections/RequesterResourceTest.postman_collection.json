@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3583a357-8c7c-4582-8b64-639e120e80b0",
+		"_postman_id": "0a5e31db-adc2-443a-b44a-cd7556192d57",
 		"name": "RequesterResourceTest",
 		"description": "Colección de pruebas sobre el recurso Requester",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -48,50 +48,6 @@
 						"units"
 					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Crear un solicitante con teléfono invalido 1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "d80427e6-5008-41d2-88de-479a8d9c5f51",
-						"exec": [
-							"tests[\"No crea con teléfono invalido\"] = responseCode.code === 412;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Solicitante1\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320745567\",\n  \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\",\n \"unit\":{\"id\":{{new_id_u}} }\n}"
-				},
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/requesters",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"requesters"
-					]
-				},
-				"description": "Crea un nuevo solicitante pero con un teléfono inválido. Verifica que se genera el error y el mensaje \"El teléfono es inválido\"."
 			},
 			"response": []
 		},
