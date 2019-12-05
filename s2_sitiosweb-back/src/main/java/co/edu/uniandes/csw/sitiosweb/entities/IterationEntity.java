@@ -152,7 +152,7 @@ public class IterationEntity extends BaseEntity implements Serializable {
       return false;
     }
     IterationEntity other = (IterationEntity)o;
-    return this.objetive.equals(other.objetive);
+    return this.getId() == other.getId();
   }
   
         @Override

@@ -118,7 +118,7 @@ public class HardwareEntity extends BaseEntity implements Serializable{
     }
 
     HardwareEntity other = (HardwareEntity)o;
-    return this.ip == other.ip;
+    return this.getId() == other.getId();
   }
   
     @Override

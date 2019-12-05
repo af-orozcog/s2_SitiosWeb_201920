@@ -164,7 +164,7 @@ public class ProjectDeveloperLogicTest {
         Assert.assertEquals(developerEntity.getLeader(), newDeveloper.getLeader());
 
         DeveloperEntity lastDeveloper = projectDeveloperLogic.getDeveloper(project.getId(), newDeveloper.getId());
-
+        
         Assert.assertEquals(lastDeveloper.getId(), newDeveloper.getId());
         Assert.assertEquals(lastDeveloper.getLogin(), newDeveloper.getLogin());
         Assert.assertEquals(lastDeveloper.getEmail(), newDeveloper.getEmail());
@@ -195,8 +195,10 @@ public class ProjectDeveloperLogicTest {
     @Test
     public void getDeveloperTest() throws BusinessLogicException {
         DeveloperEntity developerEntity = data.get(0);
+        System.out.println(developerEntity.getName() + " " + developerEntity.getId());
         DeveloperEntity developer = projectDeveloperLogic.getDeveloper(project.getId(), developerEntity.getId());
         Assert.assertNotNull(developer);
+        System.out.println(developer.getName() + " " + developer.getId());
 
         Assert.assertEquals(developerEntity.getId(), developer.getId());
         Assert.assertEquals(developerEntity.getLogin(), developer.getLogin());
@@ -247,6 +249,7 @@ public class ProjectDeveloperLogicTest {
      * @param developer Desarrollador a inicializar
      */
     private void inicializeDeveloper(DeveloperEntity developer) {
+        developer.setLogin("dobleSapo" + developer.getId());
         developer.setPhone("3206745567");
         developer.setLeader(false);
         developer.setProjects(new ArrayList<ProjectEntity>());

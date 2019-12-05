@@ -237,7 +237,7 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
       return false;
     }
     ProjectEntity other = (ProjectEntity)o;
-    return this.name.equals(other.name);
+    return this.getId() == other.getId();
   }
   
           @Override

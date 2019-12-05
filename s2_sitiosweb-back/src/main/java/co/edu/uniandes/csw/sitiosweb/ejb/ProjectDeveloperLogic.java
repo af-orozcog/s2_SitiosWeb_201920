@@ -70,9 +70,11 @@ public class ProjectDeveloperLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar un desarrollador del proyecto con id = {0}", projectsId);
         List<DeveloperEntity> developers = projectPersistence.find(projectsId).getDevelopers();
         DeveloperEntity developerEntity = developerPersistence.find(developersId);
+        System.out.println(developerEntity.getId() + " lul " + developersId );
         int index = developers.indexOf(developerEntity);
         LOGGER.log(Level.INFO, "Termina proceso de consultar un desarrollador del proyecto con id = {0}", projectsId);
         if (index >= 0) {
+            System.out.println(developerEntity.getName() + " liil " + developers.get(index).getName() );
             return developers.get(index);
         }
         return null;

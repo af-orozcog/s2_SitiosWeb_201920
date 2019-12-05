@@ -57,7 +57,7 @@ public class InternalSystemsEntity extends BaseEntity implements Serializable {
       return false;
     }
     InternalSystemsEntity other = (InternalSystemsEntity)o;
-    return this.type.equals(other.type);
+    return other.getId() == this.getId();
   }
   
       @Override

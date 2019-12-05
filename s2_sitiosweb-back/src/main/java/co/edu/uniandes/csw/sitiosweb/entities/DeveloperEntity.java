@@ -78,7 +78,7 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     }
 
     DeveloperEntity other = (DeveloperEntity)o;
-    return this.leader == other.leader;
+    return this.getId() == other.getId();
   }
   
   @Override
