@@ -59,7 +59,7 @@ update userentity set phone = '3001235680' where id = 100004;
 update userentity set phone = '3001235681' where id = 100005;
 
 --lider del proyecto 2
-INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER
+INSERT INTO USERENTITY(ID,DTYPE,EMAIL,IMAGE,LOGIN,NAME,PHONE,LEADER)
 VALUES (100001,'DeveloperEntity','d.galindo','https://image.freepik.com/foto-gratis/paneles-cielo-azul_79405-9694.jpg','a.galindo','daniel','41066588',1);
 -- se agrega el lider del proyecto 2
 -- se agrega el lider como tal a la tabla 
