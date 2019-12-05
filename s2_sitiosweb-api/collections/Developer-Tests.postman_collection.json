@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5836a3a0-0e9c-4ffb-a8e7-6b482d961716",
+		"_postman_id": "78da35da-66fa-426a-b9d5-b8de5836215d",
 		"name": "Developer-Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -31,50 +31,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\":\"Nombre\",\n \"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556a\",\n \"leader\":true,\n \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n}"
-				},
-				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
-					"protocol": "http",
-					"host": [
-						"{{ip}}"
-					],
-					"port": "{{puerto}}",
-					"path": [
-						"s2_sitiosweb-api",
-						"api",
-						"developers"
-					]
-				},
-				"description": "Crea un nuevo desarrollador pero con un teléfono inválido. Verifica que se genera el error y el mensaje \"El teléfono es inválido\"."
-			},
-			"response": []
-		},
-		{
-			"name": "Crear un desarrollador con teléfono invalido 2",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "d80427e6-5008-41d2-88de-479a8d9c5f51",
-						"exec": [
-							"tests[\"No crea con teléfono invalido\"] = responseCode.code === 412;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El teléfono es inválido\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n \"name\":\"Nombre1\",\n \"login\":\"Desarrollador\",\n \"email\":\"ejemplo@sitios.com\",\n \"phone\":\"320374556\",\n \"leader\":true,\n  \"image\":\"https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png\"\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/developers",
