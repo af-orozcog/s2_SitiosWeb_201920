@@ -2,6 +2,7 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -66,4 +67,9 @@ public class DeveloperEntity extends UserEntity implements Serializable {
         this.leadingProjects = leadingProjects;
     }
 
+    public boolean equals(DeveloperEntity entity){
+        return Objects.equals(entity.getId(), this.getId())&&
+                entity.getLogin().equals(this.getLogin()) &&
+                entity.getName().equals(this.getName());
+    }
 }

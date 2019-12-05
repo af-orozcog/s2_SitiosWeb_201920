@@ -1,6 +1,7 @@
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -107,5 +108,9 @@ public class HardwareEntity extends BaseEntity implements Serializable{
         this.project = project;
     }
     
-    
+    public boolean equals(HardwareEntity entity){
+        return Objects.equals(entity.getId(), this.getId()) &&
+                entity.getCores() == this.getCores() &&
+                entity.getRam() == this.getRam();
+    }
 }

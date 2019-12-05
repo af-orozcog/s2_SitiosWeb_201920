@@ -3,6 +3,7 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -227,5 +228,9 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
         this.name = name;
     }
     
-
+    public boolean equals(ProjectEntity entity){
+        return Objects.equals(this.getId(), entity.getId()) &&
+                this.getName().equals(entity.getName()) &&
+                this.getLeader().equals(entity.getLeader());
+    }
 }

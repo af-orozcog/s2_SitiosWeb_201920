@@ -2,6 +2,7 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 import co.edu.uniandes.csw.sitiosweb.podam.DateStrategy;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -142,4 +143,9 @@ public class IterationEntity extends BaseEntity implements Serializable {
         this.project = project;
     }
     
+    public boolean equals(IterationEntity entity){
+        return Objects.equals(entity.getId(), this.getId()) &&
+                this.getBeginDate().equals(entity.getBeginDate()) &&
+                this.getEndDate().equals(entity.getEndDate());
+    }
 }
