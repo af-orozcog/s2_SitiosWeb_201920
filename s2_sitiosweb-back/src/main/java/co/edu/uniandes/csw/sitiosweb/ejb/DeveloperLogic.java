@@ -118,7 +118,7 @@ public class DeveloperLogic {
 
         if(!developerEntity.getLeader() && !developerEntity.getLeadingProjects().isEmpty())
             throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
-        if(getDeveloper(developerId).getLogin().equalsIgnoreCase(developerEntity.getLogin()) && persistence.findByLogin(developerEntity.getLogin()) != null)
+        if(!getDeveloper(developerId).getLogin().equalsIgnoreCase(developerEntity.getLogin()) && persistence.findByLogin(developerEntity.getLogin()) != null)
             throw new BusinessLogicException("El login ya existe");
         DeveloperEntity newEntity = persistence.update(developerEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el desarrollador con id = {0}", developerEntity.getId());
