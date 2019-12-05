@@ -26,7 +26,7 @@ public class ProviderEntity extends BaseEntity implements Serializable{
     
     @PodamExclude
     @OneToMany(mappedBy = "provider", cascade = CascadeType.PERSIST, orphanRemoval = false)
-    private List<ProjectEntity> projects = new ArrayList<ProjectEntity>();
+    private List<ProjectEntity> projects = new ArrayList<>();
     
     public List<ProjectEntity> getProjects() {
         return projects;

@@ -117,12 +117,12 @@ public class IterationLogic {
      * @throws BusinessLogicException si el autor tiene libros asociados.
      */
     public void deleteIteration(Long projectId, Long iterationId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el review con id = {0} del libro con id = ", iterationId);
         IterationEntity old = getIteration(projectId, iterationId);
         if (old == null) {
-            throw new BusinessLogicException("El review con id = " + iterationId + " no esta asociado a el proyecto con id = " + projectId);
+            throw new BusinessLogicException("El review con id = " + iterationId + " no esta asociado a el proyecto con id = ");
         }
         persistence.delete(old.getId());
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el review con id = {0} del libro con id = " + projectId, iterationId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar el review con id = {0} del libro con id = ", iterationId);
     }
 }

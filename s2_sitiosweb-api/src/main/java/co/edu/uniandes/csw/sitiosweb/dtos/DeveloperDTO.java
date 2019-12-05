@@ -29,7 +29,7 @@ public class DeveloperDTO extends UserDTO implements Serializable {
         super(developerEntity);
         if(developerEntity!=null){
         this.leader = developerEntity.getLeader();
-        };
+        }
     }
 
     /**
