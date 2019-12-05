@@ -141,7 +141,7 @@ public class IterationPersistenceTest {
         
         IterationEntity entity = em.find(IterationEntity.class,result.getId());
         Assert.assertEquals(iteration.getObjetive(),entity.getObjetive());
-        
+        Assert.assertEquals(iteration.getObjetive(),entity.getObjetive());
     }
     
     /**

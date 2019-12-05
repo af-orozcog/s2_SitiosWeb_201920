@@ -80,12 +80,12 @@ public class ProjectLogic {
      */
     public ProjectEntity getProjectByName(String projectName) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el solicitante con login = {0}", projectName);
-        ProjectEntity RequesterEntity = persistence.findByName(projectName);
-        if (RequesterEntity == null) {
+        ProjectEntity requesterEntity = persistence.findByName(projectName);
+        if (requesterEntity == null) {
             LOGGER.log(Level.SEVERE, "El solicitante con el login = {0} no existe", projectName);
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el solicitante con login = {0}", projectName);
-        return RequesterEntity;
+        return requesterEntity;
     }
     
         /**
