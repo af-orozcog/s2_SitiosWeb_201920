@@ -80,4 +80,11 @@ public class DeveloperEntity extends UserEntity implements Serializable {
     DeveloperEntity other = (DeveloperEntity)o;
     return this.leader == other.leader;
   }
+  
+  @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.leader);
+        return hash;
+    }
 }

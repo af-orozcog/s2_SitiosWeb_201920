@@ -239,4 +239,12 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
     ProjectEntity other = (ProjectEntity)o;
     return this.name.equals(other.name);
   }
+  
+          @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.company);
+        return hash;
+    }
+
 }

@@ -1,6 +1,7 @@
 package co.edu.uniandes.csw.sitiosweb.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -58,4 +59,12 @@ public class InternalSystemsEntity extends BaseEntity implements Serializable {
     InternalSystemsEntity other = (InternalSystemsEntity)o;
     return this.type.equals(other.type);
   }
+  
+      @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.type);
+        return hash;
+    }
+
 }

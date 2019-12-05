@@ -120,4 +120,12 @@ public class HardwareEntity extends BaseEntity implements Serializable{
     HardwareEntity other = (HardwareEntity)o;
     return this.ip == other.ip;
   }
+  
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.cores);
+        return hash;
+    }
+
 }

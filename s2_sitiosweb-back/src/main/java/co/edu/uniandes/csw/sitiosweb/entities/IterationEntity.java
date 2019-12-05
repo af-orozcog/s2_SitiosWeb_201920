@@ -154,5 +154,13 @@ public class IterationEntity extends BaseEntity implements Serializable {
     IterationEntity other = (IterationEntity)o;
     return this.objetive.equals(other.objetive);
   }
+  
+        @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.changes);
+        return hash;
+    }
+
 
 }
