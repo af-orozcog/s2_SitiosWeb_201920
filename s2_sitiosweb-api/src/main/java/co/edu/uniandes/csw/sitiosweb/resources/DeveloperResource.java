@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -44,6 +45,12 @@ public class DeveloperResource {
     @Inject
     private DeveloperLogic developerLogic;
 
+    @Dependent
+    private static final String NOEXISTE = " no existe.";
+    
+    @Dependent
+    private static final String RECURSONO = "El recurso /developers/";
+    
     /**
      * Crea un nuevo desarrollador con la informacion que se recibe en el cuerpo de la
      * petición y se regresa un objeto identico con un id auto-generado por la
@@ -91,7 +98,7 @@ public class DeveloperResource {
         LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: input: {0}", developersId);
         DeveloperEntity developerEntity = developerLogic.getDeveloper(developersId);
         if (developerEntity == null) {
-            throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + developersId + NOEXISTE, 404);
         }
         DeveloperDetailDTO detailDTO = new DeveloperDetailDTO(developerEntity);
         LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: output: {0}", detailDTO);
@@ -113,7 +120,7 @@ public class DeveloperResource {
         LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: input: {0}", developersLogin);
         DeveloperEntity developerEntity = developerLogic.getDeveloperByLogin(developersLogin);
         if (developerEntity == null) {
-            throw new WebApplicationException("El recurso /developers/login" + developersLogin + " no existe.", 404);
+            throw new WebApplicationException("El recurso /developers/login" + developersLogin + NOEXISTE, 404);
         }
         DeveloperDetailDTO detailDTO = new DeveloperDetailDTO(developerEntity);
         LOGGER.log(Level.INFO, "DeveloperResource getDeveloper: output: {0}", detailDTO);
@@ -139,7 +146,7 @@ public class DeveloperResource {
         LOGGER.log(Level.INFO, "DeveloperResource updateDeveloper: input: developersId: {0} , developer: {1}", new Object[]{developersId, developer});
         developer.setId(developersId);
         if (developerLogic.getDeveloper(developersId) == null) {
-            throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + developersId + NOEXISTE, 404);
         }
         DeveloperDetailDTO detailDTO = new DeveloperDetailDTO(developerLogic.updateDeveloper(developersId, developer.toEntity()));
         LOGGER.log(Level.INFO, "DeveloperResource updateDeveloper: output: {0}", detailDTO);
@@ -161,7 +168,7 @@ public class DeveloperResource {
     public void deleteDeveloper(@PathParam("developersId") Long developersId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "DeveloperResource deleteDeveloper: input: {0}", developersId);
         if (developerLogic.getDeveloper(developersId) == null) {
-            throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + developersId + NOEXISTE, 404);
         }
         developerLogic.deleteDeveloper(developersId);
         LOGGER.info("DeveloperResource deleteDeveloper: output: void");
@@ -182,7 +189,7 @@ public class DeveloperResource {
     @Path("{developersId: \\d+}/projects")
     public Class<DeveloperProjectResource> getDeveloperProjectsResource(@PathParam("developersId") Long developersId) {
         if (developerLogic.getDeveloper(developersId) == null) {
-            throw new WebApplicationException("El recurso /developers/" + developersId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + developersId + NOEXISTE, 404);
         }
         return DeveloperProjectResource.class;
     }
