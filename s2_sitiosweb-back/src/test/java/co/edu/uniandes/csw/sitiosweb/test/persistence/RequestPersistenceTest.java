@@ -414,25 +414,26 @@ public class RequestPersistenceTest
         Status result = null;
         switch (status) 
         {
-            case accepted:
-                result = Status.denied;
+            case ACCEPTED:
+                result = Status.DENIED;
                 break;
-            case denied:
-                result = Status.development;
+            case DENIED:
+                result = Status.DEVELOPMENT;
                 break;
-            case development:
-                result = Status.pending;
+            case DEVELOPMENT:
+                result = Status.PENDING;
                 break;
-            case pending:
-                result = Status.production;
+            case PENDING:
+                result = Status.PRODUCTION;
                 break;
-            case production:
-                result = Status.accepted;
+            case PRODUCTION:
+                result = Status.ACCEPTED;
                 break;
             default:
                 break;
         }
         return result;
+        
     }
     
     /**
@@ -444,20 +445,20 @@ public class RequestPersistenceTest
         RequestType result = null;
         switch(requestType)
         {
-            case change:
-                result = RequestType.creation;
+            case CHANGE:
+                result = RequestType.CREATION;
                 break;
-            case creation:
-                result = RequestType.development;
+            case CREATION:
+                result = RequestType.DEVELOPMENT;
                 break;
-            case development:
-                result = RequestType.elimination;
+            case DEVELOPMENT:
+                result = RequestType.ELIMINATION;
                 break;
-            case elimination:
-                result = RequestType.production;
+            case ELIMINATION:
+                result = RequestType.PRODUCTION;
                 break;
-            case production:
-                result = RequestType.change;
+            case PRODUCTION:
+                result = RequestType.CHANGE;
                 break;
             default:
                 break;
@@ -474,14 +475,14 @@ public class RequestPersistenceTest
         WebCategory result = null;
         switch(webCategory)
         {
-            case application:
-                result = WebCategory.descriptive;
+            case APPLICATION:
+                result = WebCategory.DESCRIPTIVE;
                 break;
-            case descriptive:
-                result = WebCategory.event;
+            case DESCRIPTIVE:
+                result = WebCategory.EVENT;
                 break;
-            case event:
-                result = WebCategory.application;
+            case EVENT:
+                result = WebCategory.APPLICATION;
                 break;
             default:
                 break;
