@@ -113,8 +113,8 @@ public class DeveloperLogic {
             throw new BusinessLogicException( "El login del desarrollador está vacío" );
         if(developerEntity.getEmail() == null )
             throw new BusinessLogicException( "El email del desarrollador está vacío" );
-        if(!validatePhone(developerEntity.getPhone()))
-            throw new BusinessLogicException("El teléfono es inválido");
+        //if(!validatePhone(developerEntity.getPhone()))
+         //   throw new BusinessLogicException("El teléfono es inválido");
 
         if(!developerEntity.getLeader() && !developerEntity.getLeadingProjects().isEmpty())
             throw new BusinessLogicException("El desarrollador está liderando proyectos, no puede dejar de ser lider");
