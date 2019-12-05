@@ -149,6 +149,8 @@ public class DeveloperLogic {
     
     private boolean validatePhone(String phone) {
         boolean f = true;
+        if(phone == null)
+            return false;
         for(int i=0; i<phone.length(); i++){
             if(!(phone.charAt(i) >= '0' && phone.charAt(i) <= '9'))
                 f=false;
