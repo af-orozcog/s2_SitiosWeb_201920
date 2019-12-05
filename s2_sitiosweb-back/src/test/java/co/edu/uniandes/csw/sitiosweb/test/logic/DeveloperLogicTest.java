@@ -46,6 +46,7 @@ public class DeveloperLogicTest {
     private UserTransaction utx;
 
     private List<DeveloperEntity> data = new ArrayList<DeveloperEntity>();
+    private List<ProjectEntity> projects = new ArrayList<>();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -97,12 +98,23 @@ public class DeveloperLogicTest {
      */
     private void insertData() {
         for (int i = 0; i < 3; i++) {
+            ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
+            em.persist(entity);
+            projects.add(entity);
+        }
+
+        for (int i = 0; i < 3; i++) {
             DeveloperEntity entity = factory.manufacturePojo(DeveloperEntity.class);
             entity.setPhone("3206745567");
             entity.setLeadingProjects(new ArrayList<>());
+            if(i==2){
+                entity.setProjects(projects);
+            }
             em.persist(entity);
             data.add(entity);
         }
+        
+
 
         DeveloperEntity leader = data.get(2);
         ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
@@ -229,6 +241,20 @@ public class DeveloperLogicTest {
         Assert.assertEquals(entity.getImage(), resultEntity.getImage());
     }
 
+    @Test
+    public void getDeveloperByLoginTest(){
+        DeveloperEntity entity = data.get(0);
+        DeveloperEntity resultEntity = developerLogic.getDeveloperByLogin(entity.getLogin());
+        Assert.assertNotNull(resultEntity);
+        Assert.assertEquals(entity.getId(), resultEntity.getId());
+        Assert.assertEquals(entity.getName(), resultEntity.getName());
+        Assert.assertEquals(entity.getLogin(), resultEntity.getLogin());
+        Assert.assertEquals(entity.getPhone(), resultEntity.getPhone());
+        Assert.assertEquals(entity.getEmail(), resultEntity.getEmail());
+        Assert.assertEquals(entity.getLeader(), resultEntity.getLeader());
+        Assert.assertEquals(entity.getImage(), resultEntity.getImage());
+
+    }
     /**
      * Prueba para actualizar un Developer.
      *
@@ -359,4 +385,15 @@ public class DeveloperLogicTest {
     public void deleteDeveloperLeadingTest() throws BusinessLogicException {
         developerLogic.deleteDeveloper(data.get(2).getId());
     }
+    
+        /**
+     * Prueba para eliminar un Developer asociado como lider a un proyecto
+     *
+     * @throws co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void deleteDeveloperProjectTest() throws BusinessLogicException {
+        developerLogic.deleteDeveloper(data.get(2).getId());
+    }
+
 }

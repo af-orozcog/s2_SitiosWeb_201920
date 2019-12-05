@@ -118,16 +118,13 @@ public class HardwareLogicTest {
      */
     private void insertData() {
         for (int i = 0; i < 3; i++) {
-            HardwareEntity entity = factory.manufacturePojo(HardwareEntity.class);
-            em.persist(entity);
-            data.add(entity);
-        }
-        for (int i = 0; i < 3; i++) {
             ProjectEntity entity = factory.manufacturePojo(ProjectEntity.class);
-            HardwareEntity en = data.get(i);
+            HardwareEntity en = factory.manufacturePojo(HardwareEntity.class);
+            entity.setHardware(en);
             en.setProject(entity);
             em.persist(en);
             em.persist(entity);
+            data.add(en);
             dataProject.add(entity);
         }
     }
@@ -162,6 +159,18 @@ public class HardwareLogicTest {
         Assert.assertEquals(resultEntity.getIp(),entity.getIp());
         Assert.assertEquals(resultEntity.getPlataforma(),entity.getPlataforma());
     }
+    
+        @Test
+    public void getHardware2Test(){
+        HardwareEntity entity = data.get(0);
+        HardwareEntity resultEntity = hardwareLogic.getHardware(dataProject.get(0).getId());
+        Assert.assertNotNull(resultEntity);
+        Assert.assertEquals(resultEntity.getCores(),entity.getCores());
+        Assert.assertEquals(resultEntity.getCpu(),entity.getCpu());
+        Assert.assertEquals(resultEntity.getIp(),entity.getIp());
+        Assert.assertEquals(resultEntity.getPlataforma(),entity.getPlataforma());
+    }
+
     
    /**
      * Prueba para actualizar un Iteracion.
