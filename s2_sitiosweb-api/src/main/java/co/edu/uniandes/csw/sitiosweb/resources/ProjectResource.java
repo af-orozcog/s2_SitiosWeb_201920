@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -47,6 +48,12 @@ public class ProjectResource {
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectResource.class.getName());
     
+    @Dependent
+    private static final String NOEXISTE = " no existe.";
+    
+    @Dependent
+    private static final String RECURSONO = "El recurso /projects/";
+     
     /**
      * Metodo para crear un objeto ProjectEntity
      * @param project Objeto de ProjectDTO a crear
@@ -89,7 +96,7 @@ public class ProjectResource {
         LOGGER.log(Level.INFO, "ProjectResource getProject: input: {0}", projectId);
         ProjectEntity projectEntity = logica.getProject(projectId);
         if (projectEntity == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + projectId + NOEXISTE, 404);
         }
         ProjectDetailDTO detailDTO = new ProjectDetailDTO(projectEntity);
         LOGGER.log(Level.INFO, "ProjectResource getProject: output: {0}", detailDTO);
@@ -116,7 +123,7 @@ public class ProjectResource {
         LOGGER.log(Level.INFO, "ProjectResource updateProject: input: id:{0} , project: {1}", new Object[]{projectId, project});
         project.setId(projectId);
         if (logica.getProject(projectId) == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + projectId + NOEXISTE, 404);
         }
         ProjectDetailDTO detailDTO = new ProjectDetailDTO(logica.updateProject(projectId, project.toEntity()));
         LOGGER.log(Level.INFO, "ProjectResource updateProject: output: {0}", detailDTO);
@@ -139,7 +146,7 @@ public class ProjectResource {
     public void deleteProject(@PathParam("projectsId") Long projectId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProjectResource deleteProject: input: {0}", projectId);
         if (logica.getProject(projectId) == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + projectId + NOEXISTE, 404);
         }
         logica.deleteProject(projectId);
         LOGGER.info("ProjectResource deleteProject: output: void");
@@ -153,7 +160,7 @@ public class ProjectResource {
     @Path("{projectsId: \\d+}/developers")
     public Class<ProjectDeveloperResource> getProjectDeveloperResource(@PathParam("projectsId") Long projectsId){
         if(logica.getProject(projectsId) == null){
-            throw new WebApplicationException("El recurso /projects/" + projectsId + " no existe.", 404);
+            throw new WebApplicationException(RECURSONO + projectsId + NOEXISTE, 404);
         }
         return ProjectDeveloperResource.class;
     }
@@ -191,7 +198,7 @@ public class ProjectResource {
     @Path("{projectsId: \\d+}/iterations")
     public Class<IterationResource> getIterationResource(@PathParam("projectsId") Long projectsId) {
         if (logica.getProject(projectsId) == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectsId + "/iterations no existe.", 404);
+            throw new WebApplicationException(RECURSONO + projectsId + "/iterations no existe.", 404);
         }
         return IterationResource.class;
     }

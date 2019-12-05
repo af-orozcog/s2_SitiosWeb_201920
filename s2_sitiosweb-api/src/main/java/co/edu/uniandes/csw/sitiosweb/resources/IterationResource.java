@@ -5,8 +5,6 @@
  */
 package co.edu.uniandes.csw.sitiosweb.resources;
 
-
-
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
@@ -25,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import java.util.logging.Level;
+import javax.enterprise.context.Dependent;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
-
 
 /**
  * @author Andres Felipe Orozco Gonzalez 201730058 af.orozcog
@@ -38,24 +36,29 @@ import javax.ws.rs.WebApplicationException;
 @Consumes("application/json")
 @RequestScoped
 public class IterationResource implements Serializable {
-    
+
     private static final Logger LOGGER = Logger.getLogger(IterationResource.class.getName());
-    
+
     /**
      * Atributo para relacionarse con la logica
      */
     @Inject
     private IterationLogic iterationLogic;
-    
+
+    @Dependent
+    private static final String NOEXISTE = " no existe.";
+
     /**
      * Método para permitir crear iteracion
+     *
      * @param projectsId id del projecto al que se esta relacionado
      * @param iteration la iteración a ser creada
      * @return el DTO creado
-     * @throws BusinessLogicException si la creación de la iteración no sigue las reglas de negocio
+     * @throws BusinessLogicException si la creación de la iteración no sigue
+     * las reglas de negocio
      */
     @POST
-    public IterationDTO createIteration(@PathParam("projectsId") Long projectsId,IterationDTO iteration) throws BusinessLogicException {
+    public IterationDTO createIteration(@PathParam("projectsId") Long projectsId, IterationDTO iteration) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "IterationResource createIteration: input: {0}", iteration);
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
         IterationEntity iterationEntity = iteration.toEntity();
@@ -66,9 +69,10 @@ public class IterationResource implements Serializable {
         LOGGER.log(Level.INFO, "IterationResource createIteration: output: {0}", nuevoIterationDTO);
         return nuevoIterationDTO;
     }
-    
+
     /**
      * Método para obetener todas las iteraciones
+     *
      * @return una lista con las iteraciones en formato DTO
      */
     @GET
@@ -78,21 +82,23 @@ public class IterationResource implements Serializable {
         LOGGER.log(Level.INFO, "IterationResource getIterations: output: {0}", listaUsuarios);
         return listaUsuarios;
     }
-   
+
     /**
-     * Método que devuelve la iteración con el identificador pasado por parametro
+     * Método que devuelve la iteración con el identificador pasado por
+     * parametro
+     *
      * @param iterationId el id de la iteración
      * @return la iteración que se solicito en formato DTO
-     * @throws WebApplicationException 
+     * @throws WebApplicationException
      */
     @GET
     @Path("{iterationsId: \\d+}")
-    public IterationDTO getIteration(@PathParam("projectsId") Long projectId,@PathParam("iterationsId") Long iterationsId) throws WebApplicationException {
+    public IterationDTO getIteration(@PathParam("projectsId") Long projectId, @PathParam("iterationsId") Long iterationsId) throws WebApplicationException {
         LOGGER.log(Level.INFO, "IterationResource getIteration: input: {0}", iterationsId);
         System.out.println("LILILILI");
-        IterationEntity iterationEntity = iterationLogic.getIteration(projectId,iterationsId);
+        IterationEntity iterationEntity = iterationLogic.getIteration(projectId, iterationsId);
         if (iterationEntity == null) {
-            throw new WebApplicationException("El recurso /iterations/" + iterationsId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /iterations/" + iterationsId + NOEXISTE, 404);
         }
         IterationDTO detailDTO = new IterationDTO(iterationEntity);
         LOGGER.log(Level.INFO, "IterationResource getIteration: output: {0}", detailDTO);
@@ -100,13 +106,16 @@ public class IterationResource implements Serializable {
     }
 
     /**
-     * Método que permite actualizar la iteración con identificador pasado por parametro
+     * Método que permite actualizar la iteración con identificador pasado por
+     * parametro
+     *
      * @param projectsId
      * @param iterationsId el identificador de la iteracion
      * @param iteration el nuevo DTO de dicha iteracion
      * @return el nuevo DTO de dicha iteracion
      * @throws WebApplicationException
-     * @throws BusinessLogicException si no se han cumplido las reglas de negocio para la modificación de la iteracion
+     * @throws BusinessLogicException si no se han cumplido las reglas de
+     * negocio para la modificación de la iteracion
      */
     @PUT
     @Path("{iterationsId: \\d+}")
@@ -118,16 +127,17 @@ public class IterationResource implements Serializable {
         }
         IterationEntity entity = iterationLogic.getIteration(projectsId, iterationsId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /iterations/" + iterationsId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /iterations/" + iterationsId + NOEXISTE, 404);
         }
-        
+
         IterationDTO iterationDTO = new IterationDTO(iterationLogic.updateIteration(projectsId, iteration.toEntity()));
         LOGGER.log(Level.INFO, "IterationResource updateIteration: output: {0}", iterationDTO);
         return iterationDTO;
     }
-    
+
     /**
      * Método que convierte iterationEntities a IterationDTO
+     *
      * @param entityList lista de obejtos IterationEntity
      * @return una lista con objetos IterationDTO
      */
@@ -138,25 +148,26 @@ public class IterationResource implements Serializable {
         }
         return list;
     }
-    
+
     /**
      * Método para borrar la iteración con id pasado por parametro
+     *
      * @param iterationsId el id de la iteración que se quiere borrar
-     * @throws BusinessLogicException si se incumplen reglas de negocio para borrar la iteracion
+     * @throws BusinessLogicException si se incumplen reglas de negocio para
+     * borrar la iteracion
      */
     @DELETE
     @Path("{iterationsId: \\d+}")
-    public void deleteIteration(@PathParam("projectsId") Long projectsId,@PathParam("iterationsId") Long iterationsId) throws BusinessLogicException {
+    public void deleteIteration(@PathParam("projectsId") Long projectsId, @PathParam("iterationsId") Long iterationsId) throws BusinessLogicException {
         IterationEntity entity = iterationLogic.getIteration(projectsId, iterationsId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectsId + "/iterations/" + iterationsId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/iterations/" + iterationsId + NOEXISTE, 404);
         }
         iterationLogic.deleteIteration(projectsId, iterationsId);
     }
-    
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }

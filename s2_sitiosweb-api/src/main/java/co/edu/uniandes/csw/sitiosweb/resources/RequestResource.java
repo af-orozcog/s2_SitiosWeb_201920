@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -46,6 +47,13 @@ public class RequestResource
      */
     @Inject
     private RequestLogic requestLogic;
+    
+    
+    @Dependent
+    private static final String NOEXISTE = " doesn't exist.";
+    
+    @Dependent
+    private static final String THERESOURCE = "The resource /requests/";
     
     // Methods
     
@@ -91,7 +99,7 @@ public class RequestResource
         LOGGER.log(Level.INFO, "RequestResource getRequest: input: {0}.", requestId);
         RequestEntity requestEntity = requestLogic.getRequest(requestId);
         if(requestEntity == null)
-            throw new WebApplicationException("The resource /requests/" + requestId + " doesn't exist.", 404);
+            throw new WebApplicationException(THERESOURCE + requestId + NOEXISTE, 404);
         RequestDTO requestDTO = new RequestDTO(requestEntity);
         LOGGER.log(Level.INFO, "RequestResource getRequest: output: {0}.", requestDTO);
         return requestDTO;
@@ -112,7 +120,7 @@ public class RequestResource
         LOGGER.log(Level.INFO, "RequestResource updateRequest: input: requestId: {0}, request: {1}.", new Object[]{requestId, request});
         request.setId(requestId);
         if(requestLogic.getRequest(requestId) == null)
-            throw new WebApplicationException("The resource /requests/" + requestId + " doesn't exist.", 404);
+            throw new WebApplicationException(THERESOURCE + requestId + NOEXISTE, 404);
         RequestDTO requestDTO = new RequestDTO(requestLogic.updateRequest(requestId, request.toEntity()));
         LOGGER.log(Level.INFO, "RequestResource updateRequest: output: {0}.", requestDTO);
         return requestDTO;
@@ -131,7 +139,7 @@ public class RequestResource
     {
         LOGGER.log(Level.INFO, "RequestResource deleteRequest: input: {0}.");
         if(requestLogic.getRequest(requestId) == null)
-            throw new WebApplicationException("The resource /requests/" + requestId + " doesn't exist.", 404);
+            throw new WebApplicationException(THERESOURCE + requestId + NOEXISTE, 404);
         requestLogic.deleteRequest(requestId);
         LOGGER.log(Level.INFO, "RequestResource deleteRequest: output: void.");
     }

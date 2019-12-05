@@ -7,14 +7,11 @@ package co.edu.uniandes.csw.sitiosweb.resources;
 
 import co.edu.uniandes.csw.sitiosweb.dtos.HardwareDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.HardwareLogic;
-import co.edu.uniandes.csw.sitiosweb.ejb.ProjectLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,6 +34,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class HardwareResource {    
     
     private static final Logger LOGGER = Logger.getLogger(HardwareResource.class.getName());
+    
+    @Dependent
+    private static final String NOEXISTE = " no existe.";
     
     /**
      * Atributo para relacionarse con la logica
@@ -91,7 +91,7 @@ public class HardwareResource {
         System.out.println("LILILILI");
         HardwareEntity hardwareEntity = hardwareLogic.getHardware(projectId,hardwaresId);
         if (hardwareEntity == null) {
-            throw new WebApplicationException("El recurso /hardwares/" + hardwaresId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /hardwares/" + hardwaresId + NOEXISTE, 404);
         }
         HardwareDTO detailDTO = new HardwareDTO(hardwareEntity);
         LOGGER.log(Level.INFO, "HardwareResource getHardware: output: {0}", detailDTO);
@@ -117,7 +117,7 @@ public class HardwareResource {
         }
         HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwaresId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /hardwares/" + hardwaresId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /hardwares/" + hardwaresId + NOEXISTE, 404);
         }
         
         HardwareDTO hardwareDTO = new HardwareDTO(hardwareLogic.updateHardware(projectsId, hardware.toEntity()));
@@ -135,7 +135,7 @@ public class HardwareResource {
     public void deleteHardware(@PathParam("projectsId") Long projectsId,@PathParam("hardwaresId") Long hardwaresId) throws BusinessLogicException {
         HardwareEntity entity = hardwareLogic.getHardware(projectsId, hardwaresId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectsId + "/hardwares/" + hardwaresId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/hardwares/" + hardwaresId + NOEXISTE, 404);
         }
         hardwareLogic.deleteHardware(projectsId, hardwaresId);
     }

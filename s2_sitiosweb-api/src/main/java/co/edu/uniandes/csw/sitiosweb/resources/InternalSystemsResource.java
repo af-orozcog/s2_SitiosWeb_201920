@@ -5,21 +5,15 @@
  */
 package co.edu.uniandes.csw.sitiosweb.resources;
 
-import co.edu.uniandes.csw.sitiosweb.dtos.HardwareDTO;
 import co.edu.uniandes.csw.sitiosweb.dtos.InternalSystemsDTO;
-import co.edu.uniandes.csw.sitiosweb.dtos.InternalSystemsDTO;
-import co.edu.uniandes.csw.sitiosweb.ejb.HardwareLogic;
 import co.edu.uniandes.csw.sitiosweb.ejb.InternalSystemsLogic;
-import co.edu.uniandes.csw.sitiosweb.ejb.InternalSystemsLogic;
-import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
-import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.entities.InternalSystemsEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -49,6 +43,9 @@ public class InternalSystemsResource {
      */
     @Inject
     private InternalSystemsLogic internalSystemsLogic;
+    
+    @Dependent
+    private static final String NOEXISTE = " no existe.";
     
     /**
      * Método para permitir crear iteracion
@@ -95,7 +92,7 @@ public class InternalSystemsResource {
         System.out.println("LILILILI");
         InternalSystemsEntity internalSystemsEntity = internalSystemsLogic.getInternalSystems(projectId,internalSystemssId);
         if (internalSystemsEntity == null) {
-            throw new WebApplicationException("El recurso /internalSystemss/" + internalSystemssId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /internalSystemss/" + internalSystemssId + NOEXISTE, 404);
         }
         InternalSystemsDTO detailDTO = new InternalSystemsDTO(internalSystemsEntity);
         LOGGER.log(Level.INFO, "InternalSystemsResource getInternalSystems: output: {0}", detailDTO);
@@ -121,7 +118,7 @@ public class InternalSystemsResource {
         }
         InternalSystemsEntity entity = internalSystemsLogic.getInternalSystems(projectsId, internalSystemssId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /internalSystemss/" + internalSystemssId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /internalSystemss/" + internalSystemssId + NOEXISTE, 404);
         }
         
         InternalSystemsDTO internalSystemsDTO = new InternalSystemsDTO(internalSystemsLogic.updateInternalSystems(projectsId, internalSystems.toEntity()));
@@ -152,7 +149,7 @@ public class InternalSystemsResource {
     public void deleteInternalSystems(@PathParam("projectsId") Long projectsId,@PathParam("internalSystemssId") Long internalSystemssId) throws BusinessLogicException {
         InternalSystemsEntity entity = internalSystemsLogic.getInternalSystems(projectsId, internalSystemssId);
         if (entity == null) {
-            throw new WebApplicationException("El recurso /projects/" + projectsId + "/internalSystemss/" + internalSystemssId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /projects/" + projectsId + "/internalSystemss/" + internalSystemssId + NOEXISTE, 404);
         }
         internalSystemsLogic.deleteInternalSystems(projectsId, internalSystemssId);
     }

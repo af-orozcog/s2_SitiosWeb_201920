@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -47,6 +48,12 @@ public class UnitResource
      */
     @Inject
     private UnitLogic unitLogic;
+    
+    @Dependent
+    private static final String NOEXISTE = " doesn't exist.";
+    
+    @Dependent
+    private static final String THERESOURCE = "The resource /units/";
     
     // Methods
     
@@ -88,7 +95,7 @@ public class UnitResource
         LOGGER.log(Level.INFO, "UnitResource getUnit: input: {0}.", unitId);
         UnitEntity unitEntity = unitLogic.getUnit(unitId);
         if(unitEntity == null)
-            throw new WebApplicationException("The resource /units/" + unitId + " doesn't exist.", 404);
+            throw new WebApplicationException(THERESOURCE + unitId + NOEXISTE, 404);
         UnitDetailDTO unitDTO = new UnitDetailDTO(unitEntity);
         LOGGER.log(Level.INFO, "UnitResource getUnit: output: {0}.", unitDTO);
         return unitDTO;
@@ -109,7 +116,7 @@ public class UnitResource
         LOGGER.log(Level.INFO, "UnitResource updateUnit: input: unitId: {0}, unit: {1}.", new Object[]{unitId, unit});
         unit.setId(unitId);
         if(unitLogic.getUnit(unitId) == null)
-            throw new WebApplicationException("The resource /units/" + unitId + " doesn't exist.", 404);
+            throw new WebApplicationException(THERESOURCE + unitId + NOEXISTE, 404);
         UnitDTO unitDTO = new UnitDTO(unitLogic.updateUnit(unitId, unit.toEntity()));
         LOGGER.log(Level.INFO, "UnitResource updateUnit: output: {0}.", unitDTO);
         return unitDTO;
@@ -128,7 +135,7 @@ public class UnitResource
     {
         LOGGER.log(Level.INFO, "UnitResource deleteUnit: input: {0}.", unitId);
         if(unitLogic.getUnit(unitId) == null)
-            throw new WebApplicationException("The resource /units/" + unitId + " doesn't exist.", 404);
+            throw new WebApplicationException(THERESOURCE + unitId + NOEXISTE, 404);
         unitLogic.deleteUnit(unitId);
         LOGGER.log(Level.INFO, "UnitResource deleteUnit: output: void.");
     }
