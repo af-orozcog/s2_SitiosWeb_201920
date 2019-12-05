@@ -32,7 +32,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"company\": \"Google\",\r\n    \"internalProject\": true,\r\n    \"developers\": [],\r\n    \"internalSystems\": [],\r\n    \"iterations\": [],\r\n    \"requests\": []\r\n}"
+					"raw": "{\r\n\t\"name\":\"proyecto super F\",\r\n    \"company\": \"IBM\",\r\n    \"internalProject\": true,\r\n    \"developers\": [],\r\n    \"internalSystems\": [],\r\n    \"iterations\": [],\r\n    \"requests\": []\r\n}"
 				},
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/s2_sitiosweb-api/api/projects",
