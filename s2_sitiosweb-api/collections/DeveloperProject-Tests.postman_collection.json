@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2e826294-bf1d-4a29-907e-f3e03e59ca96",
+		"_postman_id": "f29d85f9-f9ab-46ff-b42b-9885db0a4d02",
 		"name": "DeveloperProject-Tests",
 		"description": "Colección de pruebas sobre el recurso BookAuthors",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -35,7 +35,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"raw": "{\n\t\"name\": \"Project prueba\",\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -88,7 +88,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
+					"raw": "{\n\t\"name\": \"Project prueba 2\",\n\t\"company\" : \"Apple\",\n\t\"internalProject\" : true,\n\t\"leader\" : null,\n\t\"hw\" : null,\n\t\"provider\" : null\n\t\n}",
 					"options": {
 						"raw": {
 							"language": "json"
