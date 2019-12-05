@@ -9,6 +9,9 @@ import co.edu.uniandes.csw.sitiosweb.dtos.HardwareDTO;
 import co.edu.uniandes.csw.sitiosweb.ejb.HardwareLogic;
 import co.edu.uniandes.csw.sitiosweb.entities.HardwareEntity;
 import co.edu.uniandes.csw.sitiosweb.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.sitiosweb.persistence.HardwarePersistence;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.Dependent;
@@ -86,16 +89,19 @@ public class HardwareResource {
      */
     @GET
     @Path("{hardwaresId: \\d+}")
-    public HardwareDTO getHardware(@PathParam("projectsId") Long projectId,@PathParam("hardwaresId") Long hardwaresId) throws WebApplicationException {
-        LOGGER.log(Level.INFO, "HardwareResource getHardware: input: {0}", hardwaresId);
-        System.out.println("LILILILI");
-        HardwareEntity hardwareEntity = hardwareLogic.getHardware(projectId,hardwaresId);
-        if (hardwareEntity == null) {
-            throw new WebApplicationException("El recurso /hardwares/" + hardwaresId + NOEXISTE, 404);
-        }
-        HardwareDTO detailDTO = new HardwareDTO(hardwareEntity);
-        LOGGER.log(Level.INFO, "HardwareResource getHardware: output: {0}", detailDTO);
+    public List<HardwareDTO> getHardware(@PathParam("projectsId") Long projectId,@PathParam("hardwaresId") Long hardwaresId) throws WebApplicationException {
+        HardwarePersistence hardwareEntity = new HardwarePersistence();
+        List<HardwareEntity> lista = hardwareEntity.findAll();
+        List<HardwareDTO> detailDTO = listEntity2DTO(lista);
         return detailDTO;
+    }
+
+        private List<HardwareDTO> listEntity2DTO(List<HardwareEntity> entityList) {
+        List<HardwareDTO> list = new ArrayList<>();
+        for (HardwareEntity entity : entityList) {
+            list.add(new HardwareDTO(entity));
+        }
+        return list;
     }
 
     /**
