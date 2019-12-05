@@ -43,13 +43,12 @@ public class ProviderPersistence {
     
         public ProviderEntity find(Long providersId) {
         LOGGER.log(Level.INFO, "Consultando el proveedor con id={0}", providersId);
-        ProviderEntity provider = em.find(ProviderEntity.class, providersId);
-        return provider;
+        return em.find(ProviderEntity.class, providersId);
     }
         
 
         public ProviderEntity findById( Long providersId) {
-       LOGGER.log(Level.INFO, "Consultando proveedor por Id ", providersId);
+       LOGGER.log(Level.INFO, "Consultando proveedor por Id {0}", providersId);
         TypedQuery query = em.createQuery("Select e From ProviderEntity e where e.isbn = :id", ProviderEntity.class);
         query = query.setParameter("id", providersId);
         List<ProviderEntity> sameId = query.getResultList();
@@ -61,24 +60,20 @@ public class ProviderPersistence {
         } else {
             result = sameId.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar proveedores por id ", providersId);
+        LOGGER.log(Level.INFO, "Saliendo de consultar proveedores por id {0}", providersId);
         return result;
     }   
         
         public ProviderEntity findByName( String providersName) {
-       LOGGER.log(Level.INFO, "Consultando proveedor por nombre ", providersName);
+       LOGGER.log(Level.INFO, "Consultando proveedor por nombre {0}", providersName);
         TypedQuery query = em.createQuery("Select e From ProviderEntity e where e.name = :nombre", ProviderEntity.class);
         query = query.setParameter("nombre", providersName);
         List<ProviderEntity> sameNombre = query.getResultList();
-        ProviderEntity result;
-        if (sameNombre == null) {
-            result = null;
-        } else if (sameNombre.isEmpty()) {
-            result = null;
-        } else {
+        ProviderEntity result = null;
+        if(!sameNombre.isEmpty()) {
             result = sameNombre.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar proveedores por nombre ", providersName);
+        LOGGER.log(Level.INFO, "Saliendo de consultar proveedores por nombre {0}", providersName);
         return result;
     } 
  

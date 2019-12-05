@@ -65,20 +65,16 @@ public class IterationPersistence {
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from IterationEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
          */
-        LOGGER.log(Level.INFO, "Consultando la iteracion con id = {0} del proyecto con id = " + projectId, iterationId);
+        LOGGER.log(Level.INFO, "Consultando la iteracion con id = {0} del proyecto con id = {1}", new Object[]{projectId,iterationId});
         TypedQuery<IterationEntity> q = em.createQuery("select p from IterationEntity p where (p.project.id = :projectId) and (p.id = :iterationId)", IterationEntity.class);
         q.setParameter("projectId", projectId);
         q.setParameter("iterationId", iterationId);
         List<IterationEntity> results = q.getResultList();
         IterationEntity review = null;
-        if (results == null) {
-            review = null;
-        } else if (results.isEmpty()) {
-            review = null;
-        } else if (results.size() >= 1) {
+        if (!results.isEmpty()) {
             review = results.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar el review con id = {0} del libro con id =" + projectId, iterationId);
+        LOGGER.log(Level.INFO, "Saliendo de consultar el review con id = {0} del libro con id = {1}",new Object[]{projectId,iterationId});
         return review;
     }
     

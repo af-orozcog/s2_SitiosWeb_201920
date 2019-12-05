@@ -103,7 +103,7 @@ public class DeveloperPersistence {
      * argumento. Si existe alguno devuelve el primero.
      */
     public DeveloperEntity findByLogin(String login) {
-        LOGGER.log(Level.INFO, "Consultando desarrollador por login ", login);
+        LOGGER.log(Level.INFO, "Consultando desarrollador por login {0}", login);
         TypedQuery query = em.createQuery("Select e From DeveloperEntity e where e.login = :login", DeveloperEntity.class);
         query = query.setParameter("login", login);
         List<DeveloperEntity> sameLogin = query.getResultList();
@@ -115,7 +115,7 @@ public class DeveloperPersistence {
         } else {
             result = sameLogin.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por login ", login);
+        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por login {0}", login);
         return result;
     }
     
@@ -127,7 +127,7 @@ public class DeveloperPersistence {
      * argumento. Si existe alguno devuelve el primero.
      */
     public DeveloperEntity findByName(String name) {
-        LOGGER.log(Level.INFO, "Consultando desarrollador por name ", name);
+        LOGGER.log(Level.INFO, "Consultando desarrollador por name {0}", name);
         TypedQuery query = em.createQuery("Select e From DeveloperEntity e where e.name = :name", DeveloperEntity.class);
         query = query.setParameter("name", name);
         List<DeveloperEntity> sameName = query.getResultList();
@@ -139,7 +139,7 @@ public class DeveloperPersistence {
         } else {
             result = sameName.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por name ", name);
+        LOGGER.log(Level.INFO, "Saliendo de consultar desarrollador por name {0}", name);
         return result;
     }
 }

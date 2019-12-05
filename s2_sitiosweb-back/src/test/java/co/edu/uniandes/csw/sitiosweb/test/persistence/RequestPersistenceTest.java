@@ -414,20 +414,20 @@ public class RequestPersistenceTest
         Status result = null;
         switch (status) 
         {
-            case Accepted:
-                result = Status.Denied;
+            case accepted:
+                result = Status.denied;
                 break;
-            case Denied:
-                result = Status.Development;
+            case denied:
+                result = Status.development;
                 break;
-            case Development:
-                result = Status.Pending;
+            case development:
+                result = Status.pending;
                 break;
-            case Pending:
-                result = Status.Production;
+            case pending:
+                result = Status.production;
                 break;
-            case Production:
-                result = Status.Accepted;
+            case production:
+                result = Status.accepted;
                 break;
             default:
                 break;
@@ -444,20 +444,20 @@ public class RequestPersistenceTest
         RequestType result = null;
         switch(requestType)
         {
-            case Change:
-                result = RequestType.Creation;
+            case change:
+                result = RequestType.creation;
                 break;
-            case Creation:
-                result = RequestType.Development;
+            case creation:
+                result = RequestType.development;
                 break;
-            case Development:
-                result = RequestType.Elimination;
+            case development:
+                result = RequestType.elimination;
                 break;
-            case Elimination:
-                result = RequestType.Production;
+            case elimination:
+                result = RequestType.production;
                 break;
-            case Production:
-                result = RequestType.Change;
+            case production:
+                result = RequestType.change;
                 break;
             default:
                 break;
@@ -474,14 +474,14 @@ public class RequestPersistenceTest
         WebCategory result = null;
         switch(webCategory)
         {
-            case Application:
-                result = WebCategory.Descriptive;
+            case application:
+                result = WebCategory.descriptive;
                 break;
-            case Descriptive:
-                result = WebCategory.Event;
+            case descriptive:
+                result = WebCategory.event;
                 break;
-            case Event:
-                result = WebCategory.Application;
+            case event:
+                result = WebCategory.application;
                 break;
             default:
                 break;

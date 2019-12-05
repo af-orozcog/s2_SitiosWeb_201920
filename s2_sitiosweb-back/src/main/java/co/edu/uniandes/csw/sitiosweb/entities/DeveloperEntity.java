@@ -3,8 +3,6 @@ package co.edu.uniandes.csw.sitiosweb.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;

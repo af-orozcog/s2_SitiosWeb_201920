@@ -73,14 +73,10 @@ public class HardwarePersistence {
         q.setParameter("hardwareId", hardwareId);
         List<HardwareEntity> results = q.getResultList();
         HardwareEntity review = null;
-        if (results == null) {
-            review = null;
-        } else if (results.isEmpty()) {
-            review = null;
-        } else if (!results.isEmpty()) {
+        if (!results.isEmpty()) {
             review = results.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar el review con id = {0} del libro con id =" + projectId, hardwareId);
+        LOGGER.log(Level.INFO, "Saliendo de consultar el review con id = {0} del libro con id = {1}", new Object[]{hardwareId,projectId});
         return review;
     }
     

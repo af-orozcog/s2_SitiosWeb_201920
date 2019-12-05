@@ -103,19 +103,15 @@ public class RequesterPersistence {
      * Si existe alguno devuelve el primero.
      */
     public RequesterEntity findByLogin(String login) {
-        LOGGER.log(Level.INFO, "Consultando solicitante por login ", login);
+        LOGGER.log(Level.INFO, "Consultando solicitante por login {0}", login);
         TypedQuery query = em.createQuery("Select e From RequesterEntity e where e.login = :login", RequesterEntity.class);
         query = query.setParameter("login", login);
         List<RequesterEntity> sameLogin = query.getResultList();
-        RequesterEntity result;
-        if (sameLogin == null) {
-            result = null;
-        } else if (sameLogin.isEmpty()) {
-            result = null;
-        } else {
+        RequesterEntity result = null;
+        if(!sameLogin.isEmpty()) {
             result = sameLogin.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar solicitante por login ", login);
+        LOGGER.log(Level.INFO, "Saliendo de consultar solicitante por login {0}", login);
         return result;
     }
 }
