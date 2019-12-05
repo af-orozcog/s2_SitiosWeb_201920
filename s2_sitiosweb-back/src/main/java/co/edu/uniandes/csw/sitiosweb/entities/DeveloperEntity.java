@@ -67,9 +67,17 @@ public class DeveloperEntity extends UserEntity implements Serializable {
         this.leadingProjects = leadingProjects;
     }
 
-    public boolean equals(DeveloperEntity entity){
-        return Objects.equals(entity.getId(), this.getId())&&
-                entity.getLogin().equals(this.getLogin()) &&
-                entity.getName().equals(this.getName());
+    
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+        return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    DeveloperEntity other = (DeveloperEntity)o;
+    return this.leader == other.leader;
+  }
 }

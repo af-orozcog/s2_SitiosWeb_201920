@@ -228,9 +228,15 @@ public class ProjectEntity  extends BaseEntity implements Serializable {
         this.name = name;
     }
     
-    public boolean equals(ProjectEntity entity){
-        return Objects.equals(this.getId(), entity.getId()) &&
-                this.getName().equals(entity.getName()) &&
-                this.getLeader().equals(entity.getLeader());
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+        return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ProjectEntity other = (ProjectEntity)o;
+    return this.name.equals(other.name);
+  }
 }

@@ -143,9 +143,16 @@ public class IterationEntity extends BaseEntity implements Serializable {
         this.project = project;
     }
     
-    public boolean equals(IterationEntity entity){
-        return Objects.equals(entity.getId(), this.getId()) &&
-                this.getBeginDate().equals(entity.getBeginDate()) &&
-                this.getEndDate().equals(entity.getEndDate());
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+        return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    IterationEntity other = (IterationEntity)o;
+    return this.objetive.equals(other.objetive);
+  }
+
 }

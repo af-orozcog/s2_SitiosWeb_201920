@@ -47,8 +47,15 @@ public class InternalSystemsEntity extends BaseEntity implements Serializable {
         this.project = project;
     }
     
-    public boolean equals(InternalSystemsEntity entity){
-        return entity.getId().equals(this.getId()) && 
-                this.getType().equals(entity.getType());
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+        return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    InternalSystemsEntity other = (InternalSystemsEntity)o;
+    return this.type.equals(other.type);
+  }
 }

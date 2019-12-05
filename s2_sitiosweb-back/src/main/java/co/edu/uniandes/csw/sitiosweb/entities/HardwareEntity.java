@@ -108,9 +108,16 @@ public class HardwareEntity extends BaseEntity implements Serializable{
         this.project = project;
     }
     
-    public boolean equals(HardwareEntity entity){
-        return Objects.equals(entity.getId(), this.getId()) &&
-                entity.getCores() == this.getCores() &&
-                entity.getRam() == this.getRam();
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+        return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    HardwareEntity other = (HardwareEntity)o;
+    return this.ip == other.ip;
+  }
 }
