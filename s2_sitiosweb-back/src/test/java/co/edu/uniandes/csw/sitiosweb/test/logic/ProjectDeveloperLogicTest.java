@@ -165,7 +165,6 @@ public class ProjectDeveloperLogicTest {
 
         DeveloperEntity lastDeveloper = projectDeveloperLogic.getDeveloper(project.getId(), newDeveloper.getId());
 
-        Assert.assertEquals(lastDeveloper.getId(), newDeveloper.getId());
         Assert.assertEquals(lastDeveloper.getLogin(), newDeveloper.getLogin());
         Assert.assertEquals(lastDeveloper.getEmail(), newDeveloper.getEmail());
         Assert.assertEquals(lastDeveloper.getPhone(), newDeveloper.getPhone());
@@ -198,7 +197,6 @@ public class ProjectDeveloperLogicTest {
         DeveloperEntity developer = projectDeveloperLogic.getDeveloper(project.getId(), developerEntity.getId());
         Assert.assertNotNull(developer);
 
-        Assert.assertEquals(developerEntity.getId(), developer.getId());
         Assert.assertEquals(developerEntity.getLogin(), developer.getLogin());
         Assert.assertEquals(developerEntity.getEmail(), developer.getEmail());
         Assert.assertEquals(developerEntity.getPhone(), developer.getPhone());
